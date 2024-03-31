@@ -1,0 +1,51 @@
+/** @type {import('tailwindcss').Config} */
+
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    colors: {
+      'kblack': {
+        //light: '#67e8f9',
+        DEFAULT: '#000000',
+       //dark: '#0e7490',
+      },
+      'kwhite': {
+        //light: '#67e8f9',
+        DEFAULT: '#ffffff',
+       //dark: '#0e7490',
+      },
+      'kgray': {
+        //light: '#67e8f9',
+        DEFAULT: '#525252',
+       //dark: '#0e7490',
+      },
+      'kred': {
+        //light: '#67e8f9',
+        DEFAULT: '#bb0a21',
+       //dark: '#0e7490',
+      },
+      'kyellow': {
+        //light: '#67e8f9',
+        DEFAULT: '#b99641',
+       //dark: '#0e7490',
+      },
+      'kgreen': {
+        //light: '#67e8f9',
+        DEFAULT: '#12ac05',
+       //dark: '#0e7490',
+      },
+      'kblue': {
+        //light: '#67e8f9',
+        DEFAULT: '#1c3f99',
+       //dark: '#0e7490',
+      },
+    },
+    extend: {},
+  },
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ],
+};
