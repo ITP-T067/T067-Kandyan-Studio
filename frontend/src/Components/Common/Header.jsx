@@ -1,9 +1,9 @@
-import react from 'react'
 import logo from '../../images/logo.png'
 import '../../Styles/style.css'
 
 const Header = () => {
     return (
+        <>
         <nav className="navbar">
             <div className='navbar-title navbar-text'>Staff Dashboard</div>
             <a href="#">
@@ -14,6 +14,8 @@ const Header = () => {
                 <button className="logout-button navbar-text" id="logout">Logout</button>
             </div>
         </nav>
+        
+        </>
     );
 }
 
