@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 //Home
-import Home from './pages/home';
+import Home from './pages/customer/onlineorder/home.jsx';
 
 //Login
 import Login from './pages/login';

@@ -1,0 +1,134 @@
+body {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .kandianImage {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+  }
+  
+  .kandianImage img {
+    max-width: 15%;
+    height: auto;
+  }
+  
+  .mainName {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .KandyanStudio{
+    font-size: 64px;
+    font-weight: 700;
+  }
+  
+  .DigitalColorLab{
+    font-size: 32px;
+    letter-spacing: 8.64px;
+    word-wrap: break-word;
+  }
+  
+  .explore-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .explore-btn button {
+    color: white;
+    width: 200px;
+    height: 35px;
+    transition: transform 0.3s;
+    font-weight: bold;
+  }
+  
+  .explore-btn button:hover {
+    transform: scale(1.1);
+  }
+  
+  .bg-kwhite {
+    background-color: #ffffff; /* Use the 'kwhite' color */
+    
+  }
+  
+  .service_card {
+    width: 95%;
+    height: 563px;
+    background: rgba(99.53, 99.53, 99.53, 0.52);
+    box-shadow: 0px 4px 19.7px 19px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    backdrop-filter: blur(35.8px);
+    margin: 5% auto;
+  }
+  
+  .services-heading{
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .services-heading{
+    padding-top: 2%;
+  }
+  
+  .about_card {
+    width: 95%;
+    height: 563px;
+    background: rgba(99.53, 99.53, 99.53, 0.52);
+    box-shadow: 0px 4px 19.7px 19px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    backdrop-filter: blur(35.8px);
+    margin: 10% auto;
+  }
+  
+  .AboutUs {
+    position: absolute;
+    margin: 2%;
+    right: 0;
+    padding: 10px; /* Optional: Add padding for better visibility */
+    color: white;
+    font-size: 36px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+    top: 0%;
+  }
+  
+  .about_card {
+    display: flex;
+    justify-content: space-between; /* To display the children elements parallelly */
+    align-items: center; /* To vertically center align the children elements */
+    background: rgba(99.53, 99.53, 99.53, 0.52);
+    box-shadow: 0px 4px 19.7px 19px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    backdrop-filter: blur(35.8px);
+  }
+  
+  .aboutImage img {
+    max-width: 50%; 
+    height: auto;
+    margin: 20%; 
+  }
+  
+  .about_content {
+    color: white;
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+  
+  .rate_card {
+    width: 95%;
+    height: 563px;
+    background: rgba(99.53, 99.53, 99.53, 0.52);
+    box-shadow: 0px 4px 19.7px 19px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    backdrop-filter: blur(35.8px);
+    margin: 10% auto;
+  }
+  
