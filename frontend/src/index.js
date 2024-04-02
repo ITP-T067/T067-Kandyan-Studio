@@ -13,7 +13,8 @@ import Login from './pages/login';
 import Router from './Components/Common/Router';
 
 //Customer Dashboard
-
+import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
+import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
 
 
 //Manager Dashboard
@@ -55,6 +56,10 @@ root.render(
         <Route path='/dashboard' element={<Router />} />
 
         {/* Customer Dashboard */}
+        <Route path='/cusdashboard' element={<Cusdashboard />} />
+
+        {/* Customer addToCart */}
+        <Route path='/addtocart' element={<Addtocart/>}/>
 
 
         {/* Manager Dashboard - Stock Department */}
