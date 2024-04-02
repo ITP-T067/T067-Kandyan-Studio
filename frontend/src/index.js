@@ -20,6 +20,8 @@ import Router from './Components/Common/Router';
 //Manager Dashboard - Stock Department
 import StockMenu from './pages/manager/stock/menu';
 import ItemList from './pages/manager/stock/items';
+import StockLevels from './pages/manager/stock/stocklevels';
+import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 //Manager Dashboard - Event Department
 
@@ -59,7 +61,9 @@ root.render(
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
-        <Route path='/manager/stockdept/itemlist' element={<ItemList />} />
+        <Route path='/manager/stockdept/items' element={<ItemList />} />
+        <Route path='/manager/stockdept/stocklevels' element={<StockLevels />} />
+        <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
 
         {/* Manager Dashboard - Event Department */}
         
