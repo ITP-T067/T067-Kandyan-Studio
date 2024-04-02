@@ -10,8 +10,8 @@ import {
 const CashierNavbar = () => {
 
     const departments = [
-        { title: 'Order', link: '' },
-        { title: 'Stock Avalability', link: '' },
+        { title: 'Order', link: '/cashier/ordermain' },
+        { title: 'Stock Avalability', link: '/cashier/stockavailability' },
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);

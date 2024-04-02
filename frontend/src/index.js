@@ -14,8 +14,6 @@ import Router from './Components/Common/Router';
 
 //Customer Dashboard
 
-
-
 //Manager Dashboard
 //Manager Dashboard - Stock Department
 import StockMenu from './pages/manager/stock/menu';
@@ -34,7 +32,15 @@ import SupplyRequest from './pages/manager/stock/supplyrequest';
 //Manager Dashboard - Loyalty Department
 
 
+
+
 //Cashier Dashboard
+import Ordermain from './pages/cashier/order';
+import StockAV from './pages/cashier/Stockavailability';
+import AddNewOrder from './pages/cashier/addneworder';
+import Pendingorders from './pages/cashier/pendingorders';
+import Completedorders from './pages/cashier/Completedorders';
+
 
 
 //Creator Dashboard
@@ -57,6 +63,16 @@ root.render(
         <Route path='/dashboard' element={<Router />} />
 
         {/* Customer Dashboard */}
+
+
+        {/* Cashier Dashboard */}
+        <Route path='/cashier/ordermain' element={<Ordermain />} />
+        <Route path='/cashier/stockavailability' element={<StockAV />} />
+        <Route path='/cashier/addneworder' element={<AddNewOrder />} />
+        <Route path='/cashier/pendingorders' element={<Pendingorders />} />
+        <Route path='/cashier/completedorders' element={<Completedorders />} />
+        
+
 
 
         {/* Manager Dashboard - Stock Department */}
