@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../Styles/style.css';
 import {
     Navbar,
@@ -16,33 +16,48 @@ const CreatorNavbar = () => {
         { title: 'Inquiries', link: '' },
     ];
 
+    const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);
+
+    const handleButtonClick = (index) => {
+        setActiveButton(index);
+        localStorage.setItem('activeButton', index);
+    };
+
+    
+    useEffect(() => {
+        const storedActiveButton = localStorage.getItem('activeButton');
+        if (storedActiveButton !== null) {
+            setActiveButton(parseInt(storedActiveButton));
+        }
+    }, []);
+
     const renderDepartments = departments.map((department, index) => (
-        <a href={department.link} key={index}>
-            <MenuItem>
-                <div className="flex items-center md:justify-between lg:justify-between rounded-lg">
-                </div>
-                <div>
-                    <Typography
-                        variant="h6"
-                        className="flex items-center text-sm font-bold text-kwhite" 
-                    >
-                        {department.title}
-                    </Typography>
-                </div>
-            </MenuItem>
+        <a href={department.link} key={index} className="flex-grow m-1">
+            <button
+                key={index}
+                className={`bg-kblack text-kwhite w-full hover:bg-kgray transition duration-300 p-3 rounded-md ${
+                    activeButton === index ? 'bg-kgray' : ''
+                }`}
+                onClick={() => handleButtonClick(index)} // Call handleButtonClick function on click
+            >
+                <Typography
+                    variant="h6"
+                    className="text-sm font-bold"
+                >
+                    {department.title}
+                </Typography>
+            </button>
         </a>
     ));
 
     return (
         <div className='p-3'>
-            <Navbar className="mx-auto max-w-screen-xl px-4 py-2 bg-kblack">
-            <div className="flex items-center justify-between text-kwhite">
-                <div className="lg:block">
-                    <List className="mt-3 mb-3 gap-10 p-0 lg:mt-3 lg:mb-3  lg:p-1">
+            <Navbar className="mx-auto rounded-lg bg-kblack p-1">
+                <div className="items-center justify-between text-kwhite">
+                    <List className="flex flex-row justify-between">
                         {renderDepartments}
                     </List>
                 </div>
-            </div>
             </Navbar>
         </div>
     );

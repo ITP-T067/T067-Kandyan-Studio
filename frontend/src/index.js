@@ -6,20 +6,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 //Home
-import Home from './pages/home';
+import Home from './pages/customer/onlineorder/home.jsx';
 
 //Login
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
 //Customer Dashboard
-
+import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
+import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
 
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
 import StockMenu from './pages/manager/stock/menu';
 import ItemList from './pages/manager/stock/items';
+import StockLevels from './pages/manager/stock/stocklevels';
+import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 //Manager Dashboard - Event Department
 
@@ -56,11 +59,17 @@ root.render(
         <Route path='/dashboard' element={<Router />} />
 
         {/* Customer Dashboard */}
+        <Route path='/cusdashboard' element={<Cusdashboard />} />
+
+        {/* Customer addToCart */}
+        <Route path='/addtocart' element={<Addtocart/>}/>
 
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
-        <Route path='/manager/stockdept/itemlist' element={<ItemList />} />
+        <Route path='/manager/stockdept/items' element={<ItemList />} />
+        <Route path='/manager/stockdept/stocklevels' element={<StockLevels />} />
+        <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
 
         {/* Manager Dashboard - Event Department */}
 
