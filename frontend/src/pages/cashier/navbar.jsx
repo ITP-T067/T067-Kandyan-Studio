@@ -30,7 +30,7 @@ const CashierNavbar = () => {
     }, []);
 
     const renderDepartments = departments.map((department, index) => (
-        <a href={department.link} key={index} className="flex-grow mr-1 ml-1">
+        <a href={department.link} key={index} className="flex-grow m-1">
             <button
                 key={index}
                 className={`bg-kblack text-kwhite w-full hover:bg-kgray transition duration-300 p-3 rounded-md ${
@@ -50,7 +50,7 @@ const CashierNavbar = () => {
 
     return (
         <div className='p-3'>
-            <Navbar className="mx-auto rounded-lg bg-kblack">
+            <Navbar className="mx-auto rounded-lg bg-kblack p-1">
                 <div className="items-center justify-between text-kwhite">
                     <List className="flex flex-row justify-between">
                         {renderDepartments}
