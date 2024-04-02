@@ -24,6 +24,9 @@ import StockLevels from './pages/manager/stock/stocklevels';
 import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 //Manager Dashboard - Event Department
+import MgrDashWedding from './pages/manager/event/mgrDashWedding'
+import MgrDashBdayParty from './pages/manager/event/mgrDashBdayParty'
+import MgrDashSocial from './pages/manager/event/mgrDashSocial'
 
 //Manager Dashboard - Finance Department
 
@@ -66,6 +69,9 @@ root.render(
         <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
 
         {/* Manager Dashboard - Event Department */}
+        <Route path='/manager/eventdept/mgrDashWedding' element={<MgrDashWedding/>}/>
+        <Route path='/manager/eventdept/mgrDashBdayParty' element={<MgrDashBdayParty/>}/>
+        <Route path='/manager/eventdept/mgrDashSocial' element={<MgrDashSocial/>}/>
         
       </Routes>
     </BrowserRouter>

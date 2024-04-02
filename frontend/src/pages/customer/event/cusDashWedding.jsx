@@ -1,6 +1,6 @@
 import React from 'react'
 
-const mgrDashboardEvent = () => {
+const cusDashWedding = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const mgrDashboardEvent = () => {
   )
 }
 
-export default mgrDashboardEvent
+export default cusDashWedding
