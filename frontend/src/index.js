@@ -39,8 +39,8 @@ import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 
 //Creator Dashboard
-import MyProjects from './pages/creator/myProjects.jsx';
-import ProjectOrders from './pages/creator/projectOrders.jsx';
+import Projects from './pages/creator/Projects.jsx';
+import ProjectOrders from './pages/creator/Orders.jsx';
 
 //Supplier Dashboard
 
@@ -74,7 +74,7 @@ root.render(
         {/* Manager Dashboard - Event Department */}
 
         {/* Creator Dashboard*/}
-        <Route path='/creator/' element={<MyProjects/>}/>
+        <Route path='/creator/' element={<Projects/>}/>
         <Route path='/creator/projectOrders/' element={<ProjectOrders/>}/>
         
         

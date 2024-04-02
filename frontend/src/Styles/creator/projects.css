@@ -1,0 +1,177 @@
+.project-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: unsafe;
+  margin: 0 auto; 
+  align-items: center;
+  margin-right: auto;
+  color: white;
+}
+
+.project-el{
+  width: 30%;
+  margin-top:5px;
+  margin-bottom:10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Your Chosen Font', sans-serif;
+  background-color: #000000;
+}
+
+
+.left_project{
+  margin-left: auto;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  
+}
+
+.right_project{
+  margin-right: auto;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+
+/* Default styles */
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+  margin: 3%;
+}
+
+.card1 {
+  width: 45%;
+  height: 156px;
+  position: relative;
+}
+
+.Rectangle {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background: rgba(82, 82, 82, 0.90);
+  border-radius: 31px;
+}
+
+.TotalOrders {
+  left: 30px;
+  top: 18px;
+  position: absolute;
+  color: white;
+  font-size: 24px;
+  font-family: 'Inter';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.TotalOrders {
+  left: 507px;
+  top: 57px;
+  position: absolute;
+  text-align: center;
+  color: white;
+  font-size: 64px;
+  font-family: 'Inter';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.order-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+  margin-top: 20px;
+}
+
+.order_btn {
+  width: 20%;
+  height: 360px;
+  background: black;
+  border-radius: 20px;
+  border: 6px #B99641 solid;
+  transition: transform 0.3s ease-in-out;
+}
+
+.order_btn:hover {
+  transform: scale(1.05);
+}
+
+/* Media query for screens smaller than 768px (typical tablets and mobile devices) */
+@media (max-width: 768px) {
+.card-container {
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.card1 {
+  width: 90%;
+}
+
+.order-btn-container {
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.order_btn {
+  width: 90%;
+}
+}
+
+.projectTable{
+    width: 90%;
+    margin-top: 50px;
+    margin-left: auto;
+  }
+
+  .projectTable table{
+    width: 90%;
+    color: white;
+    border-collapse: collapse;
+    box-shadow: 5px 5px 5px #525252;
+  }
+  
+  .projectTable table thead{
+    background-color: #000000;
+    color: white;
+  }
+
+  .projectTable table thead tr th{
+    padding: 16px;
+    text-align: center;
+  }
+
+  .projectTable table tbody tr td{
+    text-align: center;
+    padding: 8px;
+  }
+  
+  
+  .projectTable table tbody{
+    width: 100%;
+    background-color: #525252;
+  }
+  
+  .projectTable table tbody tr{
+    border-top: 1px solid white;
+  }
+
+  /* .btn{
+    font-size: 10px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    width: 65px;
+    margin: 0px 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+  } */
+  
