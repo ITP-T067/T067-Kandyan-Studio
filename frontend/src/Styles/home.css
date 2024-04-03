@@ -1,10 +1,4 @@
-body {
-    background-color: black;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .kandianImage {
+ .kandianImage {
     display: flex;
     justify-content: center;
     margin-top: 10%;
@@ -50,10 +44,6 @@ body {
     transform: scale(1.1);
   }
   
-  .bg-kwhite {
-    background-color: #ffffff; /* Use the 'kwhite' color */
-    
-  }
   
   .service_card {
     width: 95%;
@@ -86,7 +76,6 @@ body {
   }
   
   .AboutUs {
-    position: absolute;
     margin: 2%;
     right: 0;
     padding: 10px; /* Optional: Add padding for better visibility */
