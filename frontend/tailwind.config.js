@@ -42,7 +42,15 @@ module.exports = {
        //dark: '#0e7490',
       },
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'kandyan':{
+          //light: '#67e8f9',
+          DEFAULT: '#1c3f99',
+          //dark: '#0e7490',
+        }
+      }
+    },
   },
   plugins: [
     require('tailwindcss'),
