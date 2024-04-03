@@ -22,7 +22,6 @@ const ManagerNavbar = () => {
         setActiveButton(index);
         localStorage.setItem('activeButton', index);
     };
-
     
     useEffect(() => {
         const storedActiveButton = localStorage.getItem('activeButton');
@@ -42,7 +41,7 @@ const ManagerNavbar = () => {
             >
                 <Typography
                     variant="h6"
-                    className="text-sm font-bold"
+                    className="text-xs font-bold"
                 >
                     {department.title}
                 </Typography>
