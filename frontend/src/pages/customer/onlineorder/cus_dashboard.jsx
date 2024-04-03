@@ -10,7 +10,7 @@ function Cus_dashboard() {
 
   return (
     <>
-      <div className='Cus_dashboard'>
+      <div className='Cus_dashboard flex'>
         <div className='search-bar-container'>
           <div className='input-wrapper'>
             <FaSearch id="search-icon" />
@@ -25,9 +25,8 @@ function Cus_dashboard() {
             <img className="absolute rounded-3xl" src={Sample} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
             <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">Sample name</div>
           </div>
-          
-          
         </div>
+        
       </div>
     </>
   );
