@@ -8,14 +8,12 @@ import '../../Styles/style.css'
 
 const Layout = () => {
     return (
-        <div className='body'>
             <>
             <Header />
             <Navbar />
             <Router />
             <Footer />
             </>
-        </div>
     )
 }
 
