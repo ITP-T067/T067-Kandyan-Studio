@@ -25,7 +25,7 @@ const passUserSession = (role,name,id) => {
 };
 
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen text-kwhite">
             <button name="customer"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleLogin('Customer','Saman','C001')}
