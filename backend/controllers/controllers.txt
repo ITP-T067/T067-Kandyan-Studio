@@ -1,0 +1,81 @@
+1. Store files in the format: "<name>.controller.js"
+2. This is there to add all the crud functions,
+ex: 
+        const Order = require("../models/order.model.js") - import the mode you are going to work on
+        const {errorHandler} = require("../utils/error.js"); - import the errorHandler
+
+        const index_order = async(req,res, next) => { - here the next is there to pass the error, u can do it without that as well, no problem
+
+            try{
+                const data = await Order.find({})
+                if(res.status(201)){
+                    res.json({success : true , data: data})
+                }
+            }catch(error){
+                next(error);
+            }
+        }
+
+        const getOrderName = async (req, res, next) => {
+            const { orderId } = req.params; 
+            
+            try {
+            const order = await Order.findById(orderId);
+
+            if (!order) {
+                return res.status(404).json({ success: false, message: "Order not found" });
+            }
+        
+            res.status(200).json({ success: true, orderName: order.Order_Type });
+            } catch (error) {
+            console.error("Error fetching order data:", error);
+            res.status(500).json({ success: false, message: "Internal server error" });
+            }
+        };
+        //create data
+        const create_order = async(req,res, next) => {
+            console.log(req.body)
+            const data = new Order(req.body)
+
+            try{
+                await data.save() 
+                if(res.status(201)){
+                    res.send({success : true, message : "order saved successfully", data: data})
+                }
+            }catch(error){
+                next(error);
+            }
+
+        }
+        //update data
+        const update_order = async(req, res, next) => {
+            console.log(req.body)
+            const {_id, ...rest} = req.body
+            console.log(rest)
+            try{
+                const data = await Order.updateOne({_id : _id}, rest)
+                if(res.status(201)){
+                    res.send({success:true, message: "order updated successfully", data : data})
+                }
+            }catch(error){
+                next(error);
+            }
+
+        }
+
+        //delete data
+        const del_order = async(req,res, next) =>{
+            const id = req.params.id
+            console.log(id)
+
+            try{
+                const data = await Order.deleteOne({_id : id})
+                if(res.status(201)){
+                    res.send({success:true, message: "Order deleted successfully", data : data})
+                }
+            }catch(error){
+                next(error);
+            }
+        }
+
+        module.exports = { index_order, create_order, update_order, del_order, getOrderName };
