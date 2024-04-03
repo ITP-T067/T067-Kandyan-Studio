@@ -13,7 +13,8 @@ import Login from './pages/login';
 import Router from './Components/Common/Router';
 
 //Customer Dashboard
-
+import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
+import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
 
 
 //Manager Dashboard
@@ -42,7 +43,7 @@ import StockAV from './pages/cashier/Stockavailability';
 import AddNewOrder from './pages/cashier/addneworder';
 import Pendingorders from './pages/cashier/pendingorders';
 import Completedorders from './pages/cashier/Completedorders';
-
+import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
 
 
 //Creator Dashboard
@@ -77,8 +78,7 @@ root.render(
         <Route path='/cashier/addneworder' element={<AddNewOrder />} />
         <Route path='/cashier/pendingorders' element={<Pendingorders />} />
         <Route path='/cashier/completedorders' element={<Completedorders />} />
-        
-
+        <Route path='/cashier/supplierpayment' element={<SupplierPayments />} />
 
 
         {/* Manager Dashboard - Stock Department */}

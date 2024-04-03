@@ -5,7 +5,6 @@ import check from "../../images/cashier/ordermain/Check_ring.png"
 import supplier from "../../images/cashier/ordermain/Desk_fill.png"
 
 
-
 const TABLE_HEAD = ["Customer", "Creator", "Date", ""];
   
  const TABLE_ROWS = [
@@ -41,32 +40,48 @@ const Ordermain = () => {
   return (
     <div className='order'>
 
-    <div class="flex flex-row justify-center"><div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5">
+    <div class="flex flex-row justify-center ">
+
+    <a href='/cashier/addneworder'>
+    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
     <img src={addnew}/><br/>
-  <h3>ADD NEW ORDER</h3>
-</div>
-<div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-100 h-100">
+    <h3>ADD NEW ORDER</h3>
+    </div></a>
+
+<a href='/cashier/pendingorders'>
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
   <img src={pending}/>
   <h3>PENDING ORDERS</h3>
 </div>
-<div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5">
+</a>
+
+<a href='/cashier/completedorders'>
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
   <img src={check}/>
   <h3>COMPLETED ORDERS</h3>
 </div>
-<div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5">
+</a>
+
+<a href='/cashier/supplierpayment'>
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
   <img src={supplier}/>
   <h3>SUPPLIER PAYMENTS</h3>
 </div>
-<div class="m-1 rounded-lg  px-8 py-8 shadow-xl ring-1 ring-slate-900/5 justify-center">
-<h3>Studio Status</h3><br/><br/>
-  <h3>OCCUPIED</h3>
+</a>
+
+
+<div class="m-1 rounded-lg bg-kblack px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+<h3 className="text-kwhite text-center">STUDIO STATUS</h3><br/><br/>
+  <h2 className="text-kred text-center">OCCUPIED</h2><br/>
 </div>
+
+
 </div> 
 
 <div class="m-1 px-10 py-12 flex flex-row  ">
 
-     <Card className=" m-1 h-full w-full  rounded-lg bg-kgray bg-opacity-5 ">
-      <h3>Creator's Orders</h3>
+     <Card className=" m-1 h-full w-full  rounded-lg bg-kblack bg-opacity-10 text-kwhite">
+      <h3 className="text-center">Creator's Orders</h3>
        <table className=" m-1 w-400 min-w-max table-auto text-center border">
          <thead>
            <tr>
@@ -105,7 +120,7 @@ const Ordermain = () => {
                      {date}
                    </Typography>
                  </td>
-                 <td className={`${classes} bg-blue-gray-50/50`}>
+                 <td className={`${classes} bg-blue-gray-50/50 `}>
                    <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
                      View
                    </Typography>
@@ -119,16 +134,16 @@ const Ordermain = () => {
      <Card className="h-full w-full "> 
      <div className="both flex flex-col">
      <div className="info flex justify-center ">
-     <div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+     <div class="m-1 rounded-lg bg-kgreen text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
       <h3>Total Income</h3><br/><br/>
       <h3>LRK 40000</h3>
       </div>
-      <div class="m-1 rounded-lg  px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+      <div class="m-1 rounded-lg bg-kred text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
       <h3>Total Expenditures</h3>
       <br/><br/>
       <h3>LRK 20000</h3>
       </div>
-      <div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+      <div class="m-1 rounded-lg bg-kblack text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
       <h3>Net Profit</h3>
       <br/><br/>
       <h3>LRK 20000</h3>
@@ -136,25 +151,26 @@ const Ordermain = () => {
       </div>
       
       <div className="info ">
-     <div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto ">
+
+       <a href='#'>
+     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto ">
       <h3><center>Genarate Monthly Report</center></h3>
       </div>
-      <div class="m-1 rounded-lg bg-white px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto">
+      </a> 
+
+      <a href='#'>
+      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto">
       <h3><center>Genarate Daily Report</center></h3>
       </div>
-      
+      </a>
       
       </div>
       </div>
      </Card>
-  
- 
 
 </div>
 </div>
 
-
-    
   );
 }
 
