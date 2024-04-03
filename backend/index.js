@@ -1,6 +1,10 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const orderRouter = require("./routes/order.route.js");
+const projectRouter = require("./routes/project.route.js");
+const customerRouter = require("./routes/customer.route.js");
+
 
 const app = express()
 app.use(cors())
@@ -14,6 +18,10 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
     app.listen(PORT, () => console.log("Server is running..."))
 })
 .catch((err) => console.log(err))
+
+app.use('/order', orderRouter);
+app.use('/project', projectRouter);
+app.use('/customer', customerRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

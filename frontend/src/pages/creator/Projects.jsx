@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../Styles/creator/projects.css';
+import '../../Styles/creator/formData.css';
 import axios from 'axios';
 
 axios.defaults.baseURL = "http://localhost:8010/";
@@ -14,35 +15,37 @@ export default function Projects() {
       const [editdSection, setEditSection] = useState(false);
       const [dataList, setDataList] = useState([]);
     
-    //   const getFetchData = async()=>{
-    //     const data = await axios.get("/server/project/")
-    //     if(data.data.success){
-    //       setDataList(data.data.data)
-    //       getFetchData(data.data.Order_ID)
-    //     }
-    //   }
-
-    //   useEffect(() =>{
-    //     getFetchData()
-    //   }, [])
+      const getFetchData = async () => {
+        try {
+          const response = await axios.get("/project/");
+          if (response.data.success) {
+            setDataList(response.data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      useEffect(() =>{
+        getFetchData()
+      }, [])
     
-    //   const handleDelete = async(id)=>{ 
-    //     const data = await axios.delete("/server/project/delete/"+ id)
-    //     if(data.data.success){
-    //       getFetchData()
-    //       alert(data.data.message)
-    //     }
-    //   }
+      const handleDelete = async(id)=>{ 
+        const data = await axios.delete("/project/delete/" + id)
+        if(data.data.success){
+          getFetchData()
+          alert(data.data.message)
+        }
+      }
     
-    //   const handleUpdate = async(e)=>{ 
-    //     e.preventDefault()
-    //     const data = await axios.put("/server/project/update", formDataEdit)
-    //     if(data.data.success){
-    //       setEditSection(false)
-    //       getFetchData()
-    //       alert(data.data.message)
-    //     }
-    //   }
+      const handleUpdate = async(e)=>{ 
+        e.preventDefault()
+        const data = await axios.put("/project/update", formDataEdit)
+        if(data.data.success){
+          setEditSection(false)
+          getFetchData()
+          alert(data.data.message)
+        }
+      }
     
       const handleEditOnchange = async(e) => {
         const {value,name} = e.target
@@ -69,14 +72,14 @@ export default function Projects() {
 
     {
         editdSection && (
-            <div className="addContainer">
+            <div className="addContainer bg-kgray">
                     <button className="closeBtn"  onClick={()=>setEditSection(false)}>Close</button>
-                    <form /*onSubmit={handleUpdate}*/>
+                    <form onSubmit={handleUpdate}>
                     <label htmlFor="Project_Name">Project Name: </label>
-                    <input type="text" id="Project_Name" name="Project_Name" /*onChange={handleEditOnchange}*/ value={formDataEdit.Project_Name}/>
+                    <input type="text" id="Project_Name" name="Project_Name" onChange={handleEditOnchange} value={formDataEdit.Project_Name}/>
                     
                     <label htmlFor="Status">Status: </label>
-                    <select id="Status" name="Status" className="select" /*onChange={handleEditOnchange}*/ value={formDataEdit.Status}>
+                    <select id="Status" name="Status" className="select" onChange={handleEditOnchange} value={formDataEdit.Status}>
                         <option value="Pending">Pending</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Completed">Completed</option>
@@ -84,7 +87,7 @@ export default function Projects() {
         
                     <input type="hidden" name="Order_ID" value={formDataEdit.Order_ID} />
         
-                    <button className="submitBtn">Submit</button>
+                    <button className="submitBtn bg-kblue">Submit</button>
                     </form>
             </div>
         )
@@ -110,8 +113,8 @@ export default function Projects() {
                               <td>{new Date(el.Project_Date).toLocaleDateString()}</td>
                               <td>{el.Status}</td>
                               <td>
-                                  <button className='btn btn_edit bg-kblue text-s' /*onClick={() => handleEdit(el)}*/>Edit</button>
-                                  <button className='btn btn_delete bg-kred' /*onClick={/() => handleDelete(el._id)}*/>Delete</button>
+                                  <button className='btn btn_edit bg-kblue text-s' onClick={() => handleEdit(el)}>Edit</button>
+                                  <button className='btn btn_delete bg-kred' onClick={() => handleDelete(el._id)}>Delete</button>
                               </td>
                           </tr>
                       )

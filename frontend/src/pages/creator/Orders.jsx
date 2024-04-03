@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../Styles/creator/orders.css';
+import '../../Styles/creator/formData.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
@@ -15,21 +16,21 @@ export default function Orders() {
       const [addSection, setAddSection] = useState(false);
       const [dataList, setDataList] = useState([])
     
-    //   useEffect(() => {
-    //     getFetchData();
-    //   }, []);
+      useEffect(() => {
+        getFetchData();
+      }, []);
     
-    //   const getFetchData = async () => {
-    //     try {
-    //       const response = await axios.get("/server/order/");
-    //       console.log(response);
-    //       if (response.data.success) {
-    //         setDataList(response.data.data);
-    //       }
-    //     } catch (error) {
-    //       console.error("Error fetching data:", error);
-    //     }
-    //   };
+      const getFetchData = async () => {
+        try {
+          const response = await axios.get("/order/");
+          console.log(response);
+          if (response.data.success) {
+            setDataList(response.data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
     
       const handleOnchange = (e) => {
         const {value,name} = e.target
@@ -46,7 +47,7 @@ export default function Orders() {
         e.preventDefault();
         console.log("Form Data:", formData); // Log form data before sending the request
         try {
-          const data = await axios.post("/server/project/create", formData);
+          const data = await axios.post("/project/create", formData);
           console.log("Response:", data); // Log the response from the server
           if (data.data.success) {
             setAddSection(false);
@@ -75,8 +76,8 @@ export default function Orders() {
     <>
         {
         addSection && (
-            <div className="addContainer">
-            <button className="closeBtn"  onClick={()=>setAddSection(false)}>CLose</button>
+            <div className="addContainer bg-kgray">
+            <button className="closeBtn"  onClick={()=>setAddSection(false)}>Close</button>
             <form onSubmit={handleSubmit}>
               <label htmlFor="Project_Name">Project Name: </label>
               <input type="text" id="Project_Name" name="Project_Name" onChange={handleOnchange} value={formData.Project_Name}/>
@@ -85,7 +86,7 @@ export default function Orders() {
   
               <input type="hidden" name="Order_ID" value={formData.Order_ID} />
   
-              <button className="submitBtn">Submit</button>
+              <button className="submitBtn bg-kblue">Submit</button>
             </form>
       </div>
           )
