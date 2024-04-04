@@ -1,6 +1,6 @@
 import React from 'react'
 
-const cusDashMyEvents = () => {
+function EditPackages() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const cusDashMyEvents = () => {
   )
 }
 
-export default cusDashMyEvents
+export default EditPackages

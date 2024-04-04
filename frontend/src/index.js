@@ -25,9 +25,13 @@ import StockLevels from './pages/manager/stock/stocklevels';
 import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 //Manager Dashboard - Event Department
+import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
 import MgrDashWedding from './pages/manager/event/mgrDashWedding'
 import MgrDashBdayParty from './pages/manager/event/mgrDashBdayParty'
 import MgrDashSocial from './pages/manager/event/mgrDashSocial'
+import AddPackages from './pages/manager/event/AddPackages.jsx';
+import EditPackages from './pages/manager/event/EditPackages.jsx';
+import EventsList from './pages/manager/event/EventsList.jsx';
 
 //Manager Dashboard - Finance Department
 
@@ -74,9 +78,13 @@ root.render(
         <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
 
         {/* Manager Dashboard - Event Department */}
+        <Route path='/manager/eventdept/mgrDashboardEvent' element={<MgrDashboardEvent/>}/>
         <Route path='/manager/eventdept/mgrDashWedding' element={<MgrDashWedding/>}/>
         <Route path='/manager/eventdept/mgrDashBdayParty' element={<MgrDashBdayParty/>}/>
         <Route path='/manager/eventdept/mgrDashSocial' element={<MgrDashSocial/>}/>
+        <Route path='/manager/eventdept/AddPackages' element={<AddPackages/>}/>
+        <Route path='/manager/eventdept/EditPackages' element={<EditPackages/>}/>
+        <Route path='/manager/eventdept/EventsList' element={<EventsList/>}/>
         
       </Routes>
     </BrowserRouter>

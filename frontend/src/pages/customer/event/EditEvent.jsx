@@ -1,6 +1,6 @@
 import React from 'react'
 
-const mgrDashEditPackages = () => {
+function EditEvent() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const mgrDashEditPackages = () => {
   )
 }
 
-export default mgrDashEditPackages
+export default EditEvent

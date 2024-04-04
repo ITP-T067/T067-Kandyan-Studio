@@ -1,6 +1,6 @@
 import React from 'react'
 
-const mgrDashAllEvents = () => {
+function bookEvent() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const mgrDashAllEvents = () => {
   )
 }
 
-export default mgrDashAllEvents
+export default bookEvent
