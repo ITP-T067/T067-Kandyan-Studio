@@ -40,19 +40,20 @@ const create_cproject = async (req, res, next) => {
     }
 }
 //update data
-const update_cproject = async(req, res, next) => {
-    console.log(req.body)
-    const {_id, ...rest} = req.body
-    console.log(rest)
-    try{
-        const data = await Project.updateOne({_id : _id}, rest)
-        if(res.status(201)){
-            res.send({success:true, message: "Project updated successfully", data : data})
+const update_cproject = async (req, res, next) => {
+    const { _id, Status, ...rest } = req.body;
+    try {
+        let updatedProject;
+        if (Status === "Completed") {
+            updatedProject = await Project.findOneAndUpdate({ _id }, { ...rest, Status, Completed_Date: new Date() }, { new: true });
+        } else {
+            updatedProject = await Project.findOneAndUpdate({ _id }, { ...rest, Status }, { new: true });
         }
-    }catch(error){
+
+        res.status(200).json({ success: true, message: "Project updated successfully", data: updatedProject });
+    } catch (error) {
         next(error);
     }
-
 }
 
 //delete data

@@ -66,8 +66,8 @@ export default function Projects() {
   return (
     <>
     <nav className="project-navbar">
-            <a className="project-el left_project" href="/" style={{backgroundColor: '#525252'}}><div className="">Ongoing Projects</div></a>
-            <a className="project-el right_project" href="/completedProjects"><div>Completed Projects</div></a>
+            <a className="project-el left_project" href="/creator/" style={{backgroundColor: '#525252'}}><div className="">Ongoing Projects</div></a>
+            <a className="project-el right_project" href="/creator/completedProjects"><div>Completed Projects</div></a>
     </nav>
 
     {
@@ -106,18 +106,21 @@ export default function Projects() {
           <tbody>
               {dataList.length > 0 ? (
                   dataList.map((el) => {
+                    if(el.Status == "Pending" || el.Status == "In Progress"){
+                      
                       return (
-                          <tr key={el._id}>
-                              <td>{el.Project_Name}</td>
-                              <td>{el.Order_ID ? el.Order_ID.Order_Type : 'N/A'}</td>
-                              <td>{new Date(el.Project_Date).toLocaleDateString()}</td>
-                              <td>{el.Status}</td>
-                              <td>
-                                  <button className='btn btn_edit bg-kblue text-s' onClick={() => handleEdit(el)}>Edit</button>
-                                  <button className='btn btn_delete bg-kred' onClick={() => handleDelete(el._id)}>Delete</button>
-                              </td>
-                          </tr>
+                        <tr key={el._id}>
+                            <td>{el.Project_Name}</td>
+                            <td>{el.Order_ID ? el.Order_ID.Order_Type : 'N/A'}</td>
+                            <td>{new Date(el.Project_Date).toLocaleDateString()}</td>
+                            <td>{el.Status}</td>
+                            <td>
+                                <button className='btn btn_edit bg-kblue text-s' onClick={() => handleEdit(el)}>Edit</button>
+                                <button className='btn btn_delete bg-kred' onClick={() => handleDelete(el._id)}>Delete</button>
+                            </td>
+                        </tr>
                       )
+                    }
                   })
               ) : (
                   <tr>

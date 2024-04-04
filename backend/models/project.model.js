@@ -25,11 +25,16 @@ const projectSchema = new mongoose.Schema({
     }, 
 
     
+    Completed_Date: {
+        type: Date
+    },
+    
     Order_ID: {   
         type: Schema.Types.ObjectId,   
         ref: 'Order' ,   
         required: true,  
     }, 
+
 
 }) 
 

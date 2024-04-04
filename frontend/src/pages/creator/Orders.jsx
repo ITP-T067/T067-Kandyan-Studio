@@ -74,6 +74,12 @@ export default function Orders() {
     
   return (
     <>
+        <nav className="project-navbar">
+            <a className="project-el left_project " href="/creator/projectOrders/" style={{backgroundColor: '#525252'}}><div className="">Order List</div></a>
+            <a className="project-el middle_project" href="/creator/projectOrders"><div>Add physical orders</div></a>
+            <a className="project-el right_project" href="/creator/projectOrders"><div>Approve Order Payments</div></a>
+        </nav>
+
         {
         addSection && (
             <div className="addContainer bg-kgray">
