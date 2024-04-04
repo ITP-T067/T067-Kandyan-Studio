@@ -84,6 +84,12 @@ const TABLE_ROWS = [
 
 
 
+
+
+
+
+
+
 const Stockavailability = () => {
     return (
       <div className='order text-kwhite'>
