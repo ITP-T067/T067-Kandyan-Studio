@@ -26,9 +26,9 @@ import SupplyRequest from './pages/manager/stock/supplyrequest';
 
 //Manager Dashboard - Event Department
 import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
-import MgrDashWedding from './pages/manager/event/mgrDashWedding'
-import MgrDashBdayParty from './pages/manager/event/mgrDashBdayParty'
-import MgrDashSocial from './pages/manager/event/mgrDashSocial'
+import MgrDashWedding from './pages/manager/event/mgrDashWedding.jsx'
+import MgrDashBdayParty from './pages/manager/event/mgrDashBdayParty.jsx'
+import MgrDashSocial from './pages/manager/event/mgrDashSocial.jsx'
 import AddPackages from './pages/manager/event/AddPackages.jsx';
 import EditPackages from './pages/manager/event/EditPackages.jsx';
 import EventsList from './pages/manager/event/EventsList.jsx';
