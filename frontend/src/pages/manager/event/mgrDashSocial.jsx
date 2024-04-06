@@ -49,10 +49,10 @@ function mgrDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 18 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="">
+                        <Link to="/manager/eventdept/AddPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link>
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>
@@ -67,10 +67,10 @@ function mgrDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 50 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="">
+                        <Link to="/manager/eventdept/AddPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link>
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>
@@ -85,10 +85,10 @@ function mgrDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 90 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="">
+                        <Link to="/manager/eventdept/AddPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link>
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>
