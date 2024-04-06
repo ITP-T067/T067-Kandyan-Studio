@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../Styles/creator/orders.css';
 import '../../Styles/creator/formData.css';
+import '../../Styles/creator/orderNav.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
@@ -74,10 +75,10 @@ export default function Orders() {
     
   return (
     <>
-        <nav className="project-navbar">
-            <a className="project-el left_project " href="/creator/projectOrders/" style={{backgroundColor: '#525252'}}><div className="">Order List</div></a>
-            <a className="project-el middle_project" href="/creator/projectOrders"><div>Add physical orders</div></a>
-            <a className="project-el right_project" href="/creator/projectOrders"><div>Approve Order Payments</div></a>
+        <nav className="order-navbar">
+            <a className="order-el left_order " href="/creator/projectOrders/" style={{backgroundColor: '#525252'}}><div className="">Order List</div></a>
+            <a className="order-el middle_order" href="/creator/physicalOrders"><div>Add physical orders</div></a>
+            <a className="order-el right_order" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
         </nav>
 
         {
