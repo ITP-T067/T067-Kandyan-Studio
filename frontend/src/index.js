@@ -78,7 +78,7 @@ root.render(
         <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
 
         {/* Manager Dashboard - Event Department */}
-        <Route path='/manager/eventdept/mgrDashboardEvent' element={<MgrDashboardEvent/>}/>
+        <Route path='/manager/eventdept' element={<MgrDashboardEvent/>}/>
         <Route path='/manager/eventdept/mgrDashWedding' element={<MgrDashWedding/>}/>
         <Route path='/manager/eventdept/mgrDashBdayParty' element={<MgrDashBdayParty/>}/>
         <Route path='/manager/eventdept/mgrDashSocial' element={<MgrDashSocial/>}/>
