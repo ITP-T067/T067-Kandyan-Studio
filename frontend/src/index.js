@@ -15,6 +15,9 @@ import Router from './Components/Common/Router';
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
+import CusDashWedding from './pages/customer/event/cusDashWedding.jsx';
+import CusDashBdayParty from './pages/customer/event/cusDashBdayParty.jsx';
+import CusDashSocial from './pages/customer/event/cusDashSocial.jsx';
 
 
 //Manager Dashboard
@@ -66,6 +69,9 @@ root.render(
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
+        <Route path='/customer/event/cusDashWedding' element={<CusDashWedding/>}/>
+        <Route path='/customer/event/cusDashBdayParty' element={<CusDashBdayParty/>}/>
+        <Route path='/customer/event/cusDashSocial' element={<CusDashSocial/>}/>
 
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>

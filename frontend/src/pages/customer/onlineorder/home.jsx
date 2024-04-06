@@ -25,7 +25,7 @@ function Home() {
         </button>
       </div>
       <div className="explore-btn">
-          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('#')}>
+          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('/customer/event/cusDashWedding')}>
               EXPLORE EVENTS
           </button>
       </div>
