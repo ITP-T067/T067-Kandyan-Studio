@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -23,6 +23,10 @@ import StockMenu from './pages/manager/stock/menu';
 import ItemList from './pages/manager/stock/items';
 import StockLevels from './pages/manager/stock/stocklevels';
 import SupplyRequest from './pages/manager/stock/supplyrequest';
+import RequestForm from './pages/manager/stock/requestform';
+import CustomRequestForm from './pages/manager/stock/customreqform';
+import AddItemForm from './pages/manager/stock/additemform';
+import EditItemForm from './pages/manager/stock/edititemform';
 
 //Manager Dashboard - Event Department
 
@@ -69,6 +73,10 @@ root.render(
         <Route path='/manager/stockdept/items' element={<ItemList />} />
         <Route path='/manager/stockdept/stocklevels' element={<StockLevels />} />
         <Route path='/manager/stockdept/supplyrequest' element={<SupplyRequest />} />
+        <Route path='/manager/stockdept/stocklevels/request' element={<RequestForm />} />
+        <Route path='/manager/stockdept/stocklevels/customreq' element={<CustomRequestForm />} />
+        <Route path='/manager/stockdept/items/additem' element={<AddItemForm />} />
+        <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
 
         {/* Manager Dashboard - Event Department */}
         
