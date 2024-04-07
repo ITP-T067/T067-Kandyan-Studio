@@ -15,7 +15,12 @@ import Router from './Components/Common/Router';
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
-
+import Customercart from './pages/customer/onlineorder/customerCart.jsx';
+import Myorder from './pages/customer/onlineorder/myOrders.jsx';
+import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
+import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
+import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
+import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
@@ -63,10 +68,15 @@ root.render(
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
+        <Route path='/myorder' element={<Myorder/>}/>
+        <Route path='/pendingorder' element={<Pendingorder/>}/>
+        <Route path='/processingorder' element={<Processingorder/>}/>
+        <Route path='/completeorder' element={<Completeorder/>}/>
+        <Route path='/generatereport' element={<Generatereport/>}/>
 
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
-
+        <Route path='/customercart' element={<Customercart/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
