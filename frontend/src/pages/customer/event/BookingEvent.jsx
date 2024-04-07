@@ -2,15 +2,15 @@ import React from 'react'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
-function EditEvent() {
+function BookingEvent() {
   return (
     <div>
-
+      
       {/* back navigation */}
       <div className="backnaviagtion flex ml-10 mt-7 gap-3 items-center" >
         <Link to=""  className=" flex items-center text-kwhite">
           <IoArrowBackCircleSharp className="w-10 h-10 " />
-          <p className="label text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]" >Edit Details</p>
+          <p className="label text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]" >Add Details</p>
         </Link>
       </div>
 
@@ -52,13 +52,12 @@ function EditEvent() {
           </div>
           </div>
           <Link className="flex justify-end" to="">
-            <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Save Changes</button>
+            <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Submit</button>
           </Link>
         </div>
       </div>
-      
     </div>
   )
 }
 
-export default EditEvent
+export default BookingEvent

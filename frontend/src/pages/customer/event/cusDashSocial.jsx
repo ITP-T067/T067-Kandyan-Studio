@@ -37,7 +37,7 @@ function cusDashSocial() {
       <div className="card_container flex justify-center space-x-20 mt-7 mb-8">
                 
                 {/* Standard */}
-                <div className="card2 w-80  h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg">
+                <div className="card2 w-80  h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg border-2 border-kyellow">
                     <img className="img 2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Standard}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Standard Package</p>
@@ -53,7 +53,7 @@ function cusDashSocial() {
                 </div>
 
                 {/* Premium */}
-                <div className="card3 w-80 h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg">
+                <div className="card3 w-80 h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Premium}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Premium Package</p>
@@ -69,7 +69,7 @@ function cusDashSocial() {
                 </div>
 
                 {/* Diamond */}
-                <div className="card3 w-80 h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg">
+                <div className="card3 w-80 h-[26rem] bg-kgray rounded-lg backdrop-filter backdrop-blur-lg border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Diamond}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Diamond Package</p>

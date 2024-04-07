@@ -37,7 +37,7 @@ function cusDashWedding () {
       <div className="card_container flex justify-center space-x-20 mt-7">
 
             {/* Minimal */}
-            <div className="card2 w-80  h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card2 w-80  h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Minimal}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Minimal Package</p>
@@ -53,7 +53,7 @@ function cusDashWedding () {
             </div>
 
              {/* Regular */}
-            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Regular}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Regular Package</p>
@@ -69,7 +69,7 @@ function cusDashWedding () {
             </div>
             
             {/* Deluxe */}
-            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Deluxe}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">De Luxe Package</p>

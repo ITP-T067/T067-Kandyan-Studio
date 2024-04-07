@@ -8,7 +8,7 @@ function AddPackages() {
 
         {/* back navigation */}
         <div className="backnaviagtion flex-auto ml-10 mt-3  items-center" >
-          <Link to="">
+          <Link to="" className="flex items-start">
             <IoArrowBackCircleSharp className="w-10 h-10" />
             <p className="label text-kblack mt-2 mb-2 ml-2 text-lg font-[inter]" >Add Packages</p>
           </Link>
@@ -22,17 +22,17 @@ function AddPackages() {
 
               <div className=" mt-10 mb-4 ml-5 flex justify-start gap-4">
                 <label className="form-label text-kwhite">Package Category</label>
-                <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-lg  w-96 px-1" name="category" />
+                <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1" name="category" />
               </div>
 
               <div className="mt-3 mb-4 ml-5 flex justify-start gap-4">
                 <label className="form-label text-kwhite">Package Type</label>
-                <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-lg w-96 px-1" name="type"  />
+                <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1" name="type"  />
               </div>
 
               <div className="mt-3 mb-4 ml-5 flex justify-start gap-4">
                 <label className="form-label text-kwhite">Package Price</label>
-                <input className="form-control rounded-md w-96 px-1 bg-kwhite text-lg" name="price"  />
+                <input className="form-control rounded-md w-96 px-1 bg-kwhite text-sm" name="price"  />
               </div>
 
               <div className=" mt-3 mb-4 ml-5 flex justify-start gap-4">
@@ -42,7 +42,7 @@ function AddPackages() {
 
               <div className="mt-3 mb-4 ml-5 flex justify-start gap-4">
                 <label className="form-label text-kwhite">Description</label>
-                <textarea className="form-control rounded-md w-96 columns-3 px-1" name="description"  />
+                <textarea className="form-control rounded-md w-96 text-sm columns-5 px-1" name="description"  />
               </div>
 
               <div className=" mt-3 mb-4 ml-5 flex justify-end gap-4 mr-8">

@@ -18,10 +18,12 @@ function mgrDashWedding() {
     </Link>
     <p className="text-kblack mt-2 mb-2 ml-2 text-lg font-[inter]">Manage Packages</p>
   </div>
-  <button className="addPackage text-xl text-kwhite hover:bg-kyellow hover:text-kblack justify-center bg-kblack rounded-lg w-48 h-12 flex pt-2  mr-6">
-    <IoIosAddCircleOutline className="w-10 h-10 flex pb-2" />
-    Add Package
-  </button>
+    <Link to="/manager/eventdept/AddPackages">
+      <button className="addPackage text-xl text-kwhite justify-center bg-kblack rounded-lg w-48 h-12 flex pt-2  hover:bg-kyellow hover:text-kblack mr-6">
+      <IoIosAddCircleOutline className="w-10 h-10 flex pb-2" />
+      Add Package
+      </button>
+    </Link> 
   </div>
 
       {/* event navigation */}
@@ -41,7 +43,7 @@ function mgrDashWedding() {
       <div className="card_container flex justify-center space-x-20 mt-7">
 
             {/* Minimal */}
-            <div className="card2 w-80  h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card2 w-80  h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Minimal}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Minimal Package</p>
@@ -49,17 +51,17 @@ function mgrDashWedding() {
                         <p className="price text-3xl font-semibold">Rs 125 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="/manager/eventdept/AddPackages">
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link to="/manager/eventdept/EditPackages">
+                        <Link to="">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>
             </div>
 
              {/* Regular */}
-            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Regular}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">Regular Package</p>
@@ -67,17 +69,17 @@ function mgrDashWedding() {
                         <p className="price text-3xl font-semibold">Rs 300 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="/manager/eventdept/AddPackages">
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link to="/manager/eventdept/EditPackages">
+                        <Link to="">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>
             </div>
             
             {/* Deluxe */}
-            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl">
+            <div className="card3 w-80 h-[26rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                     <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Deluxe}/>
                     <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">De Luxe Package</p>
@@ -85,10 +87,10 @@ function mgrDashWedding() {
                         <p className="price text-3xl font-semibold">Rs 350 000</p>
                     </div>
                     <div className="buttons flex justify-center gap-9  font-bold">
-                        <Link to="/manager/eventdept/AddPackages">
+                        <Link to="/manager/eventdept/EditPackages">
                             <button className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Edit</button>
                         </Link>
-                        <Link to="/manager/eventdept/EditPackages">
+                        <Link to="">
                             <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">Delete</button>
                         </Link>
                     </div>

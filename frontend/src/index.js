@@ -18,7 +18,8 @@ import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
 import CusDashWedding from './pages/customer/event/cusDashWedding.jsx';
 import CusDashBdayParty from './pages/customer/event/cusDashBdayParty.jsx';
 import CusDashSocial from './pages/customer/event/cusDashSocial.jsx';
-
+import BookingEvent from './pages/customer/event/BookingEvent.jsx';
+import EditEvent from './pages/customer/event/EditEvent.jsx';
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
@@ -72,6 +73,8 @@ root.render(
         <Route path='/customer/event/cusDashWedding' element={<CusDashWedding/>}/>
         <Route path='/customer/event/cusDashBdayParty' element={<CusDashBdayParty/>}/>
         <Route path='/customer/event/cusDashSocial' element={<CusDashSocial/>}/>
+        <Route path='/customer/event/BookingEvent' element={<BookingEvent/>}/>
+        <Route path='/customer/event/EditEvent' element={<EditEvent/>}/>
 
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
