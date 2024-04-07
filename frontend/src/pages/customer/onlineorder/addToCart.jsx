@@ -29,7 +29,15 @@ export default function AddToCart() {
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
               <div className="mt-12 ml-11">
-                <h2 className="text-5xl font-bold text-kwhite mb-2 ml-28">Product Name</h2>
+              <div class="flex items-center ml-14">
+                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onClick={() => navigate('/cusdashboard')}>
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 8 8 12 12 16" />
+                  <line x1="16" y1="12" x2="8" y2="12" />
+                </svg>
+                <h2 class="text-5xl font-bold text-kwhite mb-2">Product Name</h2>
+              </div>
+
                 <div className="flex justify-center mx-auto md:mx-0">
                   <div className="flex flex-col justify-center">
                     <img
@@ -95,12 +103,17 @@ export default function AddToCart() {
                 </div>
               </div>
             </div>
-            <div class="overflow-y-auto h-72 max-w-[550px] ml-36 -mt-64">
+          </div>
+          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 -mt-64">
+              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
+              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
+              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
+              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
+              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
               <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
               <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
               <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
             </div>
-          </div>
         </div>
       </div>
       {showAlert && (
