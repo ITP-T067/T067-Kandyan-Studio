@@ -25,7 +25,7 @@ export default function AddToCart() {
   return (
     <div>
       <div className={`container ${showAlert ? 'blur' : ''}`}>
-        <div className="card h-96 bg-kblack bg-opacity-30 rounded-3xl m-12 shadow-2xl">
+        <div className="card h-96 bg-kgray bg-opacity-30 rounded-3xl m-12">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
               <div className="mt-12 ml-11">
