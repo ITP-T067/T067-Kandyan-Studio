@@ -38,35 +38,3 @@
     color: #B99641;
   }
   
-  .cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px; /* Adjust the gap between cards */
-    margin-top: 20px; /* Adjust margin as needed */
-  }
-  
-  .card {
-    width: 264px;
-    height: 317px;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    transform: scale(1.05); /* Zoom effect on hover */
-  }
-  
-  .card1 {
-    width: 264px;
-    height: 317px;
-    left: 0;
-    top: 0;
-    position: absolute;
-    opacity: 0.50;
-    background: #838383;
-    border-radius: 30px;
-  }
-  
- 
