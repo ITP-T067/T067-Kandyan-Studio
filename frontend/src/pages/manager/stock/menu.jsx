@@ -1,4 +1,6 @@
 import React from 'react';
+import { Card, CardBody } from "@material-tailwind/react";
+import { HiOutlineClipboardList } from "react-icons/hi";
 
 const StockMenu = () => {
     const handleMenu = (option) => {
@@ -20,26 +22,37 @@ const StockMenu = () => {
 };
     return (
         <>
-        <div className="card-container flex justify-center gap-2">
-                <div className="card1 w-45 h-156 relative">
-                    <div className="Rectangle w-full h-full absolute bg-gray-700 rounded-3xl"></div>
-                    <p className="absolute text-white text-2xl font-semibold">Total Orders</p>
-                </div>
-                <div className="card1 w-45 h-156 relative">
-                    <div className="Rectangle w-full h-full absolute bg-gray-700 rounded-3xl"></div>
-                    <p className="absolute text-white text-2xl font-semibold">Stock Levels</p>
-                </div>
+        <div className="mx-5 mb-5">
+            <Card>
+                <CardBody className="flex items-center justify-between mb-5">
+                    <div className='flex-grow bg-kwhite p-7 rounded-lg mr-5'>
+                        <span className="text-2xl font-bold">Stock Management</span>
+                    </div>
+                    <div className='flex-grow bg-kwhite p-7 rounded-lg'>
+                        <span className="text-2xl font-bold">Stock Management</span>
+                    </div>
+                </CardBody>
+            </Card>
+        </div>
+            <div className="flex min-h-64 justify-center gap-5 mx-auto px-10">
+        <button className="w-1/3 text-kwhite bg-kblack border-4 border-kyellow rounded-3xl transition-transform flex flex-col justify-center items-center text-center hover:scale-105" onClick={handleMenu('ItemList')}>
+            <div>
+                <HiOutlineClipboardList className="w-96" />
+                <span className="text-lg">Item List</span>
             </div>
-            <div className="order-btn-container flex justify-center gap-2 mt-20">
-                <button className="order_btn w-1/5 h-360 bg-black border-6 border-yellow-500 rounded-lg transition-transform flex justify-center items-center hover:scale-105" onClick={handleMenu('ItemList')}>
-                    <h3 className="text-white">Item List</h3>
-                </button>
-                <button className="order_btn w-1/5 h-360 bg-black border-6 border-yellow-500 rounded-lg transition-transform flex justify-center items-center hover:scale-105" onClick={handleMenu('StockLevels')}>
-                    <h3 className="text-white">Stock Levels</h3>
-                </button>
-                <button className="order_btn w-1/5 h-360 bg-black border-6 border-yellow-500 rounded-lg transition-transform flex justify-center items-center hover:scale-105" onClick={handleMenu('SupplyRequest')}>
-                    <h3 className="text-white">Supply Requests</h3>
-                </button>
+        </button>
+        <button className="w-1/3 text-kwhite bg-kblack border-4 border-kyellow rounded-3xl transition-transform flex flex-col justify-center items-center text-center hover:scale-105" onClick={handleMenu('StockLevels')}>
+            <div>
+                <HiOutlineClipboardList className="w-96" />
+                <span className="text-lg">Stock Levels</span>
+            </div>
+        </button>
+        <button className="w-1/3 text-kwhite bg-kblack border-4 border-kyellow rounded-3xl transition-transform flex flex-col justify-center items-center text-center hover:scale-105" onClick={handleMenu('SupplyRequest')}>
+            <div>
+                <HiOutlineClipboardList className="w-96" />
+                <span className="text-lg">Supply Requests</span>
+            </div>
+        </button>
             </div>
         </>
     );
