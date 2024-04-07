@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/project.route.js");
 const customerRouter = require("./routes/customer.route.js");
+const receiptRouter = require("./routes/receipt.route.js");
 
 
 const app = express()
@@ -22,6 +23,7 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 app.use('/order', orderRouter);
 app.use('/project', projectRouter);
 app.use('/customer', customerRouter);
+app.use('/receipt', receiptRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

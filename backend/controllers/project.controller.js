@@ -3,7 +3,10 @@ const {errorHandler} = require("../utils/error.js");
 
 const index_cproject = async (req, res, next) => {
     try {
-        const data = await Project.find({}).populate('Order_ID');
+        const data = await Project.find({}).populate({
+            path: 'Order_ID',
+            select: 'Order_Type',
+        });
         if (data) {
             res.json({ success: true, data: data });
         } else {

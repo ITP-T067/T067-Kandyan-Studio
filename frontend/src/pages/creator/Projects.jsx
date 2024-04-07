@@ -25,9 +25,14 @@ export default function Projects() {
           console.error("Error fetching data:", error);
         }
       };
-      useEffect(() =>{
-        getFetchData()
-      }, [])
+      useEffect(() => {
+        getFetchData();
+      }, []);
+      
+      useEffect(() => {
+          console.log(dataList); // Log dataList to the console
+      }, [dataList]);
+      
     
       const handleDelete = async(id)=>{ 
         const data = await axios.delete("/project/delete/" + id)
@@ -106,7 +111,7 @@ export default function Projects() {
           <tbody>
               {dataList.length > 0 ? (
                   dataList.map((el) => {
-                    if(el.Status == "Pending" || el.Status == "In Progress"){
+                    if(el.Status === "Pending" || el.Status === "In Progress"){
                       
                       return (
                         <tr key={el._id}>

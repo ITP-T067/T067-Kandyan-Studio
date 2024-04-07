@@ -29,11 +29,15 @@ const projectSchema = new mongoose.Schema({
         type: Date
     },
     
-    Order_ID: {   
-        type: Schema.Types.ObjectId,   
-        ref: 'Order' ,   
-        required: true,  
-    }, 
+    Order_ID: {
+        type: Schema.Types.ObjectId,
+        refPath: 'OrderModel',
+    },
+
+    OrderModel: {
+        type: String,
+        enum: ['OnlineOrder', 'OfflineOrder'],
+    },
 
 
 }) 

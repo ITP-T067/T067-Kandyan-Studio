@@ -19,11 +19,12 @@ export default function Orders() {
     
       useEffect(() => {
         getFetchData();
+        console.log(dataList);
       }, []);
     
       const getFetchData = async () => {
         try {
-          const response = await axios.get("/order/");
+          const response = await axios.get("/order/on/");
           console.log(response);
           if (response.data.success) {
             setDataList(response.data.data);

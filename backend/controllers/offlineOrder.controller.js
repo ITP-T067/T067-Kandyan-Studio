@@ -1,10 +1,10 @@
-const Order = require("../models/order.model.js") 
+const OfflineOrder = require("../models/offlineOrder.model.js") 
 const {errorHandler} = require("../utils/error.js");
 
-const index_order = async(req,res, next) => {
+const index_offOrder = async(req,res, next) => {
 
     try{
-        const data = await Order.find({})
+        const data = await OfflineOrder.find({})
         if(res.status(201)){
             res.json({success : true , data: data})
         }
@@ -13,9 +13,9 @@ const index_order = async(req,res, next) => {
     }
 }
 //create data
-const create_order = async(req,res, next) => {
+const create_offOrder = async(req,res, next) => {
     console.log(req.body)
-    const data = new Order(req.body)
+    const data = new OfflineOrder(req.body)
 
     try{
         await data.save() 
@@ -28,12 +28,12 @@ const create_order = async(req,res, next) => {
 
 }
 //update data
-const update_order = async(req, res, next) => {
+const update_offOrder = async(req, res, next) => {
     console.log(req.body)
     const {_id, ...rest} = req.body
     console.log(rest)
     try{
-        const data = await Order.updateOne({_id : _id}, rest)
+        const data = await OfflineOrder.updateOne({_id : _id}, rest)
         if(res.status(201)){
             res.send({success:true, message: "order updated successfully", data : data})
         }
@@ -44,12 +44,12 @@ const update_order = async(req, res, next) => {
 }
 
 //delete data
-const del_order = async(req,res, next) =>{
+const del_offOrder = async(req,res, next) =>{
     const id = req.params.id
     console.log(id)
 
     try{
-        const data = await Order.deleteOne({_id : id})
+        const data = await OfflineOrder.deleteOne({_id : id})
         if(res.status(201)){
             res.send({success:true, message: "Order deleted successfully", data : data})
         }
@@ -58,4 +58,4 @@ const del_order = async(req,res, next) =>{
     }
 }
 
-module.exports = { index_order, create_order, update_order, del_order};
+module.exports = { index_offOrder, create_offOrder, update_offOrder, del_offOrder};
