@@ -125,8 +125,6 @@ root.render(
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
         
-        
-        
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

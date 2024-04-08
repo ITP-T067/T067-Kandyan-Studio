@@ -11,13 +11,13 @@ function mgrDashboardEvent() {
       <br/>
       <div className="container flex justify-center items-center  space-x-10">
         <Link to='/manager/eventdept/EventsList'>
-          <button className="Rectangle172 flex flex-col items-center justify-center w-80 h-96 rounded-lg text-kwhite bg-kblack  border-4 border-kyellow text-2xl font-bold hover:scale-105 transition-transform duration-300">
+          <button className="Rectangle172 flex flex-col items-center justify-center w-80 h-[16rem] rounded-lg text-kwhite bg-kblack  border-4 border-kyellow text-2xl font-bold hover:scale-105 transition-transform duration-300">
             <FaList  className="text-5xl mb-4 w-20 h-20 text-kwhite-default" />
             Events List
           </button>
         </Link>
         <Link to='/manager/eventdept/mgrDashWedding'>
-          <button className="Rectangle172 flex flex-col items-center justify-center w-80 h-96 rounded-lg  text-kwhite bg-kblack border-kyellow border-4 text-kwhite-default text-2xl font-bold hover:scale-105 transition-transform duration-300">
+          <button className="Rectangle172 flex flex-col items-center justify-center w-80 h-[16rem] rounded-lg  text-kwhite bg-kblack border-kyellow border-4 text-kwhite-default text-2xl font-bold hover:scale-105 transition-transform duration-300">
             <MdManageHistory className="text-5xl mb-4 text-white w-20 h-20" />
             Manage Packages  
           </button>

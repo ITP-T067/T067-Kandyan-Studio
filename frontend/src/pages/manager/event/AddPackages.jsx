@@ -9,14 +9,14 @@ function AddPackages() {
         {/* back navigation */}
         <div className="backnaviagtion flex-auto ml-10 mt-3  items-center" >
           <Link to="" className="flex items-start">
-            <IoArrowBackCircleSharp className="w-10 h-10" />
-            <p className="label text-kblack mt-2 mb-2 ml-2 text-lg font-[inter]" >Add Packages</p>
+            <IoArrowBackCircleSharp className="w-10 h-10 text-kwhite" />
+            <p className="label text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]" >Add Packages</p>
           </Link>
         </div>
 
         {/* form section */}
         <div className="flex justify-center items-start mt-3">
-          <div className="container max-w-2xl h-96 bg-kgray  flex flex-col rounded-lg font-[inter]">
+          <div className="container max-w-2xl h-[24rem] bg-kgray  flex flex-col rounded-lg font-[inter]">
 
             <form className="flex flex-col">
 
