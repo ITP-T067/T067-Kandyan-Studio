@@ -21,6 +21,7 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
+import Payorder from './pages/customer/onlineorder/payOrder.jsx';
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
@@ -73,6 +74,7 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
+        <Route path='/payorder' element={<Payorder/>}/>
 
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
