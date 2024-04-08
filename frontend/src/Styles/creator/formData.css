@@ -1,0 +1,59 @@
+.addContainer{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    width: 300px;
+    color: white;
+    backdrop-filter: blur(8px); 
+}
+
+.addContainer form{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.addContainer form input{
+    background-color: transparent;
+    border: none;
+    height: 50px;
+    margin: 5px;
+    font-size: 20px;
+}
+
+.addContainer form input:focus{
+    border: none;
+    outline: none;
+}
+
+.addContainer form button{
+    border-radius: 5px;
+    color: white;
+    border: none;
+    height: 30px;
+}
+
+.addContainer form button:hover{
+    background-color: blue;
+}
+
+.closeBtn{
+    margin-left: auto;
+    background-color: transparent;
+    border : none;
+}
+
+.select{
+    margin-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    height: 20px;
+    font-size: 18px;
+    color: white;
+}
