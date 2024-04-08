@@ -10,8 +10,8 @@ import {
 const CreatorNavbar = () => {
 
     const departments = [
-        { title: 'My Projects', link: '' },
-        { title: 'Orders', link: '' },
+        { title: 'My Projects', link: '/creator/' },
+        { title: 'Orders', link: '/creator/projectOrders/' },
         { title: 'Generate Reports', link: '/' },
         { title: 'Inquiries', link: '' },
     ];

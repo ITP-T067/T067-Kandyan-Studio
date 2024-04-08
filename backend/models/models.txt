@@ -1,0 +1,41 @@
+1. Here add all the models with format "<name>.model.js"
+2. Import these two in this format for each model file:
+    const mongoose = require('mongoose')
+    const Schema = mongoose.Schema;
+
+3. ex of declaring model in this file:
+
+    const mongoose = require('mongoose')
+    const Schema = mongoose.Schema;
+
+    const creatorProjectSchema = new mongoose.Schema({ 
+        
+        Project_Name: {  
+            type: String,     
+            required: true, 
+        
+        }, 
+        
+        Status: {  
+            type: String,  
+            required: true, 
+        
+        }, 
+
+        Project_Date: {
+            type: Date,
+            required: true,
+        },
+        
+        Order_ID: {   
+            type: Schema.Types.ObjectId,   
+            ref: 'Order' ,   
+            required: true,  
+        }, 
+    
+        
+        }) 
+        
+        const CreatorProject = mongoose.model('CreatorProject', creatorProjectSchema); 
+        
+        module.exports = CreatorProject; 
