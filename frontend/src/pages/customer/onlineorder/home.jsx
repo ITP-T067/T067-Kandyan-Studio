@@ -67,7 +67,7 @@ function Home() {
 
       {/* about us card */}
       <div className="about_card">
-        <div className="AboutUs">ABOUT US</div>
+        <div className="AboutUs absolute top-0">ABOUT US</div>
         <div className='aboutImage'>
           <img src={MainImage} alt="Centered Image" />
         </div>
