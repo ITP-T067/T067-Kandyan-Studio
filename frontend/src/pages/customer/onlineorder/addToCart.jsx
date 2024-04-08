@@ -25,7 +25,7 @@ export default function AddToCart() {
   return (
     <div>
       <div className={`container ${showAlert ? 'blur' : ''}`}>
-        <div className="card h-96 bg-kgray bg-opacity-30 rounded-3xl m-12">
+        <div className="h-96 bg-kgray bg-opacity-30 rounded-3xl m-12">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
               <div className="mt-12 ml-11">
@@ -105,21 +105,21 @@ export default function AddToCart() {
             </div>
           </div>
           <div class="overflow-y-auto h-60 max-w-[550px] ml-36 -mt-64">
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-              <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl shadow mb-2" />
-            </div>
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+          </div>
         </div>
       </div>
       {showAlert && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
           <div className="bg-white p-8 rounded-3xl">
-            <p className="text-center text-3xl font-bold text-kwhite text-gray-900">Added to cart successfully!</p>
+            <p className="text-center text-3xl font-bold text-kwhite">Added to cart successfully!</p>
             <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" onClick={handleOKButtonClick}>OK</button>
           </div>
         </div>
