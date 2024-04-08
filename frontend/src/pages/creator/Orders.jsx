@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import '../../Styles/creator/orders.css';
 import '../../Styles/creator/formData.css';
 import '../../Styles/creator/orderNav.css';
@@ -12,6 +13,7 @@ export default function Orders() {
         Project_Name : "",
         Status : "",
         Order_ID: "",
+        OrderModel: "OnlineOrder"
       })
     
       const [addSection, setAddSection] = useState(false);
@@ -47,17 +49,19 @@ export default function Orders() {
     
       const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form Data:", formData); // Log form data before sending the request
+        console.log("Form Data:", formData); 
         try {
           const data = await axios.post("/project/create", formData);
-          console.log("Response:", data); // Log the response from the server
+          console.log("Response:", data); 
           if (data.data.success) {
+            await axios.put("/order/on/update", { _id: formData.Order_ID, Project_Status: "Added" });
             setAddSection(false);
             setFormData({
               Project_Name: "",
               Status: "",
-              Order_ID: "",
-            }); 
+              Order_ID: ""
+            });
+            getFetchData()
           }
         } catch (error) {
           console.error("Error creating project:", error);
@@ -82,24 +86,6 @@ export default function Orders() {
             <a className="order-el right_order" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
         </nav>
 
-        {
-        addSection && (
-            <div className="addContainer bg-kgray">
-            <button className="closeBtn"  onClick={()=>setAddSection(false)}>Close</button>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="Project_Name">Project Name: </label>
-              <input type="text" id="Project_Name" name="Project_Name" onChange={handleOnchange} value={formData.Project_Name}/>
-  
-              <input type = "hidden" name = "Status" value={formData.Status}/>
-  
-              <input type="hidden" name="Order_ID" value={formData.Order_ID} />
-  
-              <button className="submitBtn bg-kblue">Submit</button>
-            </form>
-      </div>
-          )
-      }
-
       <div className='tableContainer'>
         <table>
           <thead>
@@ -115,17 +101,21 @@ export default function Orders() {
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                return(
-                  <tr>
-                    <td>{el.Order_Type}</td>
-                    <td>{el.Quantity}</td>
-                    <td>{el.Additional}</td>
-                    <td>{el.Type}</td>
-                    <td>
-                      <button className='btn btn_add' onClick={()=>handleAddProject(el._id)}>Add Project</button>
-                    </td>
-                  </tr>
-                )
+                if(el.Project_Status != "Added" && el.Status == "Paid"){
+                  return(
+                    <tr>
+                      <td>{el.Order_Type}</td>
+                      <td>{el.Quantity}</td>
+                      <td>{el.Additional}</td>
+                      <td>{el.Type}</td>
+                      <td>
+                          <Link to={`/creator/addProjects/${el._id}`}>
+                              <button className='btn btn_add'>Add Project</button>
+                          </Link>
+                      </td>
+                    </tr>
+                  )
+                }
               }))
               : (
                 <p>No data available</p>

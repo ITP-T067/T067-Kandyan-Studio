@@ -1,4 +1,4 @@
-.addContainer{
+.addContainer {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -9,17 +9,17 @@
     z-index: 9999;
     width: 300px;
     color: white;
-    backdrop-filter: blur(8px); 
+    background-color: #525252;
 }
 
-.addContainer form{
+.addContainer form {
     display: flex;
     flex-direction: column;
     padding: 5px;
     font-size: 20px;
 }
 
-.addContainer form input{
+.addContainer form input {
     background-color: transparent;
     border: none;
     height: 50px;
@@ -27,33 +27,33 @@
     font-size: 20px;
 }
 
-.addContainer form input:focus{
+.addContainer form input:focus {
     border: none;
     outline: none;
 }
 
-.addContainer form button{
+.addContainer form button {
     border-radius: 5px;
     color: white;
     border: none;
     height: 30px;
 }
 
-.addContainer form button:hover{
+.addContainer form button:hover {
     background-color: blue;
 }
 
-.closeBtn{
+.closeBtn {
     margin-left: auto;
     background-color: transparent;
     border : none;
 }
 
-.select{
+.select {
     margin-bottom: 10px;
-    background-color: transparent;
+    background-color: #525252;
+    color: white;
     border: none;
     height: 20px;
     font-size: 18px;
-    color: white;
 }

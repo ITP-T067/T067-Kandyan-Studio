@@ -1,5 +1,5 @@
-const Project = require("../models/project.model.js") 
-const {errorHandler} = require("../utils/error.js");
+const Project = require("../models/project.model.js");
+const { errorHandler } = require("../utils/error.js");
 
 const index_cproject = async (req, res, next) => {
     try {
@@ -17,17 +17,18 @@ const index_cproject = async (req, res, next) => {
     }
 }
 
-//create data
+// Create data
 const create_cproject = async (req, res, next) => {
     try {
-        const { Project_Name, Status, Order_ID } = req.body;
+        const { Project_Name, Status, Order_ID, OrderModel } = req.body;
         const Project_Date = new Date();
 
         const newCreatorProject = new Project({
             Project_Name,
             Status,
             Project_Date,
-            Order_ID
+            Order_ID,
+            OrderModel
         });
 
         // Save the new project
@@ -36,13 +37,14 @@ const create_cproject = async (req, res, next) => {
         res.status(201).json({
             success: true,
             message: "Project saved successfully",
-            data: newCreatorProject // Use newCreatorProject instead of data
+            data: newCreatorProject
         });
     } catch (error) {
         next(error); // Pass the error to the error handling middleware
     }
 }
-//update data
+
+// Update data
 const update_cproject = async (req, res, next) => {
     const { _id, Status, ...rest } = req.body;
     try {
@@ -59,17 +61,18 @@ const update_cproject = async (req, res, next) => {
     }
 }
 
-//delete data
-const del_cproject = async(req,res, next) =>{
-    const id = req.params.id
-    console.log(id)
+// Delete data
+const del_cproject = async (req, res, next) => {
+    const id = req.params.id;
 
-    try{
-        const data = await Project.deleteOne({_id : id})
-        if(res.status(201)){
-            res.send({success:true, message: "Project deleted successfully", data : data})
+    try {
+        const data = await Project.deleteOne({ _id: id });
+        if (data.deletedCount > 0) {
+            res.json({ success: true, message: "Project deleted successfully", data: data });
+        } else {
+            res.json({ success: false, message: "Project not found" });
         }
-    }catch(error){
+    } catch (error) {
         next(error);
     }
 }

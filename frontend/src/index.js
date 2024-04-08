@@ -53,6 +53,7 @@ import ProjectOrders from './pages/creator/Orders.jsx';
 import CompletedProjects from './pages/creator/CompletedProjects.jsx';
 import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
 import OrderPayment from './pages/creator/OrderPayment.jsx';
+import AddProjects from './pages/creator/AddProjects.jsx';
 
 //Supplier Dashboard
 
@@ -100,6 +101,7 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+        <Route path='/creator/addProjects/:orderId' element={<AddProjects/>}/>
         
         
         
