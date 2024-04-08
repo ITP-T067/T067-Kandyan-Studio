@@ -1,0 +1,21 @@
+1. Store files in format "<name>.route.js"
+2. Here we store the main routes of the files, like if you are handling the routes for crud functions in one model, we create one route file for that
+3. Here is an example:
+        const express = require('express')
+        const { index_cproject, create_cproject, update_cproject, del_cproject } = require("../controllers/project.controller.js"); // here we import the related controllers file
+
+        const router = express.Router();// use router function in express
+
+        router.get("/", index_cproject); //add route for each crud function
+        router.post("/create", create_cproject);
+        router.put("/update", update_cproject);
+        router.delete("/delete/:id", del_cproject);
+
+        module.exports = router;
+
+4. Then we import these routes in the main file and make path for each crud function:
+    const projectRouter = require("./routes/project.route.js"); // first import the route file to index.js
+    app.use('/server/project', projectRouter); //this is the path to access the crud functions for the project model
+
+5. So now if we use function get("http://localhost:8010/project/"), then we will get all the stored projects 
+6. If we post("http://localhost:8010/project/create") and we include a json with project details, that project will get created in the database.
