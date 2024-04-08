@@ -60,7 +60,11 @@ import EventsList from './pages/manager/event/EventsList.jsx';
 
 
 //Creator Dashboard
-
+import Projects from './pages/creator/Projects.jsx';
+import ProjectOrders from './pages/creator/Orders.jsx';
+import CompletedProjects from './pages/creator/CompletedProjects.jsx';
+import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
+import OrderPayment from './pages/creator/OrderPayment.jsx';
 
 //Supplier Dashboard
 
@@ -113,6 +117,15 @@ root.render(
         <Route path='/manager/eventdept/AddPackages' element={<AddPackages/>}/>
         <Route path='/manager/eventdept/EditPackages' element={<EditPackages/>}/>
         <Route path='/manager/eventdept/EventsList' element={<EventsList/>}/>
+
+        {/* Creator Dashboard*/}
+        <Route path='/creator/' element={<Projects/>}/>
+        <Route path='/creator/projectOrders/' element={<ProjectOrders/>}/>
+        <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
+        <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
+        <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+        
+        
         
       </Routes>
     </BrowserRouter>
