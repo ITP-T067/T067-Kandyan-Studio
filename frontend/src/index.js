@@ -39,6 +39,12 @@ import EditItemForm from './pages/manager/stock/edititemform';
 //Manager Dashboard - Finance Department
 
 //Manager Dashboard - Employee Department
+import Edashboard from './pages/manager/employee/empDashboard.jsx';
+import AddForm from './pages/manager/employee/addForm.jsx';
+import ViewEmp from './pages/manager/employee/viewEmp.jsx';
+import UpdateForm from './pages/manager/employee/updateForm.jsx';
+import PerformanceForm from './pages/manager/employee/performanceForm.jsx';
+import SalaryForm from './pages/manager/employee/salaryForm.jsx';
 
 //Manager Dashboard - Supplier Department
 
@@ -95,6 +101,14 @@ root.render(
         <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
 
         {/* Manager Dashboard - Event Department */}
+
+        {/*Manager Dashboard - Employee Department */}
+        <Route path='/manager/employee' element={<Edashboard/>}/>
+        <Route path='/manager/employee/addForm' element={<AddForm/>}/>
+        <Route path='/manager/employee/viewEmp' element={<ViewEmp/>}/>
+        <Route path='/manager/employee/updateForm' element={<UpdateForm/>}/>
+        <Route path='/manager/employee/performanceForm' element={<PerformanceForm/>}/>
+        <Route path='/manager/employee/salaryForm' element={<SalaryForm/>}/>
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
