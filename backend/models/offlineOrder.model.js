@@ -17,14 +17,19 @@ const offlineOrderSchema = new mongoose.Schema({
     }, 
     
     Artwork_Price: { 
-        type: String, 
+        type: Number, 
         required: true, 
     }, 
     
-    Customer_Name: { 
+    Cus_Name: { 
         type: String, 
         required: true, 
     },  
+
+    Order_Date: {
+        type: Date,
+        required: true,
+    },
     
     Phone_Number: { 
         type: String, 

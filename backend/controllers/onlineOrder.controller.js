@@ -4,7 +4,10 @@ const {errorHandler} = require("../utils/error.js");
 const index_onOrder = async(req,res, next) => {
 
     try{
-        const data = await OnlineOrder.find({})
+        const data = await OnlineOrder.find({}).populate({
+            path: 'Cus_ID',
+            select: 'Cus_Name',
+        });
         if(res.status(201)){
             res.json({success : true , data: data})
         }
@@ -14,13 +17,26 @@ const index_onOrder = async(req,res, next) => {
 }
 //create data
 const create_onOrder = async(req,res, next) => {
-    console.log(req.body)
-    const data = new OnlineOrder(req.body)
+    const { Order_Type, Quantity, Additional, Status, Project_Status, Cus_ID } = req.body;
+    const Order_Date = new Date();
+
+    const newOrder = new OnlineOrder({
+        Order_Type, 
+        Quantity, 
+        Additional,
+        Order_Date, 
+        Status, 
+        Project_Status, 
+        Cus_ID
+    });
+
+    await newOrder.save();
 
     try{
-        await data.save() 
         if(res.status(201)){
-            res.send({success : true, message : "order saved successfully", data: data})
+            res.send({success: true,
+                message: "Order saved successfully",
+                data: newOrder})
         }
     }catch(error){
         next(error);

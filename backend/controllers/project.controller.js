@@ -5,8 +5,23 @@ const index_cproject = async (req, res, next) => {
     try {
         const data = await Project.find({}).populate({
             path: 'Order_ID',
-            select: 'Order_Type',
+            select: 'Order_Type Order_Date  Cus_ID Cus_Name',
+            populate: {
+                path: 'Cus_ID',
+                select: 'Cus_Name',
+                options: { strictPopulate: false }, // Set strictPopulate to false for Cus_ID population
+            },
         });
+
+        // Conditionally populate based on OrderModel
+        for (const project of data) {
+            if (project.OrderModel === 'OnlineOrder') {
+                project.populate('Order_ID', 'Order_Type Order_Date Cus_ID', null, { strictPopulate: false });
+            } else {
+                project.populate('Order_ID', 'Order_Type Order_Date Cus_Name', null, { strictPopulate: false });
+            }
+        }
+
         if (data) {
             res.json({ success: true, data: data });
         } else {
@@ -16,6 +31,25 @@ const index_cproject = async (req, res, next) => {
         next(error);
     }
 }
+
+const getProjectById_cproject = async (req, res, next) => {
+    const projectId = req.params.id;
+
+    try {
+        const project = await Project.findById(projectId).populate({
+            path: 'Order_ID',
+            select: 'Order_Type',
+        });
+
+        if (!project) {
+            return res.status(404).json({ success: false, message: "Project not found" });
+        }
+
+        res.status(200).json({ success: true, data: project });
+    } catch (error) {
+        next(error);
+    }
+};
 
 // Create data
 const create_cproject = async (req, res, next) => {
@@ -77,4 +111,4 @@ const del_cproject = async (req, res, next) => {
     }
 }
 
-module.exports = { index_cproject, create_cproject, update_cproject, del_cproject };
+module.exports = { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject };

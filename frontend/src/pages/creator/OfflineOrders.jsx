@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import '../../Styles/creator/orders.css';
-import '../../Styles/creator/orderNav.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
-export default function Orders() {
-      const [dataList, setDataList] = useState([])
+export default function OfflineOrders() {
+    const [dataList, setDataList] = useState([])
     
-      useEffect(() => {
-        getFetchData();
-        console.log(dataList);
-      }, []);
-    
+
       const getFetchData = async () => {
         try {
-          const response = await axios.get("/order/on/");
+          const response = await axios.get("/order/off/");
           console.log(response);
           if (response.data.success) {
             setDataList(response.data.data);
+          }
+          else{
+            console.log("error in success");
           }
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       };
+
+      useEffect(() => {
+        getFetchData();
+        console.log(dataList);
+      }, []);
+    
 
       const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -41,11 +44,11 @@ export default function Orders() {
         </nav>
 
         <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
-            <a className="w-1/2 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
-            <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
+            <a className="w-1/2 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kblack font-medium" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
+            <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kgray font-medium" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 
-      <div className='tableContainer sm:w-3/4'>
+        <div className='tableContainer sm:w-3/4'>
         <table>
           <thead>
             <tr>
@@ -67,10 +70,10 @@ export default function Orders() {
                       <td>{el.Order_Type}</td>
                       <td>{el.Quantity}</td>
                       <td>{el.Additional}</td>
-                      <td>{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
+                      <td>{el.Cus_Name}</td>
                       <td>{formatDate(el.Order_Date)}</td>
                       <td>
-                          <Link to={`/creator/addProjects/${el._id}`}>
+                          <Link to={`/creator/addOfflineProjects/${el._id}`}>
                               <button className='btn btn_add'>Add Project</button>
                           </Link>
                       </td>
@@ -86,6 +89,5 @@ export default function Orders() {
         </table>
       </div>
     </>
-    
   )
 }

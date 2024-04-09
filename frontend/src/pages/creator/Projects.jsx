@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../../Styles/creator/projects.css';
-import '../../Styles/creator/formData.css';
 import axios from 'axios';
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
 export default function Projects() {
-
-    const [formDataEdit, setFormDataEdit] = useState({
-        Project_Name : "",
-        Status : "",
-        _id: "",
-      });
-    const [editSection, setEditSection] = useState(false);
+  
     const [dataList, setDataList] = useState([]);
     
     const getFetchData = async () => {
@@ -34,88 +28,59 @@ export default function Projects() {
         const data = await axios.delete("/project/delete/" + id)
         if(data.data.success){
             await axios.put("/order/on/update", { _id: el.Order_ID, Project_Status: "Not Added" });
+            await axios.put("/order/off/update", { _id: el.Order_ID, Project_Status: "Not Added" });
             getFetchData();
             alert(data.data.message)
         }
     }
-    
-    const handleUpdate = async(e)=>{ 
-        e.preventDefault()
-        const data = await axios.put("/project/update", formDataEdit)
-        if(data.data.success){
-            setEditSection(false)
-            getFetchData()
-            alert(data.data.message)
-        }
-    }
-    
-    const handleEditOnchange = async(e) => {
-        const {value,name} = e.target
-        setFormDataEdit((prev)=> {
-            return{
-                ...prev,
-                [name] : value
-            }
-        })
-    }
-    
-    const handleEdit = async(el) => {
-        setFormDataEdit(el)
-        setEditSection(true)
-    }
+
+    const formatDate = (dateString) => {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+  
 
     return (
         <>
-            <nav className={`project-navbar ${editSection ? 'blurred' : ''}`}>
-                <a className="project-el left_project" href="/creator/" style={{backgroundColor: '#525252'}}><div className="">Ongoing Projects</div></a>
-                <a className="project-el right_project" href="/creator/completedProjects"><div>Completed Projects</div></a>
+            <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
+                <a className="w-1/2 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/"><div className="">Ongoing Projects</div></a>
+                <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/completedProjects"><div>Completed Projects</div></a>
             </nav>
 
-            {editSection && (
-                <div className="addContainer">
-                    <button className="closeBtn" onClick={() => setEditSection(false)}>Close</button>
-                    <form onSubmit={handleUpdate}>
-                        <label htmlFor="Project_Name">Project Name: </label>
-                        <input type="text" id="Project_Name" name="Project_Name" onChange={handleEditOnchange} value={formDataEdit.Project_Name}/>
-                        
-                        <label htmlFor="Status">Status: </label>
-                        <select id="Status" name="Status" className="select" onChange={handleEditOnchange} value={formDataEdit.Status}>
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-            
-                        <input type="hidden" name="Order_ID" value={formDataEdit.Order_ID} />
-            
-                        <button className="submitBtn bg-kblue">Submit</button>
-                    </form>
-                </div>
-            )}
-
-            <div className={`projectTable ${editSection ? 'blurred' : ''}`}>
-                <table>
-                    <thead>
+            <div className="mt-5 mx-auto w-11/12">
+                <table className="w-full border-collapse text-kwhite">
+                    <thead className="bg-kblack text-kwhite h-[60px]">
                         <tr>
-                            <th>Name</th>
-                            <th>Order Name</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th className="px-4 py-2">Name</th>
+                            <th className="px-4 py-2">Order Name</th>
+                            <th className="px-4 py-2">Added Date</th>
+                            <th className="px-4 py-2">Customer Name</th>
+                            <th className="px-4 py-2">Status</th>
+                            <th className="px-4 py-2">Order Date</th>
+                            <th className="px-4 py-2">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-kgray bg-opacity-60 h-[80px]">
                         {dataList.length > 0 ? (
                             dataList.map((el) => {
                                 if(el.Status === "Pending" || el.Status === "In Progress"){
                                     return (
                                         <tr key={el._id}>
-                                            <td>{el.Project_Name}</td>
-                                            <td>{el.Order_ID ? el.Order_ID.Order_Type : 'N/A'}</td>
-                                            <td>{new Date(el.Project_Date).toLocaleDateString()}</td>
-                                            <td>{el.Status}</td>
-                                            <td>
-                                                <button className='btn btn_edit bg-kblue' onClick={() => handleEdit(el)}>Edit</button>
-                                                <button className='btn btn_delete bg-kred' onClick={() => handleDelete(el._id, el)}>Delete</button>
+                                            <td className="px-4 py-2 text-center">{el.Project_Name}</td>
+                                            <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Order_Type : 'N/A'}</td>
+                                            <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
+                                            <td className="px-4 py-2 text-center">
+                                                {el.OrderModel === 'OnlineOrder' ? 
+                                                    (el.Order_ID.Cus_ID ? el.Order_ID.Cus_ID.Cus_Name : 'N/A') : 
+                                                    (el.Order_ID ? el.Order_ID.Cus_Name : 'N/A')}
+                                            </td>
+                                            <td className="px-4 py-2 text-center">{el.Status}</td>
+                                            <td className="px-4 py-2 text-center">{formatDate(el.Order_ID ? el.Order_ID.Order_Date : 'N/A')}</td>
+                                            <td className="px-4 py-2 text-center">
+                                                <Link to={`/creator/editProjects/${el._id}`}>
+                                                    <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Edit</button>
+                                                </Link>
+                                                <button className='btn_delete bg-kred text-white font-bold py-3 px-3 rounded-[10px] ' onClick={() => handleDelete(el._id, el)}>Delete</button>
                                             </td>
                                         </tr>
                                     )

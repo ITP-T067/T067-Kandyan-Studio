@@ -13,7 +13,7 @@ const CreatorNavbar = () => {
         { title: 'My Projects', link: '/creator/' },
         { title: 'Orders', link: '/creator/projectOrders/' },
         { title: 'Generate Reports', link: '/' },
-        { title: 'Inquiries', link: '' },
+        { title: 'Inquiries', link: '/creator/inquiries' },
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);

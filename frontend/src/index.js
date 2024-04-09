@@ -55,6 +55,11 @@ import CompletedProjects from './pages/creator/CompletedProjects.jsx';
 import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
 import OrderPayment from './pages/creator/OrderPayment.jsx';
 import AddProjects from './pages/creator/AddProjects.jsx';
+import EditProjects from './pages/creator/EditProjects.jsx';
+import OfflineOrders from './pages/creator/OfflineOrders.jsx';
+import AddOfflineProjects from './pages/creator/AddOfflineProjects.jsx';
+import Inquries from './pages/creator/Inquiries.jsx';
+import ResolveInquiries from './pages/creator/ResolveInquiries.jsx';
 
 //Supplier Dashboard
 
@@ -104,6 +109,11 @@ root.render(
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
         <Route path='/creator/addProjects/:orderId' element={<AddProjects/>}/>
+        <Route path='/creator/editProjects/:projectId' element={<EditProjects/>}/>
+        <Route path='/creator/offlineOrders' element={<OfflineOrders/>}/>
+        <Route path='/creator/addOfflineProjects/:orderId' element={<AddOfflineProjects/>}/>
+        <Route path='/creator/inquiries' element={<Inquries/>}/>
+        <Route path='/creator/resolveInquiries/:inquiryId' element={<ResolveInquiries/>}/>
         
         
         

@@ -14,18 +14,32 @@ const index_offOrder = async(req,res, next) => {
 }
 //create data
 const create_offOrder = async(req,res, next) => {
-    console.log(req.body)
-    const data = new OfflineOrder(req.body)
+    const { Order_Type, Quantity, Additional, Artwork_Price, Cus_Name, Phone_Number, Status, Project_Status } = req.body;
+    const Order_Date = new Date();
+
+    const newOrder = new OfflineOrder({
+        Order_Type, 
+        Quantity, 
+        Additional,
+        Artwork_Price, 
+        Cus_Name, 
+        Order_Date, 
+        Phone_Number,
+        Status, 
+        Project_Status, 
+    });
+
+    await newOrder.save();
 
     try{
-        await data.save() 
         if(res.status(201)){
-            res.send({success : true, message : "order saved successfully", data: data})
+            res.send({success: true,
+                message: "Order saved successfully",
+                data: newOrder})
         }
     }catch(error){
         next(error);
     }
-
 }
 //update data
 const update_offOrder = async(req, res, next) => {

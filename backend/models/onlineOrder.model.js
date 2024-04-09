@@ -17,6 +17,13 @@ const onlineOrderSchema = new mongoose.Schema({
         type: String,  
     }, 
     
+    Order_Date: { 
+
+        type: Date,
+        Required: true, 
+
+    }, 
+
     Status: {  
         type: String,  
         required: true, 
