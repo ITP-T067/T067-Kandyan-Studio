@@ -18,7 +18,7 @@ function MyOrder() {
             </div>
         </div>
 
-        <div className='flex justify-center'>
+        <div className='flex min-h-64 justify-center gap-5 mx-auto px-10'>
             <a href="/pendingorder" className='flex-grow relative ml-16 duration-300 delay-150 transform hover:scale-105'>
                 <div className="w-72 h-80 top-0 absolute bg-kblack rounded-3xl border-8 border-kyellow flex justify-center">
                     <img src={process} alt="Image" className="w-52 h-52" />
@@ -44,13 +44,6 @@ function MyOrder() {
                 <div className="w-72 h-20 left-0 top-[232px] absolute text-center text-kwhite text-3xl font-bold font-['Inter']">Generate<br/>Reports</div>
             </a>
         </div>
-
-
-
-
-
-
-       
     </div>
   );
 }

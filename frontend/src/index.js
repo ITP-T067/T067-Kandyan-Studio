@@ -79,8 +79,6 @@ root.render(
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
         <Route path='/payorder' element={<Payorder/>}/>
-
-        {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
 
