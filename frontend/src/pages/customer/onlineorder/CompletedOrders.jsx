@@ -54,7 +54,7 @@ export default function CompletedOrders() {
             <div className="p-3">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack">
+                        <tr className="bg-kblack bg-opacity-40">
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
@@ -74,7 +74,7 @@ export default function CompletedOrders() {
                             return (
                                 <tr
                                     key={index}
-                                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4 bg-opacity-40`}
+                                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4 bg-opacity-20`}
                                 >
                                     <td>
                                         <Typography variant="lead" color="blue-gray" className="font-normal">

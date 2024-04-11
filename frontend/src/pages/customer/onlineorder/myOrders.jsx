@@ -13,7 +13,7 @@ function MyOrder() {
                 <h1 className="font-bold text-6xl text-kwhite dark:text-kwhite text-right mb-auto mt-10">12</h1>
             </div>
             <div class="flex-grow p-6 bg-white rounded-3xl bg-kgray bg-opacity-50 dark:border-kgray ml-8">
-                <h5 class=" text-4xl font-bold dark:text-kwhite ">Total Expenditure</h5>
+                <h5 class=" text-4xl font-bold dark:text-kwhite">Total Expenditure</h5>
                 <h1 className="font-bold text-6xl text-kwhite dark:text-kwhite text-right mt-10">LKR 14,300.00</h1>
             </div>
         </div>
