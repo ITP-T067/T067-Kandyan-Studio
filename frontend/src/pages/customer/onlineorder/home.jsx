@@ -4,13 +4,25 @@ import MainImage from '../../../images/logo.png';
 import Photography from '../../../images/photography.jpg';
 import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
 import { useNavigate } from 'react-router-dom';
+import NormalHeader from '../../header';
 
 
 function Home() {
   const navigate = useNavigate();
 
+  const userRole = localStorage.getItem('userRole');
+
+  const renderHeader = () => {
+    if (userRole === "") {
+        return <NormalHeader />;
+    } else {
+        return null;
+    }
+};
+
   return (
     <div>  
+      {renderHeader()}
       <div className='kandianImage'>
         <img src={MainImage} alt="Centered Image" />
       </div>
@@ -67,7 +79,7 @@ function Home() {
 
       {/* about us card */}
       <div className="about_card">
-        <div className="AboutUs absolute top-0">ABOUT US</div>
+        <div className="AboutUs top-0">ABOUT US</div>
         <div className='aboutImage'>
           <img src={MainImage} alt="Centered Image" />
         </div>

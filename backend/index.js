@@ -1,6 +1,11 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+
+//Manager - Stock Department
+const itemRouter = require("./routes/StockManagement/item.route.js");
+
+//Creator
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/project.route.js");
 const customerRouter = require("./routes/customer.route.js");
@@ -20,6 +25,10 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 })
 .catch((err) => console.log(err))
 
+//Manager - Stock Department
+app.use('/item', itemRouter);
+
+//Creator
 app.use('/order', orderRouter);
 app.use('/project', projectRouter);
 app.use('/customer', customerRouter);

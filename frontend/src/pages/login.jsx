@@ -1,4 +1,5 @@
 import React from 'react';
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 
 
 const Login = () => {
@@ -24,41 +25,50 @@ const passUserSession = (role,name,id) => {
     console.log('User role identified');
 };
 
+const GoBack = () => {
+    window.location.href = "/";
+};
+
     return (
-        <div className="flex justify-center items-center h-screen text-kwhite">
+        <>
+        <div className="flex flex-col justify-center items-center h-screen text-kwhite">
+            <div className='flex flex-wrap justify-center'>
             <button name="customer"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
                 onClick={handleLogin('Customer','Saman','C001')}
             >
                 Customer
             </button>
 
             <button name="manager"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                 className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
                 onClick={handleLogin('Manager','Deepal','M001')}
             >
                 Manager
             </button>
             <button name="cashier"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                 className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
                 onClick={handleLogin('Cashier','Kamal','CA001')}
             >
                 Cashier
             </button>
             <button name="creator"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                 className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
                 onClick={handleLogin('Creator','Amal','CR001')}
             >
                 Creator
             </button>
 
             <button name="supplier"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
                 onClick={handleLogin('Supplier','PhotoTechnica','S001')}
             >
                 Supplier
             </button>
-        </div>
+            </div>
+                <button className="flex items-center justify-center m-0 bg-kwhite text-kblack w-1/3 rounded-full py-2 px-4 font-bold mt-10" onClick={GoBack}><HiOutlineArrowCircleLeft className='w-5 h-5 mr-3'/>Back</button>
+            </div>
+        </>
     );
 };
 
