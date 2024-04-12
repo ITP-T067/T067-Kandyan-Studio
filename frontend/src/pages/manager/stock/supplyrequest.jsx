@@ -72,17 +72,15 @@ const SupplyRequest = () => {
             <div className="p-3">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack">
-                            {TABLE_HEAD.map((head, index) => (
-                                <th
-                                    key={index}
-                                    className={`border-kwhite text-kwhite p-4 font-bold ${
-                                        index === TABLE_HEAD.length ? "" : "border-b"
-                                    } text-center`}
-                                >
-                                    <Typography variant="small">{head}</Typography>
-                                </th>
-                            ))}
+                        <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
+                            <th>Date</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Supplier</th>
+                            <th>Expected Delivery Date</th>
+                            <th>Expected Levels</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
