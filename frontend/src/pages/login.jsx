@@ -14,7 +14,7 @@ const Login = () => {
             console.log('User ID:', id);
             passUserSession(role,name,id);
         console.log('User session passed');
-        window.location.href = '/dashboard';
+        window.location.href = '/';
     };
 };
 
