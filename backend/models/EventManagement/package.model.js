@@ -33,7 +33,7 @@ const packageSchema = new mongoose.Schema({
         ref: 'Employee'  //change accordingly
     },
 
-})
+}, {timestamps:true})
 
 const Package = mongoose.model('Package', packageSchema);
 

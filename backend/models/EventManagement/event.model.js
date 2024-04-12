@@ -53,7 +53,7 @@ const eventSchema = new mongoose.Schema({
         ref: 'Package'
     },
 
-})
+}, {timestamps:true})
 
 const Event = mongoose.model('Event', eventSchema);
 
