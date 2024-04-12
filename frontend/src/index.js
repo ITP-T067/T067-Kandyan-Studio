@@ -21,6 +21,7 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
+import Payorder from './pages/customer/onlineorder/payOrder.jsx';
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
@@ -56,7 +57,11 @@ import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
 
 
 //Creator Dashboard
-
+import Projects from './pages/creator/Projects.jsx';
+import ProjectOrders from './pages/creator/Orders.jsx';
+import CompletedProjects from './pages/creator/CompletedProjects.jsx';
+import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
+import OrderPayment from './pages/creator/OrderPayment.jsx';
 
 //Supplier Dashboard
 
@@ -81,6 +86,7 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
+        <Route path='/payorder' element={<Payorder/>}/>
 
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
@@ -106,6 +112,15 @@ root.render(
         <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
 
         {/* Manager Dashboard - Event Department */}
+
+        {/* Creator Dashboard*/}
+        <Route path='/creator/' element={<Projects/>}/>
+        <Route path='/creator/projectOrders/' element={<ProjectOrders/>}/>
+        <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
+        <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
+        <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+        
+        
         
       </Routes>
     </BrowserRouter>

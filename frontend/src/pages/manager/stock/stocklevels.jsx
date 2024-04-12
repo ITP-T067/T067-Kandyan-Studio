@@ -70,7 +70,7 @@ const StockLevels = () => {
                     </CardBody>
                 </Card>
             </div>
-        <div className="p-3 ">
+        <div className="px-10">
             <table className="w-full rounded-lg overflow-hidden">
                 <thead>
                     <tr className="bg-kblack/40">
