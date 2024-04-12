@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Button, CardBody } from "@material-tailwind/react";
-
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 
 const CustomRequestForm = () => {
@@ -10,7 +9,7 @@ const CustomRequestForm = () => {
 
     return (
         <>
-        <div className="mx-5 mb-5">
+            <div className="mx-5 mb-5">
                 <Card>
                     <CardBody className="flex items-center justify-between">
                         <div>
@@ -29,11 +28,11 @@ const CustomRequestForm = () => {
                 <form>
                     <div className="flex flex-col m-5">
                         <label htmlFor="itemName">Item Name</label>
-                        <input type="text" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="itemName"/>
+                        <input type="text" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="itemName" />
                     </div>
                     <div className="flex flex-col m-5">
                         <label htmlFor="quantity">Quantity</label>
-                        <input type="number" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="quantity"/>
+                        <input type="number" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="quantity" />
                     </div>
                     <div className="flex flex-col m-5">
                         <label htmlFor="supplier">Supplier</label>
@@ -45,15 +44,15 @@ const CustomRequestForm = () => {
                     </div>
                     <div className="flex flex-col m-5">
                         <label htmlFor="dDate">Expected Delivery Date</label>
-                        <input type="date" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="dDate"/>
+                        <input type="date" className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" id="dDate" />
                     </div>
                     <div className="flex flex-col m-5">
                         <label htmlFor="additional">Additional (Optional)</label>
-                        <textarea className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full" id="additional" cols="100" rows="5"/>
+                        <textarea className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full" id="additional" cols="100" rows="5" />
                     </div>
                     <div className="p-4 text-kblack flex flex-col">
-                    <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
-                    <button type="submit" className="bg-kwhite text-kblack rounded-lg p-3">Cancel</button>
+                        <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
+                        <button type="submit" className="bg-kwhite text-kblack rounded-lg p-3">Cancel</button>
                     </div>
                 </form>
             </div>

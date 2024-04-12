@@ -12,7 +12,7 @@ const StockLevels = () => {
 
     const [dataList, setDataList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); 
+    const [itemsPerPage] = useState(5);
 
     useEffect(() => {
         getFetchData();
@@ -120,62 +120,61 @@ const StockLevels = () => {
                 </Card>
             </div>
             <div className="px-10">
-                <table className="w-full rounded-lg overflow-hidden">
+                <table className="w-full rounded-lg overflow-hidden text-sm">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th>Name</th>
-                            <th>Percentage</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th className="w-1/4">Name</th>
+                            <th className="w-1/4">Percentage</th>
+                            <th className="w-2/8 px-10">Status</th>
+                            <th className="w-1/8">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-    {currentItems.length > 0 ? (
-        currentItems.map((il, index) => {
-            const percentage = calcPercentage(il.quantity, il.maxCapacity);
-            return (
-                <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                    <td>{il.name}</td>
-                    <td>
-                        <div className="w-full bg-kgray rounded-full border">
-                            <div
-                                className={"bg-" + colorChanger(percentage) + " p-2 text-center text-xs font-medium leading-none text-kwhite rounded-full"}
-                                style={{ width: `${percentage}%` }}
-                            >
-                                {percentage + "%"}
-                            </div>
-                        </div>
-                    </td>
-                    <td className={`text-${colorChanger(percentage)}`}>{statusChanger(calcPercentage(il.quantity, il.maxCapacity))}</td>
-                    <td className="p-4">
-                        <div className="flex flex-grow justify-center mx-auto">
-                            <Button className="p-3 bg-kblue text-kwhite" onClick={handleButton('Request')}>
-                                Request
-                            </Button>
-                        </div>
-                    </td>
-                </tr>
-            );
-        })
-    ) : (
-        <tr className="bg-kwhite/20 w-full text-kwhite">
-            <td colSpan="4" className="text-center py-4">No data available</td>
-        </tr>
-    )}
-</tbody>
-
+                        {currentItems.length > 0 ? (
+                            currentItems.map((il, index) => {
+                                const percentage = calcPercentage(il.quantity, il.maxCapacity);
+                                return (
+                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                        <td>{il.name}</td>
+                                        <td>
+                                            <div className="w-full bg-kgray rounded-full border">
+                                                <div
+                                                    className={"bg-" + colorChanger(percentage) + " p-2 text-center text-xs font-medium leading-none text-kwhite rounded-full"}
+                                                    style={{ width: `${percentage}%` }}
+                                                >
+                                                    {percentage + "%"}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className={`text-${colorChanger(percentage)}`}>{statusChanger(calcPercentage(il.quantity, il.maxCapacity))}</td>
+                                        <td className="p-4">
+                                            <div className="flex flex-grow justify-center mx-auto">
+                                                <Button className="p-3 bg-kblue text-kwhite" onClick={handleButton('Request')}>
+                                                    Request
+                                                </Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr className="bg-kwhite/20 w-full text-kwhite">
+                                <td colSpan="4" className="text-center py-4">No data available</td>
+                            </tr>
+                        )}
+                    </tbody>
                 </table>
                 <div className="flex items-center justify-between border-t border-kblack p-4">
-                <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
-                <div className="flex items-center gap-2">
-                    {pageNumbers.map((number) => (
-                        <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
-                            {number}
-                        </Button>
-                    ))}
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
+                    <div className="flex items-center gap-2">
+                        {pageNumbers.map((number) => (
+                            <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
+                                {number}
+                            </Button>
+                        ))}
+                    </div>
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
                 </div>
-                <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
-            </div>
             </div>
         </>
     );

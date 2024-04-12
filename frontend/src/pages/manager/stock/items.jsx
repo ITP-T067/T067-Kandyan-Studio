@@ -29,7 +29,7 @@ const Items = () => {
 
     const handleDelete = async (id) => {
         const confirmed = window.confirm("Are you sure you want to delete this item?");
-        if(confirmed){
+        if (confirmed) {
             const data = await axios.delete("/item/delete/" + id);
             if (data.data.success) {
                 getFetchData();
@@ -37,11 +37,10 @@ const Items = () => {
             }
         }
     };
-            
 
     const [dataList, setDataList] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); 
+    const [itemsPerPage] = useState(5);
 
     useEffect(() => {
         getFetchData();
@@ -110,7 +109,7 @@ const Items = () => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+            <div className="p-10">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
@@ -123,8 +122,8 @@ const Items = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {currentItems.length > 0 ? (
-        currentItems.map((il, index) => {
+                        {currentItems.length > 0 ? (
+                            currentItems.map((il, index) => {
                                 return (
                                     <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                         <td>{il.name}</td>
@@ -150,23 +149,34 @@ const Items = () => {
                             })
                         ) : (
                             <tr className="bg-kwhite/20 w-full text-kwhite">
-                                <td colSpan="6" className="text-center py-4">No data available</td>
+                                <td colSpan="6" className="text-center py-4">
+                                    No data available
+                                </td>
                             </tr>
-                        )
-                        }
+                        )}
                     </tbody>
                 </table>
                 <div className="flex items-center justify-between border-t border-kblack p-4">
-                <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
-                <div className="flex items-center gap-2">
-                    {pageNumbers.map((number) => (
-                        <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
-                            {number}
-                        </Button>
-                    ))}
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
+                        Previous
+                    </Button>
+                    <div className="flex items-center gap-2">
+                        {pageNumbers.map((number) => (
+                            <Button
+                                key={number}
+                                variant="text"
+                                size="sm"
+                                className="text-kblack bg-kwhite"
+                                onClick={() => paginate(number)}
+                            >
+                                {number}
+                            </Button>
+                        ))}
+                    </div>
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
+                        Next
+                    </Button>
                 </div>
-                <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
-            </div>
             </div>
         </>
     );
