@@ -66,4 +66,12 @@ module.exports = {
     require('tailwindcss'),
     require('autoprefixer'),
   ],
+
+  layers: {
+    utilities: {
+      '.backdrop-blur': {
+        'backdrop-filter': 'blur(60px)',
+      },
+    },
+  },
 };

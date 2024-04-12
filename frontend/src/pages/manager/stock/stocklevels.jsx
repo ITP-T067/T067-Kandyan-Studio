@@ -146,7 +146,11 @@ const StockLevels = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className={`text-${colorChanger(percentage)}`}>{statusChanger(calcPercentage(il.quantity, il.maxCapacity))}</td>
+                                        <td>
+                                            <span className={`bg-${colorChanger(percentage)} py-2 px-4 rounded-lg`}>
+                                                {statusChanger(calcPercentage(il.quantity, il.maxCapacity))}
+                                            </span>
+                                        </td>
                                         <td className="p-4">
                                             <div className="flex flex-grow justify-center mx-auto">
                                                 <Button className="p-3 bg-kblue text-kwhite" onClick={handleButton('Request')}>

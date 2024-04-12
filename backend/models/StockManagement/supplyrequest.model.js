@@ -30,6 +30,10 @@ const supplyReqSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    additional: {
+        type: String,
+        required: true,
+    },
 });
 
 const SupplyRequest = mongoose.model('SupplyRequest', supplyReqSchema);

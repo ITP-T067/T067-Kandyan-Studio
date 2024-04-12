@@ -1,23 +1,10 @@
+import React, {useEffect, useState} from "react";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import axios from "axios";
 
-const TABLE_HEAD = ["Date", "Item", "Quantity", "Expected Delivery Date", "Actions"];
-
-const TABLE_ROWS = [
-    {
-        date: "2021-09-01",
-        item: "Item 1",
-        quantity: "10",
-        exdate: "2021-09-10",
-    },
-    {
-        date: "2021-09-02",
-        item: "Item 2",
-        quantity: "20",
-        exdate: "2021-09-12",
-    },
-];
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const SupplyRequest = () => {
     const GoBack = () => {
@@ -35,6 +22,53 @@ const SupplyRequest = () => {
             }
         };
     };
+
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm("Are you sure you want to delete this request?");
+        if (confirmed) {
+            const data = await axios.delete("/supplyrequest/delete/"+id);
+            if(data.data.success){
+                getFetchData();
+                alert(data.data.message);
+            }
+        }
+    }
+
+    const [dataList, setDataList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+
+    useEffect(() => {
+        getFetchData();
+        console.log(dataList);
+    },[])
+
+    const getFetchData = async () => {
+        try {
+            const response = await axios.get("/supplyrequest/");
+            console.log(response);
+
+            if(response.data.success){
+                setDataList(response.data.data);
+            }
+        } catch (error) {
+            console.error("error fetching data:", error);
+        }
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    }
+
 
     return (
         <>
@@ -69,7 +103,7 @@ const SupplyRequest = () => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+            <div className="p-10">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
@@ -84,47 +118,46 @@ const SupplyRequest = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(({ date, item, quantity, exdate }, index) => {
-                            const isLast = index === TABLE_ROWS.length;
-
-                            return (
-                                <tr
-                                    key={index}
-                                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4`}
-                                >
+                        {currentItems.length > 0 ? (
+                            currentItems.map((srl, index) => {
+                                return (
+                                    <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <td>{srl.date}</td>
+                                    <td>{srl.item}</td>
+                                    <td>{srl.quantity}</td>
+                                    <td>{srl.supplier}</td>
+                                    <td>{srl.exdate}</td>
                                     <td>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {date}
-                                        </Typography>
+                                            <div className="w-full bg-kgray rounded-full border">
+                                                <div
+                                                    className={"bg-kgreen p-2 text-center text-xs font-medium leading-none text-kwhite rounded-full"}
+                                                    style={{ width: `40%` }}
+                                                >
+                                                    40%
+                                                </div>
+                                            </div>
                                     </td>
-                                    <td>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {item}
-                                        </Typography>
-                                    </td>
-                                    <td>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {quantity}
-                                        </Typography>
-                                    </td>
-                                    <td>
-                                        <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {exdate}
-                                        </Typography>
-                                    </td>
+                                    <td>{srl.status}</td>
                                     <td className="p-4 text-kblack flex-grow">
                                         <div className="flex justify-center gap-3 mx-auto">
                                             <Button className="p-3 bg-kblue">
                                                 <PencilIcon className="h-4 w-4 text-kwhite" />
                                             </Button>
                                             <Button className="p-3 bg-kred">
-                                                <TrashIcon className="h-4 w-4 text-kwhite" />
+                                                <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
                                             </Button>
                                         </div>
                                     </td>
-                                </tr>
-                            );
-                        })}
+                                    </tr>
+                                )
+                            })
+                        ) : (
+                            <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <td colSpan="8" className="text-center py-4">
+                                    No data available
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
                 <div className="flex items-center justify-between border-t border-kblack p-4">
@@ -132,25 +165,17 @@ const SupplyRequest = () => {
                         Previous
                     </Button>
                     <div className="flex items-center gap-2">
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            1
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            2
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            3
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            ...
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            8
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite"></Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            10
-                        </Button>
+                        {pageNumbers.map((number) => (
+                            <Button
+                                key={number}
+                                varient="text"
+                                size="sm"
+                                className="text-kblack bg-kwhite"
+                                onClick={() => paginate(number)}
+                            >
+                                {number}
+                            </Button>
+                        ))}
                     </div>
                     <Button variant="text" size="sm" className="text-kblack bg-kwhite">
                         Next
