@@ -61,7 +61,7 @@ export default function CustomerCart() {
               <line x1="16" y1="12" x2="8" y2="12" />
             </svg>
           </div>
-          <h2 className="left-[73px] top-5 absolute text-kwhite text-5xl font-bold font-['Inter']">Shopping Cart (3)</h2>
+          <h2 className="left-[73px] top-5 absolute text-kwhite text-5xl font-bold font-['Inter']">Shopping Cart ({itemPrices.length})</h2>
         </div>
 
         <div className="overflow-y-auto max-h-[400px] max-w-[800px] mt-2">
