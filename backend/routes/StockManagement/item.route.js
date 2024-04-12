@@ -4,9 +4,9 @@ const {index_item, create_item, update_item, del_item } = require("../../control
 const router = express.Router();
 
 //items
-router.get("/item/", index_item);
-router.post("/item/create", create_item);
-router.put("/item/update", update_item);
-router.delete("/item/delete/:id", del_item);
+router.get("/", index_item);
+router.post("/create", create_item);
+router.put("/update", update_item);
+router.delete("/delete/:id", del_item);
 
 module.exports = router;

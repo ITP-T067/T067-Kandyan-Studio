@@ -27,7 +27,20 @@ const Items = () => {
         };
     };
 
+    const handleDelete = async (id) => {
+        const confirmed = window.confirm("Are you sure you want to delete this item?");
+        if (confirmed) {
+            const data = await axios.delete("/item/delete/" + id);
+            if (data.data.success) {
+                getFetchData();
+                alert(data.data.message);
+            }
+        }
+    };
+
     const [dataList, setDataList] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
 
     useEffect(() => {
         getFetchData();
@@ -44,6 +57,23 @@ const Items = () => {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+    };
+
+    // Calculate index of the last item of current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    // Calculate index of the first item of current page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // Get the current items to be displayed
+    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Logic to dynamically generate page numbers
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
     };
 
     return (
@@ -79,7 +109,7 @@ const Items = () => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+            <div className="p-10">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
@@ -92,11 +122,11 @@ const Items = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {dataList[0] ? (
-                            dataList.map((il) => {
+                        {currentItems.length > 0 ? (
+                            currentItems.map((il, index) => {
                                 return (
                                     <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                        <td>{il.itemName}</td>
+                                        <td>{il.name}</td>
                                         <td>{il.description}</td>
                                         <td>{il.type}</td>
                                         <td>{il.maxCapacity}</td>
@@ -106,7 +136,7 @@ const Items = () => {
                                                 <Button className="p-3 bg-kblue" onClick={handleButton("Edit")}>
                                                     <PencilIcon className="h-4 w-4 text-kwhite" />
                                                 </Button>
-                                                <Button className="p-3 bg-kred">
+                                                <Button className="p-3 bg-kred" onClick={() => handleDelete(il._id)}>
                                                     <TrashIcon className="h-4 w-4 text-kwhite" />
                                                 </Button>
                                                 <Button size="sm" className="bg-kred text-kwhite">
@@ -119,10 +149,11 @@ const Items = () => {
                             })
                         ) : (
                             <tr className="bg-kwhite/20 w-full text-kwhite">
-                                <td colSpan="6" className="text-center py-4">No data available</td>
+                                <td colSpan="6" className="text-center py-4">
+                                    No data available
+                                </td>
                             </tr>
-                        )
-                        }
+                        )}
                     </tbody>
                 </table>
                 <div className="flex items-center justify-between border-t border-kblack p-4">
@@ -130,27 +161,17 @@ const Items = () => {
                         Previous
                     </Button>
                     <div className="flex items-center gap-2">
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            1
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            2
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            3
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            ...
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            8
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            9
-                        </Button>
-                        <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                            10
-                        </Button>
+                        {pageNumbers.map((number) => (
+                            <Button
+                                key={number}
+                                variant="text"
+                                size="sm"
+                                className="text-kblack bg-kwhite"
+                                onClick={() => paginate(number)}
+                            >
+                                {number}
+                            </Button>
+                        ))}
                     </div>
                     <Button variant="text" size="sm" className="text-kblack bg-kwhite">
                         Next

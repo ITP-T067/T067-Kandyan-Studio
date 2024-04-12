@@ -1,11 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     colors: {
+      
     },
     extend: {
       colors: {
@@ -42,6 +45,11 @@ module.exports = {
         'kblue': {
           //light: '#67e8f9',
           DEFAULT: '#1c3f99',
+         //dark: '#0e7490',
+        },
+        'korange': {
+          //light: '#67e8f9',
+          DEFAULT: '#f57c00',
          //dark: '#0e7490',
         },
       },
