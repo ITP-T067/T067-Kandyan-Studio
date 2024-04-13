@@ -4,7 +4,6 @@ import {
     Navbar,
     Typography,
     List,
-    MenuItem,
 } from '@material-tailwind/react';
 
 const CashierNavbar = () => {
