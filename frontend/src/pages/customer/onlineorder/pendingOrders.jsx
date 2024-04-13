@@ -17,7 +17,7 @@ const TABLE_ROWS = [
     },
     {
         type: "Item 2",
-        description: "Description hghhhhhhhhhhhhhhhhhhhhh2",
+        description: "Description hghhhkui",
         Total_price: 'LKR 3,000.00'
     },
 ];

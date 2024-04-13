@@ -52,7 +52,7 @@ export default function CustomerCart() {
 
   return (
     <div>
-      <div className="h-96 bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 max-h-[550px] relative">
+      <div className="h-[35rem] bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 relative">
         <div className="relative">
           <div className="flex items-center ml-6 pt-5">
             <svg className="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" onClick={() => navigate('/cusdashboard')}>
