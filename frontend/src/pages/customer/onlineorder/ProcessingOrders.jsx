@@ -59,7 +59,7 @@ export default function PendingOrders() {
                                 <th
                                     key={head}
                                     className={`border-kwhite text-kwhite p-4 font-bold ${
-                                        index = TABLE_HEAD.length ? "" : "border-b"
+                                        index === TABLE_HEAD.length ? "" : "border-b"
                                     } text-center`}
                                 >
                                     <Typography variant="lead">{head}</Typography>
