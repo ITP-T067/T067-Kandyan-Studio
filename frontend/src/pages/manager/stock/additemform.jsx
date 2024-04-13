@@ -6,30 +6,34 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const AddItemForm = () => {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [type, setType] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [maxCapacity, setCapacity] = useState('');
-    const [damaged, setDamaged] = useState('');
-    const [sellingPrice, setPrice] = useState('');
-    const [buyingPrice, setBuyingPrice] = useState('');
-    const [image, setImage] = useState('');
 
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        type: "",
+        quantity: "",
+        maxCapacity: "",
+        damaged: 0,
+        sellingPrice: "",
+        buyingPrice: 0,
+        image: "image"
+    })
+
+    const handleOnChange = (e) => {
+        const { value, id } = e.target
+        setFormData((prev) => {
+            return {
+                ...prev,
+                [id]: value
+            }
+        })
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Form Data:", formData);
         try {
-            const data = await axios.post("/item/create", {
-                name: name,
-                description: description,
-                type: type,
-                quantity: quantity,
-                maxCapacity: maxCapacity,
-                damaged: 0,
-                sellingPrice: sellingPrice,
-                buyingPrice: 0,
-                image: image
-            });
+            const data = await axios.post("/item/create", formData);
+            console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
                 alert(data.data.message);
                 window.location.href = "/manager/stockdept/items/";
@@ -68,8 +72,8 @@ const AddItemForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            value={formData.name}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -78,8 +82,8 @@ const AddItemForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full"
                             id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={formData.description}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -88,8 +92,8 @@ const AddItemForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="type"
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
+                            value={formData.type}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex items-center justify between m-5">
@@ -99,8 +103,8 @@ const AddItemForm = () => {
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
                                 id="quantity"
-                                value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
+                                value={formData.quantity}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
@@ -109,8 +113,8 @@ const AddItemForm = () => {
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
                                 id="maxCapacity"
-                                value={maxCapacity}
-                                onChange={(e) => setCapacity(e.target.value)}
+                                value={formData.maxCapacity}
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>
@@ -121,8 +125,8 @@ const AddItemForm = () => {
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                                 id="sellingPrice"
-                                value={sellingPrice}
-                                onChange={(e) => setPrice(e.target.value)}
+                                value={formData.sellingPrice}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
@@ -131,8 +135,8 @@ const AddItemForm = () => {
                                 type="text"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
                                 id="image"
-                                value={image}
-                                onChange={(e) => setImage(e.target.value)}
+                                value={formData.image}
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>

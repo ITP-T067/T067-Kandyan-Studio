@@ -7,7 +7,8 @@ const supplyReqSchema = new mongoose.Schema({
         required: true,
     },
     item: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Item',
         required: true,
     },
     quantity: {

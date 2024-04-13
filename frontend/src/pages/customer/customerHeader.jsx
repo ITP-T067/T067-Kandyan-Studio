@@ -6,8 +6,6 @@ import { HiOutlineLogout,HiOutlineShoppingCart,HiBookmark } from "react-icons/hi
 const CustomerHeader = () => {
     const userRole = localStorage.getItem('userRole');
     const username = localStorage.getItem('username');
-    const userID = localStorage.getItem('userID');
-
     const myorder = () => {
         window.location.href = '/myorder';
     }

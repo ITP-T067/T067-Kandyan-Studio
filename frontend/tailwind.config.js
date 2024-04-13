@@ -52,6 +52,33 @@ module.exports = {
           DEFAULT: '#f57c00',
          //dark: '#0e7490',
         },
+
+        //Progress Bar Colors
+        'pred': {
+          //light: '#67e8f9',
+          DEFAULT: '#C41508',
+          //dark: '#0e7490',
+        },
+        'porange': {
+          //light: '#67e8f9',
+          DEFAULT: '#FF7B00',
+          //dark: '#0e7490',
+        },
+        'pyellow': {
+          //light: '#67e8f9',
+          DEFAULT: '#D9B14A',
+          //dark: '#0e7490',
+        },
+        'plgreen': {
+          //light: '#67e8f9',
+          DEFAULT: '#4CCA3E',
+          //dark: '#0e7490',
+        },
+        'pgreen': {
+          //light: '#67e8f9',
+          DEFAULT: '#059B00',
+          //dark: '#0e7490',
+        },
       },
       backgroundImage: {
         'kandyan':{

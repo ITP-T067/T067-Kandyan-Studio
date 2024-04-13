@@ -27,6 +27,7 @@ const Items = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         const data = await axios.put("/item/update", formDataEdit);
+        console.log("Response:", data);
         if (data.data.success) {
             console.log(data.data.message);
             setEditSection(false);
@@ -229,11 +230,11 @@ const Items = () => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-10">
+            <div className="px-10">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th>Item Name</th>
+                            <th className="py-5">Item Name</th>
                             <th>Description</th>
                             <th>Type</th>
                             <th>Max Capacity</th>
@@ -245,7 +246,7 @@ const Items = () => {
                         {currentItems.length > 0 ? (
                             currentItems.map((il, index) => {
                                 return (
-                                    <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                         <td>{il.name}</td>
                                         <td>{il.description}</td>
                                         <td>{il.type}</td>

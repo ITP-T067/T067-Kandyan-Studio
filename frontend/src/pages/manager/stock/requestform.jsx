@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { useLocation } from 'react-router-dom';
 import { Card, Button, CardBody } from "@material-tailwind/react";
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
 
@@ -8,8 +9,29 @@ axios.defaults.baseURL = "http://localhost:8010/";
 
 const RequestForm = () => {
 
+    const location = useLocation();
+    const ItemId = new URLSearchParams(location.search).get("itemId");
+
+    const [itemObj, setItemObj] = useState(null);
+
+    const fetchItem = async () => {
+        try {
+            const response = await axios.get(`/item/find/${ItemId}`);
+            setItemObj(response.data.data);
+            console.log(response.data.data);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+
+    useEffect(() => {
+        fetchItem();
+    }, [ItemId]);
+
+    const itemid = itemObj ? itemObj._id : '';
+
     const [date, setDate] = useState(new Date());
-    const [itemname, setItemName] = useState('');
+    const [item, setItemName] = useState('');
     const [quantity, setQuantity] = useState('');
     const [supplier, setSupplier] = useState('');
     const [exdate, setExDate] = useState('');
@@ -22,7 +44,7 @@ const RequestForm = () => {
         try{
             const data = await axios.post("/supplyrequest/create",{
                 date: date,
-                item: itemname,
+                item: itemid,
                 quantity: quantity,
                 supplier: supplier,
                 exdate: exdate,
@@ -68,8 +90,9 @@ const RequestForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="itemname"
-                            value={itemname}
+                            value={`${itemObj ? itemObj.name : ''} - ${itemObj ? itemObj.description : ''}`}
                             onChange={(e) => setItemName(e.target.value)}
+                            disabled
                         />
                     </div>
                     <div className="flex flex-col m-5">
