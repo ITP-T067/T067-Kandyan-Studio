@@ -75,16 +75,28 @@ const StockLevels = () => {
         };
     };
 
-    // Calculate index of the last item of current page
-    const indexOfLastItem = currentPage * itemsPerPage;
-    // Calculate index of the first item of current page
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Get the current items to be displayed
-    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+
+    //Search Item
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        const results = dataList.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+    },[searchTerm, dataList]);
+
+
+    
+    //Pagination
+    const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
+    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -111,6 +123,8 @@ const StockLevels = () => {
                                 type="search"
                                 placeholder="Search"
                                 className="bg-kwhite rounded-full p-2 text-sm"
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div>
@@ -136,6 +150,7 @@ const StockLevels = () => {
                             currentItems.map((il, index) => {
                                 const percentage = calcPercentage(il.quantity, il.maxCapacity);
                                 return (
+                                    <>
                                     <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                         <td>{il.name}</td>
                                         <td>
@@ -161,6 +176,7 @@ const StockLevels = () => {
                                             </div>
                                         </td>
                                     </tr>
+                                    </>
                                 );
                             })
                         ) : (
