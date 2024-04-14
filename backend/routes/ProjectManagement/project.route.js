@@ -1,5 +1,5 @@
 const express = require('express')
-const { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject } = require("../controllers/project.controller.js");
+const { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject } = require("../../controllers/projectManagement/project.controller.js");
 
 const router = express.Router();
 

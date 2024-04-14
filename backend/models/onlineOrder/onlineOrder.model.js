@@ -20,7 +20,7 @@ const onlineOrderSchema = new mongoose.Schema({
     Order_Date: { 
 
         type: Date,
-        Required: true, 
+        required: true, 
 
     }, 
 
@@ -28,6 +28,11 @@ const onlineOrderSchema = new mongoose.Schema({
         type: String,  
         required: true, 
     }, 
+
+    Order_Amount: {
+        type: Number,
+        required: true,
+    },
     
     Project_Status:{ 
         type: String, 

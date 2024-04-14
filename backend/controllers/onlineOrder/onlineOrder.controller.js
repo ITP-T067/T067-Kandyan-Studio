@@ -17,7 +17,7 @@ const index_onOrder = async(req,res, next) => {
 }
 //create data
 const create_onOrder = async(req,res, next) => {
-    const { Order_Type, Quantity, Additional, Status, Project_Status, Cus_ID } = req.body;
+    const { Order_Type, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
     const Order_Date = new Date();
 
     const newOrder = new OnlineOrder({
@@ -26,6 +26,7 @@ const create_onOrder = async(req,res, next) => {
         Additional,
         Order_Date, 
         Status, 
+        Order_Amount,
         Project_Status, 
         Cus_ID
     });

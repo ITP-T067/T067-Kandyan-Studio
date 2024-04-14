@@ -8,7 +8,7 @@ const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.rout
 
 //Creator
 const orderRouter = require("./routes/order.route.js");
-const projectRouter = require("./routes/project.route.js");
+const projectRouter = require("./routes/ProjectManagement/project.route.js")
 const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
 const inquiryRouter = require("./routes/inquiry.route.js");

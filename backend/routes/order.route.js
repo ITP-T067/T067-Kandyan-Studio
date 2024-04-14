@@ -1,6 +1,6 @@
 const express = require('express')
 const {index_onOrder, create_onOrder, update_onOrder, del_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
-const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/offlineOrder.controller.js");
+const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/projectManagement/offlineOrder.controller.js");
 
 const router = express.Router();
 //online orders

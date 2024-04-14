@@ -1,5 +1,5 @@
-const OfflineOrder = require("../models/offlineOrder.model.js") 
-const {errorHandler} = require("../utils/error.js");
+const OfflineOrder = require("../../models/projectManagement/offlineOrder.model.js") 
+const {errorHandler} = require("../../utils/error.js");
 
 const index_offOrder = async(req,res, next) => {
 

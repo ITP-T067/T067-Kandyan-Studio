@@ -1,5 +1,5 @@
-const Project = require("../models/project.model.js");
-const { errorHandler } = require("../utils/error.js");
+const Project = require("../../models/projectManagement/project.model.js");
+const { errorHandler } = require("../../utils/error.js");
 
 const index_cproject = async (req, res, next) => {
     try {
