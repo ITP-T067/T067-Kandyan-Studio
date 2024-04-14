@@ -37,7 +37,7 @@ const fetchItemById = async (itemId) => {
     const [formDataEdit, setFormDataEdit] = useState({
         date: "",
         item: "",
-        quantity: "",
+        reqquantity: "",
         supplier: "",
         exdate: "",
         status: "",
@@ -46,12 +46,32 @@ const fetchItemById = async (itemId) => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        const data = await axios.put("/supplyrequest/update/", formDataEdit);
+        try{
+            const data = await axios.put("/supplyrequest/update/", formDataEdit);
         if(data.data.success){
             console.log(data.data. message);
             setEditSection(false);
             getFetchData();
-            alert(data.data.message);
+            //alert(data.data.message);
+            setIsSuccess(true);
+                setAlertStatus("success");
+                setMessage("Supply Request Updated Successfully!");
+                setTimeout(() => {
+                    setIsSuccess(false); // Reset delete status after 5000ms
+                  },5000);
+        } else {
+            setIsSuccess(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Supply Request!");
+            setTimeout(() => {
+                setIsSuccess(false); // Reset delete status after 5000ms
+            },5000);
+        }
+        }catch(error){
+            console.log(error);
+            setIsSuccess(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Supply Request!");
         }
     };
 
@@ -209,8 +229,10 @@ const getFetchData = async () => {
 
     return (
         <>
-        {
-            editSection && (
+        <div>
+            {isSuccess && (<Alert message={message} type={alertStatus}/>)}
+        </div>
+        {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
                     <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
@@ -220,7 +242,7 @@ const getFetchData = async () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="item"
-                            value={formDataEdit.item}
+                            value={formDataEdit.name}
                             onChange={handleEditOnChange}
                         />
                     </div>
@@ -229,8 +251,8 @@ const getFetchData = async () => {
                         <input 
                             type="number" 
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
-                            id="quantity"
-                            value={formDataEdit.quantity}
+                            id="reqquantity"
+                            value={formDataEdit.reqquantity}
                             onChange={handleEditOnChange}
                         />
                     </div>
@@ -278,9 +300,7 @@ const getFetchData = async () => {
                 </div>
             )
         }
-        <div>
-            {isSuccess && (<Alert message={message} type={alertStatus}/>)}
-        </div>
+        
             <div className="mx-5 mb-5">
                 <Card>
                     <CardBody className="flex items-center justify-between">
