@@ -45,7 +45,7 @@ const RequestForm = () => {
             const data = await axios.post("/supplyrequest/create",{
                 date: date,
                 item: itemid,
-                quantity: quantity,
+                reqquantity: quantity,
                 supplier: supplier,
                 exdate: exdate,
                 status: status,

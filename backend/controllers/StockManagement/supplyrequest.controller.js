@@ -45,7 +45,6 @@ const update_supplyrequest = async(req, res, next) => {
 //delete supply request
 const del_supplyrequest = async(req, res, next) => {
     const id = req.params.id;
-    console.log(id);
 
     try {
         const data = await SupplyRequest.deleteOne({_id : id});

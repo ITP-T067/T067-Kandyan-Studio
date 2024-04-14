@@ -60,7 +60,6 @@ const del_item = async(req, res, next) => {
 //Find Item by ID
 const find_item = async(req, res, next) => {
     const id = req.params.id;
-    console.log(id);
 
     try {
         const data = await Item.findOne({_id : id});
