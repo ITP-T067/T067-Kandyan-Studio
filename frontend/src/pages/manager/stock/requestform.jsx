@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import { Card, Button, CardBody } from "@material-tailwind/react";
-import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+import Alert from "../../../Components/Common/Alerts/alert"
 
 import axios from "axios";
 
@@ -39,6 +40,12 @@ const RequestForm = () => {
     const [cost, setCost] = useState('0');
     const [additional, setAdditional] = useState('');
 
+
+    const [isAlert, setIsAlert] = useState(false);
+    const [alertStatus, setAlertStatus] = useState('success');
+    const [message, setMessage] = useState('');
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
@@ -53,11 +60,27 @@ const RequestForm = () => {
                 additional: additional
             });
             if(data.data.success){
-                alert(data.data.message);
-                window.location.href = "/manager/stockdept/stocklevels";
+                //alert(data.data.message);
+                setIsAlert(true);
+                setAlertStatus('success');
+                setMessage("Supply Request saved successfully");
+                setTimeout(() => {
+                    setIsAlert(false); // Reset delete status after 5000ms
+                    window.location.href = "/manager/stockdept/stocklevels";
+                  },5000);
+            }else{
+                setIsAlert(true);
+                setAlertStatus('error');
+                setMessage("Supply Request failed");
+                setTimeout(() => {
+                    setIsAlert(false); // Reset delete status after 5000ms
+                  },5000);
             }
-        } catch(error){
-            console.log(error.response.data);
+        }catch(error){
+            console.log(error);
+            setIsAlert(true);
+            setAlertStatus("warning");
+            setMessage("Error Occured While Updating Supply Request, Check For Empty Fields");
         }
     };
 
@@ -67,6 +90,7 @@ const RequestForm = () => {
 
     return (
         <>
+            {isAlert && (<Alert message={message} type={alertStatus}/>)}
             <div className="mx-5 mb-5">
                 <Card>
                     <CardBody className="flex items-center justify-between">
