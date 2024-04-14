@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 //Home
-import Home from './pages/customer/onlineorder/home.jsx';
+import Home from './pages/home.jsx';
 
 //Login
 import Login from './pages/login';
@@ -71,7 +71,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         {/* Home */}
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home/>} />
 
         {/* Login */}
         <Route path='/login' element={<Login />} />
@@ -85,8 +85,6 @@ root.render(
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
         <Route path='/payorder' element={<Payorder/>}/>
-
-        {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
 
