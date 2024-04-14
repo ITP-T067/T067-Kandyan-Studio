@@ -8,7 +8,6 @@ import { HiOutlineLogout } from "react-icons/hi";
 const Header = () => {
     const userRole = localStorage.getItem('userRole');
     const username = localStorage.getItem('username');
-    const userID = localStorage.getItem('userID');
 
     const handleLogout = () => {
         localStorage.setItem('userRole', '');
