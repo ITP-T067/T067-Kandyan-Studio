@@ -29,8 +29,8 @@ export default function AddToCart() {
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
               <div className="mt-4 ml-11">
-              <div class="flex items-center ml-14 cursor-pointer" onClick={() => navigate('/cusdashboard')}>
-                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <div class="flex items-center ml-14">
+                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onClick={() => navigate('/cusdashboard')} disabled={showAlert}>
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 8 8 12 12 16" />
                   <line x1="16" y1="12" x2="8" y2="12" />
@@ -91,14 +91,14 @@ export default function AddToCart() {
                   
                   <div className="mb-4">
                     <label className="text-1xl text-kwhite ml-12">Quantity</label>
-                    <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " placeholder="Type a number" />
+                    <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " placeholder="Type a number" disabled={showAlert}/>
                   </div>
                   <div>
                     <div className="font-bold text-kwhite ml-10 dark:text-gray-300">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
-                    <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" />
+                    <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert} />
                   </div>
                   <div>
-                    <button type="button" className="text-kwhite bg-kgreen hover:bg-kyellow font-bold rounded-xl text-2xl px-40 py-2.5 mt-6 ml-10" onClick={handleAddToCartClick}>Add to cart</button>
+                    <button type="button" className={`text-kwhite bg-kgreen font-bold rounded-xl text-2xl px-40 py-2.5 mt-6 ml-10 ${showAlert ? "cursor-not-allowed" : "hover:bg-kyellow" }`} onClick={handleAddToCartClick} disabled={showAlert}>Add to cart</button>
                   </div>
                 </div>
               </div>
