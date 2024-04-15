@@ -45,14 +45,20 @@ export default function CustomerCart() {
     calculateSubtotal();
   }, [selectedItems, quantities]);
 
-  const handleCheckout = () => {
-    // Implement your checkout logic here
-    navigate('/payorder');
+  const [showPayAlert, setShowPayAlert] = useState(false);
+
+  const handlePayClick = () => {
+    setShowPayAlert(true);
+  };
+
+  const handlePayButtonClick = () => {
+    setShowPayAlert(false);
+    navigate('/CustomerCart');
   };
 
   return (
     <div>
-      <div className="h-[35rem] bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 relative">
+      <div className={`h-[35rem] bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 relative ${showPayAlert ? 'blur' : ''}`}>
         <div className="relative">
           <div className="flex items-center ml-6 pt-5">
             <svg className="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" onClick={() => navigate('/cusdashboard')}>
@@ -118,10 +124,55 @@ export default function CustomerCart() {
             </div>
           </div>
           <div>
-            <button type="button" className="text-kwhite bg-kgreen hover:bg-kyellow font-bold rounded-xl text-2xl px-36 py-2.5 m-12 mt-64" onClick={handleCheckout}>Checkout ({selectedItems.length})</button>
+            <button type="button" className="text-kwhite bg-kgreen hover:bg-kyellow font-bold rounded-xl text-2xl px-36 py-2.5 m-12 mt-64" onClick={handlePayClick} disabled={showPayAlert}>Checkout ({selectedItems.length})</button>
           </div>
         </div>
       </div>
+      {/* pay alert */}
+      {showPayAlert && (
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
+                    <div className="bg-white p-8 rounded-3xl">
+                        <form class="w-full max-w-">
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                <label class="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4" >
+                                    Total Amount
+                                </label>
+                                </div>
+                                <div class="md:w-2/3">
+                                <input class="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="number" min={1} required/>
+                                </div>
+                            </div>
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                    <label class="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4">
+                                        Bank Details: 
+                                    </label>
+                                </div>
+                                <div class="md:w-">
+                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
+                                        Bank Name: Hatton National Bank <br />
+                                        Account: 801293979384 <br />
+                                        Branch : Kollupitiya
+                                    </label>
+                                </div>
+            
+                            </div>
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                    <label class="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4">
+                                        Upload diposit slip
+                                    </label>
+                                </div>
+                                <div class="md:w-2/3">
+                                <input class="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file" required/>
+                                </div>
+                            </div>
+                            <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded">Pay</button>
+                        </form>
+                    </div>
+                </div>
+            )}
     </div>
   );
 }
