@@ -2,6 +2,9 @@ import React, {useEffect, useState} from "react";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+
+import Alert from "../../../Components/Common/Alerts/alert";
+
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8010/";
@@ -10,8 +13,6 @@ const SupplyRequest = () => {
     const GoBack = () => {
         window.location.href = "/manager/stockdept/";
     };
-
-    
 
     //Find Item Name By ID to Display in Table
 const fetchItemById = async (itemId) => {
@@ -36,7 +37,7 @@ const fetchItemById = async (itemId) => {
     const [formDataEdit, setFormDataEdit] = useState({
         date: "",
         item: "",
-        quantity: "",
+        reqquantity: "",
         supplier: "",
         exdate: "",
         status: "",
@@ -45,12 +46,32 @@ const fetchItemById = async (itemId) => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        const data = await axios.put("/supplyrequest/update/", formDataEdit);
+        try{
+            const data = await axios.put("/supplyrequest/update/", formDataEdit);
         if(data.data.success){
             console.log(data.data. message);
             setEditSection(false);
             getFetchData();
-            alert(data.data.message);
+            //alert(data.data.message);
+            setIsSuccess(true);
+                setAlertStatus("success");
+                setMessage("Supply Request Updated Successfully!");
+                setTimeout(() => {
+                    setIsSuccess(false); // Reset delete status after 5000ms
+                  },5000);
+        } else {
+            setIsSuccess(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Supply Request!");
+            setTimeout(() => {
+                setIsSuccess(false); // Reset delete status after 5000ms
+            },5000);
+        }
+        }catch(error){
+            console.log(error);
+            setIsSuccess(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Supply Request!");
         }
     };
 
@@ -83,6 +104,10 @@ const fetchItemById = async (itemId) => {
         };
     };
 
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [alertStatus, setAlertStatus] = useState(false);
+    const [message, setMessage] = useState("");
+
     //Delete Supply Request
     const handleDelete = async (id) => {
         const confirmed = window.confirm("Are you sure you want to delete this request?");
@@ -90,7 +115,20 @@ const fetchItemById = async (itemId) => {
             const data = await axios.delete("/supplyrequest/delete/"+id);
             if(data.data.success){
                 getFetchData();
-                alert(data.data.message);
+                //alert(data.data.message);
+                setIsSuccess(true);
+                setAlertStatus("success");
+                setMessage("Supply Request Deleted Successfully!");
+                setTimeout(() => {
+                    setIsSuccess(false); // Reset delete status after 5000ms
+                  },5000);
+            } else {
+                setIsSuccess(true);
+                setAlertStatus("error");
+                setMessage("Failed to Delete Supply Request!");
+                setTimeout(() => {
+                    setIsSuccess(false); // Reset delete status after 5000ms
+                },5000);
             }
         }
     }
@@ -107,67 +145,32 @@ const fetchItemById = async (itemId) => {
     },[]);
 
 
-    //Fetch Item Data
-    useEffect(() => {
-        fetchItemData();
-    }, [dataList]);
+// Fetch Data Function
+const getFetchData = async () => {
+    try {
+        const response = await axios.get("/supplyrequest/");
+        console.log(response);
 
+        if(response.data.success){
+            const supplyRequests = response.data.data;
 
-    //Fetch Item Data (Name, Quantity, MaxCapacity)
-    const [itemName, setItemName] = useState([]);
-    const [quantity, setQuantity] = useState(0);
-    const [maxCapacity, setMaxCapacity] = useState(0);
-
-    const fetchItemData = async () => {
-        try {
+            // Fetch additional item information for each request
             const items = await Promise.all(
-                dataList.map(async (request) => {
+                supplyRequests.map(async (request) => {
                     const item = await fetchItemById(request.item);
                     const { name, quantity, maxCapacity } = item;
-                    return { ...request, name, quantity, maxCapacity};
+                    const exquantity = quantity;
+                    return { ...request, name, exquantity, maxCapacity };
                 })
             );
-            const itemNames = items.map((item) => item.name);
-            const itemQuantities = items.map((item) => item.quantity);
-            const itemMaxCapacities = items.map((item) => item.maxCapacity);
 
-            setItemName(itemNames);
-            setQuantity(itemQuantities);
-            setMaxCapacity(itemMaxCapacities);
-
-        } catch (error) {
-            console.error("Error fetching item data:", error);
+            // Set the data list with the updated items
+            setDataList(items);
         }
-    };
-
-
-    //Fetch Data Function
-    const getFetchData = async () => {
-        try {
-            const response = await axios.get("/supplyrequest/");
-            console.log(response);
-
-            if(response.data.success){
-                setDataList(response.data.data);
-            }
-        } catch (error) {
-            console.error("error fetching data:", error);
-        }
-    };
-
-    //Pagination
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
-        pageNumbers.push(i);
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    }
+};
 
 
     //Stock Level Demonstration
@@ -197,10 +200,39 @@ const fetchItemById = async (itemId) => {
         return Math.round((quantity / maxCapacity) * 100);
     };
 
+
+    //Search Supply Request By ID
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        const results = dataList.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(results);
+    }, [searchTerm,dataList]);
+
+
+    //Pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    }
+
     return (
         <>
-        {
-            editSection && (
+        <div>
+            {isSuccess && (<Alert message={message} type={alertStatus}/>)}
+        </div>
+        {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
                     <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
@@ -210,7 +242,7 @@ const fetchItemById = async (itemId) => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="item"
-                            value={formDataEdit.item}
+                            value={formDataEdit.name}
                             onChange={handleEditOnChange}
                         />
                     </div>
@@ -219,8 +251,8 @@ const fetchItemById = async (itemId) => {
                         <input 
                             type="number" 
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
-                            id="quantity"
-                            value={formDataEdit.quantity}
+                            id="reqquantity"
+                            value={formDataEdit.reqquantity}
                             onChange={handleEditOnChange}
                         />
                     </div>
@@ -268,6 +300,7 @@ const fetchItemById = async (itemId) => {
                 </div>
             )
         }
+        
             <div className="mx-5 mb-5">
                 <Card>
                     <CardBody className="flex items-center justify-between">
@@ -285,6 +318,8 @@ const fetchItemById = async (itemId) => {
                                 type="search"
                                 placeholder="Search"
                                 className="bg-kwhite rounded-full p-2 text-sm"
+                                value = {searchTerm}
+                                onChange = {(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div>
@@ -300,7 +335,7 @@ const fetchItemById = async (itemId) => {
                 </Card>
             </div>
             <div className="px-10">
-                <table className="w-full rounded-lg overflow-hidden">
+                <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite border-b text-center">
                             <th>Date</th>
@@ -316,8 +351,8 @@ const fetchItemById = async (itemId) => {
                     <tbody>
                         {currentItems.length > 0 ? (
                             currentItems.map((srl, index) => {
-                                const itemQuantity = parseInt(quantity[index], 10);
-const itemMaxCapacity = parseInt(maxCapacity[index], 10);
+                                const itemQuantity = parseInt(srl.exquantity, 10);
+                                const itemMaxCapacity = parseInt(srl.maxCapacity, 10);
 
                                 const ReqDate = new Date(srl.date);
                                 const ReqDateStr = ReqDate.getDate() + " - " + (ReqDate.getMonth() + 1) + " - " + ReqDate.getFullYear();
@@ -325,16 +360,17 @@ const itemMaxCapacity = parseInt(maxCapacity[index], 10);
                                 const ExDate = new Date(srl.exdate);
                                 const ExDateStr = ExDate.getDate() + " - " + (ExDate.getMonth() + 1) + " - " + ExDate.getFullYear();
 
-                                const percentage = calcPercentage(quantity[index], maxCapacity[index]);
-                                const expectedPercentage = calcExpectedPercentage(srl.quantity, itemMaxCapacity);
+                                const percentage = calcPercentage(itemQuantity, itemMaxCapacity);
+                                const expectedPercentage = calcExpectedPercentage(srl.reqquantity, itemMaxCapacity);
 
                                 console.log(itemQuantity, itemMaxCapacity, percentage, expectedPercentage);
                                 
                                 return (
+                                    <>
                                     <tr key={srl._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                     <td>{ReqDateStr}</td>
-                                    <td>{itemName[index]}</td>
-                                    <td>{srl.quantity}</td>
+                                    <td>{srl.name}</td>
+                                    <td>{srl.reqquantity}</td>
                                     <td>{srl.supplier}</td>
                                     <td>{ExDateStr}</td>
                                     <td className="text-sm">
@@ -347,7 +383,7 @@ const itemMaxCapacity = parseInt(maxCapacity[index], 10);
                                                 <span className="inline-flex mx-auto">{percentage + "%"}</span>
                                                 </div>
                                                 <div
-                                                    className={"flex  overflow-hidden bg-plgreen/30 text-kwhite items-center font-medium"}
+                                                    className={"flex bg-plgreen/30 text-kwhite items-center font-medium"}
                                                     style={{ width: `${expectedPercentage}%` }}
                                                 >
                                                 <span className="mx-auto">+{(expectedPercentage) + "%"}</span>
@@ -368,8 +404,10 @@ const itemMaxCapacity = parseInt(maxCapacity[index], 10);
                                         </div>
                                     </td>
                                     </tr>
+                                    </>
                                 )
                             })
+
                         ) : (
                             <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                     <td colSpan="8" className="text-center py-4">
@@ -379,7 +417,8 @@ const itemMaxCapacity = parseInt(maxCapacity[index], 10);
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
+                
+                <div className="flex  items-center justify-between border-t bg-kblack p-4">
                     <Button variant="text" size="sm" className="text-kblack bg-kwhite">
                         Previous
                     </Button>
