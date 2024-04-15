@@ -3,9 +3,13 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 
+import Alert from "../../../Components/Common/Alerts/alert";
+
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
 
 axios.defaults.baseURL = "http://localhost:8010/";
+
+
 
 const Items = () => {
     const GoBack = () => {
@@ -24,6 +28,11 @@ const Items = () => {
     });
     const [editSection, setEditSection] = useState(false);
 
+
+    const [isAlert,setIsAlert] = useState(false);
+    const [alertStatus,setAlertStatus] = useState('success');
+    const [message,setMessage] = useState('');
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         const data = await axios.put("/item/update", formDataEdit);
@@ -32,7 +41,20 @@ const Items = () => {
             console.log(data.data.message);
             setEditSection(false);
             getFetchData();
-            alert(data.data.message);
+            //alert(data.data.message);
+            setIsAlert(true);
+            setAlertStatus('success');
+            setMessage("Item Updated Successfully!");
+            setTimeout(() => {
+                setIsAlert(false); // Reset delete status after 5000ms
+              },5000);
+        }else{
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Item!");
+            setTimeout(() => {
+                setIsAlert(false); // Reset delete status after 5000ms
+            },5000);
         }
     };
 
@@ -80,8 +102,6 @@ const Items = () => {
     };
 
     const [dataList, setDataList] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5);
 
     useEffect(() => {
         getFetchData();
@@ -100,16 +120,30 @@ const Items = () => {
         }
     };
 
-    // Calculate index of the last item of current page
-    const indexOfLastItem = currentPage * itemsPerPage;
-    // Calculate index of the first item of current page
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Get the current items to be displayed
-    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+    //Search Item
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        const results = dataList.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(results);
+    }, [searchTerm, dataList]);
+
+
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+    
+    
+    const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
+    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -119,6 +153,9 @@ const Items = () => {
 
     return (
         <>
+            <div>
+            {isAlert && (<Alert message={message} type={alertStatus}/>)}
+        </div>
             {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
@@ -216,6 +253,8 @@ const Items = () => {
                                 type="search"
                                 placeholder="Search"
                                 className="bg-kwhite flex-grow rounded-full p-2 text-sm"
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div>
@@ -231,7 +270,7 @@ const Items = () => {
                 </Card>
             </div>
             <div className="px-10">
-                <table className="w-full rounded-lg overflow-hidden">
+                <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
                             <th className="py-5">Item Name</th>
@@ -239,20 +278,21 @@ const Items = () => {
                             <th>Type</th>
                             <th>Max Capacity</th>
                             <th>Selling Price</th>
-                            <th>Action</th>
+                            <th className="w-1/4">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentItems.length > 0 ? (
                             currentItems.map((il, index) => {
                                 return (
+                                    <>
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                         <td>{il.name}</td>
                                         <td>{il.description}</td>
                                         <td>{il.type}</td>
                                         <td>{il.maxCapacity}</td>
                                         <td>{il.sellingPrice}</td>
-                                        <td className="p-4 text-kblack flex-grow">
+                                        <td className="p-4 text-kblack flex">
                                             <div className="flex justify-center gap-3 mx-auto">
                                                 <Button className="p-3 bg-kblue" onClick={() => handleEdit(il)}>
                                                     <PencilIcon className="h-4 w-4 text-kwhite" />
@@ -266,8 +306,10 @@ const Items = () => {
                                             </div>
                                         </td>
                                     </tr>
+                                    </>
                                 );
                             })
+                            
                         ) : (
                             <tr className="bg-kwhite/20 w-full text-kwhite">
                                 <td colSpan="6" className="text-center py-4">
