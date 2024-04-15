@@ -6,31 +6,40 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const AddItemForm = () => {
-    const [itemName, setItemName] = useState('');
-    const [description, setDescription] = useState('');
-    const [type, setType] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [capacity, setCapacity] = useState('');
-    const [price, setPrice] = useState('');
-    const [photo, setPhoto] = useState('');
 
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        type: "",
+        quantity: "",
+        maxCapacity: "",
+        damaged: 0,
+        sellingPrice: "",
+        buyingPrice: 0,
+        image: "image"
+    })
+
+    const handleOnChange = (e) => {
+        const { value, id } = e.target
+        setFormData((prev) => {
+            return {
+                ...prev,
+                [id]: value
+            }
+        })
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Form Data:", formData);
         try {
-            const data = await axios.post("/item/create", {
-                name: itemName,
-                additional: description,
-                type,
-                quantity,
-                capacity,
-                price,
-                photo
-            });
+            const data = await axios.post("/item/create", formData);
+            console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
                 alert(data.data.message);
+                window.location.href = "/manager/stockdept/items/";
             }
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.log(error.response.data);
         }
     };
 
@@ -62,9 +71,9 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                            id="itemName"
-                            value={itemName}
-                            onChange={(e) => setItemName(e.target.value)}
+                            id="name"
+                            value={formData.name}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -73,8 +82,8 @@ const AddItemForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full"
                             id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={formData.description}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -83,8 +92,8 @@ const AddItemForm = () => {
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
                             id="type"
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
+                            value={formData.type}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex items-center justify between m-5">
@@ -94,8 +103,8 @@ const AddItemForm = () => {
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
                                 id="quantity"
-                                value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
+                                value={formData.quantity}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
@@ -103,9 +112,9 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                id="capacity"
-                                value={capacity}
-                                onChange={(e) => setCapacity(e.target.value)}
+                                id="maxCapacity"
+                                value={formData.maxCapacity}
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>
@@ -115,9 +124,9 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                                id="price"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                id="sellingPrice"
+                                value={formData.sellingPrice}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
@@ -125,14 +134,14 @@ const AddItemForm = () => {
                             <input
                                 type="text"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
-                                id="photo"
-                                value={photo}
-                                onChange={(e) => setPhoto(e.target.value)}
+                                id="image"
+                                value={formData.image}
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>
                     <div className="p-4 text-kblack flex flex-col">
-                        <button className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
+                        <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
                         <button className="bg-kwhite text-kblack rounded-lg p-3" onClick={GoBack}>Cancel</button>
                     </div>
                 </form>
