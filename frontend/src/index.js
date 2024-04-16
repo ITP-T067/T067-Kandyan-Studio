@@ -54,7 +54,8 @@ import AddNewOrder from './pages/cashier/addneworder.jsx';
 import Pendingorders from './pages/cashier/pendingorders.jsx';
 import Completedorders from './pages/cashier/Completedorders.jsx';
 import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
-import Checkout from './pages/cashier/checkout.jsx'
+import Checkout from './pages/cashier/checkout.jsx';
+import AddnewStudio from './pages/cashier/addnewstudio.jsx'
 
 
 //Creator Dashboard
@@ -99,6 +100,7 @@ root.render(
         <Route path='/cashier/completedorders' element={<Completedorders />} />
         <Route path='/cashier/supplierpayment' element={<SupplierPayments />} />
         <Route path='/cashier/checkout' element={<Checkout />} />
+        <Route path='/cashier/addnewstudio' element={<AddnewStudio />} />
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />

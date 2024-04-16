@@ -63,11 +63,10 @@ const Ordermain = () => {
 </a>
 
 <a href='/cashier/supplierpayment'>
-<<<<<<< Updated upstream
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
-=======
+
+
 <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105 ">
->>>>>>> Stashed changes
+
   <img src={supplier}/>
   <h3>SUPPLIER PAYMENTS</h3>
 </div>
@@ -157,11 +156,10 @@ const Ordermain = () => {
       <div className="info ">
 
        <a href='#'>
-<<<<<<< Updated upstream
-     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105">
-=======
+
+     
      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105 ">
->>>>>>> Stashed changes
+
       <h3><center>Genarate Monthly Report</center></h3>
       </div>
       </a> 

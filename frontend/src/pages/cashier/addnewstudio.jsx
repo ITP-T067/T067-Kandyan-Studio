@@ -1,6 +1,5 @@
 import Sample from '../../images/photography.jpg'; 
 import React, { useEffect, useState } from "react";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 
@@ -16,7 +15,7 @@ import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
     return () => {
         switch (type) {
             case "Add":
-                window.location.href = "/cashier/addnewstudio";
+                window.location.href = "/cashier/addneworder";
                 break;
             case "Edit":
                 window.location.href = "/manager/stockdept/items/edititem";
@@ -54,14 +53,14 @@ const addNewOrder = () => {
                         
                         <div className='flex flex-row'>
                             <Button
-                                className="flex items-center space-x-2 bg-kblack text-kwhite p-3 px-5 rounded-full"
+                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full"
                                 onClick={handleButton("Add")}
                             >
                                 
                                 <span className="text-sm">Creator</span>
                             </Button>
                             <Button
-                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full"
+                                className="flex items-center space-x-2 bg-kblack text-kwhite  p-3 px-5 rounded-full"
                                 onClick={handleButton("Add")}
                             >
                                 
