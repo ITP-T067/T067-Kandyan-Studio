@@ -25,12 +25,12 @@ export default function AddToCart() {
   return (
     <div>
       <div className={`container ${showAlert ? 'blur' : ''}`}>
-        <div className="h-96 bg-kgray bg-opacity-30 rounded-3xl m-12">
+        <div className="h-[45rem] bg-kgray bg-opacity-30 rounded-3xl ml-8 mr-8">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
-              <div className="mt-12 ml-11">
-              <div class="flex items-center ml-14">
-                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onClick={() => navigate('/cusdashboard')}>
+              <div className="mt-4 ml-11">
+              <div class="flex items-center ml-14 cursor-pointer" onClick={() => navigate('/cusdashboard')}>
+                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 8 8 12 12 16" />
                   <line x1="16" y1="12" x2="8" y2="12" />
@@ -73,28 +73,28 @@ export default function AddToCart() {
 
               <div>
                 <div className="py-8">
-                  <h2 className="text-5xl font-bold text-kwhite mb-2 ml-10 mt-20">LKR: 2500.00</h2>
+                  <h2 className="text-5xl font-bold text-kwhite mb-2 ml-10 mt-[2rem]">LKR: 2500.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
-                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-10">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut
-                        lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque
-                        ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non
-                        sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.
+                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-10 h-[9rem]">
+                      <div class="overflow-y-auto h-[12rem]">
+                        <div>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                          sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla
+                          lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque
+                          ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non
+                        </div>
+                      </div>
                       </h2>
                     </div>
                   </div>
-                  <div className="mb-4">
-                    <label className="text-1xl text-kwhite ml-12">Order Type</label>
-                    <input type="text" id="small-input" className="block w-full p-2 pl-5 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " placeholder="Enter Order Type" />
-                  </div>
+                  
                   <div className="mb-4">
                     <label className="text-1xl text-kwhite ml-12">Quantity</label>
                     <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " placeholder="Type a number" />
                   </div>
                   <div>
-                    <span className="font-bold text-kwhite ml-10 dark:text-gray-300">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</span>
+                    <div className="font-bold text-kwhite ml-10 dark:text-gray-300">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
                     <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" />
                   </div>
                   <div>
@@ -104,7 +104,7 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 -mt-64">
+          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 mt-[-10rem]">
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />

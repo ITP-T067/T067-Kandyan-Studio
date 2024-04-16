@@ -1,5 +1,5 @@
-const OnlineOrder = require("../models/onlineOrder.model.js") 
-const {errorHandler} = require("../utils/error.js");
+const OnlineOrder = require("../../models/onlineOrder/onlineOrder.model.js") 
+const {errorHandler} = require("../../utils/error.js");
 
 const index_onOrder = async(req,res, next) => {
 
@@ -57,5 +57,6 @@ const del_onOrder = async(req,res, next) =>{
         next(error);
     }
 }
+
 
 module.exports = { index_onOrder, create_onOrder, update_onOrder, del_onOrder};

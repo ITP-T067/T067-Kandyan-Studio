@@ -57,5 +57,18 @@ const del_item = async(req, res, next) => {
     }
 }
 
+//Find Item by ID
+const find_item = async(req, res, next) => {
+    const id = req.params.id;
 
-module.exports = {index_item, create_item, update_item, del_item}
+    try {
+        const data = await Item.findOne({_id : id});
+        if(res.status(201)){
+            res.send({success:true, message: "Item found successfully", data : data});
+        }
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = {index_item, create_item, update_item, del_item, find_item};

@@ -14,7 +14,19 @@ const Login = () => {
             console.log('User ID:', id);
             passUserSession(role,name,id);
         console.log('User session passed');
-        window.location.href = '/dashboard';
+        if(role === 'Customer'){
+            window.location.href = '/';
+        }else if(role === 'Manager'){
+            window.location.href = '/manager';
+        }else if(role === 'Cashier'){
+            window.location.href = '/cashier';
+        }else if(role === 'Creator'){
+            window.location.href = '/creator';
+        }else if(role === 'Supplier'){
+            window.location.href = '/supplier';
+        }else{
+            window.location.href = '/';
+        }
     };
 };
 

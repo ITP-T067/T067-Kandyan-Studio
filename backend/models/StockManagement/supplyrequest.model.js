@@ -1,45 +1,42 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const itemSchema = new mongoose.Schema({
-    name: {
-        type: String,
+const supplyReqSchema = new mongoose.Schema({
+    date: {
+        type: Date,
         required: true,
     },
-    description: {
-        type: String,
+    item: {
+        type: Schema.Types.ObjectId,
+        ref: 'Item',
         required: true,
     },
-    type: {
-        type: String,
-        required: true,
-    },
-    quantity: {
-        type: String,
-        required: true,
-    },
-    maxCapacity: {
+    reqquantity: {
         type: Number,
         required: true,
     },
-    damaged: {
-        type: Number,
-        required: true,
-    },
-    sellingPrice: {
+    supplier: {
         type: String,
         required: true,
     },
-    buyingPrice: {
+    exdate: {
+        type: Date,
+        required: true,
+    },
+    status: {
         type: String,
         required: true,
     },
-    image: {
+    cost: {
+        type: String,
+        required: true,
+    },
+    additional: {
         type: String,
         required: true,
     },
 });
 
-const Item = mongoose.model('Item', itemSchema);
+const SupplyRequest = mongoose.model('SupplyRequest', supplyReqSchema);
 
-module.exports = Item;
+module.exports = SupplyRequest;
