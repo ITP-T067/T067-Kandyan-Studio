@@ -20,9 +20,7 @@ import {
   Chip,
   CardFooter,
   Avatar,
-
   Tooltip,
-
 } from "@material-tailwind/react";
 
 
@@ -81,12 +79,6 @@ const TABLE_ROWS = [
     expiry: "06/2026",
   },
 ];
-
-
-
-
-
-
 
 
 
@@ -260,13 +252,15 @@ const Stockavailability = () => {
       
     </Card>
 
-
-
-
   </div>
       
     );
   }
   
-  export default Stockavailability;
+export default Stockavailability;
+  
+
+
+
+
   

@@ -40,7 +40,7 @@ const Ordermain = () => {
   return (
     <div className='order'>
 
-    <div class="flex flex-row justify-center ">
+    <div class="flex flex-row justify-center  ">
 
     <a href='/cashier/addneworder'>
     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105" >
@@ -63,7 +63,11 @@ const Ordermain = () => {
 </a>
 
 <a href='/cashier/supplierpayment'>
+<<<<<<< Updated upstream
 <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+=======
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105 ">
+>>>>>>> Stashed changes
   <img src={supplier}/>
   <h3>SUPPLIER PAYMENTS</h3>
 </div>
@@ -101,7 +105,7 @@ const Ordermain = () => {
          <tbody>
            {TABLE_ROWS.map(({ name, job, date }, index) => {
              const isLast = index === TABLE_ROWS.length - 1;
-             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50 ";
   
              return (
                <tr key={name}>
@@ -121,7 +125,7 @@ const Ordermain = () => {
                    </Typography>
                  </td>
                  <td className={`${classes} bg-blue-gray-50/50 `}>
-                   <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
+                   <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium transition-transform duration-300 ease-in-out hover:scale-150 ">
                      View
                    </Typography>
                  </td>
@@ -153,7 +157,11 @@ const Ordermain = () => {
       <div className="info ">
 
        <a href='#'>
+<<<<<<< Updated upstream
      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105">
+=======
+     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105 ">
+>>>>>>> Stashed changes
       <h3><center>Genarate Monthly Report</center></h3>
       </div>
       </a> 
