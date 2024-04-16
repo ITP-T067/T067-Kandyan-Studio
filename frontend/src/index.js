@@ -48,11 +48,11 @@ import EditItemForm from './pages/manager/stock/edititemform';
 
 
 //Cashier Dashboard
-import Ordermain from './pages/cashier/order';
-import StockAV from './pages/cashier/Stockavailability';
-import AddNewOrder from './pages/cashier/addneworder';
-import Pendingorders from './pages/cashier/pendingorders';
-import Completedorders from './pages/cashier/Completedorders';
+import Ordermain from './pages/cashier/order.jsx';
+import StockAV from './pages/cashier/Stockavailability.jsx';
+import AddNewOrder from './pages/cashier/addneworder.jsx';
+import Pendingorders from './pages/cashier/pendingorders.jsx';
+import Completedorders from './pages/cashier/Completedorders.jsx';
 import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
 
 

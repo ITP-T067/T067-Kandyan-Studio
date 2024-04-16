@@ -43,27 +43,27 @@ const Ordermain = () => {
     <div class="flex flex-row justify-center ">
 
     <a href='/cashier/addneworder'>
-    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105" >
     <img src={addnew}/><br/>
     <h3>ADD NEW ORDER</h3>
     </div></a>
 
 <a href='/cashier/pendingorders'>
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
   <img src={pending}/>
   <h3>PENDING ORDERS</h3>
 </div>
 </a>
 
 <a href='/cashier/completedorders'>
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
   <img src={check}/>
   <h3>COMPLETED ORDERS</h3>
 </div>
 </a>
 
 <a href='/cashier/supplierpayment'>
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
   <img src={supplier}/>
   <h3>SUPPLIER PAYMENTS</h3>
 </div>
@@ -134,7 +134,7 @@ const Ordermain = () => {
      <Card className="h-full w-full "> 
      <div className="both flex flex-col">
      <div className="info flex justify-center ">
-     <div class="m-1 rounded-lg bg-kgreen text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+     <div class="m-1 rounded-lg bg-kgreen text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full ">
       <h3>Total Income</h3><br/><br/>
       <h3>LRK 40000</h3>
       </div>
@@ -153,13 +153,13 @@ const Ordermain = () => {
       <div className="info ">
 
        <a href='#'>
-     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto ">
+     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105">
       <h3><center>Genarate Monthly Report</center></h3>
       </div>
       </a> 
 
       <a href='#'>
-      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto">
+      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105">
       <h3><center>Genarate Daily Report</center></h3>
       </div>
       </a>
