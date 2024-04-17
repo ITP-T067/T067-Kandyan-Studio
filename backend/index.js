@@ -43,3 +43,32 @@ app.use((err, req, res, next) => {
     const message = err.message || 'Internal Server Error';
     return res.status(statusCode).json({success: false, statusCode, message});
  }); 
+
+
+ //Image Upload
+ const multer  = require('multer');
+
+ const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now();
+      cb(null, uniqueSuffix + file.originalname);
+    }
+  })
+    const upload = multer({ storage: storage });
+
+    app.post("/upload-image",upload.single("image"), async(req,res) => {
+        console.log(req.body);
+        const imageName = req.file.filename;
+        try{
+            await Item.create({image: imageName});
+            res.json({status: "success"});
+        }catch(error){
+            console.log(error);
+            res.json({status: "error"});
+        }
+    })
+        
+    

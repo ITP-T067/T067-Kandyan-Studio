@@ -3,9 +3,13 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 
+import Alert from "../../../Components/Common/Alerts/alert";
+
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
 
 axios.defaults.baseURL = "http://localhost:8010/";
+
+
 
 const Items = () => {
     const GoBack = () => {
@@ -24,6 +28,11 @@ const Items = () => {
     });
     const [editSection, setEditSection] = useState(false);
 
+
+    const [isAlert,setIsAlert] = useState(false);
+    const [alertStatus,setAlertStatus] = useState('success');
+    const [message,setMessage] = useState('');
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         const data = await axios.put("/item/update", formDataEdit);
@@ -32,7 +41,20 @@ const Items = () => {
             console.log(data.data.message);
             setEditSection(false);
             getFetchData();
-            alert(data.data.message);
+            //alert(data.data.message);
+            setIsAlert(true);
+            setAlertStatus('success');
+            setMessage("Item Updated Successfully!");
+            setTimeout(() => {
+                setIsAlert(false); // Reset delete status after 5000ms
+              },5000);
+        }else{
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Failed to Update Item!");
+            setTimeout(() => {
+                setIsAlert(false); // Reset delete status after 5000ms
+            },5000);
         }
     };
 
@@ -131,6 +153,9 @@ const Items = () => {
 
     return (
         <>
+            <div>
+            {isAlert && (<Alert message={message} type={alertStatus}/>)}
+        </div>
             {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>

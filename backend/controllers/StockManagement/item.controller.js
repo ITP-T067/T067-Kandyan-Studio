@@ -71,4 +71,5 @@ const find_item = async(req, res, next) => {
     }
 }
 
+
 module.exports = {index_item, create_item, update_item, del_item, find_item};
