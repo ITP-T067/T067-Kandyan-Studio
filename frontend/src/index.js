@@ -55,8 +55,13 @@ import Pendingorders from './pages/cashier/pendingorders.jsx';
 import Completedorders from './pages/cashier/Completedorders.jsx';
 import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
 import Checkout from './pages/cashier/checkout.jsx';
-import AddnewStudio from './pages/cashier/addnewstudio.jsx'
-
+import AddnewStudio from './pages/cashier/addnewstudio.jsx';
+import Crlaminate from './pages/cashier/neworders/crlaminates.jsx';
+import CrPhotoprints from './pages/cashier/neworders/crphotoprints.jsx';
+import Crframes from './pages/cashier/neworders/crframes.jsx';
+import Stbabyphoto from './pages/cashier/neworders/stbabyphoto.jsx';
+import StproductPhoto from './pages/cashier/neworders/stproductphoto.jsx';
+import Stidcard from './pages/cashier/neworders/stidcard.jsx';
 
 //Creator Dashboard
 import Projects from './pages/creator/Projects.jsx';
@@ -101,6 +106,15 @@ root.render(
         <Route path='/cashier/supplierpayment' element={<SupplierPayments />} />
         <Route path='/cashier/checkout' element={<Checkout />} />
         <Route path='/cashier/addnewstudio' element={<AddnewStudio />} />
+        <Route path='/cashier/laminates' element={<Crlaminate />} />
+        <Route path='/cashier/photoprints' element={<CrPhotoprints />} />
+        <Route path='/cashier/frames' element={<Crframes />} />
+        <Route path='/cashier/babyphotos' element={<Stbabyphoto />} />
+        <Route path='/cashier/identitycard' element={<Stidcard />} />
+        <Route path='/cashier/productphoto' element={<StproductPhoto />} />
+
+
+
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />

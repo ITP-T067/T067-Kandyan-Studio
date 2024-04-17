@@ -1,4 +1,4 @@
-import Sample from '../../images/photography.jpg'; 
+import Sample from '../../../images/photography.jpg'; 
 import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
@@ -76,14 +76,14 @@ const addNewOrder = () => {
           <div className="maincards m-1 flex flex-wrap justify-center gap-5">
 
 
-           <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl  ring-8 ring-slate-900/5 h-full w-100 ">Sublimation
-            </div>
+          <a href='/cashier/addneworder'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl  ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Sublimation
+            </div></a>
             <a href='/cashier/photoprints'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Photo Prints
             </div></a>
             <a href='/cashier/laminates'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Laminates
             </div></a>
-            <a href='/cashier/frames'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Frames
-            </div></a>
+            <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-8 ring-slate-900/5 h-full w-100 ">Frames
+            </div>
         
         
           </div>  

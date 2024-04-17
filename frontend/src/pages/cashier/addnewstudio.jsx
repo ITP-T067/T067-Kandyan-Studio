@@ -14,12 +14,10 @@ import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
   const handleButton = (type) => {
     return () => {
         switch (type) {
-            case "Add":
+            case "creator":
                 window.location.href = "/cashier/addneworder";
                 break;
-            case "Edit":
-                window.location.href = "/manager/stockdept/items/edititem";
-                break;
+            
             default:
                 break;
         }
@@ -54,14 +52,14 @@ const addNewOrder = () => {
                         <div className='flex flex-row'>
                             <Button
                                 className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full"
-                                onClick={handleButton("Add")}
+                                onClick={handleButton("creator")}
                             >
                                 
                                 <span className="text-sm">Creator</span>
                             </Button>
                             <Button
                                 className="flex items-center space-x-2 bg-kblack text-kwhite  p-3 px-5 rounded-full"
-                                onClick={handleButton("Add")}
+                                onClick={handleButton("studio")}
                             >
                                 
                                 <span className="text-sm">Studio</span>
@@ -80,16 +78,15 @@ const addNewOrder = () => {
           <div className="maincards m-1 flex flex-wrap justify-center gap-5">
 
 
-          <div class="m-1 rounded-lg bg-kwhite px-20 py-20 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+          <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-20 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-20 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-20 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-20 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
-            </div>
+           
         
           </div>  
           <br/>
