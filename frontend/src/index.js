@@ -44,7 +44,13 @@ import AddForm from './pages/manager/employee/addForm.jsx';
 import ViewEmp from './pages/manager/employee/viewEmp.jsx';
 import UpdateForm from './pages/manager/employee/updateForm.jsx';
 import PerformanceForm from './pages/manager/employee/performanceForm.jsx';
+import SalarySlip from './pages/manager/employee/salarySlip.jsx';
 import SalaryForm from './pages/manager/employee/salaryForm.jsx';
+import CashierSlip from './pages/manager/employee/cashierSlip.jsx';
+import CreatorSlip from './pages/manager/employee/creatorSlip.jsx';
+import OperatorSlip from './pages/manager/employee/operatorSlip.jsx';
+import PastEmp from './pages/manager/employee/pastEmp.jsx';
+import MonthlyReport from './pages/manager/employee/monthlyReport.jsx';
 
 //Manager Dashboard - Supplier Department
 
@@ -108,7 +114,13 @@ root.render(
         <Route path='/manager/employee/viewEmp' element={<ViewEmp/>}/>
         <Route path='/manager/employee/updateForm' element={<UpdateForm/>}/>
         <Route path='/manager/employee/performanceForm' element={<PerformanceForm/>}/>
+        <Route path='/manager/employee/salarySlip' element={<SalarySlip/>}/>
         <Route path='/manager/employee/salaryForm' element={<SalaryForm/>}/>
+        <Route path='/manager/employee/cashierSlip' element={<CashierSlip/>}/>
+        <Route path='/manager/employee/creatorSlip' element={<CreatorSlip/>}/>
+        <Route path='/manager/employee/operatorSlip' element={<OperatorSlip/>}/>
+        <Route path='/manager/employee/pastEmp' element={<PastEmp/>}/>
+        <Route path='/manager/employee/monthlyReport' element={<MonthlyReport/>}/>
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
