@@ -10,9 +10,12 @@ axios.defaults.baseURL = "http://localhost:8010/"
 export default function AddToCart() {
   const [mainImage, setMainImage] = useState(Photography);
   const [showAlert, setShowAlert] = useState(false);
+  const [orderType, setOrderType] = useState('');
   const navigate = useNavigate();
 
-
+  const handleOrderTypeChange = (e) => {
+    setOrderType(e.target.value);
+  };
 
   const handleSmallImageClick = (imageSrc) => {
     setMainImage(imageSrc);
@@ -52,6 +55,7 @@ export default function AddToCart() {
     const dataAdd = {
       item_Name: itemDetails.name,
       item_Price: itemDetails.sellingPrice,
+      item_Type: orderType,
       item_Quantity: parseInt(quantity),
       item_Slip: "sdfdsg gfgsd"
     };
@@ -125,8 +129,8 @@ export default function AddToCart() {
                   <h2 className="text-5xl font-bold text-kwhite mb-2 ml-10 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
-                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-10 h-[9rem]">
-                      <div class="overflow-y-auto h-[12rem]">
+                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-6 h-[9rem]">
+                      <div class="overflow-y-auto h-[9rem]">
                         <div>{itemDetails.description}</div>
                       </div>
                       </h2>
@@ -134,7 +138,17 @@ export default function AddToCart() {
                   </div>
                   
                  <form onSubmit={handleAddToCartClick}>
-                  <div className="mb-4">
+                    <div className="mb-4">
+                      <label className="text-1xl text-kwhite ml-12">Order Type</label>
+                      <select aria-label="Select order type" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " required value={orderType} onChange={handleOrderTypeChange}>
+                        <option value="" disabled selected hidden>Select order type</option>
+                        <option value="Sublimation">Sublimation</option>
+                        <option value="Poster">Poster</option>
+                        <option value="Frame">Frame</option>
+                        <option value="Prints">Prints</option>
+                      </select>
+                    </div>
+                    <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
                       <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={1} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                     </div>
@@ -150,7 +164,7 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 mt-[-10rem]">
+          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 mt-[-16rem]">
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
