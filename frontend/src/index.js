@@ -78,7 +78,7 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
-        <Route path='/addtocart' element={<Addtocart/>}/>
+        <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
 
         {/* Manager Dashboard - Stock Department */}

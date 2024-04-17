@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../../Styles/addToCart.css';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
 import Photography from '../../../images/photography.jpg';
+
+axios.defaults.baseURL = "http://localhost:8010/"
 
 export default function AddToCart() {
   const [mainImage, setMainImage] = useState(Photography);
@@ -22,6 +25,9 @@ export default function AddToCart() {
     navigate('/cusdashboard');
   };
 
+    const { itemId } = useParams();
+
+
   return (
     <div>
       <div className={`container ${showAlert ? 'blur' : ''}`}>
@@ -35,7 +41,7 @@ export default function AddToCart() {
                   <polyline points="12 8 8 12 12 16" />
                   <line x1="16" y1="12" x2="8" y2="12" />
                 </svg>
-                <h2 class="text-5xl font-bold text-kwhite mb-2">Product Name</h2>
+                <h2 class="text-5xl font-bold text-kwhite mb-2">product name</h2>
               </div>
 
                 <div className="flex justify-center mx-auto md:mx-0">

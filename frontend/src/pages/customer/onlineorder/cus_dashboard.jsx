@@ -22,6 +22,10 @@ function Cus_dashboard() {
       })
   }
 
+  const handleCardClick = (itemId) => {
+    navigate(`/addtocart/${itemId}`); // Navigate to '/addtocart' with the item ID as a URL parameter
+  };
+
   
   return (
     <>
@@ -36,7 +40,7 @@ function Cus_dashboard() {
         {/* Container for cards */}
         <div class="flex flex-wrap justify-center gap-5 mt-5">
         {items.map(item => (
-          <div key={item._id} className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" onClick={() => navigate(`/addtocart`)}>
+          <div key={item._id} className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" onClick={() => handleCardClick(item._id)}>
             <div class="w-64 h-80 absolute bg-kgray opacity-50 rounded-3xl"></div>
             <img className="absolute rounded-3xl" src={item.image} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
             <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">{item.name}</div>
