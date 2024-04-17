@@ -1,256 +1,191 @@
-import {
-  Navbar,
-  Typography,
-  IconButton,
-  Button,
-  Input,
-} from "@material-tailwind/react";
-
+import { Navbar,Typography,IconButton, Button,Input,Progress} from "@material-tailwind/react";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import {
-  ArrowDownTrayIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import {
-  Card,
-  CardHeader,
+import {Card,CardHeader,CardBody,Chip,CardFooter,Avatar,Tooltip,} from "@material-tailwind/react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  Tooltip,
-} from "@material-tailwind/react";
-
-
-
-const TABLE_HEAD = ["Transaction", "Amount", "Date", "Status", "Account", ""];
- 
-const TABLE_ROWS = [
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-spotify.svg",
-    name: "Spotify",
-    amount: "$2,500",
-    date: "Wed 3:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-amazon.svg",
-    name: "Amazon",
-    amount: "$5,000",
-    date: "Wed 1:00pm",
-    status: "paid",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-pinterest.svg",
-    name: "Pinterest",
-    amount: "$3,400",
-    date: "Mon 7:40pm",
-    status: "pending",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-google.svg",
-    name: "Google",
-    amount: "$1,000",
-    date: "Wed 5:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-netflix.svg",
-    name: "netflix",
-    amount: "$14,000",
-    date: "Wed 3:30am",
-    status: "cancelled",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-];
-
-
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const Stockavailability = () => {
+
+
+  const GoBack = () => {
+    window.location.href = "/manager/stockdept/";
+};
+
+const [dataList, setDataList] = useState([]);
+const [currentPage, setCurrentPage] = useState(1);
+const [itemsPerPage] = useState(5);
+
+useEffect(() => {
+    getFetchData();
+    console.log(dataList);
+}, []);
+
+const getFetchData = async () => {
+    try {
+        const response = await axios.get("/item/");
+        console.log(response);
+        if (response.data.success) {
+            setDataList(response.data.data);
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+//Stock Level Demonstration
+const colorChanger = (percentage) => {
+    let color = "";
+
+    if (percentage < 25) {
+        color = 'bg-pred/70';
+    } else if (percentage < 50) {
+        color = 'bg-porange/70';
+    } else if (percentage < 75) {
+        color = 'bg-pyellow/70';
+    } else if (percentage < 90) {
+        color = 'bg-plgreen/70';
+    } else {
+        color = 'bg-pgreen/70';
+    }
+
+    return `${color}`;
+};
+
+const statusChanger = (percentage) => {
+    if (percentage < 25) {
+        return 'Critically Low, Order Immediately';
+    } else if (percentage < 50) {
+        return 'Low Stock, Order Soon';
+    } else if (percentage < 75) {
+        return 'Sufficent Stock, But Consider Ordering';
+    } else if (percentage < 90) {
+        return 'Stock Levels are Good';
+    } else {
+        return 'Stock Levels are Excellent';
+    }
+};
+
+const calcPercentage = (value1, valve2) => {
+    return Math.round((value1 / valve2) * 100);
+};
+
+const handleRequestButton = (itemId) => {
+    return () => {
+        console.log("Heading to request page");
+        window.location.href = `/manager/stockdept/stocklevels/request?itemId=${itemId}`;
+    };
+};
+
+
+//Search Item
+const [searchTerm, setSearchTerm] = useState("");
+const [searchResults, setSearchResults] = useState([]);
+
+useEffect(() => {
+    const results = dataList.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+setSearchResults(results);
+},[searchTerm, dataList]);
+
+
+
+//Pagination
+const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
+const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
+const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
+
+// Logic to dynamically generate page numbers
+const pageNumbers = [];
+for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+}
+
+const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+};
+
+
+
     return (
-      <div className='order text-kwhite'>
-      <label class="relative block px-20">
-  <span class="sr-only">Search</span>
-  <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-    <svg class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"></svg>
-  </span>
-  <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search for anything..." type="text" name="search"/>
-</label>
-
-
-      <br/>
-
-    <Card className="h-full w-full">
-      <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className="mb-4 flex flex-col justify-center gap-8 md:flex-row md:items-center">
-          <div className="justify-center">
-            <Typography variant="h2" color="blue-gray" >
-             Available Stock Levels
-            </Typography>
-            
-          </div>
-          <div className="flex w-full shrink-0 gap-2 md:w-max">
-          </div>
-        </div>
-      </CardHeader>
-      <CardBody className="overflow-scroll px-0">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 "
-                >
-                  <Typography
-                    variant="large"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TABLE_ROWS.map(
-              (
-                {
-                  img,
-                  name,
-                  amount,
-                  date,
-                  status,
-                  account,
-                  accountNumber,
-                  expiry,
-                },
-                index,
-              ) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
- 
-                return (
-                  <tr key={name}>
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <Avatar
-                          src={img}
-                          alt={name}
-                          size="md"
-                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                        />
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-bold"
-                        >
-                          {name}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {amount}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Chip
-                          size="sm"
-                          variant="ghost"
-                          value={status}
-                          color={
-                            status === "paid"
-                              ? "green"
-                              : status === "pending"
-                              ? "amber"
-                              : "red"
-                          }
-                        />
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <div className="h-9 w-12 rounded-md border border-blue-gray-50 p-1">
-                          <Avatar
-                            src={
-                              account === "visa"
-                                ? "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/logos/visa.png"
-                                : "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/logos/mastercard.png"
-                            }
-                            size="sm"
-                            alt={account}
-                            variant="square"
-                            className="h-full w-full object-contain p-1"
-                          />
+      <div className='order text-kwhite '>
+                       <div className=" px-10">
+                            <input
+                                type="search"
+                                placeholder="Search"
+                                className="bg-kwhite text-kblack rounded-full p-2 text-lg "
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal capitalize"
-                          >
-                            {account.split("-").join(" ")} {accountNumber}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {expiry}
-                          </Typography>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              },
-            )}
-          </tbody>
-        </table>
-      </CardBody>
-      
-    </Card>
+
+                        <br/>
+
+      <div className="px-10 ">
+                <table className="w-full rounded-lg overflow-hidden text-sm">
+                    <thead>
+                        <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center text-lg">
+                            <th className="w-1/3 py-5">Name</th>
+                            <th className="w-1/3">Percentage</th>
+                            <th className="w-1/3 px-10">Available Quantity</th>
+                            
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentItems.length > 0 ? (
+                            currentItems.map((il, index) => {
+                                const percentage = calcPercentage(il.quantity,il.maxCapacity)
+                               
+                                return (
+                                    <>
+                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4 text-lg">
+                                        <td className="p-4"> {il.name}</td>
+                                        <td>
+                                            <div className="w-full bg-kgray rounded-full border overflow-hidden">
+                                                <div
+                                                    className={ colorChanger(percentage) + " p-2 text-center text-lg font-medium leading-none text-kwhite "}
+                                                    style={{ width: `${percentage}%` }}
+                                                >
+                                                    {percentage + "%"}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        
+                                        <td className="p-4">
+                                            <div className="flex flex-grow justify-center mx-auto">
+                                                <Button className="p-3 text-kwhite text-lg" onClick={handleRequestButton(il._id)}>
+                                                   {il.quantity + " Out of "+il.maxCapacity}
+                                                </Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </>
+                                );
+                            })
+                        ) : (
+                            <tr className="bg-kwhite/20 w-full text-kwhite">
+                                <td colSpan="4" className="text-center py-4">No data available</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <div className="flex items-center justify-between border-t border-kblack p-4">
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
+                    <div className="flex items-center gap-2">
+                        {pageNumbers.map((number) => (
+                            <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
+                                {number}
+                            </Button>
+                        ))}
+                    </div>
+                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
+                </div>
+            </div>
 
   </div>
       
