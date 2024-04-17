@@ -16,18 +16,39 @@ const AddItemForm = () => {
         damaged: 0,
         sellingPrice: "",
         buyingPrice: 0,
-        image: "image"
+        image: null
     })
 
-    const handleOnChange = (e) => {
-        const { value, id } = e.target
-        setFormData((prev) => {
+    const handleOnChange = async(e) => {
+        if(e.target.type === 'file'){
+            const file = e.target.files[0];
+            setFormData((prev) => {
+                return {
+                    ...prev,
+                    image: file
+                }
+            })
+            const result = await axios.post("/upload-image", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+            console.log("Image upload result:", result.data);
+        }else{
+            const { value, id } = e.target;
+            setFormData((prev) => {
             return {
                 ...prev,
                 [id]: value
             }
         })
+        }
     }
+
+    const [isAlert, setIsAlert] = useState(false);
+    const [alertStatus, setAlertStatus] = useState('succesßs');
+    const [message, setMessage] = useState('');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Data:", formData);
@@ -35,11 +56,27 @@ const AddItemForm = () => {
             const data = await axios.post("/item/create", formData);
             console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
-                alert(data.data.message);
-                window.location.href = "/manager/stockdept/items/";
+                //alert(data.data.message);
+                setIsAlert(true);
+                setAlertStatus('success');
+                setMessage("Item Added Successfully !");
+                setTimeout(() => {
+                    setIsAlert(false);
+                    window.location.href = "/manager/stockdept/items/";
+                }, 3000);
+            }else{
+                setIsAlert(true);
+                setAlertStatus('danger');
+                setMessage("Failed to Add Item !");
+                setTimeout(() => {
+                    setIsAlert(false);
+                }, 3000);
             }
         } catch (error) {
             console.log(error.response.data);
+            setIsAlert(true);
+            setAlertStatus('warning');
+            setMessage("Error Occured While Adding Item, Check For Empty Fields !");
         }
     };
 
@@ -132,9 +169,10 @@ const AddItemForm = () => {
                         <div>
                             <label htmlFor="photo">Upload Photo</label>
                             <input
-                                type="text"
+                                type="file"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
                                 id="image"
+                                name='image'
                                 value={formData.image}
                                 onChange={handleOnChange}
                             />
