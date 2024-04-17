@@ -21,7 +21,7 @@ const PerformanceForm = () => {
     const [formValues, setFormValues] = useState({
         employeeName: '',
         nicNumber: '',
-        selectedMonth: null, // Added selectedMonth to store the selected month
+        selectedMonth: null, 
         attendance: '',
         otHours: '',
         noPayDays: ''
@@ -39,13 +39,13 @@ const PerformanceForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formValues);
-        // Add further logic for form submission/validation
+        
     };
 
     const fields = [
         { label: 'Employee Name', name: 'employeeName' },
         { label: 'NIC Number', name: 'nicNumber' },
-        { label: 'Month', component: <MonthYearPicker selectedDate={formValues.selectedMonth} handleDateChange={handleMonthChange} /> }, // Added Month field with MonthYearPicker component
+        { label: 'Month', component: <MonthYearPicker selectedDate={formValues.selectedMonth} handleDateChange={handleMonthChange} /> }, 
         { label: 'Attendance', name: 'attendance', type: 'number' },
         { label: 'OT Hours', name: 'otHours', type: 'number' },
         { label: 'No Pay Days', name: 'noPayDays', type: 'number' }
@@ -75,13 +75,13 @@ const PerformanceForm = () => {
                                 ) : (
                                     <>
                                         <input
-                                            type={field.type || 'text'} // Default to text input type
-                                            name={field.name} // Use name provided in the field object
-                                            value={formValues[field.name]} // Use value from state based on field name
+                                            type={field.type || 'text'} 
+                                            name={field.name} 
+                                            value={formValues[field.name]} 
                                             onChange={handleChange}
                                             className="peer h-full w-full rounded-[7px] border border-kwhite border-t-transparent bg-transparent px-3 py-2 font-sans text-sm font-normal !text-kwhite outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-kblue placeholder-shown:border-t-kblue focus:border-2 focus:border-kwhite focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-kblue"
                                             placeholder=" "
-                                            required // Make input required
+                                            required 
                                         />
                                         <label className="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none !overflow-visible truncate text-[11px] font-normal leading-tight !text-white transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-kwhite before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-kwhite after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-kwhite peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-kwhite peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-kwhite peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-kwhite peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-kblue">
                                             {field.label}
