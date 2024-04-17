@@ -4,7 +4,6 @@ import {
     Navbar,
     Typography,
     List,
-    MenuItem,
 } from '@material-tailwind/react';
 
 const CreatorNavbar = () => {
@@ -35,7 +34,7 @@ const CreatorNavbar = () => {
         <a href={department.link} key={index} className="flex-grow m-1">
             <button
                 key={index}
-                className={`bg-kblack text-kwhite w-full hover:bg-kgray transition duration-300 p-3 rounded-md ${
+                className={`bg-kblack text-kwhite w-full hover:bg-kgray transition duration-300 p-3 rounded-full ${
                     activeButton === index ? 'bg-kgray' : ''
                 }`}
                 onClick={() => handleButtonClick(index)} // Call handleButtonClick function on click
@@ -52,7 +51,7 @@ const CreatorNavbar = () => {
 
     return (
         <div className='p-3'>
-            <Navbar className="mx-auto rounded-lg bg-kblack p-1">
+            <Navbar className="mx-auto rounded-full bg-kblack p-1">
                 <div className="items-center justify-between text-kwhite">
                     <List className="flex flex-row justify-between">
                         {renderDepartments}
