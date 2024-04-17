@@ -6,6 +6,9 @@ const mongoose = require('mongoose')
 const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
+//Manager - Employee Department
+
+
 //Creator
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/project.route.js");
@@ -29,6 +32,9 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 //Manager - Stock Department
 app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
+
+//Manager - Employee Department
+
 
 //Creator
 app.use('/order', orderRouter);
