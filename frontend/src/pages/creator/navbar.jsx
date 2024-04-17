@@ -11,7 +11,7 @@ const CreatorNavbar = () => {
     const departments = [
         { title: 'My Projects', link: '/creator/' },
         { title: 'Orders', link: '/creator/projectOrders/' },
-        { title: 'Generate Reports', link: '/' },
+        { title: 'Generate Reports', link: '/creator/generateReports' },
         { title: 'Inquiries', link: '/creator/inquiries' },
     ];
 

@@ -71,7 +71,6 @@ export default function AddProjects() {
           console.error("Error creating project:", error);
         }
       }
-
     
   return (
     <> 

@@ -1,10 +1,11 @@
 const express = require('express')
-const {index_onOrder, create_onOrder, update_onOrder, del_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
+const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
 const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/projectManagement/offlineOrder.controller.js");
 
 const router = express.Router();
 //online orders
 router.get("/on/", index_onOrder);
+router.get("/on/:id", getOrderById_onOrder);
 router.post("/on/create", create_onOrder);
 router.put("/on/update", update_onOrder);
 router.delete("/on/delete/:id", del_onOrder);

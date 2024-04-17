@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../../Styles/creator/orders.css';
-import '../../Styles/creator/orderNav.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
@@ -35,7 +34,7 @@ export default function Orders() {
   return (
     <>
         <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
-            <a className="w-1/3 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/projectOrders/" style={{backgroundColor: '#525252'}}><div className="">Order List</div></a>
+            <a className="w-1/3 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/projectOrders/"><div className="">Order List</div></a>
             <a className="w-1/3 h-[65px] py-5 text-center bg-kblack font-medium" href="/creator/physicalOrders"><div>Add physical orders</div></a>
             <a className="w-1/3 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
         </nav>
@@ -45,33 +44,33 @@ export default function Orders() {
             <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 
-      <div className='tableContainer sm:w-3/4'>
-        <table>
-          <thead>
+      <div className="mt-5 mx-auto">
+        <table className="w-full border-collapse text-kwhite">
+          <thead className="bg-kblack text-kwhite h-[60px]">
             <tr>
-              <th>Order</th>
-              <th>Quantity</th>
-              <th>Additional</th>
-              <th>Customer Name</th>
-              <th>Order Date</th>
-              <th></th>
+              <th className="px-4 py-2">Order</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Additional</th>
+              <th className="px-4 py-2">Customer Name</th>
+              <th className="px-4 py-2">Order Date</th>
+              <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-kgray bg-opacity-60 h-[80px]">
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                if(el.Project_Status != "Added" && el.Status == "Paid"){
+                if(el.Project_Status != "Added" && el.Status == "Completed"){
                   return(
                     <tr>
-                      <td>{el.Order_Type}</td>
-                      <td>{el.Quantity}</td>
-                      <td>{el.Additional}</td>
-                      <td>{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
-                      <td>{formatDate(el.Order_Date)}</td>
-                      <td>
+                      <td className="px-4 py-2 text-center">{el.Order_Type}</td>
+                      <td className="px-4 py-2 text-center">{el.Quantity}</td>
+                      <td className="px-4 py-2 text-center">{el.Additional}</td>
+                      <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
+                      <td className="px-4 py-2 text-center">{formatDate(el.Order_Date)}</td>
+                      <td className="px-4 py-2 text-center">
                           <Link to={`/creator/addProjects/${el._id}`}>
-                              <button className='btn btn_add'>Add Project</button>
+                              <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Add Project</button>
                           </Link>
                       </td>
                     </tr>

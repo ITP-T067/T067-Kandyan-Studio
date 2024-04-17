@@ -111,4 +111,33 @@ const del_cproject = async (req, res, next) => {
     }
 }
 
-module.exports = { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject };
+const getProjectReport_cproject = async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        
+        let query = {};
+        
+        if (startDate && endDate) {
+            query.Project_Date = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const projects = await Project.find(query);
+
+        res.status(200).json({
+            success: true,
+            data: projects
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching projects',
+            error: error.message
+        });
+    }
+}
+
+
+module.exports = { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject, getProjectReport_cproject };

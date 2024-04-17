@@ -1,6 +1,5 @@
 import React, {useState } from 'react';
 import axios from 'axios';
-import '../../Styles/creator/orderNav.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
@@ -55,16 +54,14 @@ export default function PhysicalOrders() {
     } catch (error) {
       console.error("Error creating order:", error);
     }
-  }
-
-    
+  }    
 
   return (
     <>
-      <nav className="order-navbar">
-        <a className="order-el left_order " href="/creator/projectOrders/"><div className="">Order List</div></a>
-        <a className="order-el middle_order" href="/creator/physicalOrders" style={{ backgroundColor: '#525252' }}><div>Add physical orders</div></a>
-        <a className="order-el right_order" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
+      <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
+          <a className="w-1/3 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kblack font-medium" href="/creator/projectOrders/"><div className="">Order List</div></a>
+          <a className="w-1/3 h-[65px] py-5 text-center bg-kgray font-medium" href="/creator/physicalOrders"><div>Add physical orders</div></a>
+          <a className="w-1/3 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
       </nav>
 
       <div className="w-11/12 max-h-[380px] bg-kgray bg-opacity-50 rounded-[20px] shadow flex flex-col absolute top-2/3 left-1/2 mt-5 transform -translate-x-1/2 -translate-y-1/2 p-5 mb-10">

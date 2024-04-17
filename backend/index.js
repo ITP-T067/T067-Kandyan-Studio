@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const path = require('path');
 
 //Manager - Stock Department
 const itemRouter = require("./routes/StockManagement/item.route.js");
@@ -17,6 +18,7 @@ const inquiryRouter = require("./routes/inquiry.route.js");
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use('/Receipts', express.static(path.join(__dirname, 'Files', 'Receipts')));
 
 const PORT = process.env.PORT || 8010
 

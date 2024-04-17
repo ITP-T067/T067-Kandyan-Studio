@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../Styles/creator/projects.css';
 import axios from 'axios';
+import Alert from '../../Components/Common/Alerts/alert.jsx'
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -30,7 +31,7 @@ export default function Projects() {
             await axios.put("/order/on/update", { _id: el.Order_ID, Project_Status: "Not Added" });
             await axios.put("/order/off/update", { _id: el.Order_ID, Project_Status: "Not Added" });
             getFetchData();
-            alert(data.data.message)
+            alert({message: data.data.message, type: "success"})
         }
     }
 

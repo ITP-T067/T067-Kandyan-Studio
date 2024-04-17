@@ -60,6 +60,9 @@ import OfflineOrders from './pages/creator/OfflineOrders.jsx';
 import AddOfflineProjects from './pages/creator/AddOfflineProjects.jsx';
 import Inquries from './pages/creator/Inquiries.jsx';
 import ResolveInquiries from './pages/creator/ResolveInquiries.jsx';
+import PaymentDetails from './pages/creator/PaymentDetails.jsx';
+import ReceiptForm from './pages/creator/ReceiptForm.jsx';
+import Generatereports from './pages/creator/GenerateReports.jsx';
 
 //Supplier Dashboard
 
@@ -112,6 +115,9 @@ root.render(
         <Route path='/creator/addOfflineProjects/:orderId' element={<AddOfflineProjects/>}/>
         <Route path='/creator/inquiries' element={<Inquries/>}/>
         <Route path='/creator/resolveInquiries/:inquiryId' element={<ResolveInquiries/>}/>
+        <Route path='/creator/paymentDetails/:orderId' element={<PaymentDetails/>}/>
+        <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
+        <Route path='/creator/generateReports' element={<Generatereports/>}/>
         
         
         

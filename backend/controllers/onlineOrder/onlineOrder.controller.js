@@ -15,6 +15,26 @@ const index_onOrder = async(req,res, next) => {
         next(error);
     }
 }
+
+const getOrderById_onOrder = async (req, res, next) => {
+    const orderId = req.params.id;
+
+    try {
+        const order = await OnlineOrder.findById(orderId).populate({
+            path: 'Cus_ID',
+            select: 'Cus_Name Contact_No',
+        });
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        res.status(200).json({ success: true, data: order });
+    } catch (error) {
+        next(error);
+    }
+};
+
 //create data
 const create_onOrder = async(req,res, next) => {
     const { Order_Type, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
@@ -76,4 +96,4 @@ const del_onOrder = async(req,res, next) =>{
 }
 
 
-module.exports = { index_onOrder, create_onOrder, update_onOrder, del_onOrder};
+module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder};
