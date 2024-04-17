@@ -78,13 +78,13 @@ const addNewOrder = () => {
           <div className="maincards m-1 flex flex-wrap justify-center gap-5">
 
 
-          <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+          <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-8 ring-slate-900/5 h-full w-100 ">Passport
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg bg-kblack text-kwhite  px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Identity Card
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg  bg-kblack text-kwhite px-20 py-5  shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Baby Photo
             </div>
-            <div class="m-1 rounded-lg bg-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+            <div class="m-1 rounded-lg bg-kblack text-kwhite  px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Product Photo
             </div>
            
         
