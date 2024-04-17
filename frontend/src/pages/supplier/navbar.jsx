@@ -9,7 +9,7 @@ import {
 const SupplierNavbar = () => {
 
     const departments = [
-        { title: 'Supply Items', link: '' },
+        { title: 'Supply Items', link: '/supplier/itemlist' },
         { title: 'Supply Requests', link: '' },
         { title: 'Generate Reports', link: '' },
     ];

@@ -56,6 +56,8 @@ import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
 import OrderPayment from './pages/creator/OrderPayment.jsx';
 
 //Supplier Dashboard
+import MyItemList from './pages/supplier/table.jsx';
+import AddSupply from './pages/supplier/addSupplyItems.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -100,7 +102,10 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
-        
+
+        {/* Supplier Dashboard*/}
+        <Route path='/supplier/itemlist' element={<MyItemList/>}/>
+        <Route path='/supplier/addsupply' element={<AddSupply/>}/>
         
         
       </Routes>
