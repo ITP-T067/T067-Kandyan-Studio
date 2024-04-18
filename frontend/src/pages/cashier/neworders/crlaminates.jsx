@@ -1,9 +1,8 @@
 import Sample from '../../../images/photography.jpg'; 
 import React, { useEffect, useState } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import { Card, Typography, Button, CardBody,Input,Select, Option,Checkbox, } from "@material-tailwind/react";
 import axios from "axios";
-
 
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
 
@@ -68,7 +67,7 @@ const addNewOrder = () => {
                     </CardBody>
                 </Card>
             </div>  
-      //subcards
+     
       <div className="flex flex-row ">
 
         <div className="m-1 rounded-lg bg-kwhite bg-opacity-10 px-full px-5 py-5 w-3/4">
@@ -89,28 +88,79 @@ const addNewOrder = () => {
           </div>  
           <br/>
           <hr className='text-kwhite opacity-30'/><br/>        
-          <div class="grid grid-cols-4 grid-rows-2">
-          <div className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" >
-            <div class="w-64 h-80 absolute bg-kgray opacity-50 rounded-3xl"></div>
-            <img className="absolute rounded-3xl" src={Sample} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
-            <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">Sample name</div>
-          </div>
-          <div className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" >
-            <div class="w-64 h-80 absolute bg-kgray opacity-50 rounded-3xl"></div>
-            <img className="absolute rounded-3xl" src={Sample} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
-            <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">Sample name</div>
-          </div>
-          <div className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" >
-            <div class="w-64 h-80 absolute bg-kgray opacity-50 rounded-3xl"></div>
-            <img className="absolute rounded-3xl" src={Sample} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
-            <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">Sample name</div>
-          </div>
-          <div className="card w-64 h-80 relative cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105" >
-            <div class="w-64 h-80 absolute bg-kgray opacity-50 rounded-3xl"></div>
-            <img className="absolute rounded-3xl" src={Sample} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} alt="Photography" />
-            <div className="Souvenir absolute text-white text-center text-2xl font-bold top-64 left-0 right-0">Sample name</div>
-          </div>
           
+        <div className='bg-kwhite opacity-80'>
+
+          <Card className='m-1 justify-between items-center' color="transparent" shadow={false}>
+             
+              <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                <div className="mb-1 flex flex-col gap-6">
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Your Name
+                  </Typography>
+                  <Input
+                    size="lg"
+                    placeholder="name@mail.com"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Your Email
+                  </Typography>
+                  <Input
+                    size="lg"
+                    placeholder="name@mail.com"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Password
+                  </Typography>
+                  <Input
+                    type="password"
+                    size="lg"
+                    placeholder="********"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                </div>
+                <Checkbox
+                  label={
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="flex items-center font-normal"
+                    >
+                      I agree the
+                      <a
+                        href="#"
+                        className="font-medium transition-colors hover:text-gray-900"
+                      >
+                        &nbsp;Terms and Conditions
+                      </a>
+                    </Typography>
+                  }
+                  containerProps={{ className: "-ml-2.5" }}
+                />
+                <Button className="mt-6" fullWidth>
+                  sign up
+                </Button>
+                <Typography color="gray" className="mt-4 text-center font-normal">
+                  Already have an account?{" "}
+                  <a href="#" className="font-medium text-gray-900">
+                    Sign In
+                  </a>
+                </Typography>
+              </form>
+    </Card>
+    </div>   
+       
           
 
         </div>
@@ -120,7 +170,6 @@ const addNewOrder = () => {
         
         </div>
 
-      </div>
       </div>
       
     );
