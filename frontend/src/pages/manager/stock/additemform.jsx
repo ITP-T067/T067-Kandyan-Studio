@@ -16,34 +16,24 @@ const AddItemForm = () => {
         damaged: 0,
         sellingPrice: "",
         buyingPrice: 0,
-        image: null
+        file: null
     })
 
-    const handleOnChange = async(e) => {
-        if(e.target.type === 'file'){
-            const file = e.target.files[0];
-            setFormData((prev) => {
-                return {
-                    ...prev,
-                    image: file
-                }
-            })
-            const result = await axios.post("/upload-image", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            console.log("Image upload result:", result.data);
-        }else{
-            const { value, id } = e.target;
-            setFormData((prev) => {
-            return {
+    const handleOnChange = (e) => {
+        const {value,name} = e.target;
+
+        if(name === 'file'){
+            setFormData((prev)=>({
                 ...prev,
-                [id]: value
-            }
-        })
+                [name]: e.target.files[0]
+            }));
+        }else{
+            setFormData((prev)=>({
+                ...prev,
+                [name]: value,
+            }));
         }
-    }
+    };
 
     const [isAlert, setIsAlert] = useState(false);
     const [alertStatus, setAlertStatus] = useState('succesßs');
@@ -51,9 +41,20 @@ const AddItemForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("description", formData.description);
+        formDataToSend.append("type", formData.type);
+        formDataToSend.append("quantity", formData.quantity);
+        formDataToSend.append("maxCapacity", formData.maxCapacity);
+        formDataToSend.append("damaged", formData.damaged);
+        formDataToSend.append("sellingPrice", formData.sellingPrice);
+        formDataToSend.append("buyingPrice", formData.buyingPrice);
+        formDataToSend.append("file", formData.file);
+
         console.log("Form Data:", formData);
         try {
-            const data = await axios.post("/item/create", formData);
+            const data = await axios.post("/item/create", formDataToSend);
             console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
                 //alert(data.data.message);
@@ -108,7 +109,7 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                            id="name"
+                            name="name"
                             value={formData.name}
                             onChange={handleOnChange}
                         />
@@ -118,7 +119,7 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full"
-                            id="description"
+                            name="description"
                             value={formData.description}
                             onChange={handleOnChange}
                         />
@@ -128,7 +129,7 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                            id="type"
+                            name="type"
                             value={formData.type}
                             onChange={handleOnChange}
                         />
@@ -139,7 +140,7 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                id="quantity"
+                                name="quantity"
                                 value={formData.quantity}
                                 onChange={handleOnChange}
                             />
@@ -149,7 +150,7 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                id="maxCapacity"
+                                name="maxCapacity"
                                 value={formData.maxCapacity}
                                 onChange={handleOnChange}
                             />
@@ -161,7 +162,7 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                                id="sellingPrice"
+                                name="sellingPrice"
                                 value={formData.sellingPrice}
                                 onChange={handleOnChange}
                             />
@@ -171,9 +172,7 @@ const AddItemForm = () => {
                             <input
                                 type="file"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
-                                id="image"
-                                name='image'
-                                value={formData.image}
+                                name="file"
                                 onChange={handleOnChange}
                             />
                         </div>
