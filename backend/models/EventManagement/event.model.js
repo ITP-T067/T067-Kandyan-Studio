@@ -11,22 +11,21 @@ const eventSchema = new mongoose.Schema({
 
     Customer_Name: {
 
-        type: Schema.Types.ObjectId,
-        ref: 'Customer',
+        type: String,
         required: true,
     },
 
     Contact_No: {
 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customer',
+        type: Number,
         required: true,
     },
 
     Date: {
 
         type: Date,
-        required: true,        
+        required: true,
+        unique: true,        
     },
 
     Venue: {
@@ -42,15 +41,32 @@ const eventSchema = new mongoose.Schema({
 
     Payment_slip: {
 
-        data: Buffer,
-        contentType: String,
+        // data: {
+        //     type: Buffer,
+        //     required: true,
+        // },
+        // contentType: {
+        //     type: String,
+        //     required: true,
+        // }
+        type: String,
+    },
+
+    Package_Name: {
+
+        type: String,
         required: true,
     },
 
     Package_ID: {
+        type: Schema.Types.ObjectId,
+        ref: 'Customer',
+    },
+
+    Customer_ID: {
 
         type: Schema.Types.ObjectId,
-        ref: 'Package'
+        ref: 'Customer'
     },
 
 }, {timestamps:true})

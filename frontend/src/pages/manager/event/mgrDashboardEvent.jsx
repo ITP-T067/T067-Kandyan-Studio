@@ -16,7 +16,7 @@ function mgrDashboardEvent() {
             Events List
           </button>
         </Link>
-        <Link to='/manager/eventdept/mgrDashWedding'>
+        <Link to='/manager/eventdept/MgrWedding'>
           <button className="Rectangle172 flex flex-col items-center justify-center w-80 h-[16rem] rounded-lg  text-kwhite bg-kblack border-kyellow border-4 text-kwhite-default text-2xl font-bold hover:scale-105 transition-transform duration-300">
             <MdManageHistory className="text-5xl mb-4 text-white w-20 h-20" />
             Manage Packages  

@@ -16,20 +16,20 @@ function cusDashSocial() {
         <Link to="/">
           <IoArrowBackCircleSharp className="w-10 h-10" />
         </Link>
-        <p className="text-kblack mt-2 mb-2 ml-2 text-lg font-[inter]">Back to Home</p>
+        <p className="text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]">Back to Home</p>
       </div>
       </div>
 
       {/* event navigation */}
-      <div className="events w-56 h-12 relative mt-15 ml-96 flex justify-center">
+      <div className="events w-56 h-12 relative mt-15 ml-[26rem] flex justify-center">
         <Link to="/customer/event/cusDashWedding">
-          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kblack rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Wedding</button>
+          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Wedding</button>
         </Link>
         <Link to="/customer/event/cusDashBdayParty">
-          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kblack text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Birthday Party</button>
+          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Birthday Party</button>
         </Link>
         <Link to="/customer/event/cusDashSocial">
-          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kblack rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Social Events</button>
+          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Social Events</button>
         </Link>
       </div>
 
@@ -45,10 +45,9 @@ function cusDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 18 000</p>
                     </div>
                     <div className="button flex justify-center font-bold">
-                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">
-                            <Link to=""></Link>
-                            BUY
-                        </button>
+                      <Link to="/customer/event/BookingEvent">
+                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">BUY</button>
+                      </Link>
                     </div>
                 </div>
 
@@ -61,10 +60,9 @@ function cusDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 50 000</p>
                     </div>
                     <div className="button flex justify-center font-bold">
-                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">
-                            <Link to=""></Link>
-                            BUY
-                        </button>
+                      <Link to="/customer/event/BookingEvent">
+                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">BUY</button>
+                      </Link>
                     </div>
                 </div>
 
@@ -79,10 +77,9 @@ function cusDashSocial() {
                         <p className="price text-3xl font-semibold">Rs 90 000</p>
                     </div>
                     <div className="button flex justify-center font-bold">
-                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">
-                            <Link to=""></Link>
-                            BUY
-                        </button>
+                      <Link to="/customer/event/BookingEvent">
+                        <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack">BUY</button>
+                      </Link>
                     </div>
                 </div>
             

@@ -15,11 +15,12 @@ import Router from './Components/Common/Router';
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
-import CusDashWedding from './pages/customer/event/cusDashWedding.jsx';
-import CusDashBdayParty from './pages/customer/event/cusDashBdayParty.jsx';
-import CusDashSocial from './pages/customer/event/cusDashSocial.jsx';
+import WeddingEvents from './pages/customer/event/WeddingEvents.jsx';
+import BirthdayEvents from './pages/customer/event/BdayEvents.jsx'
+import SocialEvents from './pages/customer/event/SocialEvents.jsx';
 import BookingEvent from './pages/customer/event/BookingEvent.jsx';
 import EditEvent from './pages/customer/event/EditEvent.jsx';
+import MyEvents from './pages/customer/event/MyEvents.jsx';
 import Customercart from './pages/customer/onlineorder/customerCart.jsx';
 import Myorder from './pages/customer/onlineorder/myOrders.jsx';
 import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
@@ -41,9 +42,9 @@ import EditItemForm from './pages/manager/stock/edititemform';
 
 //Manager Dashboard - Event Department
 import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
-import MgrDashWedding from './pages/manager/event/mgrDashWedding.jsx'
-import MgrDashBdayParty from './pages/manager/event/mgrDashBdayParty.jsx'
-import MgrDashSocial from './pages/manager/event/mgrDashSocial.jsx'
+import MgrWedding from './pages/manager/event/MgrWedding.jsx';
+import MgrBdayParty from './pages/manager/event/MgrBdayParty.jsx';
+import MgrSocial from './pages/manager/event/MgrSocial.jsx';
 import AddPackages from './pages/manager/event/AddPackages.jsx';
 import EditPackages from './pages/manager/event/EditPackages.jsx';
 import EventsList from './pages/manager/event/EventsList.jsx';
@@ -85,11 +86,12 @@ root.render(
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
-        <Route path='/customer/event/cusDashWedding' element={<CusDashWedding/>}/>
-        <Route path='/customer/event/cusDashBdayParty' element={<CusDashBdayParty/>}/>
-        <Route path='/customer/event/cusDashSocial' element={<CusDashSocial/>}/>
+        <Route path='/customer/event/WeddingEvents' element={<WeddingEvents/>}/>
+        <Route path='/customer/event/BdayEvents' element={<BirthdayEvents/>}/>
+        <Route path='/customer/event/SocialEvents' element={<SocialEvents/>}/>
         <Route path='/customer/event/BookingEvent' element={<BookingEvent/>}/>
         <Route path='/customer/event/EditEvent' element={<EditEvent/>}/>
+        <Route path='/customer/event/MyEvents' element={<MyEvents/>}/>
         <Route path='/myorder' element={<Myorder/>}/>
         <Route path='/pendingorder' element={<Pendingorder/>}/>
         <Route path='/processingorder' element={<Processingorder/>}/>
@@ -111,9 +113,9 @@ root.render(
 
         {/* Manager Dashboard - Event Department */}
         <Route path='/manager/eventdept' element={<MgrDashboardEvent/>}/>
-        <Route path='/manager/eventdept/mgrDashWedding' element={<MgrDashWedding/>}/>
-        <Route path='/manager/eventdept/mgrDashBdayParty' element={<MgrDashBdayParty/>}/>
-        <Route path='/manager/eventdept/mgrDashSocial' element={<MgrDashSocial/>}/>
+        <Route path='/manager/eventdept/MgrWedding' element={<MgrWedding/>}/>
+        <Route path='/manager/eventdept/MgrBdayParty' element={<MgrBdayParty/>}/>
+        <Route path='/manager/eventdept/MgrSocial' element={<MgrSocial/>}/>
         <Route path='/manager/eventdept/AddPackages' element={<AddPackages/>}/>
         <Route path='/manager/eventdept/EditPackages' element={<EditPackages/>}/>
         <Route path='/manager/eventdept/EventsList' element={<EventsList/>}/>

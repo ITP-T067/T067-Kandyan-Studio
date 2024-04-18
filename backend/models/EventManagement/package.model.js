@@ -9,7 +9,7 @@ const packageSchema = new mongoose.Schema({
         required: true,
     },
 
-    Package_Type: {
+    Package_Name: {
 
         type: String,
         required: true,
@@ -23,6 +23,20 @@ const packageSchema = new mongoose.Schema({
 
     Description: {
 
+        type: String,
+        required: true,
+    },
+
+    Image: {
+
+        // data: {
+        //     type: Buffer,
+        //     required: true,
+        // },
+        // contentType: {
+        //     type: String,
+        //     required: true,
+        // }
         type: String,
         required: true,
     },

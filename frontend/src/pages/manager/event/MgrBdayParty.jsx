@@ -6,7 +6,7 @@ import Standard from '../../../images/events/party1.jpg'
 import Premium from '../../../images/events/party2.png'
 import Diamond from '../../../images/events/party3.jpg'
 
-function mgrDashBdayParty() {
+function MgrBdayParty() {
   return (
     <div>
 
@@ -28,14 +28,14 @@ function mgrDashBdayParty() {
 
       {/* event navigation */}
       <div className="events w-56 h-12 relative mt-15 ml-96 flex justify-center">
-        <Link to="/manager/eventdept/mgrDashWedding">
-          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kblack rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Wedding</button>
+        <Link to="/manager/eventdept/MgrWedding">
+          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Wedding</button>
         </Link>
-        <Link to="/manager/eventdept/mgrDashBdayParty">
-          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kblack text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Birthday Party</button>
+        <Link to="/manager/eventdept/MgrBdayParty">
+          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Birthday Party</button>
         </Link>
-        <Link to="/manager/eventdept/mgrDashSocial">
-          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kblack rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Social Events</button>
+        <Link to="/manager/eventdept/MgrSocial">
+          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Social Events</button>
         </Link>
       </div>
         
@@ -98,10 +98,9 @@ function mgrDashBdayParty() {
                 </div>
             
         </div>
-
       
     </div>
   )
 }
 
-export default mgrDashBdayParty
+export default MgrBdayParty

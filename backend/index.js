@@ -13,6 +13,10 @@ const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
 
 //Manager - Event Department
+const packageRouter = require("./routes/EventManagement/package.route.js");
+
+//Customer - Event Department
+const eventRouter = require("./routes/EventManagement/event.route.js")
 
 
 const app = express()
@@ -39,6 +43,11 @@ app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 
 //Manager - Event Department
+app.use('/package', packageRouter);
+
+//Customer - Event Department
+app.use('/event', eventRouter);
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

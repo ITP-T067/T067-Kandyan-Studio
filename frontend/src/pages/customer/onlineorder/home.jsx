@@ -1,10 +1,10 @@
 import React from 'react';
-import '../Styles/home.css'; // Importing the CSS file
-import MainImage from '../images/logo.png';
-import Photography from '../images/photography.jpg';
-import DigitalPrinting from '../images/DigitialPrinting.jpg';
+import '../../../Styles/home.css'; // Importing the CSS file
+import MainImage from '../../../images/logo.png';
+import Photography from '../../../images/photography.jpg';
+import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
 import { useNavigate } from 'react-router-dom';
-import NormalHeader from './header';
+import NormalHeader from '../../header';
 
 
 function Home() {
@@ -37,7 +37,7 @@ function Home() {
         </button>
       </div>
       <div className="explore-btn">
-          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('/customer/event/WeddingEvents')}>
+          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('/customer/event/cusDashWedding')}>
               EXPLORE EVENTS
           </button>
       </div>

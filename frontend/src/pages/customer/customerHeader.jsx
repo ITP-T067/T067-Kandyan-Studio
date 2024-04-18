@@ -10,6 +10,10 @@ const CustomerHeader = () => {
         window.location.href = '/myorder';
     }
 
+    const myEvents = () => {
+        window.location.href = '/customer/event/MyEvents'
+    }
+
     const customercart = () => {
         window.location.href = '/customercart';
     }
@@ -33,7 +37,7 @@ const CustomerHeader = () => {
         <nav className="navbar flex justify-between items-center px-20 top-0 left-0 bg-black py-30">
             <div className="flex items-center">
                 <button className="actor-button bg-kgray text-kwhite text-sm font-bold py-2 px-4 rounded-l-full" onClick={myorder}>My Orders</button>
-                <button className="actor-button bg-kgray text-kwhite text-sm font-bold py-2 px-4 mx-1" onClick={handleLogout}>My Events</button>
+                <button className="actor-button bg-kgray text-kwhite text-sm font-bold py-2 px-4 mx-1" onClick={myEvents}>My Events</button>
                 <button className="actor-button bg-kgray text-kwhite text-sm font-bold py-2 px-4 rounded-r-full" onClick={handleLogout}>Reviews</button>
             </div>
             <img src={logo} alt="Logo" width="30" height="30" className="mx-auto" onClick={home} />
