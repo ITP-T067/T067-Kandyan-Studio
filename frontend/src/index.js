@@ -45,8 +45,6 @@ import EditItemForm from './pages/manager/stock/edititemform';
 //Manager Dashboard - Loyalty Department
 
 
-
-
 //Cashier Dashboard
 import Ordermain from './pages/cashier/order.jsx';
 import StockAV from './pages/cashier/Stockavailability.jsx';
@@ -62,6 +60,7 @@ import Crframes from './pages/cashier/neworders/crframes.jsx';
 import Stbabyphoto from './pages/cashier/neworders/stbabyphoto.jsx';
 import StproductPhoto from './pages/cashier/neworders/stproductphoto.jsx';
 import Stidcard from './pages/cashier/neworders/stidcard.jsx';
+
 
 //Creator Dashboard
 import Projects from './pages/creator/Projects.jsx';

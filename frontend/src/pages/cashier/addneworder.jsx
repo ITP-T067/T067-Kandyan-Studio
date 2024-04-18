@@ -6,7 +6,6 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
 
-
   const GoBack = () => {
       window.location.href = "/cashier/ordermain";
   };
@@ -114,7 +113,7 @@ function AddNewOrder(){
         {items.map(item => (
           <div key={item._id} className="card w-64 h-96 relative cursor-pointer" >
             <div class="w-64 h-auto  bg-kwhite opacity-100 rounded-xl "><center>
-            <img className="rounded-xl" src={item.image} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
+            <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
             <div className="text-white text-center text-2xl font-bold top-64 left-0 right-0">{item.name}</div>
           
           {/*quantity */}
