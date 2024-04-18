@@ -84,6 +84,7 @@ const update_event = async(req, res, next) => {
         }
     }catch(error){
         next(error);
+        console.log("error!")
     }
 }
 

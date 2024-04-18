@@ -9,8 +9,9 @@ import axios from 'axios';
 
 
 
-function BdayEvents() {
-    const [addSection, setAddSection] = useState(false)
+function BdayEvents({packageName}) {
+    const [addSection, setAddSection] = useState(false);
+    const [selectedPackage, setSelectedPackage] = useState(null);
     const [formData, setFormData] = useState({
         pkg_category: "",
         date: "",
@@ -37,6 +38,15 @@ function BdayEvents() {
       const data = await axios.post("/create", formData)
       console.log(data)
     }
+
+    const selectPackage = (packageName) => {
+      setSelectedPackage(packageName);
+      setFormData(prev => ({
+        ...prev,
+        pkg_name: packageName
+      }));
+      setAddSection(true);
+    };
   
     return (
       <div>
@@ -77,7 +87,7 @@ function BdayEvents() {
                           <p className="price text-3xl font-semibold">Rs 25 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={()=>setAddSection(true) }>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Standard"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
   
@@ -90,7 +100,7 @@ function BdayEvents() {
                           <p className="price text-3xl font-semibold">Rs 75 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={()=>setAddSection(true) }>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Premium"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
   
@@ -103,7 +113,7 @@ function BdayEvents() {
                           <p className="price text-3xl font-semibold">Rs 100 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={()=>setAddSection(true) }>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Diamond"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
               
@@ -118,7 +128,7 @@ function BdayEvents() {
                     <div className="grid grid-cols-2 gap-7 mt-7 items-center ml-5 mr-5 font-['inter'] text-mdfont-semibold ">
                     <div>
                       <label htmlFor="pkg_category" className="block text-kwhite">Event Category</label>
-                      <input type="text" id="pkg_category" name="pkg_category" value="Birthday Party" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite  p-1" />
+                      <input type="text" id="pkg_category" name="pkg_category" value="Birthday Event" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite  p-1" />
                     </div>
                     <div>
                       <label htmlFor="date" className="block text-kwhite">Date</label>
@@ -142,11 +152,11 @@ function BdayEvents() {
                     </div>
                     <div>
                       <label htmlFor="pkg_name" className="block text-kwhite">Package Name</label>
-                      <input type="text" id="pkg_name" name="pkg_name" value="Standard" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
+                      <input type="text" id="pkg_name" name="pkg_name" value={formData.pkg_name} className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
                     </div>
                     <div>
                       <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-                      <input type="text" id="payment_slip" name="payment_slip" className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" />
+                      <input type="file" id="payment_slip" name="payment_slip" className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" />
                     </div>
                     </div>
                     <div className="flex justify-between">
