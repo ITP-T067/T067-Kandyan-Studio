@@ -57,6 +57,7 @@ export default function AddToCart() {
       item_Price: itemDetails.sellingPrice,
       item_Type: orderType,
       item_Quantity: parseInt(quantity),
+      item_image: itemDetails.image,
       item_Slip: "sdfdsg gfgsd"
     };
 
@@ -77,8 +78,8 @@ export default function AddToCart() {
 
   return (
     <div>
-      <div className={`container ${showAlert ? 'blur' : ''}`}>
-        <div className="h-[45rem] bg-kgray bg-opacity-30 rounded-3xl ml-8 mr-8">
+      <div className={`flex justify-center items-center h-screen ${showAlert ? 'blur' : ''}`}>
+        <div className="h-[42rem] w-[80rem] bg-kgray bg-opacity-30 rounded-3xl ">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
               <div className="mt-4 ml-11">
@@ -92,45 +93,20 @@ export default function AddToCart() {
               </div>
 
                 <div className="flex justify-center mx-auto md:mx-0">
-                  <div className="flex flex-col justify-center">
-                    <img
-                      src={DigitalPrinting}
-                      alt="Small Image 1"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(DigitalPrinting)}
-                    />
-                    <img
-                      src={Photography}
-                      alt="Small Image 2"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(Photography)}
-                    />
-                    <img
-                      src={DigitalPrinting}
-                      alt="Small Image 3"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(DigitalPrinting)}
-                    />
-                    <img
-                      src={Photography}
-                      alt="Small Image 4"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(Photography)}
-                    />
-                  </div>
-                  <div className="flex items-center ml-4">
-                    <img src={mainImage} alt="Centered Image" className="rounded-lg w-65 h-64" />
+                  
+                  <div className="flex items-center ml-[12.5rem]">
+                    <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg" style={{ width: '250px', height: '250px'}} />
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="py-8">
-                  <h2 className="text-5xl font-bold text-kwhite mb-2 ml-10 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
+                <div className="py-8 ml-[8rem]">
+                  <h2 className="text-5xl font-bold text-kwhite ml-10 mb-2 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
-                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-6 h-[9rem]">
-                      <div class="overflow-y-auto h-[9rem]">
+                      <h2 className="font-bold text-kwhite ml-10 mt-2 max-w-[500px] h-[9rem]">
+                      <div class="overflow-y-auto h-[7rem]">
                         <div>{itemDetails.description}</div>
                       </div>
                       </h2>
@@ -139,21 +115,11 @@ export default function AddToCart() {
                   
                  <form onSubmit={handleAddToCartClick}>
                     <div className="mb-4">
-                      <label className="text-1xl text-kwhite ml-12">Order Type</label>
-                      <select aria-label="Select order type" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " required value={orderType} onChange={handleOrderTypeChange}>
-                        <option value="" disabled selected hidden>Select order type</option>
-                        <option value="Sublimation">Sublimation</option>
-                        <option value="Poster">Poster</option>
-                        <option value="Frame">Frame</option>
-                        <option value="Prints">Prints</option>
-                      </select>
-                    </div>
-                    <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
                       <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={1} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                     </div>
                     <div>
-                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
+                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
                       <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  />
                     </div>
                     <div>
@@ -164,7 +130,7 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 mt-[-16rem]">
+          <div class="overflow-y-auto h-60 max-w-[500px] ml-36 mt-[-16rem]">
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />

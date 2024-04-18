@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const onlineOrderSchema = new mongoose.Schema({ 
 
-    Order_Type: {  
-        type: String,  
+    Item_ID: {  
+        type: Schema.Types.ObjectId,  
+        ref: 'Item',  
         required: true, 
     }, 
     
@@ -17,10 +18,22 @@ const onlineOrderSchema = new mongoose.Schema({
         type: String,  
     }, 
     
+    Order_Date: { 
+
+        type: Date,
+        required: true, 
+
+    }, 
+
     Status: {  
         type: String,  
         required: true, 
     }, 
+
+    Order_Amount: {
+        type: Number,
+        required: true,
+    },
     
     Project_Status:{ 
         type: String, 
@@ -37,4 +50,4 @@ const onlineOrderSchema = new mongoose.Schema({
     
 const OnlineOrder = mongoose.model('OnlineOrder', onlineOrderSchema); 
 
-module.exports = OnlineOrder; 
+module.exports = OnlineOrder;
