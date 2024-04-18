@@ -148,7 +148,7 @@ function AddNewOrder(){
         </div>
 
          {/* payment  */}
-        <div className="m-1 rounded-lg bg-kblack w-1/4 ">
+        <div className="m-1  rounded-lg bg-kblack w-1/4 ">
         
         </div>
 
