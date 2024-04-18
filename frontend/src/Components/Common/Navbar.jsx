@@ -35,7 +35,7 @@ const Navbar = () => {
                     );
                 }    else if (userRole === 'Studio Operator') {
                     return (
-                        //<Supplier/>
+                        null
                     );
                 }  else {
                     return (
