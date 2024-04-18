@@ -33,6 +33,11 @@ const TABLE_ROWS = [
     type: "Shooting",
     price: "LKR 1,700.00"
   },
+  {
+    date: "2024/01/05",
+    type: "Shooting",
+    price: "LKR 1,700.00"
+  },
   
 ];
 
@@ -109,7 +114,7 @@ export default function Generatereports() {
       </form>
 
       <div className="h-10 max-w-md mx-auto">
-        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={generatePDF}>GENERATE</button>
+        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={generatePDF}>DOWNLOAD</button>
       </div>
 
 
@@ -117,11 +122,11 @@ export default function Generatereports() {
         <div ref={componentPDF}>
           <table className="w-full rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-kblack bg-opacity-40">
+              <tr className="bg-kwhite bg-opacity-90">
                 {TABLE_HEAD.map((head, index) => (
                   <th
                     key={head}
-                    className={`border-kwhite text-kwhite p-4 font-bold ${
+                    className={`border-kwhite text-kblack p-4 font-bold ${
                       index === TABLE_HEAD.length ? "" : "border-b"
                       } text-center`}
                   >
@@ -137,7 +142,7 @@ export default function Generatereports() {
                 return (
                   <tr
                     key={index}
-                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4 bg-opacity-20`}
+                    className={`${isLast ? "" : "border-b"} bg-kwhite text-kblack text-center p-4 bg-opacity-80`}
                   >
                     <td>
                       <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">

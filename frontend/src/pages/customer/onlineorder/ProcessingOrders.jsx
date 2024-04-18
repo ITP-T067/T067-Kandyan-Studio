@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 
@@ -31,11 +31,18 @@ const TABLE_ROWS = [
 export default function PendingOrders() {
 
   const navigate = useNavigate();
+  const [showDetailAlert, setDetailAlert] = useState(false);
+
+  const handleDetailClick = () => {
+    setDetailAlert(true);
+    navigate('/processingorder');
+  };
+  
 
   return (
     <div>
       <div className="mx-5 mb-5">
-                <Card>
+                <Card className={`${showDetailAlert ? 'blur' : ''}`}>
                     <CardBody className="flex items-center justify-between">
                       <div>
                         <div class="flex items-center" onClick={() => navigate('/myorder')}>
@@ -51,7 +58,7 @@ export default function PendingOrders() {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+            <div className={`p-3 ${showDetailAlert ? 'blur' : ''}`}>
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack bg-opacity-40">
@@ -94,7 +101,7 @@ export default function PendingOrders() {
                                     <td className="p-2">
                                         <div className="mx-auto text-kwhite">
                                         
-                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]">Details</button>
+                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDetailClick} disabled={showDetailAlert}>Details</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -103,6 +110,53 @@ export default function PendingOrders() {
                     </tbody>
                 </table>
             </div>
+            {showDetailAlert && (
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
+                    <div className="bg-white p-8 rounded-3xl">
+                        <form class="w-full max-w-">
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
+                                        Type : 
+                                    </label>
+                                </div>
+                                <div class="md:w-">
+                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
+                                        Designing
+                                    </label>
+                                </div>
+            
+                            </div>
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
+                                        Total Price :  
+                                    </label>
+                                </div>
+                                <div class="md:w-">
+                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
+                                        3000.00
+                                    </label>
+                                </div>
+            
+                            </div>
+                            <div class="md:flex md:items-center mb-6">
+                                <div class="md:w-1/3">
+                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
+                                        Description : 
+                                    </label>
+                                </div>
+                                <div class="md:w-">
+                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
+                                        I need a fairy themed design, make it look heavenly
+                                    </label>
+                                </div>
+                            </div>
+                            <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded">Ok</button>
+                        </form>
+                    </div>
+                </div>
+            )}
     </div>
   )
 }
