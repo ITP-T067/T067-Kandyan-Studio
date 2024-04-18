@@ -14,8 +14,44 @@ const index_item = async(req, res, next) => {
 
 //create item
 const create_item = async(req, res, next) => {
+    
+    try{
+        const {name, description, type, quantity, maxCapacity, damaged, sellingPrice, buyingPrice} = req.body;
+        const {filename:image} = req.file;
+
+        const data = new Item({
+            name,
+            description,
+            type,
+            quantity,
+            maxCapacity,
+            damaged,
+            sellingPrice,
+            buyingPrice,
+            image
+        });
+
+        await data.save();
+
+        if(res.status(201)){
+            res.send({success : true, message : "Item saved successfully", data: data});
+        }
+
+    }catch(error){
+        next(error);
+    }
+    /*
     console.log(req.body);
     const data = new Item(req.body);
+
+    console.log(req.file);
+  const fileName = req.file.filename;
+    try {
+        await Item.create({ image: fileName, pdf: fileName });
+        res.send({ status: "ok" });
+      } catch (error) {
+        res.json({ status: error });
+      }
 
     try {
         await data.save();
@@ -25,6 +61,7 @@ const create_item = async(req, res, next) => {
     } catch (error) {
         next(error);
     }
+    */
 }
 
 //update item
@@ -70,5 +107,6 @@ const find_item = async(req, res, next) => {
         next(error);
     }
 }
+
 
 module.exports = {index_item, create_item, update_item, del_item, find_item};
