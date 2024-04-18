@@ -115,9 +115,9 @@ export default function PendingOrders() {
                                     </td>
                                     <td className="p-2">
                                         <div className="mx-auto text-kwhite">
-                                        <button type="button" class="bg-kgreen focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleEditClick} >Edit</button>
-                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handlePayClick}>Pay</button>
-                                        <button type="button" class="bg-kred focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDeleteClick}>Delete</button>
+                                        <button type="button" class="bg-kgreen focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleEditClick} disabled={showEditAlert || showPayAlert || showDeleteAlert}>Edit</button>
+                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handlePayClick} disabled={showEditAlert || showPayAlert || showDeleteAlert}>Pay</button>
+                                        <button type="button" class="bg-kred focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDeleteClick} disabled={showEditAlert || showPayAlert || showDeleteAlert}>Delete</button>
                                            
                                         </div>
                                     </td>
