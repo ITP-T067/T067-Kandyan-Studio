@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const onlineOrderSchema = new mongoose.Schema({ 
 
-    Order_Type: {  
-        type: String,  
+    Item_ID: {  
+        type: Schema.Types.ObjectId,  
+        ref: 'Item',  
         required: true, 
     }, 
     

@@ -63,6 +63,7 @@ import ResolveInquiries from './pages/creator/ResolveInquiries.jsx';
 import PaymentDetails from './pages/creator/PaymentDetails.jsx';
 import ReceiptForm from './pages/creator/ReceiptForm.jsx';
 import Generatereports from './pages/creator/GenerateReports.jsx';
+import DeclinePayment from './pages/creator/DeclinePayment.jsx';
 
 //Supplier Dashboard
 
@@ -117,6 +118,7 @@ root.render(
         <Route path='/creator/paymentDetails/:orderId' element={<PaymentDetails/>}/>
         <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
         <Route path='/creator/generateReports' element={<Generatereports/>}/>
+        <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
         
         
         

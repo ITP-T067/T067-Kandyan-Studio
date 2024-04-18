@@ -10,7 +10,7 @@ export default function OrderPayment() {
     
       useEffect(() => {
         getFetchData();
-        console.log(dataList);
+        console.log(dataList[0]);
       }, []);
     
       const getFetchData = async () => {
@@ -48,11 +48,17 @@ export default function OrderPayment() {
 
   return (
     <>
-    <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
-        <a className="w-1/3 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kblack font-medium" href="/creator/projectOrders/"><div className="">Order List</div></a>
-        <a className="w-1/3 h-[65px] py-5 text-center bg-kblack font-medium" href="/creator/physicalOrders"><div>Add physical orders</div></a>
-        <a className="w-1/3 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kgray font-medium" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
-    </nav>
+        <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
+            <a className="w-1/3 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/projectOrders/">
+                <div>Order List</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center bg-kblack font-bold flex flex-col justify-center" href="/creator/physicalOrders">
+                <div>Add physical orders</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/orderPayments">
+                <div>Approve Order Payments</div>
+            </a>
+        </nav>
 
     <div className="mt-5 mx-auto">
         <table className="w-full border-collapse text-kwhite">
@@ -90,7 +96,7 @@ export default function OrderPayment() {
                           Approve
                       </button>
 
-                          <Link to={`/creator/declineOrders/${el._id}`}>
+                          <Link to={`/creator/declinePayment/${el._id}`}>
                               <button className='btn_edit bg-kred text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Decline</button>
                           </Link>
                       </td>

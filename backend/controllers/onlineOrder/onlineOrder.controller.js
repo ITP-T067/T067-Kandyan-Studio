@@ -1,13 +1,20 @@
 const OnlineOrder = require("../../models/onlineOrder/onlineOrder.model.js") 
 const {errorHandler} = require("../../utils/error.js");
+const nodemailer = require('nodemailer');
 
 const index_onOrder = async(req,res, next) => {
 
     try{
-        const data = await OnlineOrder.find({}).populate({
-            path: 'Cus_ID',
-            select: 'Cus_Name',
-        });
+        const data = await OnlineOrder.find({}).populate([
+            {
+                path: 'Item_ID',
+                select: 'name description',
+            },
+            {
+                path: 'Cus_ID',
+                select: 'Cus_Name Contact_No Email',
+            },
+        ]);
         if(res.status(201)){
             res.json({success : true , data: data})
         }
@@ -20,10 +27,16 @@ const getOrderById_onOrder = async (req, res, next) => {
     const orderId = req.params.id;
 
     try {
-        const order = await OnlineOrder.findById(orderId).populate({
-            path: 'Cus_ID',
-            select: 'Cus_Name Contact_No',
-        });
+        const order = await OnlineOrder.findById(orderId).populate([
+            {
+                path: 'Item_ID',
+                select: 'name description',
+            },
+            {
+                path: 'Cus_ID',
+                select: 'Cus_Name Contact_No Email',
+            },
+        ]);
 
         if (!order) {
             return res.status(404).json({ success: false, message: "Order not found" });
@@ -37,11 +50,11 @@ const getOrderById_onOrder = async (req, res, next) => {
 
 //create data
 const create_onOrder = async(req,res, next) => {
-    const { Order_Type, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
+    const { Item_ID, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
     const Order_Date = new Date();
 
     const newOrder = new OnlineOrder({
-        Order_Type, 
+        Item_ID, 
         Quantity, 
         Additional,
         Order_Date, 
@@ -95,5 +108,37 @@ const del_onOrder = async(req,res, next) =>{
     }
 }
 
+// Create a transporter object using the default SMTP transport
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'ssd.dias29@gmail.com',
+        pass: 'veia uath lutv zpot'
+    }
+});
 
-module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder};
+const send_email_onOrder =  async (req, res) => {
+const { to, subject, text } = req.body;
+
+try {
+    const mailOptions = {
+    from: 
+    {
+        name: "Kandyan Studio",
+        address: "ssd.dias29@gmail.com"
+    },
+    to,
+    subject,
+    text
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: 'Email sent successfully' });
+} catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ success: false, message: 'Error sending email' });
+}
+};
+
+
+module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder};

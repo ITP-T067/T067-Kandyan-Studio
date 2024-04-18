@@ -14,11 +14,12 @@ const index_offOrder = async(req,res, next) => {
 }
 //create data
 const create_offOrder = async(req,res, next) => {
-    const { Order_Type, Quantity, Additional, Artwork_Price, Cus_Name, Phone_Number, Status, Project_Status } = req.body;
+    const { Order_Type,Item_Name, Quantity, Additional, Artwork_Price, Cus_Name, Phone_Number, Status, Project_Status } = req.body;
     const Order_Date = new Date();
 
     const newOrder = new OfflineOrder({
         Order_Type, 
+        Item_Name,
         Quantity, 
         Additional,
         Artwork_Price, 

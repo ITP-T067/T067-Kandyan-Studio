@@ -34,14 +34,20 @@ export default function Orders() {
   return (
     <>
         <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
-            <a className="w-1/3 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/projectOrders/"><div className="">Order List</div></a>
-            <a className="w-1/3 h-[65px] py-5 text-center bg-kblack font-medium" href="/creator/physicalOrders"><div>Add physical orders</div></a>
-            <a className="w-1/3 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
+            <a className="w-1/3 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/projectOrders/">
+                <div>Order List</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center bg-kblack font-bold flex flex-col justify-center" href="/creator/physicalOrders">
+                <div>Add physical orders</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/orderPayments">
+                <div>Approve Order Payments</div>
+            </a>
         </nav>
 
         <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
-            <a className="w-1/2 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
-            <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
+            <a className="w-1/2 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center b" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
+            <a className="w-1/2 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 
       <div className="mt-5 mx-auto">
@@ -63,7 +69,7 @@ export default function Orders() {
                 if(el.Project_Status != "Added" && el.Status == "Completed"){
                   return(
                     <tr>
-                      <td className="px-4 py-2 text-center">{el.Order_Type}</td>
+                      <td className="px-4 py-2 text-center">{el.Item_ID?el.Item_ID.name : 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{el.Quantity}</td>
                       <td className="px-4 py-2 text-center">{el.Additional}</td>
                       <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>

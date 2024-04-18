@@ -1,13 +1,19 @@
 const express = require('express')
+<<<<<<< Updated upstream
 const {index_onOrder, create_onOrder, update_onOrder, del_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
 const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/offlineOrder.controller.js");
 const {create_addToCart, index_addToCart, del_addToCart} = require("../controllers/onlineOrder/addToCart.controller");
+=======
+const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
+const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/projectManagement/offlineOrder.controller.js");
+>>>>>>> Stashed changes
 
 const router = express.Router();
 //online orders
 router.get("/on/", index_onOrder);
 router.get("/on/:id", getOrderById_onOrder);
 router.post("/on/create", create_onOrder);
+router.post("/on/send-email", send_email_onOrder);
 router.put("/on/update", update_onOrder);
 router.delete("/on/delete/:id", del_onOrder);
 

@@ -98,7 +98,7 @@ export default function PaymentDetails() {
 
                 <div className="mb-5">
                     <label htmlFor="Inquiry_Data" className="font-bold text-kwhite text-lg">Order: </label>
-                    <span className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kwhite">{data?.Order_Type || 'N/A'}</span>
+                    <span className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kwhite">{data?.Item_ID?.name || 'N/A'}</span>
                 </div>
 
                 <div className="mb-5">

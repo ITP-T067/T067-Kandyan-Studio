@@ -7,6 +7,11 @@ const offlineOrderSchema = new mongoose.Schema({
         required: true, 
     }, 
     
+    Item_Name: {
+        type: String,
+        required: true,
+    },
+
     Quantity: {  
         type: Number,  
         required: true, 
