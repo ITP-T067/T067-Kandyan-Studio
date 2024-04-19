@@ -2,24 +2,15 @@ import React, { useEffect, useState } from 'react';
 import '../../../Styles/addToCart.css';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
-import Photography from '../../../images/photography.jpg';
+
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
 export default function AddToCart() {
-  const [mainImage, setMainImage] = useState(Photography);
   const [showAlert, setShowAlert] = useState(false);
-  const [orderType, setOrderType] = useState('');
   const navigate = useNavigate();
 
-  const handleOrderTypeChange = (e) => {
-    setOrderType(e.target.value);
-  };
 
-  const handleSmallImageClick = (imageSrc) => {
-    setMainImage(imageSrc);
-  };
 
   const handleOKButtonClick = () => {
     setShowAlert(false);
@@ -53,12 +44,11 @@ export default function AddToCart() {
     e.preventDefault();
 
     const dataAdd = {
+      Item_ID: itemId,
       item_Name: itemDetails.name,
       item_Price: itemDetails.sellingPrice,
-      item_Type: orderType,
       item_Quantity: parseInt(quantity),
       item_image: itemDetails.image,
-      item_Slip: "sdfdsg gfgsd"
     };
 
     axios.post('order/on/create/cart', dataAdd)
