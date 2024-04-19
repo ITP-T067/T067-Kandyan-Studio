@@ -1,5 +1,6 @@
 const Item = require('../../models/StockManagement/item.model');
 const { errorHandler } = require('../../utils/error');
+const nodemailer = require("nodemailer");
 
 const index_item = async(req, res, next) => {
     try {
@@ -64,8 +65,35 @@ const create_item = async(req, res, next) => {
     */
 }
 
+/*
+const update_item = async (req, res, next) => {
+    
+    console.log(req.body);
+    console.log(req.file); // Log req.file to check if the file was uploaded
+    if (!req.file) {
+        return res.status(400).send({ success: false, message: "No file uploaded" });
+    }
+    const {_id, ...rest} = req.body;
+    const {filename:image} = req.file;
+    console.log(rest);
+    try {
+        const data = await Item.updateOne({_id : _id},image, rest);
+        if(res.status(201)){
+            res.send({success:true, message: "Item updated successfully", data : data});
+        }
+    }catch(error){
+        next(error);
+    }
+    
+};
+*/
+
+
+
 //update item
+
 const update_item = async(req, res, next) => {
+        
     console.log(req.body);
     const {_id, ...rest} = req.body;
     console.log(rest);
@@ -78,6 +106,7 @@ const update_item = async(req, res, next) => {
         next(error);
     }
 }
+
 
 //delete item
 const del_item = async(req, res, next) => {
@@ -108,5 +137,39 @@ const find_item = async(req, res, next) => {
     }
 }
 
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: 'kandyan.info@gmail.com',
+        pass: 'ukle odkn trba qhuh',
+    },
+});
 
-module.exports = {index_item, create_item, update_item, del_item, find_item};
+const send_email = async(req, res, next) => {
+    const {to, subject, text, html} = req.body;
+
+    try{
+        const mailOptions = {
+            from: {
+                name: "Kandyan Studio - Inventory Management",
+                address: 'kandyan.info@gmail.com',
+            },
+            to : 'pahanabhayawardhane@gmail.com',
+            subject,
+            text
+        };
+        await transporter.sendMail(mailOptions);
+        res.send({success: true, message: "Email sent successfully"});
+    }catch(error){
+        console.error('Error sending email : ',error);
+
+        res.status(500).send({success: false, message: "Error sending email"});
+    }
+};
+
+
+
+module.exports = {index_item, create_item, update_item, del_item, find_item, send_email};

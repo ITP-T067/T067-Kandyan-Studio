@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Typography, Button, Progress, Card, CardBody } from "@material-tailwind/react";
+import DatePicker from "react-datepicker";
 import axios from "axios";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+
+import { useReactToPrint } from 'react-to-print';
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const StockLevels = () => {
+
     const GoBack = () => {
         window.location.href = "/manager/stockdept/";
     };
@@ -82,6 +86,30 @@ const StockLevels = () => {
         }
     };
 
+    const sendEmail = async(item,percentage) => {
+        if (percentage == 0) {
+            try{
+                await axios.post("/item/send-email", {
+                    subject: 'Out of Stock Alert',
+                    text: `${item} item is Out of Stock, Order Immediately`,
+                });
+            }catch(error){
+                console.error("Error sending email:", error);
+            }
+        } else if (percentage < 20) {
+            try{
+                await axios.post("/item/send-email", {
+                    subject: 'Critically Low Stock Observed',
+                    text: `${item} item is Critically Low, Order Immediately`,
+                });
+            }catch(error){
+                console.error("Error sending email:", error);
+            }
+        } else{
+            //Do nothing
+        }
+    };
+
     const calcPercentage = (value1, valve2) => {
         return Math.round((value1 / valve2) * 100);
     };
@@ -106,6 +134,34 @@ const StockLevels = () => {
     },[searchTerm, dataList]);
 
 
+    //Report Generation
+    const componentPDF = useRef([]);
+    const [isReport,setIsReport] = useState(false);
+
+    const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+
+    const Report = () => {
+        setIsReport(true);
+        console.log("Generate Report Section Opened");
+    };
+
+    const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "History Report",
+    onAfterPrint: () => alert("Data saved in PDF")
+  });
+
+
     
     //Pagination
     const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
@@ -121,6 +177,25 @@ const StockLevels = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    const handleButton = (type) => {
+        return () => {
+            switch (type) {
+                case "Add":
+                    window.location.href = "/manager/stockdept/items/additem";
+                    break;
+                default:
+                    break;
+            }
+        };
+    };
+
+    useEffect(() => {
+        currentItems.forEach((item) => {
+            const percentage = calcPercentage(item.quantity, item.maxCapacity);
+            sendEmail(item.name, percentage);
+        });
+    }, [currentItems]);
 
     return (
         <>
@@ -146,14 +221,41 @@ const StockLevels = () => {
                             />
                         </div>
                         <div>
-                            <Button className="bg-kblue text-kwhite p-3 px-5">
+                            <Button className="bg-kblue text-kwhite p-3 px-5" onClick={Report}>
                                 Generate Reports
                             </Button>
                         </div>
                     </CardBody>
                 </Card>
             </div>
-            <div className="px-10">
+            {isReport && (
+                <div className="mx-5 mb-5">
+                    <Card>
+                        <CardBody className="flex items-center justify-between">
+                            <div>
+                                <Typography color="blue">Report Generation</Typography>
+                            </div>
+                            <DatePicker
+            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            selected={startDate}
+            onChange={handleStartDateChange}
+          />
+          <label className='font-bold text-kwhite text-lg ml-8 mr-2'>TO</label>
+          <DatePicker
+            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            selected={endDate}
+            onChange={handleEndDateChange}
+          />
+                            <div>
+                                <Button className="bg-kblue text-kwhite p-3 px-5" onClick={generatePDF}>
+                                    Generate PDF
+                                </Button>
+                            </div>
+                        </CardBody>
+                    </Card>
+                </div>
+            )}
+            <div className="px-10" ref={componentPDF}>
                 <table className="w-full rounded-lg overflow-hidden text-sm">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">

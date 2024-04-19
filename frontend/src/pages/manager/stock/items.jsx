@@ -61,7 +61,6 @@ const Items = () => {
     const handleEditOnchange = async(e) => {
         const {value,id} = e.target
         setFormDataEdit((prev)=> {
-          
           return{
             ...prev,
             [id] : value
@@ -80,9 +79,6 @@ const Items = () => {
             switch (type) {
                 case "Add":
                     window.location.href = "/manager/stockdept/items/additem";
-                    break;
-                case "Edit":
-                    window.location.href = "/manager/stockdept/items/edititem";
                     break;
                 default:
                     break;
@@ -218,6 +214,7 @@ const Items = () => {
                                     onChange={handleEditOnchange}
                                 />
                             </div>
+                            {/* Image Upload 
                             <div>
                                 <label htmlFor="image">Upload Photo</label>
                                 <input 
@@ -227,7 +224,8 @@ const Items = () => {
                                     value={formDataEdit.image}
                                     onChange={handleEditOnchange}
                                 />
-                            </div>
+                            </div> */}
+                            
                                 <input type="hidden" name="itemID" value={formDataEdit._id} />
                         </div>
                         <div className="p-4 text-kblack flex flex-col">
@@ -237,15 +235,17 @@ const Items = () => {
                 </div>
             )}
             <div className="mx-5 mb-5">
-                <Card>
-                    <CardBody className="flex items-center justify-between">
+                <Card className="bg-transparent">
+                    <CardBody className="flex items-center justify-between bg-transparent">
                         <div>
                             <Button
                                 onClick={GoBack}
                                 className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
                             >
                                 <HiOutlineArrowCircleLeft className="w-5 h-5" />
-                                <span className="text-sm">Item List</span>
+                                <span className="text-sm">
+                                    <Typography>Item List</Typography>
+                                </span>
                             </Button>
                         </div>
                         <div>
@@ -273,11 +273,11 @@ const Items = () => {
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th className="py-5">Item Name</th>
-                            <th>Description</th>
-                            <th>Type</th>
-                            <th>Max Capacity</th>
-                            <th>Selling Price</th>
+                            <th className="w-1/5 py-5">Item</th>
+                            <th className="w-1/4">Description</th>
+                            <th className="w-1/8">Type</th>
+                            <th className="w-1/10">Quantity</th>
+                            <th className="w-1/10">Selling Price</th>
                             <th className="w-1/4">Action</th>
                         </tr>
                     </thead>
@@ -287,11 +287,16 @@ const Items = () => {
                                 return (
                                     <>
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                        <td>{il.name}</td>
+                                    <td className="px-10">
+                                        <div className="flex items-center text-center">
+                                        <img className="w-14 h-14 rounded-full mr-5" src={require(`../../../../../backend/uploads/StockManagement/${il.image}`)} alt={il.name} /> {/* Added alt attribute */}
+    <span>{il.name}</span>
+                                        </div>
+</td>
                                         <td>{il.description}</td>
                                         <td>{il.type}</td>
-                                        <td>{il.maxCapacity}</td>
-                                        <td>{il.sellingPrice}</td>
+                                        <td>{il.quantity} Out of {il.maxCapacity}</td>
+                                        <td>{Number(il.sellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
                                         <td className="p-4 text-kblack flex">
                                             <div className="flex justify-center gap-3 mx-auto">
                                                 <Button className="p-3 bg-kblue" onClick={() => handleEdit(il)}>
@@ -312,7 +317,7 @@ const Items = () => {
                             
                         ) : (
                             <tr className="bg-kwhite/20 w-full text-kwhite">
-                                <td colSpan="6" className="text-center py-4">
+                                <td colSpan="7" className="text-center py-4">
                                     No data available
                                 </td>
                             </tr>

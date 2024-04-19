@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import React, { useEffect, useState, useRef } from "react";
+import { Card, Typography, Button, CardBody, Select, Option } from "@material-tailwind/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle, HiFilter, HiOutlineDocumentReport } from "react-icons/hi";
+
+import DatePicker from "react-datepicker";
+import { useReactToPrint } from 'react-to-print';
 
 import Alert from "../../../Components/Common/Alerts/alert";
 
@@ -134,7 +137,26 @@ const SupplyRequest = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
 
+    const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+
     // Fetch Data
+
+    useEffect(() => {
+        if (startDate && endDate) {
+            getFetchData();
+        }
+    }, [startDate, endDate]);
+
     useEffect(() => {
         getFetchData();
         console.log(dataList);
@@ -149,6 +171,26 @@ const SupplyRequest = () => {
             if (response.data.success) {
                 const supplyRequests = response.data.data;
 
+                if(startDate && endDate){
+                    const filteredRequests = supplyRequests.filter(request => {
+                        const requestDate = new Date(request.date);
+                        return requestDate >= startDate && requestDate <= endDate;
+                    });
+
+                    
+                    const items = await Promise.all(
+                        filteredRequests.map(async (request) => {
+                            const item = await fetchItemById(request.item);
+                            const { name, quantity, maxCapacity } = item;
+                            const exquantity = quantity;
+                            return { ...request, name, exquantity, maxCapacity };
+                        })
+                    );
+    
+                    // Set the data list with the updated items
+                    setDataList(items);
+                }else{
+
                 // Fetch additional item information for each request
                 const items = await Promise.all(
                     supplyRequests.map(async (request) => {
@@ -161,6 +203,7 @@ const SupplyRequest = () => {
 
                 // Set the data list with the updated items
                 setDataList(items);
+            }
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -204,6 +247,16 @@ const SupplyRequest = () => {
         );
         setSearchResults(results);
     }, [searchTerm, dataList]);
+
+
+    //Report Generation
+    const componentPDF = useRef([]);
+
+    const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "History Report",
+    onAfterPrint: () => alert("Data saved in PDF")
+  });
 
     // Pagination
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -332,7 +385,40 @@ const SupplyRequest = () => {
                     </CardBody>
                 </Card>
             </div>
-            <div className="px-10">
+                    <div className="flex items-center justify-between mx-10 mb-3">
+                        <div className="flex items-center justify-between bg-kblack/30 py-2 px-5 rounded-full">
+                            <Button
+                                //onClick={}
+                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md bg-kblack"
+                                disabled>
+                                <HiFilter className="w-5 h-5" />
+                                <span className="text-sm">Filter</span>
+                            </Button>
+                        <DatePicker
+                        placeholderText="Start Date"
+            className='text-kwhite bg-kgray text-sm py-2 px-1 rounded-full text-center'
+            selected={startDate}
+            onChange={handleStartDateChange}
+          />
+          <span className='mx-5 font-bold text-kwhite text-mb'>to</span>
+          <DatePicker
+          placeholderText="End Date"
+            className='text-kwhite text-sm bg-kgray py-2 px-1 rounded-full text-center'
+            selected={endDate}
+            onChange={handleEndDateChange}
+          />
+          </div>
+                        <div>
+                            <Button
+                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+                                onClick={handleButton("Request")}
+                            >
+                                <HiOutlineDocumentReport className="w-5 h-5" />
+                                <span className="text-sm">Generate Reports</span>
+                            </Button>
+                        </div>
+                    </div>
+            <div className="px-10" ref={componentPDF}>
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite border-b text-center">

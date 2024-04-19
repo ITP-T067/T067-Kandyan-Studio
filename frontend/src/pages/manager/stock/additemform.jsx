@@ -52,7 +52,7 @@ const AddItemForm = () => {
         formDataToSend.append("buyingPrice", formData.buyingPrice);
         formDataToSend.append("file", formData.file);
 
-        console.log("Form Data:", formData);
+        console.log("Form Data:", formDataToSend);
         try {
             const data = await axios.post("/item/create", formDataToSend);
             console.log("Response:", data); // Log the response from the server
