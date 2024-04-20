@@ -63,24 +63,24 @@ const RequestForm = () => {
                 //alert(data.data.message);
                 setIsAlert(true);
                 setAlertStatus('success');
-                setMessage("Supply Request saved successfully");
+                setMessage("Supply Request saved successfully !");
                 setTimeout(() => {
                     setIsAlert(false); // Reset delete status after 5000ms
                     window.location.href = "/manager/stockdept/stocklevels";
-                  },5000);
+                  },3000);
             }else{
                 setIsAlert(true);
                 setAlertStatus('error');
-                setMessage("Supply Request failed");
+                setMessage("Supply Request failed !");
                 setTimeout(() => {
                     setIsAlert(false); // Reset delete status after 5000ms
-                  },5000);
+                  },3000);
             }
         }catch(error){
             console.log(error);
             setIsAlert(true);
             setAlertStatus("warning");
-            setMessage("Error Occured While Updating Supply Request, Check For Empty Fields");
+            setMessage("Error Occured While Updating Supply Request, Check For Empty Fields !");
         }
     };
 
