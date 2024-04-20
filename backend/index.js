@@ -7,7 +7,7 @@ const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
 //Manager - Employee Department
-
+const employees  = require("./routes/employeeManagement/employees.route.js")
 
 //Creator
 const orderRouter = require("./routes/order.route.js");
@@ -34,7 +34,7 @@ app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
 
 //Manager - Employee Department
-
+app.use('/employee', employees);
 
 //Creator
 app.use('/order', orderRouter);
