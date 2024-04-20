@@ -124,7 +124,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const send_email = async(req, res, next) => {
-    const {to, subject, text, html} = req.body;
+    const {subject, text} = req.body;
 
     try{
         const mailOptions = {
@@ -149,9 +149,46 @@ const update_quantity_minus = async(req, res, next) => {
     const {id, quantity} = req.body;
 
     try {
-        const data = await Item.updateOne({_id : id}, {quantity : quantity});
+        const item = await Item.findOne({_id : id});
+        const newQuantity = item.quantity - quantity;
+        const percentage = (item.quantity / item.maxCapacity) * 100;
+
+
+        const data = await Item.updateOne({_id : id}, {quantity : newQuantity});
         if(res.status(201)){
             res.send({success:true, message: "Item quantity deducted successfully", data : data});
+        }
+
+        
+
+        if(percentage < 20){
+            const mailOptions = {
+                from: {
+                    name: "Kandyan Studio - Inventory Management",
+                    address: 'kandyan.info@gmail.com',
+                },
+                to : 'pahanabhayawardhane@gmail.com',
+                subject : "Critical Stock Level Alert",
+                text : `Stock level of ${item.name} is below 20%. Please restock before it's too late. Current Stock Levels: ${percentage}`,
+            };
+            await transporter.sendMail(mailOptions);
+            if(res.status(201)){
+                res.send({success:true, message: "Email sent successfully"});
+            }
+        } else if (percentage == 0){
+            const mailOptions = {
+                from: {
+                    name: "Kandyan Studio - Inventory Management",
+                    address: 'kandyan.info@gmail.com',
+                },
+                to : 'pahanabhayawardhane@gmail.com',
+                subject : "Out of Stock Alert",
+                text : `${item.name} is Out of Stock. Please restock immediately.`,
+            };
+            await transporter.sendMail(mailOptions);
+            if(res.status(201)){
+                res.send({success:true, message: "Email sent successfully"});
+            }
         }
     }
     catch(error){
@@ -162,10 +199,30 @@ const update_quantity_minus = async(req, res, next) => {
 const update_item_plus = async(req, res, next) => {
     const {id, quantity} = req.body;
 
+
     try {
-        const data = await Item.updateOne({_id, id}, {quantity : quantity});
+        const item = await Item.findOne({_id : id});
+        const newQuantity = item.quantity + quantity;
+        const incPercentage = (quantity / item.maxCapacity) * 100;
+        const newPercentage = ((item.quantity+quantity) / item.maxCapacity) * 100;
+
+        const data = await Item.updateOne({_id : id}, {quantity : newQuantity});
         if(res.status(201)){
             res.send({success:true, message: "Item quantity added successfully", data : data});
+        }
+
+        const mailOptions = {
+            from: {
+                name: "Kandyan Studio - Inventory Management",
+                address: 'kandyan.info@gmail.com',
+            },
+            to : 'pahanabhayawardhane@gmail.com',
+            subject : "Stock Addition Alert",
+            text : `Stock level of ${item.name} has been increased by +${incPercentage}% . New stock level is ${newPercentage}%.`,
+        };
+        await transporter.sendMail(mailOptions);
+        if(res.status(201)){
+            res.send({success:true, message: "Email sent successfully"});
         }
     }
     catch(error){

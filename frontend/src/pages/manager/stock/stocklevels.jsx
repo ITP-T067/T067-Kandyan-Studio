@@ -122,16 +122,17 @@ const StockLevels = () => {
     };
 
 
-    //Search Item
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+    // Search Item
+const [searchTerm, setSearchTerm] = useState("");
+const [searchResults, setSearchResults] = useState([]);
 
-    useEffect(() => {
-        const results = dataList.filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+useEffect(() => {
+    const results = dataList.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results);
-    },[searchTerm, dataList]);
+}, [searchTerm, dataList]);
+
 
 
     //Report Generation
@@ -164,9 +165,13 @@ const StockLevels = () => {
 
     
     //Pagination
-    const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
-    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
+    const [currentItems, setCurrentItems] = useState([]);
+    useEffect(() => {
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
+        setCurrentItems(currentItems);
+    }, [currentPage, itemsPerPage, searchResults]);
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
@@ -190,12 +195,16 @@ const StockLevels = () => {
         };
     };
 
+    /*
+    //Email Alert
     useEffect(() => {
         currentItems.forEach((item) => {
             const percentage = calcPercentage(item.quantity, item.maxCapacity);
+            console.log(item.name, percentage);
             sendEmail(item.name, percentage);
         });
     }, [currentItems]);
+    */
 
     return (
         <>
