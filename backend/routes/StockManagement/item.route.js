@@ -1,13 +1,6 @@
-const express = require('express')
-<<<<<<< Updated upstream
-const {index_item, create_item, update_item, del_item, find_item, send_email} = require("../../controllers/StockManagement/item.controller");
-=======
-<<<<<<< Updated upstream
-const {index_item, create_item, update_item, del_item, find_item} = require("../../controllers/StockManagement/item.controller");
-=======
+const express = require('express');
 const {index_item, create_item, update_item, del_item, find_item, send_email, update_quantity_minus, update_item_plus} = require("../../controllers/StockManagement/item.controller");
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
 
 const router = express.Router();
 

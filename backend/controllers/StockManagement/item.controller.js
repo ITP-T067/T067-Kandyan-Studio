@@ -115,23 +115,6 @@ const find_item = async(req, res, next) => {
     }
 }
 
-<<<<<<< Updated upstream
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'kandyan.info@gmail.com',
-        pass: 'ukle odkn trba qhuh',
-    },
-});
-
-=======
-<<<<<<< Updated upstream
-
-module.exports = {index_item, create_item, update_item, del_item, find_item};
-=======
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -140,7 +123,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
->>>>>>> Stashed changes
 const send_email = async(req, res, next) => {
     const {to, subject, text, html} = req.body;
 
@@ -158,20 +140,11 @@ const send_email = async(req, res, next) => {
         res.send({success: true, message: "Email sent successfully"});
     }catch(error){
         console.error('Error sending email : ',error);
-<<<<<<< Updated upstream
-
-=======
         next(error);
->>>>>>> Stashed changes
         res.status(500).send({success: false, message: "Error sending email"});
     }
 };
 
-<<<<<<< Updated upstream
-
-
-module.exports = {index_item, create_item, update_item, del_item, find_item, send_email};
-=======
 const update_quantity_minus = async(req, res, next) => {
     const {id, quantity} = req.body;
 
@@ -203,5 +176,4 @@ const update_item_plus = async(req, res, next) => {
 
 
 module.exports = {index_item, create_item, update_item, del_item, find_item, send_email, update_quantity_minus, update_item_plus};
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
