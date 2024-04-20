@@ -23,6 +23,10 @@ const addToCartSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    item_file:{
+        type: String,
+        required: true,
+    },
     // Cus_ID: {  
     //     type: Schema.Types.ObjectId,  
     //     ref: 'Customer',  

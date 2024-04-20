@@ -3,8 +3,7 @@ import '../../../Styles/addToCart.css';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
-axios.defaults.baseURL = "http://localhost:8010/"
+axios.defaults.baseURL = "http://localhost:8010/";
 
 export default function AddToCart() {
   const [showAlert, setShowAlert] = useState(false);
@@ -20,7 +19,7 @@ export default function AddToCart() {
   const { itemId } = useParams();
   const [itemDetails, setItemDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
-
+  const [filename, setfilename] = useState();
   const fetchItemDetails = (itemId) => {
     axios.get(`/item/find/${itemId}`)
       .then(response => {
@@ -49,6 +48,7 @@ export default function AddToCart() {
       item_Price: itemDetails.sellingPrice,
       item_Quantity: parseInt(quantity),
       item_image: itemDetails.image,
+      item_file: filename
     };
 
     axios.post('order/on/create/cart', dataAdd)
@@ -68,11 +68,11 @@ export default function AddToCart() {
 
   return (
     <div>
-      <div className={`flex justify-center items-center h-screen ${showAlert ? 'blur' : ''}`}>
-        <div className="h-[42rem] w-[80rem] bg-kgray bg-opacity-30 rounded-3xl ">
+      <div className={`flex justify-center items-center -mt-4 ${showAlert ? 'blur' : ''}`}>
+        <div className="h-[38rem] w-[75rem] bg-kgray bg-opacity-30 rounded-3xl ">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
-              <div className="mt-4 ml-11">
+              <div className="mt-4">
               <div class="flex items-center ml-14">
                 <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onClick={() => navigate('/cusdashboard')} disabled={showAlert}>
                   <circle cx="12" cy="12" r="10" />
@@ -106,11 +106,11 @@ export default function AddToCart() {
                  <form onSubmit={handleAddToCartClick}>
                     <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
-                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={1} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
+                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                     </div>
                     <div>
                       <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
-                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  />
+                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  onChange={(e) => setfilename(e.target.files[0].name)} required />
                     </div>
                     <div>
                       <button type="submit" className={`text-kwhite bg-kgreen font-bold rounded-xl text-2xl px-40 py-2.5 mt-6 ml-10 ${showAlert ? 'cursor-not-allowed' : 'hover:bg-kyellow'}`} disabled={showAlert}>Add to cart</button>
@@ -120,15 +120,11 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[500px] ml-36 mt-[-16rem]">
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
+          <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2"/>
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
           </div>
         </div>
       </div>
