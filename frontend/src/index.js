@@ -44,6 +44,7 @@ import AddForm from './pages/manager/employee/addForm.jsx';
 import ViewEmp from './pages/manager/employee/viewEmp.jsx';
 import UpdateForm from './pages/manager/employee/updateForm.jsx';
 import PerformanceForm from './pages/manager/employee/performanceForm.jsx';
+import ViewPerformance from './pages/manager/employee/viewPerformance.jsx';
 import SalarySlip from './pages/manager/employee/salarySlip.jsx';
 import SalaryForm from './pages/manager/employee/salaryForm.jsx';
 import CashierSlip from './pages/manager/employee/cashierSlip.jsx';
@@ -112,6 +113,7 @@ root.render(
         <Route path='/manager/employee/viewEmp' element={<ViewEmp/>}/>
         <Route path='/manager/employee/updateForm' element={<UpdateForm/>}/>
         <Route path='/manager/employee/performanceForm' element={<PerformanceForm/>}/>
+        <Route path='/manager/employee/viewPerformance' element={<ViewPerformance/>}/>
         <Route path='/manager/employee/salarySlip' element={<SalarySlip/>}/>
         <Route path='/manager/employee/salaryForm' element={<SalaryForm/>}/>
         <Route path='/manager/employee/cashierSlip' element={<CashierSlip/>}/>
