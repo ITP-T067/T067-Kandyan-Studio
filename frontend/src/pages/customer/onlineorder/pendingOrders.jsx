@@ -3,25 +3,18 @@ import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 
 const TABLE_HEAD = [
-  "Type", 
-  "Description", 
-  "Total Price",
-  "Qty",
+  "Date",
+  "Items", 
+  "Total Price", 
+  "Status",
   "Actions"
 ];
 
 const TABLE_ROWS = [
-    {
-        type: "Item 1",
-        description: "Description 1",
-        Total_price: 'LKR 2,950.00',
-        Qty: "2"
-    },
-    {
-        type: "Item 2",
-        description: "Description hghhhkui",
-        Total_price: 'LKR 3,000.00',
-        Qty: "1"
+    {   Date: "22/04/2001",
+        Items: "Item 1",
+        Total_Price: "LKR 2,950.00",
+        Status: "Pending"
     },
 ];
 
@@ -85,7 +78,7 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(({ type, description, Total_price, Qty}, index) => {
+                        {TABLE_ROWS.map(({ Date, Items, Total_Price, Status}, index) => {
                             const isLast = index === TABLE_ROWS.length;
 
                             return (
@@ -95,22 +88,22 @@ export default function PendingOrders() {
                                 >
                                     <td>
                                         <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {type}
+                                            {Date}
                                         </Typography>
                                     </td>
                                     <td>
                                         <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {description}
+                                            {Items}
                                         </Typography>
                                     </td>
                                     <td>
                                         <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {Total_price}
+                                            {Total_Price}
                                         </Typography>
                                     </td>
                                     <td>
                                         <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {Qty}
+                                            {Status}
                                         </Typography>
                                     </td>
                                     <td className="p-2">

@@ -68,6 +68,9 @@ import CompletedProjects from './pages/creator/CompletedProjects.jsx';
 import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
 import OrderPayment from './pages/creator/OrderPayment.jsx';
 
+//Studio Operator Dashboard
+import StudioDash from './pages/studioop/studio_dash.jsx'
+
 //Supplier Dashboard
 
 
@@ -125,6 +128,10 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+
+
+        {/* Studio Operator Dashboard*/}
+        <Route path='/studiooperator/' element={<StudioDash/>}/>
         
       </Routes>
     </BrowserRouter>

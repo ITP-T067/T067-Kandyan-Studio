@@ -26,7 +26,6 @@ function MyOrder() {
     </div>
   );
 }
-
 const LinkCard = ({ image, title, link }) => (
   <a href={link} className="flex-grow relative duration-300 delay-150 transform hover:scale-105">
     <div className="w-72 h-80 bg-kblack rounded-3xl border-8 border-kyellow flex justify-center">
