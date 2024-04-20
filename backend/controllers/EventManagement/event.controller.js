@@ -5,12 +5,11 @@ const {errorHandler} = require("../../utils/error")
 const get_events = async(req, res, next) => {
 
     try{
-        const data = await Event.find({}).populate({
-            path: 'Customer_ID' ,
-            select: 'Customer_Name',
-        });
-        if(res.status(201)){
-            res.json({success : true, data: data})
+        const data = await Event.find({}).populate('package_id');
+        if(data){
+            res.json({success : true, data: data});
+        } else {
+            res.json({ success: false, message: "No data avaliable"});
         }
 
     }catch(error){
@@ -21,10 +20,10 @@ const get_events = async(req, res, next) => {
 //create data
 const create_event = async(req, res, next) => {
     try{
-        const { Event_Category, Customer_Name, Contact_No, Date, Venue, Description, Payment_slip, Package_Name, Customer_ID } = req.body;
+        const { cus_name, cus_contact, date, venue, file, additional } = req.body;
 
         //checking if the booking date is already booked
-        const existingEvent = await Event.findOne({Date});
+        const existingEvent = await Event.findOne({date});
         if(existingEvent){
             return res.status(400).json({
                 success: false,
@@ -33,15 +32,12 @@ const create_event = async(req, res, next) => {
         }
 
         const newEvent = new Event({
-            Event_Category,
-            Customer_Name,
-            Contact_No,
-            Date,
-            Venue,
-            Description,
-            Payment_slip,
-            Package_Name,
-            Customer_ID
+            cus_name,
+            cus_contact,
+            date,
+            venue,
+            additional,
+            file,
         }); 
 
         await newEvent.save();
@@ -53,7 +49,7 @@ const create_event = async(req, res, next) => {
         });
         
     }catch(error){
-        console.log("errorrr")
+        console.error("Error creating event: ", error)
         next(error);
     }
 }

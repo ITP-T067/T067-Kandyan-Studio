@@ -17,7 +17,7 @@ function EditEvent() {
       {/* form section */}
       <div className="form-container flex justify-center items-center h-full ">
         <div className="outer_box flex-auto mt-5 ml-10 mr-10 bg-kgray max-w-4xl flex-col h-[26rem]  mb-10 rounded-xl border-2 border-kyellow">
-          <div className="grid grid-cols-2 gap-4 mt-7 items-center ml-20 font-['inter'] text-mdfont-semibold ">
+          <div className="grid grid-cols-2 gap-4 mt-7 items-center ml-20 font-normal text-mdfont-semibold ">
           <div>
             <label htmlFor="pkg_category" className="block text-kwhite">Event Category</label>
             <input type="text" id="pkg_category" name="pkg_category" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite  p-1" />
@@ -52,7 +52,7 @@ function EditEvent() {
           </div>
           </div>
           <Link className="flex justify-end" to="">
-            <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Save Changes</button>
+            <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Save Changes</button>
           </Link>
         </div>
       </div>

@@ -3,71 +3,51 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new mongoose.Schema({
 
-    Event_Category: {
+    cus_name: {
 
         type: String,
         required: true,
     },
 
-    Customer_Name: {
-
-        type: String,
-        required: true,
-    },
-
-    Contact_No: {
+    cus_contact: {
 
         type: Number,
         required: true,
     },
 
-    Date: {
+    date: {
 
         type: Date,
-        required: true,
-        unique: true,        
+        required: true,       
     },
 
-    Venue: {
+    venue: {
 
         type: String,
         required: true,
     },
 
-    Description: {
+    additional: {
 
         type: String,
     },
 
-    Payment_slip: {
-
-        // data: {
-        //     type: Buffer,
-        //     required: true,
-        // },
-        // contentType: {
-        //     type: String,
-        //     required: true,
-        // }
-        type: String,
-    },
-
-    Package_Name: {
+    file: {
 
         type: String,
         required: true,
     },
 
-    Package_ID: {
-        type: Schema.Types.ObjectId,
-        ref: 'Customer',
-    },
+    // package_id: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Package',
+    // },
 
-    Customer_ID: {
+    // customer_id: {
 
-        type: Schema.Types.ObjectId,
-        ref: 'Customer'
-    },
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Customer'
+    // },
 
 }, {timestamps:true})
 

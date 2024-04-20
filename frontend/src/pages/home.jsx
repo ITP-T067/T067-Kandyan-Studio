@@ -49,28 +49,28 @@ function Home() {
           <div className="order_btn" style={{border: 'none', transform: 'none', backgroundColor: '#838383'}}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-['Inter']" style={{ left: '0px', top: '282px', right:'0px' }}>Photography</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Photography</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Photography" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383'}}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-['Inter']" style={{ left: '0px', top: '282px', right:'0px' }}>Digital Printing</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Digital Printing</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={DigitalPrinting} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Digital Printing" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383' }}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-['Inter']" style={{ left: '0px', top: '282px', right:'0px' }}>Passport &amp;<br/>ID Photos</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Passport &amp;<br/>ID Photos</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Passport &amp; ID Photos" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383' }}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-['Inter']" style={{ left: '0px', top: '282px', right:'0px' }}>Album Binding</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Album Binding</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Album Binding" />
             </div>
           </div>

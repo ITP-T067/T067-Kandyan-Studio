@@ -4,15 +4,14 @@ const {errorHandler} = require("../../utils/error");
 //create data
 const create_package = async(req, res, next) => {
     try{
-        const { Package_Category, Package_Name, Price, Description, Image, Employee_ID } = req.body;
+        const { pkg_category, pkg_name, price, image, description,  } = req.body; 
 
         const newPackage = new Package({
-            Package_Category,
-            Package_Name,
-            Price,
-            Description,
-            Image,
-            Employee_ID
+            pkg_category,
+            pkg_name,
+            price,
+            description,
+            image,
         });
 
         await newPackage.save();
@@ -28,7 +27,26 @@ const create_package = async(req, res, next) => {
     }
 }
 
-//get package by name
+//get package by id
+const get_packageById = async (req, res) => {
+    try {
+        const package = await Package.findById(req.params.id);
+        res.json(package);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+//get packages by category
+const get_packagesByCategory = async (req, res) => {
+    try {
+        const { pkg_category } = req.query;
+        const packages = await Package.find();
+        res.json(packages);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 
 //update data
@@ -47,7 +65,7 @@ const update_package = async(req, res, next) => {
 }
 
 //delete package
-const delete_event = async(req, res, next) => {
+const delete_package = async(req, res, next) => {
     const id = req.params.id;
 
     try{
@@ -62,4 +80,4 @@ const delete_event = async(req, res, next) => {
     }
 }
 
-module.exports = {create_package};
+module.exports = {get_packageById, get_packagesByCategory, create_package, update_package, delete_package};

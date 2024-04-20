@@ -1,50 +1,87 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Standard from '../../../images/events/party1.jpg'
 import Premium from '../../../images/events/party2.png'
 import Diamond from '../../../images/events/party3.jpg'
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
 
-
+axios.defaults.baseURL = "http://localhost:8010/";
 
 function BdayEvents({packageName}) {
+
     const [addSection, setAddSection] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
+    const [packageNameLabel, setPackageNameLabel] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    
+    // const formatDate = (dateString) => {
+    //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    //   return new Date(dateString).toLocaleDateString(undefined, options);
+    // };
     const [formData, setFormData] = useState({
-        pkg_category: "",
-        date: "",
+        date: setSelectedDate,
         cus_name: "",
         venue: "",
         cus_contact: "",
-        description: "",
-        pkg_name: "",
-        payment_slip: "",
+        additional: "",
+        file: "",
     })
 
+    const handleDateOnchange = (date) => {
+      setSelectedDate(date);
+    };
+
     const handleOnChange = (e) => {
-        const {value,name} = e.target
-        setFormData((preve)=>{
-            return {
-                ...preve,
-                [name] : value
-            }
-        })
-    }
+      const {value,name} = e.target;
+  
+      if(name === 'none'){
+          setFormData((prev)=>({
+              ...prev,
+              [name]: e.target.files[0]
+          }));
+      }else{
+          setFormData((prev)=>({
+              ...prev,
+              [name]: value,
+          }));
+      }
+    };
 
     const handleSubmit = async(e) =>{
-      e.preventDefault()
-      const data = await axios.post("/create", formData)
-      console.log(data)
-    }
+      e.preventDefault();
+
+      // Update formData with selectedDate
+      setFormData((prev) => ({
+        ...prev,
+        date: selectedDate,
+      }));
+
+      console.log("Form Data: ", formData);
+
+      try {
+        const response = await axios.post('/event/create', formData);
+
+        //handle response
+        console.log("Response: ", response);
+
+        if(response.data.success){
+          alert("Event added successfully");
+          setAddSection(false);
+        } else {
+          alert("Failed to add Event");
+        }
+      } catch (error) {
+          console.error("Error: ", error);
+          alert("An error occured while adding event")
+      }
+    };
 
     const selectPackage = (packageName) => {
       setSelectedPackage(packageName);
-      setFormData(prev => ({
-        ...prev,
-        pkg_name: packageName
-      }));
+      setPackageNameLabel(packageName); // Update label based on selected package
       setAddSection(true);
     };
   
@@ -64,13 +101,13 @@ function BdayEvents({packageName}) {
         {/* event navigation */}
         <div className="events w-56 h-12 relative mt-15 ml-[26rem] flex justify-center">
             <Link to="/customer/event/WeddingEvents">
-              <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Wedding</button>
+              <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Wedding</button>
             </Link>
             <Link to="/customer/event/BdayEvents">
-              <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Birthday Party</button>
+              <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Birthday Party</button>
             </Link>
             <Link to="/customer/event/SocialEvents">
-              <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-['Inter'] hover:bg-kyellow hover:text-kblack">Social Events</button>
+              <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Social Events</button>
             </Link>
           </div>
           
@@ -87,7 +124,7 @@ function BdayEvents({packageName}) {
                           <p className="price text-3xl font-semibold">Rs 25 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Standard"); setAddSection(true); }}>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Standard"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
   
@@ -100,7 +137,7 @@ function BdayEvents({packageName}) {
                           <p className="price text-3xl font-semibold">Rs 75 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Premium"); setAddSection(true); }}>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Premium"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
   
@@ -113,7 +150,7 @@ function BdayEvents({packageName}) {
                           <p className="price text-3xl font-semibold">Rs 100 000</p>
                       </div>
                       <div className="button flex justify-center font-bold">  
-                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold font-['Inter'] hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Diamond"); setAddSection(true); }}>BUY</button>
+                          <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Diamond"); setAddSection(true); }}>BUY</button>
                       </div>
                   </div>
               
@@ -124,48 +161,70 @@ function BdayEvents({packageName}) {
             addSection && (
         
                 <form onSubmit={handleSubmit} className="form-container fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center border-2 border-kyellow">
-                  <div className="outer_box flex-auto mt-5 ml-7 mr-10 max-w-4xl flex-col h-[26rem]  mb-10 rounded-xl ">
-                    <div className="grid grid-cols-2 gap-7 mt-7 items-center ml-5 mr-5 font-['inter'] text-mdfont-semibold ">
+                  <div className="outer_box flex-auto mt-5 ml-7 mr-10 max-w-4xl flex-col h-[22rem]  mb-10 rounded-xl ">
+                  <div>
+                    <label htmlFor="pkg_category" className="block text-kwhite text-xl font-bold font-[Inter]" >{packageNameLabel} Package</label>
+                  </div>
+                    <div className="grid grid-cols-2 gap-7 mt-3 items-center ml-5 mr-5 font-normal text-mdfont-semibold ">
                     <div>
-                      <label htmlFor="pkg_category" className="block text-kwhite">Event Category</label>
-                      <input type="text" id="pkg_category" name="pkg_category" value="Birthday Event" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite  p-1" />
+                      <label htmlFor="cus_name" className="block text-kwhite">Customer Name</label>
+                      <input type="text" 
+                      id="cus_name" 
+                      name="cus_name" 
+                      onChange={handleOnChange}
+                      value={formData.cus_name}
+                      className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" required/>
                     </div>
                     <div>
                       <label htmlFor="date" className="block text-kwhite">Date</label>
-                      <input type="date" id="date" name="date" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
-                    </div>
-                    <div>
-                      <label htmlFor="cus_name" className="block text-kwhite">Customer Name</label>
-                      <input type="text" id="cus_name" name="cus_name" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
-                    </div>
-                    <div>
-                      <label htmlFor="venue" className="block text-kwhite">Venue</label>
-                      <input type="text" id="venue" name="venue" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
+                      <DatePicker
+                      name="date"
+                      selected={selectedDate}
+                      onChange={handleDateOnchange} 
+                      className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" required/>
                     </div>
                     <div>
                       <label htmlFor="cus_contact" className="block text-kwhite">Contact No</label>
-                      <input type="text" id="cus_contact" name="cus_contact" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
+                      <input 
+                      type="text" 
+                      id="cus_contact" 
+                      name="cus_contact" 
+                      onChange={handleOnChange}
+                      value={formData.cus_contact}
+                      className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" required/>
                     </div>
                     <div>
-                      <label htmlFor="decsription" className="block text-kwhite">Description (optional)</label>
-                      <input type="text" id="decsription" name="decsription" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
+                      <label htmlFor="venue" className="block text-kwhite">Venue</label>
+                      <input type="text" 
+                      id="venue" 
+                      name="venue" 
+                      onChange={handleOnChange}
+                      value={formData.venue}
+                      className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" required/>
                     </div>
+                    
                     <div>
-                      <label htmlFor="pkg_name" className="block text-kwhite">Package Name</label>
-                      <input type="text" id="pkg_name" name="pkg_name" value={formData.pkg_name} className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
+                      <label htmlFor="additioal" className="block text-kwhite">Additional</label>
+                      <input type="text" 
+                      id="additional" 
+                      name="additional" 
+                      onChange={handleOnChange}
+                      value={formData.additional}
+                      className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
                     </div>
                     <div>
                       <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-                      <input type="file" id="payment_slip" name="payment_slip" className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" />
+                      <input type="text" 
+                      id="file" 
+                      name="file" 
+                      onChange={handleOnChange}
+                      className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" required/>
                     </div>
+                    {/* <input type="hidden" name="package_id" value={formData.package_id}/> */}
                     </div>
                     <div className="flex justify-between">
-                        <Link className="flex justify-start" to="">
-                        <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={()=>setAddSection(false)}>Close</button>
-                        </Link>
-                        <Link className="flex justify-end" to="">
-                        <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 mr-5 mbflex justify-center items-center rounded-lg">Submit</button>
-                        </Link>
+                        <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={()=>setAddSection(false)}>Close</button>
+                        <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-5 mbflex justify-center items-center rounded-lg">Submit</button>
                     </div>
                   </div>
                 </form>

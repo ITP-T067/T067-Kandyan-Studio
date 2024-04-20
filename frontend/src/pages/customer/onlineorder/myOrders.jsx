@@ -32,7 +32,7 @@ const LinkCard = ({ image, title, link }) => (
     <div className="w-72 h-80 bg-kblack rounded-3xl border-8 border-kyellow flex justify-center">
       <img src={image} alt="Image" className="w-52 h-52 mt-5" />
     </div>
-    <div className="w-72 h-20 text-center text-kwhite text-3xl font-bold font-['Inter']">{title}</div>
+    <div className="w-72 h-20 text-center text-kwhite text-3xl font-bold font-normal">{title}</div>
   </a>
 );
 

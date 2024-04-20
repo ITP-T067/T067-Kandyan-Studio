@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
 function BookingEvent() {
+
+  const [formData, setFormData] = useState({
+    
+  })
+
   return (
     <div>
       
@@ -10,7 +15,7 @@ function BookingEvent() {
       <div className="backnaviagtion flex ml-10 mt-7 gap-3 items-center" >
         <Link to=""  className=" flex items-center text-kwhite">
           <IoArrowBackCircleSharp className="w-10 h-10 " />
-          <p className="label text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]" >Add Details</p>
+          <p className="label text-kwhite mt-2 mb-2 ml-2 text-lg " >Add Details</p>
         </Link>
       </div>
 
@@ -19,9 +24,9 @@ function BookingEvent() {
       <div className="form-container flex justify-center items-center h-full ">
         <form >
           <div className="outer_box flex-auto mt-5 ml-10 mr-10 bg-kgray max-w-4xl flex-col h-[26rem]  mb-10 rounded-xl border-2 border-kyellow">
-            <div className="grid grid-cols-2 gap-4 mt-7 items-center ml-20 font-['inter'] text-mdfont-semibold ">
+            <div className="grid grid-cols-2 gap-4 mt-7 items-center ml-20 font-normal text-mdfont-semibold ">
             <div>
-              <label htmlFor="pkg_category" className="block text-kwhite">Event Category</label>
+              <label htmlFor="pkg_category" className="block text-kwhite">Package Category</label>
               <input type="text" id="pkg_category" name="pkg_category" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite  p-1" />
             </div>
             <div>
@@ -54,7 +59,7 @@ function BookingEvent() {
             </div>
             </div>
             <Link className="flex justify-end" to="">
-              <button className="btn_submit w-28 h-12 text-lg font-['inter'] bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Submit</button>
+              <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Submit</button>
             </Link>
           </div>
         </form>

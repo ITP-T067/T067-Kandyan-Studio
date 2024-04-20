@@ -112,7 +112,7 @@ export default function CustomerCart() {
               <line x1="16" y1="12" x2="8" y2="12" />
             </svg>
           </div>
-          <h2 className="left-[73px] top-5 absolute text-kwhite text-5xl font-bold font-['Inter']">Shopping Cart ({cartItems.length})</h2>
+          <h2 className="left-[73px] top-5 absolute text-kwhite text-5xl font-bold font-normal">Shopping Cart ({cartItems.length})</h2>
         </div>
         
         <div className="card overflow-y-auto max-h-[400px] max-w-[800px] mt-2">
@@ -143,27 +143,27 @@ export default function CustomerCart() {
         
 
         <div className="relative text-kwhite">
-          <div className="left-[40px] absolute text-xl font-normal font-['Inter'] cursor-pointer hover:text-kyellow" onClick={handleSelectAll}>Select all items</div>
-          <div className="top-0 absolute right-1/2 text-xl font-normal font-['Inter'] cursor-pointer hover:text-kyellow" onClick={handleDeselectAll}>Deselect all items</div>
+          <div className="left-[40px] absolute text-xl font-normal font-normal cursor-pointer hover:text-kyellow" onClick={handleSelectAll}>Select all items</div>
+          <div className="top-0 absolute right-1/2 text-xl font-normal font-normal cursor-pointer hover:text-kyellow" onClick={handleDeselectAll}>Deselect all items</div>
           <div className="w-6 h-6 left-0 top-0 absolute flex-col justify-start items-start inline-flex" />
         </div>
 
         <div className="absolute top-0 right-0 h-[28.5rem] w-[34rem] bg-kgray bg-opacity-80 rounded-3xl m-12 mt-16 text-kwhite">
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-bold font-['Inter']">Summary</div>
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-bold font-normal">Summary</div>
           <div className="m-12 text-2xl">
             <div className="w-[28rem] top-[110px] absolute">
-              <div className="absolute font-normal font-['Inter']">Subtotal</div>
-              <div className="text-right font-normal font-['Inter']">LKR {subtotal}.00</div>
+              <div className="absolute font-normal font-normal">Subtotal</div>
+              <div className="text-right font-normal font-normal">LKR {subtotal}.00</div>
             </div>
             <div className="w-[28rem] top-[160px] absolute">
-                  <div className="absolute font-normal font-['Inter']">Loyalty Discount</div>
-                  <div className="text-right font-normal font-['Inter']">
+                  <div className="absolute font-normal font-normal">Loyalty Discount</div>
+                  <div className="text-right font-normal font-normal">
                     {selectedItems.length > 0 ? 'LKR 5,000.00' : 'LKR 0.00'}
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">
-              <div className="absolute font-normal font-['Inter']">Total</div>
-              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total}.00</div>
+              <div className="absolute font-normal font-normal">Total</div>
+              <div className="text-right left-[300px] font-normal font-normal">LKR {total}.00</div>
             </div>
           </div>
           <div>

@@ -1,8 +1,71 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8010/"
 
 function EditPackages() {
+  const { package_id } = useParams();
+  const [formDataEdit, setFormDataEdit] = useState({
+    pkg_category: "",
+    pkg_name: "",
+    price: 0,
+    description: "",
+    _id : package_id,
+  });
+  const navigate = useNavigate();
+
+  const [dataList, setDataList] = useState();
+
+  const getFetchData = async() => {
+    try {
+      const response = await axios.get("/package/");
+      if(response.data.success){
+        setDataList(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getPackageDetails = async ()=> {
+    try {
+      const response = await axios.get("/package/"+ package_id);
+      console.log(response.data.data)
+      if(response.data.success){
+        const packageDetails = response.data.data;
+        setFormDataEdit({
+          pkg_category: packageDetails.pkg_category,
+          pkg_name: packageDetails.pkg_name,
+          price: packageDetails.price,
+          description: packageDetails.description,
+          _id: packageDetails._id,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching package details:", error);
+    }
+  };
+
+  useEffect(()=> {
+    getPackageDetails();
+    getFetchData();
+  }, [package_id]);
+
+  const handleUpdate = async  (e) => {
+    e.preventDefault();
+    const response = await axios.get("/package/" + package_id);
+    const packageDetails = response.data.data;
+    if (formDataEdit.pkg_name !== packageDetails.pkg_name){
+      // const packageExists = dataList.some(package => package.pkg_name === formDataEdit.pkg_name);
+      // if(packageExists){
+      //   alert("Package name already exists. Please enter a different package name");
+      //   return;
+      // }
+    }
+  }
+
   return (
     <div>
 
