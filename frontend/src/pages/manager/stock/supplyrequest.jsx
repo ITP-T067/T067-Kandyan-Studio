@@ -254,7 +254,7 @@ const SupplyRequest = () => {
 
     const generatePDF = useReactToPrint({
     content: () => componentPDF.current,
-    documentTitle: "History Report",
+    documentTitle: "Supply Request Report",
     onAfterPrint: () => alert("Data saved in PDF")
   });
 
@@ -411,7 +411,7 @@ const SupplyRequest = () => {
                         <div>
                             <Button
                                 className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
-                                onClick={handleButton("Request")}
+                                onClick={generatePDF}
                             >
                                 <HiOutlineDocumentReport className="w-5 h-5" />
                                 <span className="text-sm">Generate Reports</span>

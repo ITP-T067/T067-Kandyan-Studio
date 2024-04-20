@@ -235,39 +235,33 @@ const Items = () => {
                 </div>
             )}
             <div className="mx-5 mb-5">
-                <Card className="bg-transparent">
-                    <CardBody className="flex items-center justify-between bg-transparent">
-                        <div>
+                <div className="grid grid-cols-4 w-full bg-transparent items-center">
                             <Button
                                 onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md mx-10"
                             >
-                                <HiOutlineArrowCircleLeft className="w-5 h-5" />
-                                <span className="text-sm">
+                                <HiOutlineArrowCircleLeft className="w-10 h-10" />
+                                <span className="text-2xl ml-5">
                                     <Typography>Item List</Typography>
                                 </span>
                             </Button>
-                        </div>
-                        <div>
+                        <div className="col-span-2 px-20">
                             <input
                                 type="search"
-                                placeholder="Search"
-                                className="bg-kwhite flex-grow rounded-full p-2 text-sm"
+                                placeholder="Search By Item Name"
+                                className="flex items-center bg-kwhite rounded-full p-2 text-sm"
                                 value = {searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div>
                             <Button
-                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5 rounded-full"
+                                className="flex space-x-2 items-center justify-center bg-kblue text-kwhite px-5 rounded-lg mx-10"
                                 onClick={handleButton("Add")}
                             >
                                 <HiOutlinePlusCircle className="w-5 h-5" />
                                 <span className="text-sm">Add Item</span>
                             </Button>
-                        </div>
-                    </CardBody>
-                </Card>
+                </div>
             </div>
             <div className="px-10">
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
@@ -288,9 +282,9 @@ const Items = () => {
                                     <>
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                     <td className="px-10">
-                                        <div className="flex items-center text-center">
+                                        <div className="grid grid-cols-2 items-center">
                                         <img className="w-14 h-14 rounded-full mr-5" src={require(`../../../../../backend/uploads/StockManagement/${il.image}`)} alt={il.name} /> {/* Added alt attribute */}
-    <span>{il.name}</span>
+                                        <span>{il.name}</span>
                                         </div>
 </td>
                                         <td>{il.description}</td>

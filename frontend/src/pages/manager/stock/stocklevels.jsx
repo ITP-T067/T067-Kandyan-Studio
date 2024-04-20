@@ -73,7 +73,9 @@ const StockLevels = () => {
     };
 
     const statusChanger = (percentage) => {
-        if (percentage < 25) {
+        if (percentage == 0) {
+            return 'Out of Stock';
+        }else if (percentage < 25) {
             return 'Critically Low, Order Immediately';
         } else if (percentage < 50) {
             return 'Low Stock, Order Soon';
@@ -83,30 +85,6 @@ const StockLevels = () => {
             return 'Stock Levels are Good';
         } else {
             return 'Stock Levels are Excellent';
-        }
-    };
-
-    const sendEmail = async(item,percentage) => {
-        if (percentage == 0) {
-            try{
-                await axios.post("/item/send-email", {
-                    subject: 'Out of Stock Alert',
-                    text: `${item} is Out of Stock, Order Immediately`,
-                });
-            }catch(error){
-                console.error("Error sending email:", error);
-            }
-        } else if (percentage < 20) {
-            try{
-                await axios.post("/stock/send_email", {
-                    subject: 'Critically Low Stock Observed',
-                    text: `${item} is Critically Low, Order Immediately`,
-                });
-            }catch(error){
-                console.error("Error sending email:", error);
-            }
-        } else{
-            //Do nothing
         }
     };
 
@@ -195,17 +173,6 @@ useEffect(() => {
         };
     };
 
-    /*
-    //Email Alert
-    useEffect(() => {
-        currentItems.forEach((item) => {
-            const percentage = calcPercentage(item.quantity, item.maxCapacity);
-            console.log(item.name, percentage);
-            sendEmail(item.name, percentage);
-        });
-    }, [currentItems]);
-    */
-
     return (
         <>
             <div className="mx-5 mb-5">
@@ -269,8 +236,7 @@ useEffect(() => {
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
                             <th className="w-1/4 py-5">Name</th>
-                            <th className="w-1/4">Percentage</th>
-                            <th className="w-2/8 px-10">Status</th>
+                            <th className="w-3/5">Level</th>
                             <th className="w-1/8">Action</th>
                         </tr>
                     </thead>
@@ -283,24 +249,24 @@ useEffect(() => {
                                     <tr key={index} className={`border-b ${rowColorChanger(percentage)} text-kwhite text-center items-center p-4`}>
                                         <td>{il.name}</td>
                                         <td>
-                                            <div className="w-full bg-kgray rounded-full border overflow-hidden">
+                                            <div className={`grid grid-cols-3 items-center ${rowColorChanger(percentage)} py-1 px-2 rounded-full`}>
+                                            <div className="col-span-2 w-full bg-kgray rounded-full border overflow-hidden">
                                                 <div
-                                                    className={ colorChanger(percentage) + " p-2 text-center text-xs font-medium leading-none text-kwhite"}
+                                                    className={`${colorChanger(percentage)} p-2 text-center text-xs font-medium leading-none text-kwhite`}
                                                     style={{ width: `${percentage}%` }}
                                                 >
                                                     {percentage + "%"}
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span className={`${colorChanger(percentage)} py-2 px-4 rounded-lg`}>
+                                            <span className="col-span-1">
                                                 {statusChanger(calcPercentage(il.quantity, il.maxCapacity))}
                                             </span>
+                                            </div>
                                         </td>
                                         <td className="p-4">
                                             <div className="flex flex-grow justify-center mx-auto">
                                                 <Button className="p-3 bg-kblue text-kwhite" onClick={handleRequestButton(il._id)}>
-                                                    Request
+                                                    Order Now
                                                 </Button>
                                             </div>
                                         </td>
