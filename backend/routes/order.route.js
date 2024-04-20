@@ -2,7 +2,7 @@ const express = require('express');
 const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
 const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/offlineOrder.controller.js");
 const {create_addToCart, index_addToCart, del_addToCart, cart_find_item} = require("../controllers/onlineOrder/addToCart.controller");
-const {create_pendingOrder, index_pendingOrder} = require("../controllers/onlineOrder/pending.controller")
+const {create_pendingOrder, index_pendingOrder, del_pendingOrder} = require("../controllers/onlineOrder/pending.controller")
 
 
 
@@ -24,6 +24,7 @@ router.get("/on/get/cart/:id", cart_find_item);
 //online order pending list
 router.post("/on/create/pending", create_pendingOrder);
 router.get("/on/get/pending", index_pendingOrder);
+router.delete("/on/delete/pending/:id", del_pendingOrder);
 
 
 

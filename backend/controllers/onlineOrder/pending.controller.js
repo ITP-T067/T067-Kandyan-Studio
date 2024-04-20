@@ -29,4 +29,20 @@ const index_pendingOrder = async(req, res, next) => {
     }
 }
 
-module.exports = {create_pendingOrder, index_pendingOrder};
+//delete pending order
+const del_pendingOrder = async(req,res, next) =>{
+    const id = req.params.id
+    console.log(id)
+
+    try{
+        const data = await pendingOrder.deleteOne({_id : id})
+        if(res.status(201)){
+            res.send({success:true, message: "Order deleted successfully", data : data})
+        }
+    }catch(error){
+        next(error);
+    }
+}
+
+
+module.exports = {create_pendingOrder, index_pendingOrder,del_pendingOrder};

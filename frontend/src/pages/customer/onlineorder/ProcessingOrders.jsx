@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 
 const TABLE_HEAD = [

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { HiMinusCircle,HiPlusCircle } from "react-icons/hi";
+import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -271,6 +272,9 @@ export default function CustomerCart() {
       {showPayAlert && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
           <div className="bg-white p-8 rounded-3xl">
+            <button className='bg-kwhite h-4 w-4' onClick={() => setShowPayAlert(false)}>
+            <HiXMark />
+            </button>
             <form className="w-full max-w-" onSubmit={checkout}>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
@@ -296,6 +300,14 @@ export default function CustomerCart() {
                   </label>
                 </div>
               </div>
+              <div className="md:flex md:items-center">
+                <div className="md:w-1/3"/>
+                <div className="md:w-2/3">
+                <label className="block ml-2 text-korange font-bold md:text-left pr-4">
+                    you can upload pay,ent slip here
+                  </label>
+                </div>
+              </div>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                   <label className="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4">
@@ -307,7 +319,7 @@ export default function CustomerCart() {
                     className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0].name)}/>
                 </div>
               </div>
-              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Pay</button>
+              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Order Now</button>
             </form>
           </div>
         </div>

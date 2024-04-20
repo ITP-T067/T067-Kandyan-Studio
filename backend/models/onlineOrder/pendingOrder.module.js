@@ -12,6 +12,7 @@ const pendingOrderSchema = new mongoose.Schema({
     }, 
     order_slip:{
         type: String,
+        default: ""
     },
     order_uploaded_image:{
         type: String,
@@ -23,7 +24,7 @@ const pendingOrderSchema = new mongoose.Schema({
     },
     order_status:{
         type: String,  
-        default: "Pending" 
+        default: "Proccecing" 
     },
     
 
