@@ -34,6 +34,14 @@ const StockMenu = () => {
         return total;
     }
 
+    const calcTotalItems = (data) => {
+        let total = 0;
+        data.forEach((item) => {
+            total++;
+        });
+        return total;
+    }
+
     const handleMenu = (option) => {
         return () => {
             switch (option) {
@@ -59,10 +67,11 @@ const StockMenu = () => {
                     <CardBody className="flex items-center justify-between mb-5">
                         <div className='flex-grow bg-kwhite p-7 rounded-lg mr-5 items-center justify-between'>
                             <span className="flex text-2xl font-bold">Stock Management</span>
-                            <span className="flex text-2xl font-bold">Calc</span>
+                            <span className="flex text-2xl font-bold">LKR {calcTotalValue(dataList)}</span>
                         </div>
                         <div className='flex-grow bg-kwhite p-7 rounded-lg'>
-                            <span className="text-2xl font-bold">Stock Management</span>
+                            <span className="text-2xl font-bold">Total Items</span>
+                            <span className="flex text-2xl font-bold">{calcTotalItems(dataList)}</span>
                         </div>
                     </CardBody>
                 </Card>

@@ -50,6 +50,24 @@ const StockLevels = () => {
         return `${color}`;
     };
 
+    const rowColorChanger = (percentage) => {
+        let color = "";
+
+        if (percentage < 25) {
+            color = 'bg-pred/30';
+        } else if (percentage < 50) {
+            color = 'bg-porange/30';
+        } else if (percentage < 75) {
+            color = 'bg-pyellow/30';
+        } else if (percentage < 90) {
+            color = 'bg-plgreen/30';
+        } else {
+            color = 'bg-pgreen/30';
+        }
+
+        return `${color}`;
+    };
+
     const statusChanger = (percentage) => {
         if (percentage < 25) {
             return 'Critically Low, Order Immediately';
@@ -151,7 +169,7 @@ const StockLevels = () => {
                                 const percentage = calcPercentage(il.quantity, il.maxCapacity);
                                 return (
                                     <>
-                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <tr key={index} className={`border-b ${rowColorChanger(percentage)} text-kwhite text-center items-center p-4`}>
                                         <td>{il.name}</td>
                                         <td>
                                             <div className="w-full bg-kgray rounded-full border overflow-hidden">
