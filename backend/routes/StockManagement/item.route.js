@@ -1,5 +1,13 @@
 const express = require('express')
+<<<<<<< Updated upstream
 const {index_item, create_item, update_item, del_item, find_item, send_email} = require("../../controllers/StockManagement/item.controller");
+=======
+<<<<<<< Updated upstream
+const {index_item, create_item, update_item, del_item, find_item} = require("../../controllers/StockManagement/item.controller");
+=======
+const {index_item, create_item, update_item, del_item, find_item, send_email, update_quantity_minus, update_item_plus} = require("../../controllers/StockManagement/item.controller");
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 const router = express.Router();
 
@@ -25,5 +33,7 @@ router.put("/update", update_item);
 router.delete("/delete/:id", del_item);
 router.post("/send-email", send_email);
 router.get("/find/:id", find_item);
+router.put("/quantity-minus", update_quantity_minus);
+router.put("/quantity-plus", update_item_plus);
 
 module.exports = router;

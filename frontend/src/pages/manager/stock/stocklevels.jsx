@@ -134,6 +134,7 @@ const StockLevels = () => {
     },[searchTerm, dataList]);
 
 
+<<<<<<< Updated upstream
     //Report Generation
     const componentPDF = useRef([]);
     const [isReport,setIsReport] = useState(false);
@@ -162,11 +163,48 @@ const StockLevels = () => {
   });
 
 
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
     
+=======
+    //Report Generation
+    const componentPDF = useRef([]);
+    const [isReport,setIsReport] = useState(false);
+
+    const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+
+    const Report = () => {
+        setIsReport(true);
+        console.log("Generate Report Section Opened");
+    };
+
+    const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "History Report",
+    onAfterPrint: () => alert("Data saved in PDF")
+  });
+
+
+>>>>>>> Stashed changes
     //Pagination
-    const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
-    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
+    const [currentItems, setCurrentItems] = useState([]);
+    useEffect(() => {
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
+        setCurrentItems(currentItems);
+    }, [currentPage, itemsPerPage, searchResults]);
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
@@ -178,6 +216,7 @@ const StockLevels = () => {
         setCurrentPage(pageNumber);
     };
 
+<<<<<<< Updated upstream
     const handleButton = (type) => {
         return () => {
             switch (type) {
@@ -193,10 +232,47 @@ const StockLevels = () => {
     useEffect(() => {
         currentItems.forEach((item) => {
             const percentage = calcPercentage(item.quantity, item.maxCapacity);
+=======
+<<<<<<< Updated upstream
+=======
+    const sendEmail = async(item,percentage) => {
+        if (percentage == 0) {
+            try{
+                await axios.post("/item/send-email", {
+                    subject: 'Out of Stock Alert',
+                    text: `${item} item is Out of Stock, Order Immediately`,
+                });
+            }catch(error){
+                console.error("Error sending email:", error);
+            }
+        } else if (percentage < 20) {
+            try{
+                await axios.post("/item/send-email", {
+                    subject: 'Critically Low Stock Observed',
+                    text: `${item} item is Critically Low, Order Immediately`,
+                });
+            }catch(error){
+                console.error("Error sending email:", error);
+            }
+        } else{
+            //Do nothing
+        }
+    };
+
+
+    useEffect(() => {
+        currentItems.forEach((item) => {
+            const percentage = calcPercentage(item.quantity, item.maxCapacity);
+            console.log(item.name);
+>>>>>>> Stashed changes
             sendEmail(item.name, percentage);
         });
     }, [currentItems]);
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     return (
         <>
             <div className="mx-5 mb-5">
@@ -270,7 +346,6 @@ const StockLevels = () => {
                             currentItems.map((il, index) => {
                                 const percentage = calcPercentage(il.quantity, il.maxCapacity);
                                 return (
-                                    <>
                                     <tr key={index} className={`border-b ${rowColorChanger(percentage)} text-kwhite text-center items-center p-4`}>
                                         <td>{il.name}</td>
                                         <td>
@@ -296,7 +371,6 @@ const StockLevels = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                    </>
                                 );
                             })
                         ) : (

@@ -15,7 +15,7 @@ const itemSchema = new mongoose.Schema({
         required: true,
     },
     quantity: {
-        type: String,
+        type: Number,
         required: true,
     },
     maxCapacity: {
