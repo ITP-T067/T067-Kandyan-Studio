@@ -2,6 +2,7 @@ const OnlineOrder = require("../../models/onlineOrder/onlineOrder.model.js")
 const {errorHandler} = require("../../utils/error.js");
 const nodemailer = require('nodemailer');
 
+//read oreder
 const index_onOrder = async(req,res, next) => {
 
     try{
@@ -48,6 +49,33 @@ const getOrderById_onOrder = async (req, res, next) => {
     }
 };
 
+
+const getOrderById_onOrder = async (req, res, next) => {
+    const orderId = req.params.id;
+
+    try {
+        const order = await OnlineOrder.findById(orderId).populate([
+            {
+                path: 'Item_ID',
+                select: 'name description',
+            },
+            {
+                path: 'Cus_ID',
+                select: 'Cus_Name Contact_No Email',
+            },
+        ]);
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        res.status(200).json({ success: true, data: order });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 //create data
 const create_onOrder = async(req,res, next) => {
     const { Item_ID, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
@@ -77,6 +105,8 @@ const create_onOrder = async(req,res, next) => {
     }
 
 }
+
+
 //update data
 const update_onOrder = async(req, res, next) => {
     console.log(req.body)

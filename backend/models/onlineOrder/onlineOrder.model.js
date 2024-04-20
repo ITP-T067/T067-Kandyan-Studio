@@ -50,4 +50,4 @@ const onlineOrderSchema = new mongoose.Schema({
     
 const OnlineOrder = mongoose.model('OnlineOrder', onlineOrderSchema); 
 
-module.exports = OnlineOrder; 
+module.exports = OnlineOrder;
