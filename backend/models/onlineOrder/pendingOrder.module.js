@@ -26,18 +26,6 @@ const pendingOrderSchema = new mongoose.Schema({
         default: "Pending" 
     },
     
-    // item_Quantity: {
-    //     type: Number,  
-    //     required: true,
-    // },
-    // item_image: {
-    //     type: String,
-    //     required: true,
-    // },
-    // item_file:{
-    //     type: String,
-    //     required: true,
-    // }
 
 })
 
