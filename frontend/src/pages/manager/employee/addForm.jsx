@@ -1,41 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8010/";
 
 function AddForm() {
   const fields = [
-    { label: 'Employee Name' },
-    { label: 'Username' },
-    { label: 'Email Address' },
-    { label: 'Contact Number' },
-    { label: 'Address' },
-    { label: 'NIC Number' },
-    { label: 'Designation' },
-    { label: 'Basic Salary' }
+    { label: 'Employee Name', key: 'name' },
+    { label: 'Username', key: 'username' },
+    { label: 'Email Address', key: 'email' },
+    { label: 'Contact Number', key: 'contactNumber' },
+    { label: 'Address', key: 'address' },
+    { label: 'NIC Number', key: 'nicNumber' },
+    { label: 'Designation', key: 'designation' },
+    { label: 'Basic Salary', key: 'basicSalary' }
   ];
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    email: '',
+    contactNumber: '',
+    address: '',
+    nicNumber: '',
+    designation: '',
+    basicSalary: ''
+  });
 
   useEffect(() => {
-    setFormData((prevData) => ({
+    const generateUniqueUsername = () => {
+      let username = '';
+      do {
+        username = Math.floor(1000 + Math.random() * 9000).toString();
+      } while (formData.username === username);
+      return username;
+    };
+
+    setFormData(prevData => ({
       ...prevData,
       username: generateUniqueUsername()
     }));
   }, []);
 
-  function generateUniqueUsername() {
-    let username = '';
-    do {
-      username = Math.floor(1000 + Math.random() * 9000).toString();
-    } while (formData.username === username);
-    return username;
-  }
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormData(prevData => ({
       ...prevData,
       [name]: value
     }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form Data", formData);
+    try {
+      const data = await axios.post("/employee/create", formData);
+      console.log("Response:", data);
+      if (data.data.success) {
+        setFormData({
+          name: '',
+          username: '',
+          email: '',
+          contactNumber: '',
+          address: '',
+          nicNumber: '',
+          designation: '',
+          basicSalary: ''
+        });
+      }
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
   };
 
   return (
@@ -49,23 +84,22 @@ function AddForm() {
 
       <div className='flex flex-col justify-center items-center'>
         <div className='max-w-[850px] w-full h-auto flex flex-col justify-between items-center bg-kgray rounded-lg border-2 border-kwhite text-kwhite shadow-lg shadow-kblack/60 p-8 opacity-70'>
-          <form className='w-full grid grid-cols-2 gap-x-10 gap-y-3'>
+          <form className='w-full grid grid-cols-2 gap-x-10 gap-y-3' onSubmit={handleSubmit}>
             {fields.map((field, index) => (
               <div key={index} className="relative h-[4rem]">
                 <div className="relative z-0">
-                  <input 
-                    type={field.label.toLowerCase() === 'basic salary' || field.label.toLowerCase() === 'contact number' ? 'number' : 'text'}
-                    id={`floating_${field.label.toLowerCase().replace(/\s/g, '_')}`} 
-                    name={field.label.toLowerCase().replace(/\s/g, '_')}
-                    value={formData[field.label.toLowerCase().replace(/\s/g, '_')] || ''}
+                  <input
+                    type={field.key === 'basicSalary' || field.key === 'contactNumber' ? 'number' : 'text'}
+                    id={`floating_${field.key}`}
+                    name={field.key}
+                    value={formData[field.key]}
                     onChange={handleChange}
-                    readOnly={field.label.toLowerCase() === 'username'}
                     required
-                    className="block py-2.5 px-0 w-full text-m text-kwhite bg-transparent border-0 border-b-2 border-kwhite appearance-none dark:text-kwhite dark:border-kwhite dark:focus:border-kblue focus:outline-none focus:ring-0 focus:border-kblue peer" 
-                    placeholder=" " 
+                    className="block py-2.5 px-0 w-full text-m text-kwhite bg-transparent border-0 border-b-2 border-kwhite appearance-none dark:text-kwhite dark:border-kwhite dark:focus:border-kblue focus:outline-none focus:ring-0 focus:border-kblue peer"
+                    placeholder=" "
                   />
-                  <label 
-                    htmlFor={`floating_${field.label.toLowerCase().replace(/\s/g, '_')}`} 
+                  <label
+                    htmlFor={`floating_${field.key}`}
                     className="absolute text-m text-kwhite dark:text-kwhite duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-kblue peer-focus:dark:text-kblue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
                   >
                     {field.label}
@@ -74,9 +108,11 @@ function AddForm() {
                 </div>
               </div>
             ))}
+            <div></div>
+            <div className="flex justify-end w-full">
+              <button type="submit" className='h-[38px] w-44 bg-kgreen text-kwhite font-bold rounded hover:bg-kblue hover:text-kwhite mb-4'>Add</button>
+            </div>
           </form>
-          <button className='h-[38px] w-44 bg-kyellow text-kwhite font-bold rounded hover:bg-kwhite hover:text-kblack mb-4'>Clear</button>
-          <button className='h-[38px] w-44 bg-kgreen text-kwhite font-bold rounded hover:bg-kblue hover:text-kwhite mb-4'>Add</button>
         </div>
       </div>
     </div>
