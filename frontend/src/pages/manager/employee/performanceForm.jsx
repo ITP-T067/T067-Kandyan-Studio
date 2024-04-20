@@ -37,19 +37,22 @@ const PerformanceForm = ({ basicSalary }) => {
         if (name === 'otHours') {
             otPayment = (400 / 200) * parseFloat(value || 0);
             otPayment = isNaN(otPayment) ? 0 : otPayment; // Ensure otPayment is a number
+            otPayment = otPayment.toFixed(2); // Convert otPayment to fixed decimal points
         }
         if (name === 'noPayDays') {
             noPayDeduction = (50 / 25) * parseFloat(value || 0);
             noPayDeduction = isNaN(noPayDeduction) ? 0 : noPayDeduction; // Ensure noPayDeduction is a number
+            noPayDeduction = noPayDeduction.toFixed(2); // Convert noPayDeduction to fixed decimal points
         }
     
         setFormValues({
             ...formValues,
             [name]: value,
-            otPayment: otPayment.toFixed(2),
-            noPayDeduction: noPayDeduction.toFixed(2)
+            otPayment: otPayment,
+            noPayDeduction: noPayDeduction
         });
     };
+    
     
 
     const handleMonthChange = (date) => {
