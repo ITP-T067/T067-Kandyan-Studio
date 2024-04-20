@@ -46,7 +46,7 @@ export default function Orders() {
         </nav>
 
         <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
-            <a className="w-1/2 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center b" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
+            <a className="w-1/2 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
             <a className="w-1/2 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 

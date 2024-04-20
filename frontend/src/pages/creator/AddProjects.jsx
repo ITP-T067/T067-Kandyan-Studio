@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Alert from "../../Components/Common/Alerts/alert";
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
@@ -15,6 +16,9 @@ export default function AddProjects() {
         OrderModel: "OnlineOrder"
     });
     const [dataList, setDataList] = useState([]);
+    const [isAlert,setIsAlert] = useState(false);
+    const [alertStatus,setAlertStatus] = useState('success');
+    const [message,setMessage] = useState('');
 
     const getFetchData = async () => {
         try {
@@ -50,7 +54,10 @@ export default function AddProjects() {
         const projectExists = dataList.some(project => project.Project_Name === formData.Project_Name);
         if (projectExists) {
             // Display an error message or handle the case where project already exists
-            alert("Project with this name already exists. Please enter a different project name.");
+            setAlertStatus("error");
+            setMessage("Project with this name already exists.");
+            setIsAlert(true);
+            // alert("Project with this name already exists. Please enter a different project name.");
             return;
         }
 
@@ -65,16 +72,35 @@ export default function AddProjects() {
               Status: "Pending",
               Order_ID: "",
             });
-            navigate('/creator/projectOrders');
+            setAlertStatus("success");
+            setMessage("Project Saved Successfully");
+            setIsAlert(true);
+            const timer = setTimeout(() => {
+                setIsAlert(false); // Reset alert status after 5000ms
+                navigate('/creator/projectOrders'); // Navigate to orders page
+            }, 1000);
+
           }
         } catch (error) {
           console.error("Error creating project:", error);
         }
       }
+
+    //   useEffect(() => {
+    //     if (isAlert) {
+    
+    //         return () => clearTimeout(timer); // Clear timer when component unmounts
+    //     }
+    // }, [isAlert]);
     
   return (
     <> 
+            
+            <div className="w-[530px] mx-auto">
+             {isAlert && (<Alert message={message} type={alertStatus}/>)}
+            </div>
             <div className="addContainer w-[530px] h-[328px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+                
                 <a href='/creator/projectOrders'>
                     <IoArrowBackCircleOutline className="text-kwhite text-3xl" />
                 </a>

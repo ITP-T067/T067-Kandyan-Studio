@@ -59,7 +59,7 @@ export default function CompletedProjects() {
                                 <td className="px-4 py-2 text-center">{el.Project_Name}</td>
                                 <td className="px-4 py-2 text-center">
                                                 {el.OrderModel === 'OnlineOrder' ? 
-                                                    (el.Order_ID ? el.Order_ID.Item_ID.name : 'N/A') : 
+                                                    (el.Order_ID?.Item_ID? el.Order_ID.Item_ID.name : 'N/A') : 
                                                     (el.Order_ID ? el.Order_ID.Item_Name : 'N/A')}</td>
                                 <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Cus_ID.Cus_Name : 'N/A'}</td>
                                 <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>

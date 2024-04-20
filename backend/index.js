@@ -13,6 +13,7 @@ const projectRouter = require("./routes/ProjectManagement/project.route.js")
 const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
 const inquiryRouter = require("./routes/inquiry.route.js");
+const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.route.js");
 
 
 const app = express()
@@ -39,6 +40,7 @@ app.use('/project', projectRouter);
 app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
+app.use('/studio', studioStatusRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

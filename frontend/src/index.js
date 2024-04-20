@@ -65,6 +65,9 @@ import ReceiptForm from './pages/creator/ReceiptForm.jsx';
 import Generatereports from './pages/creator/GenerateReports.jsx';
 import DeclinePayment from './pages/creator/DeclinePayment.jsx';
 
+//Studio Operator Dashboard
+import StudioDash from './pages/studioop/studio_dash.jsx'
+
 //Supplier Dashboard
 
 
@@ -120,6 +123,8 @@ root.render(
         <Route path='/creator/generateReports' element={<Generatereports/>}/>
         <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
         
+        {/* Studio Operator Dashboard*/}
+        <Route path='/studiooperator/' element={<StudioDash/>}/>
         
         
       </Routes>

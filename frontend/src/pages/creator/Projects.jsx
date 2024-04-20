@@ -5,13 +5,17 @@ import axios from 'axios';
 import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
 import Alert from '../../Components/Common/Alerts/alert.jsx'
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
-import { CgSearch } from "react-icons/cg";
+import {useNavigate } from 'react-router-dom';
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
 export default function Projects() {
   
     const [dataList, setDataList] = useState([]);
+    const navigate = useNavigate();
+    const [isAlert,setIsAlert] = useState(false);
+    const [alertStatus,setAlertStatus] = useState('success');
+    const [message,setMessage] = useState('');
     
     const getFetchData = async () => {
         try {
@@ -34,7 +38,12 @@ export default function Projects() {
             await axios.put("/order/on/update", { _id: el.Order_ID, Project_Status: "Not Added" });
             await axios.put("/order/off/update", { _id: el.Order_ID, Project_Status: "Not Added" });
             getFetchData();
-            alert({message: data.data.message, type: "success"})
+            setAlertStatus("success");
+            setMessage("Project deleted Successfully");
+            setIsAlert(true);
+            const timer = setTimeout(() => {
+                setIsAlert(false); // Reset alert status after 5000ms/
+            }, 1000);
         }
     }
 
@@ -83,6 +92,9 @@ export default function Projects() {
             </div>
 
             <div className="mt-5 mx-auto w-11/12">
+                <div className="w-[530px] mx-auto">
+                    {isAlert && (<Alert message={message} type={alertStatus}/>)}
+                </div>
                 <table className="w-full border-collapse text-kwhite">
                     <thead className="bg-kblack text-kwhite h-[60px]">
                         <tr>
@@ -95,7 +107,7 @@ export default function Projects() {
                             <th className="px-4 py-2">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+                    <tbody className="bg-kgray bg-opacity-40 h-[80px]">
                         {searchTerm === "" ? (
                             dataList.length > 0 ? (
                                 dataList.map((el) => {
