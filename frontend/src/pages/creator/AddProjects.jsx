@@ -78,7 +78,7 @@ export default function AddProjects() {
             const timer = setTimeout(() => {
                 setIsAlert(false); // Reset alert status after 5000ms
                 navigate('/creator/projectOrders'); // Navigate to orders page
-            }, 1000);
+            }, 2000);
 
           }
         } catch (error) {

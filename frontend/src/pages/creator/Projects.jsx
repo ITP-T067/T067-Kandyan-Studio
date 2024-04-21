@@ -42,8 +42,8 @@ export default function Projects() {
             setMessage("Project deleted Successfully");
             setIsAlert(true);
             const timer = setTimeout(() => {
-                setIsAlert(false); // Reset alert status after 5000ms/
-            }, 1000);
+                setIsAlert(false);
+            }, 2000);
         }
     }
 
@@ -66,7 +66,9 @@ export default function Projects() {
     }, [searchTerm, dataList]);
     
     
-    
+    const showPdf = (slip) => {
+        window.open(`http://localhost:8010/uploads/`+ slip, "_blank", "noreferrer");
+    };
 
     return (
         <>
@@ -104,6 +106,7 @@ export default function Projects() {
                             <th className="px-4 py-2">Customer Name</th>
                             <th className="px-4 py-2">Status</th>
                             <th className="px-4 py-2">Order Date</th>
+                            <th classname="px-4 py-2">Uploaded Image</th>
                             <th className="px-4 py-2">Action</th>
                         </tr>
                     </thead>
@@ -116,9 +119,7 @@ export default function Projects() {
                                             <tr key={el._id}>
                                                 <td className="px-4 py-2 text-center">{el.Project_Name}</td>
                                                 <td className="px-4 py-2 text-center">
-                                                    {el.OrderModel === 'OnlineOrder' ? 
-                                                        (el.Order_ID?.Item_ID? el.Order_ID.Item_ID.name : 'N/A') : 
-                                                        (el.Order_ID ? el.Order_ID.Item_Name : 'N/A')}</td>
+                                                    {el.Order_ID ? el.Order_ID.Item_Name : 'N/A'}</td>
                                                 <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
                                                 <td className="px-4 py-2 text-center">
                                                     {el.OrderModel === 'OnlineOrder' ? 
@@ -127,6 +128,12 @@ export default function Projects() {
                                                 </td>
                                                 <td className="px-4 py-2 text-center">{el.Status}</td>
                                                 <td className="px-4 py-2 text-center">{formatDate(el.Order_ID ? el.Order_ID.Order_Date : 'N/A')}</td>
+                                                <td className='px-4 py-3 text-center'>{el.OrderModel === 'OnlineOrder' ? 
+                                                        (<button className="btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2" onClick={() => showPdf(el.Order_ID.Uploaded_Image ? el.Order_ID.Uploaded_Image : 'N/A')}>
+                                                            View
+                                                        </button>) : 
+                                                        ("None")}
+                                                </td>
                                                 <td className="px-4 py-2 text-center">
                                                     <Link to={`/creator/editProjects/${el._id}`}>
                                                         <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Edit</button>

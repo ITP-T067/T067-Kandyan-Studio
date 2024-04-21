@@ -5,7 +5,7 @@ const index_cproject = async (req, res, next) => {
     try {
         const data = await Project.find({}).populate({
             path: 'Order_ID',
-            select: 'Order_Type Order_Date  Cus_ID Cus_Name Item_Name',
+            select: 'Order_Type Order_Date Uploaded_Image Cus_ID Cus_Name Item_Name',
             populate: ([
                 {   
                 path: 'Cus_ID',
@@ -14,8 +14,8 @@ const index_cproject = async (req, res, next) => {
                 },
                 
                 {   
-                    path: 'Item_ID',
-                    select: 'name description',
+                    path: 'PendingOrder_ID',
+                    select: 'item_Names total_Price order_slip order_uploaded_image',
                     options: { strictPopulate: false },
                     },
             ] // Set strictPopulate to false for Cus_ID population
@@ -25,7 +25,7 @@ const index_cproject = async (req, res, next) => {
         // Conditionally populate based on OrderModel
         for (const project of data) {
             if (project.OrderModel === 'OnlineOrder') {
-                project.populate('Order_ID', 'Order_Type Order_Date Cus_ID Item_ID', null, { strictPopulate: false });
+                project.populate('Order_ID', 'Order_Type Order_Date Cus_ID PendingOrder_ID Uploaded_Image', null, { strictPopulate: false });
             } else {
                 project.populate('Order_ID', 'Order_Type Order_Date Cus_Name Item_Name', null, { strictPopulate: false });
             }

@@ -14,10 +14,9 @@ export default function DeclinePayment() {
 
     const getFetchData = async () => {
         try {
-            const response = await axios.get("/order/on/" + orderId);
+            const response = await axios.get("/order/on/get/pending/" + orderId);
             if (response.data.success) {
                 setData(response.data.data);
-                console.log(data);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -34,14 +33,13 @@ export default function DeclinePayment() {
       
       try {
         // Update order status to 'Declined'
-        await axios.put(`/order/on/update/`, {_id: orderId, Status: 'Declined' });
+        await axios.put(`/order/on/update/pending/`, {_id: orderId, order_status: 'Rejected' });
         
-        console.log(data.Cus_ID.Email);
         // Send email to customer
         const message = `Your payment for order has been declined. Reason: ${reason}`;
         console.log(message);
         await axios.post('order/on/send-email', {
-          to: data.Cus_ID.Email,
+          to: "chandima2017@gmail.com",
           subject: 'Payment Declined',
           text: message
         });

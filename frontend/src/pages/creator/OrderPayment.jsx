@@ -15,10 +15,11 @@ export default function OrderPayment() {
     
       const getFetchData = async () => {
         try {
-          const response = await axios.get("/order/on/");
+          const response = await axios.get("/order/on/get/pending");
           console.log(response);
           if (response.data.success) {
             setDataList(response.data.data);
+            console.log(response.data.data); // Log updated dataList here
           }
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -32,19 +33,38 @@ export default function OrderPayment() {
 
       const handleApprove = async (orderId) => {
         try {
-            const response = await axios.put(`/order/on/update/`, { _id: orderId, Status: "Completed" });
-            if (response.data.success) {
-                // Refresh the data
-                getFetchData();
-                alert('Order approved successfully!');
-            }
+          console.log("before update");
+          const response = await axios.put(`/order/on/update/pending/`, { _id: orderId, order_status: "Processing" });
+          if (response.data.success) {
+            // Parse item_Names and Uploaded_Image
+            const newResponse = await axios.get("/order/on/get/pending/" + orderId);
+            console.log(newResponse.data.data);
+            const items = newResponse.data.data.item_Names.split(',').map(item => item.trim());
+            const quantities = items.map(item => parseInt(item.split('-')[1]));
+      
+            const images = newResponse.data.data.order_uploaded_image.split(',');
+      
+            // Create OnlineOrder entries
+            const orders = items.map((item, index) => ({
+              PendingOrder_ID: orderId,
+              Item_Name: item.split('-')[0].trim(),
+              Quantity: quantities[index],
+              Uploaded_Image: images[index].trim(),
+              Order_Date: newResponse.data.data.order_Date,
+              Order_Amount: newResponse.data.data.total_Price,
+            }));
+            // Send multiple post requests to create OnlineOrder entries
+            await Promise.all(orders.map(order => axios.post("/order/on/create", order)));
+      
+            // Refresh the data
+            getFetchData();
+            alert('Order approved successfully!');
+          }
         } catch (error) {
-            console.error("Error updating order status:", error);
-            alert('Error approving order.');
+          console.error("Error updating order status:", error);
+          alert('Error approving order.');
         }
-    };
-    
-    
+      };
 
   return (
     <>
@@ -64,10 +84,9 @@ export default function OrderPayment() {
         <table className="w-full border-collapse text-kwhite">
           <thead className="bg-kblack text-kwhite h-[60px]">
             <tr>
-              <th className="px-4 py-2">Customer Name</th>
-              <th className="px-4 py-2">Order</th>
-              <th className="px-4 py-2">Quantity</th>
-              <th className="px-4 py-2">Additional</th>
+              <th className="px-4 py-2">Items Names</th>
+              <th className="px-4 py-2">Total Price</th>
+              <th className="px-4 py-2">Order Date</th>
               <th className="px-4 py-2">Details</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
@@ -76,13 +95,12 @@ export default function OrderPayment() {
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                if(el.Status == "Checkout"){
+                if(el.order_status == "Pending"){
                   return(
                     <tr>
-                      <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
-                      <td className="px-4 py-2 text-center">{el.Order_Type}</td>
-                      <td className="px-4 py-2 text-center">{el.Quantity}</td>
-                      <td className="px-4 py-2 text-center">{el.Additional? el.Additional : 'None'}</td>
+                      <td className="px-4 py-2 text-center">{el?.item_Names || 'N/A'}</td>
+                      <td className="px-4 py-2 text-center">{el.total_Price}</td>
+                      <td className="px-4 py-2 text-center">{formatDate(el.order_Date)}</td>
                       <td className="px-4 py-2 text-center">
                           <Link to={`/creator/paymentDetails/${el._id}`}>
                               <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Details</button>

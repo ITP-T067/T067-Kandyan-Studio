@@ -29,6 +29,10 @@ export default function Orders() {
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
       };
+
+      const showPdf = (slip) => {
+        window.open(`http://localhost:8010/uploads/`+ slip, "_blank", "noreferrer");
+      };
     
     
   return (
@@ -56,9 +60,9 @@ export default function Orders() {
             <tr>
               <th className="px-4 py-2">Order</th>
               <th className="px-4 py-2">Quantity</th>
-              <th className="px-4 py-2">Additional</th>
               <th className="px-4 py-2">Customer Name</th>
               <th className="px-4 py-2">Order Date</th>
+              <th className="px-4 py-2">Order Image</th>
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
@@ -66,17 +70,21 @@ export default function Orders() {
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                if(el.Project_Status != "Added" && el.Status == "Completed"){
+                if(el.Project_Status != "Added"){
                   return(
                     <tr>
-                      <td className="px-4 py-2 text-center">{el.Item_ID?el.Item_ID.name : 'N/A'}</td>
+                      <td className="px-4 py-2 text-center">{el?.Item_Name || 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{el.Quantity}</td>
-                      <td className="px-4 py-2 text-center">{el.Additional}</td>
                       <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{formatDate(el.Order_Date)}</td>
                       <td className="px-4 py-2 text-center">
+                        <button className="btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2" onClick={() => showPdf(el.Uploaded_Image)}>
+                            View
+                        </button>
+                      </td>
+                      <td className="px-4 py-2 text-center">
                           <Link to={`/creator/addProjects/${el._id}`}>
-                              <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Add Project</button>
+                              <button className='btn_edit bg-kgreen text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Add Project</button>
                           </Link>
                       </td>
                     </tr>
