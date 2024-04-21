@@ -42,14 +42,21 @@ export default function AddToCart() {
   const handleAddToCartClick = (e) => {
     e.preventDefault();
 
-    const dataAdd = {
-      Item_ID: itemId,
-      item_Name: itemDetails.name,
-      item_Price: itemDetails.sellingPrice,
-      item_Quantity: parseInt(quantity),
-      item_image: itemDetails.image,
-      item_file: filename
-    };
+    // const dataAdd = {
+    //   Item_ID: itemId,
+    //   item_Name: itemDetails.name,
+    //   item_Price: itemDetails.sellingPrice,
+    //   item_Quantity: parseInt(quantity),
+    //   item_image: itemDetails.image,
+    //   file: filename
+    // };
+    const dataAdd = new FormData();
+        dataAdd.append('Item_ID', itemId);
+        dataAdd.append('item_Name', itemDetails.name);
+        dataAdd.append('item_Price', itemDetails.sellingPrice);
+        dataAdd.append('item_Quantity', parseInt(quantity));
+        dataAdd.append('item_image', itemDetails.image);
+        dataAdd.append('file', filename);
 
     axios.post('order/on/create/cart', dataAdd)
       .then(response => {
@@ -110,7 +117,7 @@ export default function AddToCart() {
                     </div>
                     <div>
                       <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
-                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  onChange={(e) => setfilename(e.target.files[0].name)} required />
+                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  onChange={(e) => setfilename(e.target.files[0])} required />
                     </div>
                     <div>
                       <button type="submit" className={`text-kwhite bg-kgreen font-bold rounded-xl text-2xl px-40 py-2.5 mt-6 ml-10 ${showAlert ? 'cursor-not-allowed' : 'hover:bg-kyellow'}`} disabled={showAlert}>Add to cart</button>
