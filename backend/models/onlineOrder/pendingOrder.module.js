@@ -24,7 +24,7 @@ const pendingOrderSchema = new mongoose.Schema({
     },
     order_status:{
         type: String,  
-        default: "Proccecing" 
+        default: "Pending" 
     },
     
 
