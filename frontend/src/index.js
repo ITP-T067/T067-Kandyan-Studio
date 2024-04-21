@@ -23,6 +23,11 @@ import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 import Payorder from './pages/customer/onlineorder/payOrder.jsx';
 
+import AddReview from './pages/customer/loyalty/AddReview.jsx';
+import Review from './pages/customer/loyalty/Review.jsx';
+import ReviewTable from './pages/customer/loyalty/ReviewTable.jsx';
+
+
 //Manager Dashboard
 //Manager Dashboard - Stock Department
 import StockMenu from './pages/manager/stock/menu';
@@ -43,7 +48,7 @@ import EditItemForm from './pages/manager/stock/edititemform';
 //Manager Dashboard - Supplier Department
 
 //Manager Dashboard - Loyalty Department
-
+import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
 //Cashier Dashboard
 
@@ -83,6 +88,9 @@ root.render(
         {/* Customer addToCart */}
         <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
+        <Route path='/addreview' element={<AddReview/>}/>
+        <Route path='/review' element={<Review/>}/>
+        <Route path='/viewreview' element={<ReviewTable/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
@@ -93,7 +101,9 @@ root.render(
         <Route path='/manager/stockdept/stocklevels/customreq' element={<CustomRequestForm />} />
         <Route path='/manager/stockdept/items/additem' element={<AddItemForm />} />
         <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
-
+        
+        {/* Manager Dashboard - Loyalty Department */}
+        <Route path='/manager/loyalty' element={<Loyaltyview />} />
         {/* Manager Dashboard - Event Department */}
 
         {/* Creator Dashboard*/}

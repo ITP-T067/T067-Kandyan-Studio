@@ -11,6 +11,9 @@ const projectRouter = require("./routes/project.route.js");
 const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
 
+//Customer
+const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+
 
 const app = express()
 app.use(cors())
@@ -33,6 +36,9 @@ app.use('/order', orderRouter);
 app.use('/project', projectRouter);
 app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
+
+//Customer
+app.use('/review', reviewRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

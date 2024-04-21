@@ -1,0 +1,67 @@
+/* reviewTable.css */
+.review-table-container {
+  margin-top: 20px;
+}
+
+.review-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 30px auto;
+  color: white;
+  text-align: center;
+}
+
+.review-table th,
+.review-table td {
+  border: 1px solid #5b5b5b;
+  padding: 8px;
+  text-align: left;
+  background-color: #5b5b5b;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.review-table th {
+  background-color: #979797;
+  text-align: center;
+}
+
+.review-table tbody tr:hover {
+  background-color: #daafaf;
+}
+tr {
+  margin-bottom: 10px;
+  border-bottom: 3px solid black;
+  text-align: center;
+}
+
+input[type="search"] {
+  margin: 12px auto;
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left: 10%;
+}
+
+td button {
+  width: fit-content;
+  padding: 5px 5px;
+  border: none;
+  outline: none;
+}
+
+td button:first-child {
+  background-color: #007cbe;
+  color: white;
+  margin-right: 12px;
+}
+
+td button:last-child {
+  background-color: #ad0000;
+  color: white;
+}
+td {
+  text-align: center;
+}
