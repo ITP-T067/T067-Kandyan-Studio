@@ -1,4 +1,5 @@
-const Event = require("../../models/EventManagement/event.model")
+const Event = require("../../models/EventManagement/event.model");
+const Package = require("../../models/EventManagement/package.model");
 const {errorHandler} = require("../../utils/error")
 
 //get all events
@@ -21,16 +22,19 @@ const get_events = async(req, res, next) => {
 const create_event = async(req, res, next) => {
     try{
         const { cus_name, cus_contact, date, venue, file, additional } = req.body;
+        const package_id = req.body.package_id;
 
         //checking if the booking date is already booked
-        const existingEvent = await Event.findOne({date});
+        const existingEvent = await Event.findOne        
+        ({date}); 
+        res.json("findingg");  
         if(existingEvent){
             return res.status(400).json({
                 success: false,
                 message: "This date is already booked."
             });
         }
-
+        
         const newEvent = new Event({
             cus_name,
             cus_contact,
@@ -38,6 +42,7 @@ const create_event = async(req, res, next) => {
             venue,
             additional,
             file,
+            package_id
         }); 
 
         await newEvent.save();
@@ -65,6 +70,23 @@ const getEventByID = async(req, res, next) => {
 
     }catch(error){
         next(error);
+    }
+}
+
+//get packages by category
+const get_packagesByCategory = async (req, res) => {
+    try {
+        // Extract the category from the request query parameters
+        const category = req.body.pkg_category;
+
+        // Use the category to filter packages
+        const packages = await Package.find({ pkg_category: category });
+
+        // Send the filtered packages as the response
+        res.json(packages);
+    } catch (error) {
+        // Handle any errors that occur during the database operation
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -100,4 +122,4 @@ const delete_event = async(req, res, next) => {
     }
 }
 
-module.exports = { get_events, create_event, getEventByID, update_event, delete_event};
+module.exports = { get_events, get_packagesByCategory, create_event, getEventByID, update_event, delete_event};

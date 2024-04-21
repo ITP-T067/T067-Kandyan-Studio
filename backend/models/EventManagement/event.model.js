@@ -38,10 +38,10 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
 
-    // package_id: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Package',
-    // },
+    package_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Package',
+    },
 
     // customer_id: {
 

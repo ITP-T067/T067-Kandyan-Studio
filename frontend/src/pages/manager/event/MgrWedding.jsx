@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Link , useParams} from 'react-router-dom'
+import { Link , useLocation, useParams} from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Minimal from '../../../images/events/minimal.jpg'
@@ -7,8 +7,11 @@ import Regular from '../../../images/events/regular.jpg'
 import Deluxe from '../../../images/events/deluxe.jpg'
 import axios from 'axios';
 
+axios.defaults.baseURL = "http://localhost:8010/";
+
 function MgrWedding({packageName}) {
 
+  const location = useLocation();
   const [editSection, setEditSection] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [packageNameLabel, setPackageNameLabel] = useState('');
@@ -16,15 +19,17 @@ function MgrWedding({packageName}) {
   const [dataList, setDataList] = useState([]);
 
   //Edit package
-  const { package_id } = useParams();
   const [formDataEdit, setFormDataEdit] = useState({
     pkg_category: "",
     pkg_name: "",
     price: 0,
     description: "",
-    _id : package_id,
+    _id : "",
   });
 
+  
+
+  //handling update
   const hanldeUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -62,6 +67,17 @@ function MgrWedding({packageName}) {
     fetchPackagesByCategory();
   },[dataList]);
 
+  // const handleEdit = (pkg) => {
+  //   setFormDataEdit({
+  //     pkg_category: pkg.pkg_category,
+  //     pkg_name: pkg.pkg_name,
+  //     price: pkg.price,
+  //     description: pkg.description,
+  //     _id: pkg._id,
+  //   });
+  //   setEditSection(true);
+  // };
+
   const handleEdit = (pkg) => {
     setFormDataEdit({
       pkg_category: pkg.pkg_category,
@@ -70,8 +86,8 @@ function MgrWedding({packageName}) {
       description: pkg.description,
       _id: pkg._id,
     });
-    setEditSection(true);
   };
+
 
   const handleEditOnChange = async(e) => {
     const {value,name} = e.target
@@ -88,6 +104,17 @@ function MgrWedding({packageName}) {
     setSelectedPackage(packageName);
     setPackageNameLabel(packageName); // Update label based on selected package
     setEditSection(true);
+  };
+
+  const handleDelete = async (package_id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
+    if (confirmed) {
+        const data = await axios.delete("/package/delete/" + package_id);
+        if (data.data.success) {
+            fetchPackagesByCategory();
+            alert(data.data.message);
+        }
+    }
   };
 
   return (
@@ -112,13 +139,13 @@ function MgrWedding({packageName}) {
       {/* event navigation */}
       <div className="events w-56 h-12 relative mt-15 ml-96 flex justify-center">
         <Link to="/manager/eventdept/MgrWedding">
-          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Wedding</button>
+        <button className={`Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl text-center text-kwhite text-xl font-normal hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrWedding' ? 'bg-kyellow' : ''}`}>Wedding</button>
         </Link>
         <Link to="/manager/eventdept/MgrBdayParty">
-          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Birthday Party</button>
+        <button className={`Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrBdayParty' ? 'active' : ''}`}>Birthday Party</button>
         </Link>
         <Link to="/manager/eventdept/MgrSocial">
-          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack">Social Events</button>
+        <button className={`Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl  hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrSocial' ? 'active' : ''}`}>Social Events</button>
         </Link>
       </div>
 
@@ -140,18 +167,19 @@ function MgrWedding({packageName}) {
                             ))}
                             <br/>
                           <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                          <input type="hidden" name="package_id" value={pkg._id}/>
                       </div>
                       <div className="buttons flex justify-center gap-9  font-bold">
                               <button onClick={() => { selectPackage("Minimal"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                              <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
+                              <button onClick={() => handleDelete(pkg._id)} className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                       </div>
                     </div>
                     )
                   }
-                  if(pkg.pkg_name === "Regular"){
+                  else if(pkg.pkg_name === "Regular"){
                     return (
                         // {/* Regular */}
-                      <div className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
+                      <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                         <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Regular}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
@@ -160,20 +188,19 @@ function MgrWedding({packageName}) {
                               ))}
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                            <input type="hidden" name="package_id" value={pkg._id}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
-                                <button onClick={() => { selectPackage("Regular"); setEditSection(true); }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                            <Link to="">
-                                <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
-                            </Link>
+                                <button onClick={() => { selectPackage("Regular"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
+                                <button onClick={() => handleDelete(pkg._id)}  className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                         </div>
                       </div>
                     )
                   }
-                  if( pkg.pkg_name ==="De-Luxe" ){
+                  else if( pkg.pkg_name ==="De-Luxe" ){
                     return (
                       // {/* Deluxe */}
-                      <div className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
+                      <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                         <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Deluxe}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
@@ -182,12 +209,11 @@ function MgrWedding({packageName}) {
                               ))}
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                            <input type="hidden" name="package_id" value={pkg._id}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
-                                <button onClick={() => { selectPackage("De - Luxe"); setEditSection(true); }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                            <Link to="">
-                                <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
-                            </Link>
+                                <button onClick={() => { selectPackage("De - Luxe"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
+                                <button onClick={() => handleDelete(pkg._id)}  className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                         </div>
                       </div>
                     )

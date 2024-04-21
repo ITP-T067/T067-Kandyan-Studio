@@ -1,5 +1,5 @@
 const express = require("express")
-const {get_packageById, get_packagesByCategory,create_package, update_package, delete_package} = require("../../controllers/EventManagement/package.controller");
+const {get_packageById, get_packages , get_packagesByCategory,create_package, update_package, delete_package} = require("../../controllers/EventManagement/package.controller");
 
 const router = express.Router();
 
@@ -18,7 +18,8 @@ const router = express.Router();
 
 //   const upload = multer({ storage: storage });
 
-router.get("/", get_packagesByCategory);
+router.get("/", get_packages);
+router.get("/category", get_packagesByCategory);
 router.get("/:id", get_packageById);
 router.post("/create",  create_package);  //upload.single('file'),
 router.put("/update", update_package);

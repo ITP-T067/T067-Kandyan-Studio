@@ -37,13 +37,29 @@ const get_packageById = async (req, res) => {
     }
 };
 
-//get packages by category
-const get_packagesByCategory = async (req, res) => {
+//get all packages
+const get_packages = async (req, res) => {
     try {
-        const { pkg_category } = req.query;
         const packages = await Package.find();
         res.json(packages);
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+//get packages by category
+const get_packagesByCategory = async (req, res) => {
+    try {
+        // Extract the category from the request query parameters
+        const category = req.body.pkg_category;
+
+        // Use the category to filter packages
+        const packages = await Package.find({ pkg_category: category });
+
+        // Send the filtered packages as the response
+        res.json(packages);
+    } catch (error) {
+        // Handle any errors that occur during the database operation
         res.status(500).json({ message: error.message });
     }
 }
@@ -80,4 +96,4 @@ const delete_package = async(req, res, next) => {
     }
 }
 
-module.exports = {get_packageById, get_packagesByCategory, create_package, update_package, delete_package};
+module.exports = {get_packages, get_packageById, get_packagesByCategory, create_package, update_package, delete_package};

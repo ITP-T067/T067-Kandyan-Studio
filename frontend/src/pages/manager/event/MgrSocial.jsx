@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Link , useParams} from 'react-router-dom'
+import { Link , useLocation, useParams} from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Standard from '../../../images/events/social1.jpg'
@@ -7,9 +7,12 @@ import Premium from '../../../images/events/social2.jpg'
 import Diamond from '../../../images/events/social3.jpg'
 import axios from 'axios';
 
+axios.defaults.baseURL = "http://localhost:8010/";
+
 function MgrSocial({packageName}) {
 
-    const [editSection, setEditSection] = useState(false);
+  const location = useLocation();
+  const [editSection, setEditSection] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [packageNameLabel, setPackageNameLabel] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -24,6 +27,7 @@ function MgrSocial({packageName}) {
     description: "",
     _id : package_id,
   });
+
 
   const hanldeUpdate = async (e) => {
     e.preventDefault();
@@ -96,6 +100,17 @@ function MgrSocial({packageName}) {
     setEditSection(true);
   };
 
+  const handleDelete = async (package_id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
+    if (confirmed) {
+        const data = await axios.delete("/package/delete/" + package_id);
+        if (data.data.success) {
+            fetchPackagesByCategory();
+            alert(data.data.message);
+        }
+    }
+  };
+
 
   return (
     <div>
@@ -119,13 +134,13 @@ function MgrSocial({packageName}) {
       {/* event navigation */}
       <div className="events w-56 h-12 relative mt-15 ml-96 flex justify-center">
         <Link to="/manager/eventdept/MgrWedding">
-          <button className="Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl  text-center text-kwhite text-xl font-normal font-normal hover:bg-kyellow hover:text-kblack">Wedding</button>
+        <button className={`Wedding w-56 h-12 left-0 top-0 absolute bg-kgray rounded-tl-3xl rounded-bl-3xl text-center text-kwhite text-xl font-normal hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrWedding' ? 'active' : ''}`}>Wedding</button>
         </Link>
         <Link to="/manager/eventdept/MgrBdayParty">
-          <button className="Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal font-normal hover:bg-kyellow hover:text-kblack">Birthday Party</button>
+        <button className={`Bdayparty w-56 h-12 left-[232px] top-0 absolute bg-kgray text-center text-kwhite text-xl font-normal  hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrBdayParty' ? 'active' : ''}`}>Birthday Party</button>
         </Link>
         <Link to="/manager/eventdept/MgrSocial">
-          <button className="Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-normal hover:bg-kyellow hover:text-kblack">Social Events</button>
+        <button className={`Socilaevents w-56 h-12 left-[464px] top-0 absolute bg-kgray rounded-tr-3xl rounded-br-3xl text-center text-kwhite text-xl font-normal font-normal hover:bg-kyellow hover:text-kblack ${location.pathname === '/manager/eventdept/MgrSocial' ? 'bg-kyellow' : ''}`}>Social Events</button>
         </Link>
       </div>
 
@@ -137,7 +152,7 @@ function MgrSocial({packageName}) {
                 dataList.map((pkg) => {
                   if(pkg.pkg_name ==="Standard"){
                     return (
-                      // {/* Minimal */}
+                      // {/* Standard */}
                       <div key={pkg._id} className="card2 w-80  h-[28rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                       <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Standard}/>
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
@@ -149,16 +164,16 @@ function MgrSocial({packageName}) {
                           <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                       </div>
                       <div className="buttons flex justify-center gap-9  font-bold">
-                              <button onClick={() => { selectPackage("Minimal"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                              <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
+                              <button onClick={() => { selectPackage("Standard"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
+                              <button onClick={() => handleDelete(pkg._id)} className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                       </div>
                     </div>
                     )
                   }
                   if(pkg.pkg_name === "Premium"){
                     return (
-                        // {/* Regular */}
-                      <div className="card3 w-80 h-[28rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
+                        // {/* Premium */}
+                      <div key={pkg._id} className="card3 w-80 h-[28rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                         <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Premium}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
@@ -169,18 +184,16 @@ function MgrSocial({packageName}) {
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
-                                <button onClick={() => { selectPackage("Regular"); setEditSection(true); }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                            <Link to="">
-                                <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
-                            </Link>
+                                <button onClick={() => { selectPackage("Premium"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
+                                <button onClick={() => handleDelete(pkg._id)} className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                         </div>
                       </div>
                     )
                   }
                   if( pkg.pkg_name ==="Diamond" ){
                     return (
-                      // {/* Deluxe */}
-                      <div className="card3 w-80 h-[28rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
+                      // {/* Diamond */}
+                      <div key={pkg._id} className="card3 w-80 h-[28rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
                         <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Diamond}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
@@ -191,10 +204,8 @@ function MgrSocial({packageName}) {
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
-                                <button onClick={() => { selectPackage("De - Luxe"); setEditSection(true); }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
-                            <Link to="">
-                                <button className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
-                            </Link>
+                                <button onClick={() => { selectPackage("Diamond"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
+                                <button onClick={() => handleDelete(pkg._id)} className="btn_delete w-28 h-12  bg-kred rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Delete</button>
                         </div>
                       </div>
                     )

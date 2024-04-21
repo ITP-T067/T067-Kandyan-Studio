@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -15,6 +15,53 @@ function AddPackages() {
     description: ""
   })
 
+  const [dataList, setDataList] = useState([]);
+  const [weddingCount, setWeddingCount] = useState(0);
+  const [birthdayCount, setBirthdayCount] = useState(0);
+  const [socialCount, setSocialCount] = useState(0);
+
+  const fetchPackages = async () => {
+    try {
+      const response = await axios.get("/package");
+      console.log("Response: ", response);
+      setDataList(response.data);
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+};
+
+  //calculating pkg category count
+  const calcCategoryCount = (dataList) => {
+    let weddingCount = 0;
+    let birthdayCount = 0;
+    let socialCount = 0;
+
+    dataList.forEach((pkg) => {
+      if (pkg.pkg_category == "Wedding") {
+        weddingCount++;
+      }else if(pkg.pkg_category == "Birthday Party") {
+        birthdayCount++;
+      }else if(pkg.pkg_category == "Social Event") {
+        socialCount++;
+      }
+    });
+    setWeddingCount(weddingCount);
+    setBirthdayCount(birthdayCount);
+    setSocialCount(socialCount);
+  }
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
+
+  useEffect(() => {
+    calcCategoryCount(dataList);
+  }, [dataList]);
+
+  console.log("Wedding Count: ", weddingCount);
+  console.log("Birthday Count: ", birthdayCount);
+  console.log("Social Count: ", socialCount);
+
   const handleOnChange = (e) => {
     const {value,name} = e.target;
 
@@ -28,12 +75,37 @@ function AddPackages() {
             ...prev,
             [name]: value,
         }));
+        // console.log(formData.pkg_category);
     }
   };
 
   const handleSubmit = async(e) => {
     e.preventDefault();
 
+    try {
+
+    // Check if the package category is already exists
+    fetchPackages();
+    calcCategoryCount(dataList);
+
+    // Check if there are already three packages for the selected category
+    if (formData.pkg_category === "Wedding" && weddingCount >= 3) {
+        alert("Wedding category already has 3 packages.");
+        return;
+    } else if (formData.pkg_category === "Birthday Party" && birthdayCount >= 3) { 
+        alert("Birthday Party category already has 3 packages.");
+        return;
+    } else if (formData.pkg_category === "Social Event" && socialCount >= 3) {
+        alert("Social Event category already has 3 packages.");
+        return;
+    }
+
+    // Check if the package name is already used in the selected category
+    const isPackageNameExists = dataList.some((pkg) => pkg.pkg_name === formData.pkg_name);
+    if (isPackageNameExists) {
+        alert("Package name already exists in the selected category.");
+        return;
+    }
     // const formDataSend = new FormData();
     // formDataSend.append("pkg_category", formData.pkg_category);
     // formDataSend.append("pkg_name", formData.pkg_name);
@@ -43,7 +115,7 @@ function AddPackages() {
     
     console.log("Form data: ", formData);
 
-    try {
+   
       const response = await axios.post("/package/create", formData);
 
       //handle response

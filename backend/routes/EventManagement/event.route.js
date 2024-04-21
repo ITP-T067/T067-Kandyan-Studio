@@ -1,6 +1,6 @@
 const express = require("express");
 
-const{ get_events, create_event, getEventByID, update_event, delete_event} = require("../../controllers/EventManagement/event.controller");
+const{ get_events,get_packagesByCategory, create_event, getEventByID, update_event, delete_event} = require("../../controllers/EventManagement/event.controller");
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ const router = express.Router();
 //   const upload = multer({ storage: storage });
 
 router.get("/",get_events);
+router.get("/category", get_packagesByCategory);
 router.post("/create",  create_event);  //upload.single('file'),
 router.get("/:id", getEventByID);
 router.put("/update", update_event);
