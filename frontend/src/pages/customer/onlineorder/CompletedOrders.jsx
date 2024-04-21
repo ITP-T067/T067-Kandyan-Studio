@@ -3,8 +3,8 @@ import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 
 const TABLE_HEAD = [
-  "Date",
-  "Type",  
+  "Completed Date",
+  "Item name",  
   "Total Price",
   "Completed"
 ];

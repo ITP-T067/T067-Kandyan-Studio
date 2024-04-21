@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import '../../Styles/creator/orders.css';
-import '../../Styles/creator/formData.css';
-import '../../Styles/creator/orderNav.css';
 
 axios.defaults.baseURL = "http://localhost:8010/"
 
 export default function Orders() {
-
-    const [formData, setFormData] = useState({
-        Project_Name : "",
-        Status : "",
-        Order_ID: "",
-      })
-    
-      const [addSection, setAddSection] = useState(false);
       const [dataList, setDataList] = useState([])
     
       useEffect(() => {
@@ -33,99 +24,72 @@ export default function Orders() {
           console.error("Error fetching data:", error);
         }
       };
-    
-      const handleOnchange = (e) => {
-        const {value,name} = e.target
-        setFormData((prev)=> {
-          
-          return{
-            ...prev,
-            [name] : value
-          }
-        })
-      }
-    
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Form Data:", formData); // Log form data before sending the request
-        try {
-          const data = await axios.post("/project/create", formData);
-          console.log("Response:", data); // Log the response from the server
-          if (data.data.success) {
-            setAddSection(false);
-            setFormData({
-              Project_Name: "",
-              Status: "",
-              Order_ID: "",
-            }); 
-          }
-        } catch (error) {
-          console.error("Error creating project:", error);
-        }
-      }
-      
-      const handleAddProject = (orderId) => {
-        setFormData((prev) => ({
-          ...prev,
-          Status: "Pending",
-          Order_ID: orderId
-        }));
-        setAddSection(true);
+
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
+
+      const showPdf = (slip) => {
+        window.open(`http://localhost:8010/uploads/`+ slip, "_blank", "noreferrer");
       };
     
     
   return (
     <>
-        <nav className="order-navbar">
-            <a className="order-el left_order " href="/creator/projectOrders/" style={{backgroundColor: '#525252'}}><div className="">Order List</div></a>
-            <a className="order-el middle_order" href="/creator/physicalOrders"><div>Add physical orders</div></a>
-            <a className="order-el right_order" href="/creator/orderPayments"><div>Approve Order Payments</div></a>
+        <nav className="w-4/5 flex flex-row justify-center items-center mx-auto text-kwhite mb-5">
+            <a className="w-1/3 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/projectOrders/">
+                <div>Order List</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center bg-kblack font-bold flex flex-col justify-center" href="/creator/physicalOrders">
+                <div>Add physical orders</div>
+            </a>
+            <a className="w-1/3 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/orderPayments">
+                <div>Approve Order Payments</div>
+            </a>
         </nav>
 
-        {
-        addSection && (
-            <div className="addContainer bg-kgray">
-            <button className="closeBtn"  onClick={()=>setAddSection(false)}>Close</button>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="Project_Name">Project Name: </label>
-              <input type="text" id="Project_Name" name="Project_Name" onChange={handleOnchange} value={formData.Project_Name}/>
-  
-              <input type = "hidden" name = "Status" value={formData.Status}/>
-  
-              <input type="hidden" name="Order_ID" value={formData.Order_ID} />
-  
-              <button className="submitBtn bg-kblue">Submit</button>
-            </form>
-      </div>
-          )
-      }
+        <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
+            <a className="w-1/2 h-[55px] text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/projectOrders/"><div className="">Online Orders</div></a>
+            <a className="w-1/2 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
+        </nav>
 
-      <div className='tableContainer'>
-        <table>
-          <thead>
+      <div className="mt-5 mx-auto">
+        <table className="w-full border-collapse text-kwhite">
+          <thead className="bg-kblack text-kwhite h-[60px]">
             <tr>
-              <th>Order</th>
-              <th>Quantity</th>
-              <th>Additional</th>
-              <th>Order Type</th>
-              <th></th>
+              <th className="px-4 py-2">Order</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Customer Name</th>
+              <th className="px-4 py-2">Order Date</th>
+              <th className="px-4 py-2">Order Image</th>
+              <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-kgray bg-opacity-60 h-[80px]">
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                return(
-                  <tr>
-                    <td>{el.Order_Type}</td>
-                    <td>{el.Quantity}</td>
-                    <td>{el.Additional}</td>
-                    <td>{el.Type}</td>
-                    <td>
-                      <button className='btn btn_add' onClick={()=>handleAddProject(el._id)}>Add Project</button>
-                    </td>
-                  </tr>
-                )
+                if(el.Project_Status != "Added"){
+                  return(
+                    <tr>
+                      <td className="px-4 py-2 text-center">{el?.Item_Name || 'N/A'}</td>
+                      <td className="px-4 py-2 text-center">{el.Quantity}</td>
+                      <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
+                      <td className="px-4 py-2 text-center">{formatDate(el.Order_Date)}</td>
+                      <td className="px-4 py-2 text-center">
+                        <button className="btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2" onClick={() => showPdf(el.Uploaded_Image)}>
+                            View
+                        </button>
+                      </td>
+                      <td className="px-4 py-2 text-center">
+                          <Link to={`/creator/addProjects/${el._id}`}>
+                              <button className='btn_edit bg-kgreen text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Add Project</button>
+                          </Link>
+                      </td>
+                    </tr>
+                  )
+                }
               }))
               : (
                 <p>No data available</p>

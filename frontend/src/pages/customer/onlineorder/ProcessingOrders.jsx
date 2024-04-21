@@ -1,48 +1,42 @@
-import React, { useState } from 'react'
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import React, { useState, useEffect } from 'react'
+import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const TABLE_HEAD = [
-  "Date",
-  "Type",  
+  "Orderd Date",
+  "Item Name",  
+  "Quantity",
   "Total Price",
-  "Completed"
+  "Status",
 ];
 
-const TABLE_ROWS = [
-    {
-        date: "2024/01/05",
-        type: "Designing",
-        total_price: "LKR 2,950.00"
-    },
-    {
-        date: "2024/04/05",
-        type: "Designing",
-        total_price: "LKR 4,000.00"
-    },
-    {
-      date: "2024/01/05",
-      type: "Designing",
-      total_price: "LKR 1,700.00"
-    },
-    
-];
 
 export default function PendingOrders() {
 
   const navigate = useNavigate();
-  const [showDetailAlert, setDetailAlert] = useState(false);
+  const [OnlineOrders, setOnlineOrders] = useState([]);
 
-  const handleDetailClick = () => {
-    setDetailAlert(true);
-    navigate('/processingorder');
-  };
-  
+    useEffect(() => {
+        getOnlineOrders();
+    }, []);
+
+    const getOnlineOrders = async () => {
+    try {
+        const response = await axios.get('order/on/'); // Replace '/path/to/your/backend/api' with your actual API endpoint
+        setOnlineOrders(response.data.data);
+    } catch (error) {
+        console.error('Error fetching pending orders:', error);
+    }
+    };
+
 
   return (
     <div>
       <div className="mx-5 mb-5">
-                <Card className={`${showDetailAlert ? 'blur' : ''}`}>
+                <Card>
                     <CardBody className="flex items-center justify-between">
                       <div>
                         <div class="flex items-center" onClick={() => navigate('/myorder')}>
@@ -58,7 +52,7 @@ export default function PendingOrders() {
                     </CardBody>
                 </Card>
             </div>
-            <div className={`p-3 ${showDetailAlert ? 'blur' : ''}`}>
+            <div className="p-3">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack bg-opacity-40">
@@ -75,88 +69,46 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(({ date, type, total_price }, index) => {
-                            const isLast = index === TABLE_ROWS.length;
-
-                            return (
+                        {OnlineOrders
+                            .filter(order => order.Project_Status === 'Added' || order.Project_Status === 'Not Taken')
+                            .map((order, index) => (
                                 <tr
                                     key={index}
-                                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4 bg-opacity-20`}
+                                    className={`${index === OnlineOrders.length  ? "" : "border-b"} ${
+                                        order.Project_Status === "Added" ? "bg-kgreen bg-opacity-30" : 
+                                        order.Project_Status === "Not Taken" ? "bg-kyellow bg-opacity-30" : "bg-kgray"
+                                    } text-kwhite text-center p-4`}
                                 >
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {date}
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {new Date(order.Order_Date).toISOString().split('T')[0]}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {type}
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {order.Item_Name}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {total_price}
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {order.Quantity}
                                         </Typography>
                                     </td>
-                                    <td className="p-2">
-                                        <div className="mx-auto text-kwhite">
-                                        
-                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDetailClick} disabled={showDetailAlert}>Details</button>
-                                        </div>
+                                    <td>
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {order.Order_Amount}
+                                        </Typography>
+                                    </td>
+                                    <td>
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {order.Project_Status}
+                                        </Typography>
                                     </td>
                                 </tr>
-                            );
-                        })}
+                        ))}
                     </tbody>
                 </table>
             </div>
-            {showDetailAlert && (
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
-                    <div className="bg-white p-8 rounded-3xl">
-                        <form class="w-full max-w-">
-                            <div class="md:flex md:items-center mb-6">
-                                <div class="md:w-1/3">
-                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
-                                        Type : 
-                                    </label>
-                                </div>
-                                <div class="md:w-">
-                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
-                                        Designing
-                                    </label>
-                                </div>
-            
-                            </div>
-                            <div class="md:flex md:items-center mb-6">
-                                <div class="md:w-1/3">
-                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
-                                        Total Price :  
-                                    </label>
-                                </div>
-                                <div class="md:w-">
-                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
-                                        3000.00
-                                    </label>
-                                </div>
-            
-                            </div>
-                            <div class="md:flex md:items-center mb-6">
-                                <div class="md:w-1/3">
-                                    <label class="block text-kwhite md:text-right mb-1 md:mb-0 pr-4">
-                                        Description : 
-                                    </label>
-                                </div>
-                                <div class="md:w-">
-                                    <label class="block text-kwhite font-bold mb-1 md:mb-0 pr-4 ">
-                                        I need a fairy themed design, make it look heavenly
-                                    </label>
-                                </div>
-                            </div>
-                            <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded">Ok</button>
-                        </form>
-                    </div>
-                </div>
-            )}
     </div>
   )
 }

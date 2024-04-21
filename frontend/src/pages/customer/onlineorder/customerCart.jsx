@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { HiMinusCircle,HiPlusCircle } from "react-icons/hi";
+import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -15,7 +16,7 @@ export default function CustomerCart() {
   const [isCheckoutDisabled, setIsCheckoutDisabled] = useState(true); 
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [filename, setfilename] = useState();
+  const [filename, setfilename] = useState(null);
 
   const handleCheckboxChange = (select) => {
     const updatedSelectedItems = selectedItems.includes(select)
@@ -81,14 +82,21 @@ export default function CustomerCart() {
       return selectedItem.item_file;
     });
     // Send data to backend
-    const data = {
-      item_Names: updatedSelectedItemNames.join(', '), // Concatenate item names with quantities
-      total_Price: totalAmount,
-      order_slip: filename, // Include the filename here
-      order_uploaded_image: updatedSelectedItemImage.join(', ')
-    };
-  
-    axios.post('order/on/create/pending', data)
+    // const data = {
+    //   item_Names: updatedSelectedItemNames.join(', '), // Concatenate item names with quantities
+    //   total_Price: totalAmount,
+    //   file: filename, // Include the filename here
+    //   order_uploaded_image: updatedSelectedItemImage.join(', ')
+    // };
+
+    const dataAdd = new FormData();
+    dataAdd.append('item_Names', updatedSelectedItemNames.join(', '));
+    dataAdd.append('total_Price', totalAmount);
+    dataAdd.append('file', filename);
+    dataAdd.append('order_uploaded_image', updatedSelectedItemImage.join(', '));
+    console.log(Array.from(dataAdd.entries()));
+
+    axios.post('order/on/create/pending', dataAdd)
       .then(response => {
         console.log('Pending order created successfully:', response.data);
 
@@ -230,7 +238,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/AddToCart_Image/${item.item_file}`)} alt="file" />
+              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" />
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -271,6 +279,9 @@ export default function CustomerCart() {
       {showPayAlert && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
           <div className="bg-white p-8 rounded-3xl">
+            <button className='bg-kwhite h-4 w-4' onClick={() => setShowPayAlert(false)}>
+            <HiXMark />
+            </button>
             <form className="w-full max-w-" onSubmit={checkout}>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
@@ -296,6 +307,14 @@ export default function CustomerCart() {
                   </label>
                 </div>
               </div>
+              <div className="md:flex md:items-center">
+                <div className="md:w-1/3"/>
+                <div className="md:w-2/3">
+                <label className="block ml-2 text-korange font-bold md:text-left pr-4">
+                    you can upload pay,ent slip here
+                  </label>
+                </div>
+              </div>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                   <label className="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4">
@@ -303,11 +322,10 @@ export default function CustomerCart() {
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <input 
-                    className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0].name)}/>
+                  <input className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0])} required accept='.pdf,image/*'/>
                 </div>
               </div>
-              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Pay</button>
+              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Order Now</button>
             </form>
           </div>
         </div>
