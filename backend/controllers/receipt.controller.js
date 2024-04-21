@@ -1,6 +1,7 @@
-const Receipt = require("../models/receipt.model.js") 
-const {errorHandler} = require("../utils/error.js");
+const Receipt = require('../models/receipt.model.js');
+const { errorHandler } = require('../utils/error.js');
 
+//Read data
 const index_receipt = async (req, res, next) => {
     try {
         const data = await Receipt.find({}).populate('Order_ID');
@@ -14,30 +15,45 @@ const index_receipt = async (req, res, next) => {
     }
 }
 
-//create data
+// const getReceiptById_receipt = async (req, res, next) => {
+//     const receiptId = req.params.id;
+
+//     try {
+//         const receipt = await Receipt.findById(receiptId).populate('Order_ID');
+
+//         if (!receipt) {
+//             return res.status(404).json({ success: false, message: "Receipt not found" });
+//         }
+
+//         res.status(200).json({ success: true, data: receipt });
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
+// Create a new receipt
 const create_receipt = async (req, res, next) => {
     try {
-        const { Receipt_Path, Order_ID } = req.body;
-        const Receipt_Date = new Date();
+        const { Order_ID } = req.body;
+        const { filename: Receipt_Path } = req.file;
 
         const newReceipt = new Receipt({
             Receipt_Path,
-            Receipt_Date,
-            Order_ID
+            Receipt_Date: new Date(),
+            Order_ID,
         });
 
-        // Save the new receipt
         await newReceipt.save();
 
         res.status(201).json({
             success: true,
-            message: "Receipt saved successfully",
-            data: newReceipt // Use newReceipt instead of data
+            message: 'Receipt saved successfully',
+            data: newReceipt,
         });
     } catch (error) {
-        next(error); // Pass the error to the error handling middleware
+        next(error);
     }
-}
+};
 
 //update data
 const update_receipt = async(req, res, next) => {
@@ -69,4 +85,4 @@ const del_receipt = async(req,res, next) =>{
     }
 }
 
-module.exports = { index_receipt, create_receipt, update_receipt, del_receipt };
+module.exports = { index_receipt, create_receipt, update_receipt, del_receipt};
