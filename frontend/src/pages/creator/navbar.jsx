@@ -4,7 +4,6 @@ import {
     Navbar,
     Typography,
     List,
-    MenuItem,
 } from '@material-tailwind/react';
 
 const CreatorNavbar = () => {
@@ -12,8 +11,8 @@ const CreatorNavbar = () => {
     const departments = [
         { title: 'My Projects', link: '/creator/' },
         { title: 'Orders', link: '/creator/projectOrders/' },
-        { title: 'Generate Reports', link: '/' },
-        { title: 'Inquiries', link: '' },
+        { title: 'Generate Reports', link: '/creator/generateReports' },
+        { title: 'Inquiries', link: '/creator/inquiries' },
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);

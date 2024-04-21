@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 //Home
-import Home from './pages/customer/onlineorder/home.jsx';
+import Home from './pages/home.jsx';
 
 //Login
 import Login from './pages/login';
@@ -21,7 +21,7 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
-import Payorder from './pages/customer/onlineorder/payOrder.jsx';
+
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
 import Review from './pages/customer/loyalty/Review.jsx';
@@ -59,6 +59,19 @@ import ProjectOrders from './pages/creator/Orders.jsx';
 import CompletedProjects from './pages/creator/CompletedProjects.jsx';
 import PhysicalOrders from './pages/creator/PhysicalOrders.jsx';
 import OrderPayment from './pages/creator/OrderPayment.jsx';
+import AddProjects from './pages/creator/AddProjects.jsx';
+import EditProjects from './pages/creator/EditProjects.jsx';
+import OfflineOrders from './pages/creator/OfflineOrders.jsx';
+import AddOfflineProjects from './pages/creator/AddOfflineProjects.jsx';
+import Inquries from './pages/creator/Inquiries.jsx';
+import ResolveInquiries from './pages/creator/ResolveInquiries.jsx';
+import PaymentDetails from './pages/creator/PaymentDetails.jsx';
+import ReceiptForm from './pages/creator/ReceiptForm.jsx';
+import Generatereports from './pages/creator/GenerateReports.jsx';
+import DeclinePayment from './pages/creator/DeclinePayment.jsx';
+
+//Studio Operator Dashboard
+import StudioDash from './pages/studioop/studio_dash.jsx'
 
 //Supplier Dashboard
 
@@ -70,7 +83,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         {/* Home */}
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home/>} />
 
         {/* Login */}
         <Route path='/login' element={<Login />} />
@@ -83,10 +96,7 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
-        <Route path='/payorder' element={<Payorder/>}/>
-
-        {/* Customer addToCart */}
-        <Route path='/addtocart' element={<Addtocart/>}/>
+        <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
         <Route path='/addreview' element={<AddReview/>}/>
         <Route path='/review' element={<Review/>}/>
@@ -112,7 +122,19 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+        <Route path='/creator/addProjects/:orderId' element={<AddProjects/>}/>
+        <Route path='/creator/editProjects/:projectId' element={<EditProjects/>}/>
+        <Route path='/creator/offlineOrders' element={<OfflineOrders/>}/>
+        <Route path='/creator/addOfflineProjects/:orderId' element={<AddOfflineProjects/>}/>
+        <Route path='/creator/inquiries' element={<Inquries/>}/>
+        <Route path='/creator/resolveInquiries/:inquiryId' element={<ResolveInquiries/>}/>
+        <Route path='/creator/paymentDetails/:orderId' element={<PaymentDetails/>}/>
+        <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
+        <Route path='/creator/generateReports' element={<Generatereports/>}/>
+        <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
         
+        {/* Studio Operator Dashboard*/}
+        <Route path='/studiooperator/' element={<StudioDash/>}/>
         
         
       </Routes>

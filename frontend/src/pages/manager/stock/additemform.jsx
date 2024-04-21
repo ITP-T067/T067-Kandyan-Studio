@@ -6,31 +6,78 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const AddItemForm = () => {
-    const [itemName, setItemName] = useState('');
-    const [description, setDescription] = useState('');
-    const [type, setType] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [capacity, setCapacity] = useState('');
-    const [price, setPrice] = useState('');
-    const [photo, setPhoto] = useState('');
+
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        type: "",
+        quantity: "",
+        maxCapacity: "",
+        damaged: 0,
+        sellingPrice: "",
+        buyingPrice: 0,
+        file: null
+    })
+
+    const handleOnChange = (e) => {
+        const {value,name} = e.target;
+
+        if(name === 'file'){
+            setFormData((prev)=>({
+                ...prev,
+                [name]: e.target.files[0]
+            }));
+        }else{
+            setFormData((prev)=>({
+                ...prev,
+                [name]: value,
+            }));
+        }
+    };
+
+    const [isAlert, setIsAlert] = useState(false);
+    const [alertStatus, setAlertStatus] = useState('succesßs');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("description", formData.description);
+        formDataToSend.append("type", formData.type);
+        formDataToSend.append("quantity", formData.quantity);
+        formDataToSend.append("maxCapacity", formData.maxCapacity);
+        formDataToSend.append("damaged", formData.damaged);
+        formDataToSend.append("sellingPrice", formData.sellingPrice);
+        formDataToSend.append("buyingPrice", formData.buyingPrice);
+        formDataToSend.append("file", formData.file);
+
+        console.log("Form Data:", formData);
         try {
-            const data = await axios.post("/item/create", {
-                name: itemName,
-                additional: description,
-                type,
-                quantity,
-                capacity,
-                price,
-                photo
-            });
+            const data = await axios.post("/item/create", formDataToSend);
+            console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
-                alert(data.data.message);
+                //alert(data.data.message);
+                setIsAlert(true);
+                setAlertStatus('success');
+                setMessage("Item Added Successfully !");
+                setTimeout(() => {
+                    setIsAlert(false);
+                    window.location.href = "/manager/stockdept/items/";
+                }, 3000);
+            }else{
+                setIsAlert(true);
+                setAlertStatus('danger');
+                setMessage("Failed to Add Item !");
+                setTimeout(() => {
+                    setIsAlert(false);
+                }, 3000);
             }
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.log(error.response.data);
+            setIsAlert(true);
+            setAlertStatus('warning');
+            setMessage("Error Occured While Adding Item, Check For Empty Fields !");
         }
     };
 
@@ -62,9 +109,9 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                            id="itemName"
-                            value={itemName}
-                            onChange={(e) => setItemName(e.target.value)}
+                            name="name"
+                            value={formData.name}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -72,9 +119,9 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full"
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            name="description"
+                            value={formData.description}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex flex-col m-5">
@@ -82,9 +129,9 @@ const AddItemForm = () => {
                         <input
                             type="text"
                             className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                            id="type"
-                            value={type}
-                            onChange={(e) => setType(e.target.value)}
+                            name="type"
+                            value={formData.type}
+                            onChange={handleOnChange}
                         />
                     </div>
                     <div className="flex items-center justify between m-5">
@@ -93,9 +140,9 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                id="quantity"
-                                value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
+                                name="quantity"
+                                value={formData.quantity}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
@@ -103,9 +150,9 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                id="capacity"
-                                value={capacity}
-                                onChange={(e) => setCapacity(e.target.value)}
+                                name="maxCapacity"
+                                value={formData.maxCapacity}
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>
@@ -115,24 +162,23 @@ const AddItemForm = () => {
                             <input
                                 type="number"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                                id="price"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                name="sellingPrice"
+                                value={formData.sellingPrice}
+                                onChange={handleOnChange}
                             />
                         </div>
                         <div>
                             <label htmlFor="photo">Upload Photo</label>
                             <input
-                                type="text"
+                                type="file"
                                 className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
-                                id="photo"
-                                value={photo}
-                                onChange={(e) => setPhoto(e.target.value)}
+                                name="file"
+                                onChange={handleOnChange}
                             />
                         </div>
                     </div>
                     <div className="p-4 text-kblack flex flex-col">
-                        <button className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
+                        <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
                         <button className="bg-kwhite text-kblack rounded-lg p-3" onClick={GoBack}>Cancel</button>
                     </div>
                 </form>

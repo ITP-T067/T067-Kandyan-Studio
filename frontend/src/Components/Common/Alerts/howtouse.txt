@@ -1,0 +1,47 @@
+To use the `alert` component in the frontend, you can follow these steps:
+
+
+
+1. Import the `alert` component : Import the `alert` component into your frontend React component where you want to display alerts.
+
+    import Alert from './path/to/alertComponent';
+
+
+
+
+2. Pass props to the `alert` component : Pass the `message` and `type` props to the `alert` component to specify the content and type of the alert.
+
+    <Alert message="This is a success message" type="success" />
+
+    The `type` prop determines the style and icon of the alert. It can have one of the following values: `'success'`, `'error'`, `'neutral'`, or `'warning'`.
+
+
+
+3. Examples:
+
+    Success alert,
+    <Alert message="Operation successful!" type="success" />
+
+
+    Error alert,
+    <Alert message="Error: Something went wrong!"type="error" >
+
+
+    Neutral alert,
+    <Alert message="Information: Please note this!" type="neutral" />
+
+
+    Warning alert,
+    <Alert message="Warning: Proceed with caution!" type="warning" />
+
+
+
+4. Display the alert component**: Place the `alert` component in the desired location within your React component to display the alert.
+
+    <div>
+        <Alert message="This is a success message" type="success" />
+    </div>
+
+
+
+By following these steps, you can easily integrate the `alert` component into your frontend React application and display different types of alerts based on your requirements.

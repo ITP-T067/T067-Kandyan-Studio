@@ -14,7 +14,21 @@ const Login = () => {
             console.log('User ID:', id);
             passUserSession(role,name,id);
         console.log('User session passed');
-        window.location.href = '/dashboard';
+        if(role === 'Customer'){
+            window.location.href = '/';
+        }else if(role === 'Manager'){
+            window.location.href = '/manager';
+        }else if(role === 'Cashier'){
+            window.location.href = '/cashier';
+        }else if(role === 'Creator'){
+            window.location.href = '/creator';
+        }else if(role === 'Supplier'){
+            window.location.href = '/supplier';
+        }else if(role === 'Studio Operator'){
+            window.location.href = '/studiooperator';
+        }else{
+            window.location.href = '/';
+        }
     };
 };
 
@@ -57,6 +71,13 @@ const GoBack = () => {
                 onClick={handleLogin('Creator','Amal','CR001')}
             >
                 Creator
+            </button>
+
+            <button name="studiooperator"
+                className="bg-kblack hover:bg-kgray text-kwhite font-bold py-2 px-4 rounded-full mr-3"
+                onClick={handleLogin('Studio Operator','Namal','SO001')}
+            >
+                Studio Operator
             </button>
 
             <button name="supplier"

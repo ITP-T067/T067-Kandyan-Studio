@@ -31,16 +31,41 @@ const StockLevels = () => {
         }
     };
 
+    //Stock Level Demonstration
     const colorChanger = (percentage) => {
+        let color = "";
+
         if (percentage < 25) {
-            return 'kred';
+            color = 'bg-pred/70';
         } else if (percentage < 50) {
-            return 'korange';
+            color = 'bg-porange/70';
         } else if (percentage < 75) {
-            return 'kyellow';
+            color = 'bg-pyellow/70';
+        } else if (percentage < 90) {
+            color = 'bg-plgreen/70';
         } else {
-            return 'kgreen';
+            color = 'bg-pgreen/70';
         }
+
+        return `${color}`;
+    };
+
+    const rowColorChanger = (percentage) => {
+        let color = "";
+
+        if (percentage < 25) {
+            color = 'bg-pred/30';
+        } else if (percentage < 50) {
+            color = 'bg-porange/30';
+        } else if (percentage < 75) {
+            color = 'bg-pyellow/30';
+        } else if (percentage < 90) {
+            color = 'bg-plgreen/30';
+        } else {
+            color = 'bg-pgreen/30';
+        }
+
+        return `${color}`;
     };
 
     const statusChanger = (percentage) => {
@@ -61,28 +86,35 @@ const StockLevels = () => {
         return Math.round((value1 / valve2) * 100);
     };
 
-    const handleButton = (option) => {
+    const handleRequestButton = (itemId) => {
         return () => {
-            switch (option) {
-                case 'Request':
-                    window.location.href = '/manager/stockdept/stocklevels/request';
-                    break;
-                default:
-                    break;
-            }
+            console.log("Heading to request page");
+            window.location.href = `/manager/stockdept/stocklevels/request?itemId=${itemId}`;
         };
     };
 
-    // Calculate index of the last item of current page
-    const indexOfLastItem = currentPage * itemsPerPage;
-    // Calculate index of the first item of current page
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Get the current items to be displayed
-    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+
+    //Search Item
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        const results = dataList.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+    },[searchTerm, dataList]);
+
+
+    
+    //Pagination
+    const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
+    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem); // Get the current items to be displayed
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -109,6 +141,8 @@ const StockLevels = () => {
                                 type="search"
                                 placeholder="Search"
                                 className="bg-kwhite rounded-full p-2 text-sm"
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div>
@@ -123,7 +157,7 @@ const StockLevels = () => {
                 <table className="w-full rounded-lg overflow-hidden text-sm">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th className="w-1/4">Name</th>
+                            <th className="w-1/4 py-5">Name</th>
                             <th className="w-1/4">Percentage</th>
                             <th className="w-2/8 px-10">Status</th>
                             <th className="w-1/8">Action</th>
@@ -134,27 +168,33 @@ const StockLevels = () => {
                             currentItems.map((il, index) => {
                                 const percentage = calcPercentage(il.quantity, il.maxCapacity);
                                 return (
-                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <>
+                                    <tr key={index} className={`border-b ${rowColorChanger(percentage)} text-kwhite text-center items-center p-4`}>
                                         <td>{il.name}</td>
                                         <td>
-                                            <div className="w-full bg-kgray rounded-full border">
+                                            <div className="w-full bg-kgray rounded-full border overflow-hidden">
                                                 <div
-                                                    className={"bg-" + colorChanger(percentage) + " p-2 text-center text-xs font-medium leading-none text-kwhite rounded-full"}
+                                                    className={ colorChanger(percentage) + " p-2 text-center text-xs font-medium leading-none text-kwhite"}
                                                     style={{ width: `${percentage}%` }}
                                                 >
                                                     {percentage + "%"}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className={`text-${colorChanger(percentage)}`}>{statusChanger(calcPercentage(il.quantity, il.maxCapacity))}</td>
+                                        <td>
+                                            <span className={`${colorChanger(percentage)} py-2 px-4 rounded-lg`}>
+                                                {statusChanger(calcPercentage(il.quantity, il.maxCapacity))}
+                                            </span>
+                                        </td>
                                         <td className="p-4">
                                             <div className="flex flex-grow justify-center mx-auto">
-                                                <Button className="p-3 bg-kblue text-kwhite" onClick={handleButton('Request')}>
+                                                <Button className="p-3 bg-kblue text-kwhite" onClick={handleRequestButton(il._id)}>
                                                     Request
                                                 </Button>
                                             </div>
                                         </td>
                                     </tr>
+                                    </>
                                 );
                             })
                         ) : (

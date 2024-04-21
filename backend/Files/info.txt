@@ -1,0 +1,1 @@
+This is made to store uploaded pdfs, in there i created another folder named receipts to store receipt pdfs
