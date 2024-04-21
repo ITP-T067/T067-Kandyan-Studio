@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, CardBody,Input } from "@material-tailwind/react";
+import { Card, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft, } from "react-icons/hi";
 import Formtable from './neworders/Formtable';
 
 
@@ -146,9 +145,6 @@ const [formDataEdit,setFormDataEdit] = useState({
 })
 
 const [dataList,setDataList] = useState([])
-
-
-
 
 
 const getFetchData = async()=>{
@@ -322,10 +318,8 @@ const handleEdit = (el)=>{
             </tbody>
           </table>
 
-          <center><Button className="bg-kwhite text-kblack text-3xl rounded-full px-max hover:bg-kblack hover:text-kwhite ring-kgreen ring-1">{"Place Order"}</Button></center>
-        
-
-        </div>
+      <center><a href="/cashier/checkout"><Button className="bg-kwhite text-kblack text-3xl rounded-full px-max hover:bg-kblack hover:text-kwhite ring-kgreen ring-1">{"Place Order"}</Button></a></center>
+      </div>
 
       </div>
       <div className="container backdrop-blur-3xl">

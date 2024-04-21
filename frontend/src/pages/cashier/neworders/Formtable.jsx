@@ -2,13 +2,12 @@ import { Button } from '@material-tailwind/react'
 import React from 'react'
 import { MdClose } from 'react-icons/md'
 
-
 const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
     return(
 
          <div className="absolute top-20 bottom-20 left-60 right-60 bg-kwhite m-52 ">
-             
-            <form onSubmit={handleSubmit}>
+
+           <form onSubmit={handleSubmit}>
            
            <div className='m-10'>
             <div className="close-btn" onClick={handleClose}><MdClose/></div>
