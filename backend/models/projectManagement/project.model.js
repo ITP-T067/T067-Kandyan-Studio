@@ -4,31 +4,20 @@ const Schema = mongoose.Schema;
 const projectSchema = new mongoose.Schema({ 
 
     Project_Name: {  
-
         type: String,  
         required: true, 
-
     }, 
-
     Project_Date: { 
-
         type: Date,
-        Required: true, 
-
+        Required: true,
     }, 
-
     Status: {  
-
         type: String,  
-        required: true, 
-
+        required: true,
     }, 
-
-    
     Completed_Date: {
         type: Date
     },
-    
     Order_ID: {
         type: Schema.Types.ObjectId,
         refPath: 'OrderModel',

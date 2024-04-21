@@ -99,21 +99,16 @@ export default function PendingOrders() {
 
             {/* search bar */}
             <div>
-                 <form className="absolute max-w-md mx-auto left-0 right-0">
+                 <form className=" max-w-md mx-auto left-0 right-0">
                     <div>
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </div>
-                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search" required />
+                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Filter Status" required />
                     </div>
                 </form>
             </div>
-            <div className={`p-16  ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''}`}>
+            <div className={`p-8  ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''}`}>
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack bg-opacity-40">
+                        <tr className="bg-kgray bg-opacity-30">
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
@@ -127,7 +122,7 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {pendingOrders
+                        {filteredOrder
                             .filter(order => order.order_status === 'Pending' || order.order_status === 'Rejected')
                             .map((order, index) => (
                                 <tr
@@ -138,23 +133,23 @@ export default function PendingOrders() {
                                     } text-kwhite text-center p-4`}
                                 >
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal
+                                        <Typography variant="lead" className="font-normal
                                         ">
                                             {new Date(order.order_Date).toISOString().split('T')[0]}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.item_Names}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.total_Price}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.order_status}
                                         </Typography>
                                     </td>
