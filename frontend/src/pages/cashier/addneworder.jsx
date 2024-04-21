@@ -9,6 +9,19 @@ axios.defaults.baseURL = "http://localhost:8010"
 
 function AddNewOrder(){
 
+
+    //Search Item
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [searchResults, setSearchResults] = useState([]);
+
+  // useEffect(() => {
+  //     const results = dataList.filter((item) =>
+  //         item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  // setSearchResults(results);
+  // },[searchTerm, dataList]);
+
+
   const [itemsData, setItemsData] = useState([]);
  
 
@@ -32,7 +45,7 @@ function AddNewOrder(){
     getItems();
    }, []);
    
-   const getItems = () => {
+  const getItems = () => {
     axios.get('/item/')
        .then(response => {
          const items = response.data.data;
@@ -45,11 +58,8 @@ function AddNewOrder(){
        .catch(error => {
          console.error('Error fetching items:', error);
        });
-   };
+  };
    
-
-  /* form submit */
-
 
 /*end new */
 
@@ -79,62 +89,20 @@ const [message, setMessage] = useState('');
 const handleSubmit = async(e)=>{
   e.preventDefault()
 
-const data = await axios.post("/mainorder/create/", formData);
-console.log(formData)
-  if(data.data.success){
-    setAddSection(false)
-    alert(data.data.message)
-    getFetchData()
-    setFormData({
-      name :"",
-      quantity :"",
-      maxCapacity : ""
-    })
-    getFetchData()
-  }
-} 
-
-
-
-const handleSubmit2 = async (e) => {
-
-  console.log("entereddd");
-  e.preventDefault();
-  const formDataToSend = new FormData();
-  formDataToSend.append("name", formData.name);
-  formDataToSend.append("quantity", formData.quantity);
-  formDataToSend.append("maxCapacity", formData.maxCapacity);
-
-  console.log("Form Data:", formData);
-  try {
-      const data = await axios.post("/create", formDataToSend);
-      console.log("Response:", data); // Log the response from the server
-      if (data.data.success) {
-          //alert(data.data.message);
-          setAddSection(false);
+      const data = await axios.post("/mainorder/create/", formData);
+      console.log(formData)
+        if(data.data.success){
+          setAddSection(false)
           alert(data.data.message)
-          setIsAlert(true);
-          setAlertStatus('success');
-          setMessage("Item Added Successfully !");
-          setTimeout(() => {
-              setIsAlert(false);
-              window.location.href = "/cashier/addneworder";
-          }, 3000);
-      }else{
-          setIsAlert(true);
-          setAlertStatus('danger');
-          setMessage("Failed to Add Item !");
-          setTimeout(() => {
-              setIsAlert(false);
-          }, 3000);
-      }
-  } catch (error) {
-      console.log(error.response.data);
-      setIsAlert(true);
-      setAlertStatus('warning');
-      setMessage("Error Occured While Adding Item, Check For Empty Fields !");
-  }
-};
+          getFetchData()
+          setFormData({
+            name :"",
+            quantity :"",
+            maxCapacity : ""
+          })
+          getFetchData()
+        }
+} 
 
 
 const [formDataEdit,setFormDataEdit] = useState({
@@ -199,7 +167,7 @@ const handleEdit = (el)=>{
         
       <div className="mx-5 mb-5">
                 <Card>
-                    <CardBody className="flex items-center justify-between">
+                    <CardBody className="flex items-center justify-between text-2xl">
                         <div>
                             <Button
                                 onClick={GoBack}
@@ -210,23 +178,23 @@ const handleEdit = (el)=>{
                             </Button>
                         </div>
                         
-                        <label class="relative block px-20">
-                                    <span class="sr-only">Search</span>
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                                      <svg class="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"></svg>
-                                    </span>
-                                    <input class="placeholder:italic placeholder:text-slate-400 block text-kblack bg-kwhite w-full border border-slate-300 
-                                    rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
-                                    placeholder="Search for anything..." type="text" name="search"/>
-                                  </label>
+                        {/* <div className=" px-10">
+                            <input
+                                type="search"
+                                placeholder="Search"
+                                className="bg-kwhite text-kblack rounded-full p-2 text-lg "
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div> */}
                         
                         <div className='flex flex-row'>
                             <Button
-                                className="flex items-center space-x-2 bg-kblack text-kwhite p-3 px-5 rounded-full">
+                                className="flex items-center space-x-2 bg-kblack text-kwhite p-3 px-5 rounded-full ">
                                 <span className="text-sm">Creator</span>
                             </Button>
                             <Button
-                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full"
+                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full hover:bg-kgray hover:text-kwhite"
                                 onClick={handleButton("studio")}
                             >
                                 
@@ -287,19 +255,20 @@ const handleEdit = (el)=>{
 
          {/* payment  and table of added items*/}
         <div className=" m-1  rounded-lg bg-kblack w-1/4 text-kwhite ">
+          <h2 className="font-extrabold text-center text-2xl text-opacity-70">Item List</h2>
         
-        <table className="m-5 text-lg justify-items-center">
+        <table className="m-5 text-lg">
             
             <thead>
-              <tr >
+              <tr className="text-kblack bg-kwhite">
                 <th className="w-3/12">Name</th>
                 <th className="w-3/12">Qty</th>
-                <th className="w-3/12">maxCap</th>
+                <th className="w-3/12">Unit Price</th>
                 <th className="w-2/12"></th>
                 <th className="w-2/12"></th>
               </tr>
             </thead>
-            <tbody className=" bg-kgray bg-opacity-30 rounded-lg"> 
+            <tbody className=" bg-kgray bg-opacity-30 rounded-lg text-center"> 
               {
                 dataList.map((el)=>{
                   return(
@@ -318,11 +287,12 @@ const handleEdit = (el)=>{
             </tbody>
           </table>
 
-      <center><a href="/cashier/checkout"><Button className="bg-kwhite text-kblack text-3xl rounded-full px-max hover:bg-kblack hover:text-kwhite ring-kgreen ring-1">{"Place Order"}</Button></a></center>
+      <center><a href="/cashier/checkout">
+        <Button className="bg-kgreen text-kwhite text-3xl rounded-full px-max transition-transform hover:scale-110">{"Place Order"}</Button></a></center>
       </div>
 
       </div>
-      <div className="container backdrop-blur-3xl">
+      <div className="container ">
     
 
         {
@@ -332,6 +302,7 @@ const handleEdit = (el)=>{
             handleOnChange={handleOnChange}
             handleClose={()=>setAddSection(false)}
             rest={formData}
+            
             
             />
           )

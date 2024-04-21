@@ -4,7 +4,6 @@ import {Card,CardHeader,CardBody,Chip,CardFooter,Avatar,Tooltip,} from "@materia
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const Stockavailability = () => {
@@ -92,7 +91,6 @@ setSearchResults(results);
 },[searchTerm, dataList]);
 
 
-
 //Pagination
 const indexOfLastItem = currentPage * itemsPerPage; // Calculate index of the last item of current page
 const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Calculate index of the first item of current page
@@ -107,7 +105,6 @@ for (let i = 1; i <= Math.ceil(searchResults.length / itemsPerPage); i++) {
 const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
 };
-
 
 
     return (

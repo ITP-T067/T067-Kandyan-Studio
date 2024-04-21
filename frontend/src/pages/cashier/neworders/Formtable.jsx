@@ -5,7 +5,7 @@ import { MdClose } from 'react-icons/md'
 const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
     return(
 
-         <div className="absolute top-20 bottom-20 left-60 right-60 bg-kwhite m-52 ">
+         <div className="absolute top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center backdrop-blur-lg">
 
            <form onSubmit={handleSubmit}>
            
@@ -18,7 +18,7 @@ const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
               <label htmlFor="number">Quantity :</label>
               <input className='py-2 bg-kgray bg-opacity-5' type="number" id="quantity" name="quantity" onChange={handleOnChange} value={rest.quantity}/>
   
-              <label htmlFor="mobile">MaxCapacity :</label>
+              <label htmlFor="mobile">Unit Price :</label>
               <input className='py-2 bg-kgray bg-opacity-5't type="number" id="maxCapacity" name="maxCapacity" onChange={handleOnChange} value={rest.maxCapacity}/>
   
               <Button className='m-2 bg-kgreen text-lg' type="submit">Submit</Button>
