@@ -8,8 +8,8 @@ const index_onOrder = async(req,res, next) => {
     try{
         const data = await OnlineOrder.find({}).populate([
             {
-                path: 'Item_ID',
-                select: 'name description',
+                path: 'PendingOrder_ID',
+                select: 'item_Names total_Price order_slip order_uploaded_image',
             },
             {
                 path: 'Cus_ID',
@@ -30,8 +30,8 @@ const getOrderById_onOrder = async (req, res, next) => {
     try {
         const order = await OnlineOrder.findById(orderId).populate([
             {
-                path: 'Item_ID',
-                select: 'name description',
+                path: 'PendingOrder_ID',
+                select: 'item_Names total_Price order_slip order_uploaded_image',
             },
             {
                 path: 'Cus_ID',
@@ -52,18 +52,15 @@ const getOrderById_onOrder = async (req, res, next) => {
 
 //create data
 const create_onOrder = async(req,res, next) => {
-    const { Item_ID, Quantity, Additional, Status, Order_Amount, Project_Status, Cus_ID } = req.body;
-    const Order_Date = new Date();
+    const { PendingOrder_ID, Quantity,Item_Name,Uploaded_Image, Order_Amount, Order_Date } = req.body;
 
     const newOrder = new OnlineOrder({
-        Item_ID, 
+        PendingOrder_ID, 
         Quantity, 
-        Additional,
+        Item_Name,
         Order_Date, 
-        Status, 
+        Uploaded_Image,
         Order_Amount,
-        Project_Status, 
-        Cus_ID
     });
 
     await newOrder.save();

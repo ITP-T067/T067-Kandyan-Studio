@@ -15,7 +15,7 @@ export default function CustomerCart() {
   const [isCheckoutDisabled, setIsCheckoutDisabled] = useState(true); 
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [filename, setfilename] = useState();
+  const [filename, setfilename] = useState(null);
 
   const handleCheckboxChange = (select) => {
     const updatedSelectedItems = selectedItems.includes(select)
@@ -81,14 +81,21 @@ export default function CustomerCart() {
       return selectedItem.item_file;
     });
     // Send data to backend
-    const data = {
-      item_Names: updatedSelectedItemNames.join(', '), // Concatenate item names with quantities
-      total_Price: totalAmount,
-      order_slip: filename, // Include the filename here
-      order_uploaded_image: updatedSelectedItemImage.join(', ')
-    };
-  
-    axios.post('order/on/create/pending', data)
+    // const data = {
+    //   item_Names: updatedSelectedItemNames.join(', '), // Concatenate item names with quantities
+    //   total_Price: totalAmount,
+    //   file: filename, // Include the filename here
+    //   order_uploaded_image: updatedSelectedItemImage.join(', ')
+    // };
+
+    const dataAdd = new FormData();
+    dataAdd.append('item_Names', updatedSelectedItemNames.join(', '));
+    dataAdd.append('total_Price', totalAmount);
+    dataAdd.append('file', filename);
+    dataAdd.append('order_uploaded_image', updatedSelectedItemImage.join(', '));
+    console.log(Array.from(dataAdd.entries()));
+
+    axios.post('order/on/create/pending', dataAdd)
       .then(response => {
         console.log('Pending order created successfully:', response.data);
 
@@ -230,7 +237,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/AddToCart_Image/${item.item_file}`)} alt="file" />
+              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/StockManagement/${item.item_image}`)} alt="file" />
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -304,7 +311,7 @@ export default function CustomerCart() {
                 </div>
                 <div className="md:w-2/3">
                   <input 
-                    className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0].name)}/>
+                    className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0])}/>
                 </div>
               </div>
               <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Pay</button>

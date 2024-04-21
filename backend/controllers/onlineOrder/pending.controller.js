@@ -3,13 +3,22 @@ const {errorHandler} = require("../../utils/error.js");
 
 //create pending part
 const create_pendingOrder = async(req,res, next) => {
-    console.log(req.body)
-    const data = new pendingOrder(req.body)
+
+    
+    const { item_Names,total_Price, order_uploaded_image } = req.body;
+    const { filename: order_slip } = req.file;
 
     try{
-        await data.save() 
+        const newPending = new pendingOrder({
+            item_Names,
+            total_Price,
+            order_uploaded_image,
+            order_slip,
+        });
+
+        await newPending.save();
         if(res.status(201)){
-            res.send({success : true, message : "send pending list successfully", data: data})
+            res.send({success : true, message : "send pending list successfully", data: newPending})
         }
     }catch(error){
         next(error);
@@ -29,4 +38,37 @@ const index_pendingOrder = async(req, res, next) => {
     }
 }
 
-module.exports = {create_pendingOrder, index_pendingOrder};
+const getOrderById_pendingOrder = async (req, res, next) => {
+    const orderId = req.params.id;
+
+    try {
+        const order = await pendingOrder.findById(orderId)
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Pending order not found" });
+        }
+
+        res.status(200).json({ success: true, data: order });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+//update data
+const update_pendingOrder = async(req, res, next) => {
+    console.log(req.body)
+    const {_id, ...rest} = req.body
+    console.log(rest)
+    try{
+        const data = await pendingOrder.updateOne({_id : _id}, rest)
+        if(res.status(201)){
+            res.send({success:true, message: "Pending order updated successfully", data : data})
+        }
+    }catch(error){
+        next(error);
+    }
+
+}
+
+module.exports = {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder};
