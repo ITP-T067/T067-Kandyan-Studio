@@ -18,10 +18,6 @@ const MainorderSchema = new mongoose.Schema({
         required: true,
     },
   
-    Price: {
-        type: String,
-        required: true,
-    },
 });
 
 const Item = mongoose.model('Mainorder', MainorderSchema);

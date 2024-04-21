@@ -42,4 +42,19 @@ const del_Mainorder = async(req,res, next) =>{
     }
 }
 
-module.exports = { create_Mainorder, index_Mainorder, del_Mainorder};
+//update mainorder
+const update_Mainorder = async(req, res, next) => {
+    console.log(req.body);
+    const {_id, ...rest} = req.body;
+    console.log(rest);
+    try {
+        const data = await Mainorder.updateOne({_id : _id}, rest);
+        if(res.status(201)){
+            res.send({success:true, message: "Mainorder updated successfully", data : data});
+        }
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = { create_Mainorder, index_Mainorder, del_Mainorder,update_Mainorder};

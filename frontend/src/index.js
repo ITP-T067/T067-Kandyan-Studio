@@ -60,6 +60,7 @@ import Crframes from './pages/cashier/neworders/crframes.jsx';
 import Stbabyphoto from './pages/cashier/neworders/stbabyphoto.jsx';
 import StproductPhoto from './pages/cashier/neworders/stproductphoto.jsx';
 import Stidcard from './pages/cashier/neworders/stidcard.jsx';
+import Formtable from './pages/cashier/neworders/Formtable.jsx';
 
 
 //Creator Dashboard
@@ -113,7 +114,7 @@ root.render(
         <Route path='/cashier/babyphotos' element={<Stbabyphoto />} />
         <Route path='/cashier/identitycard' element={<Stidcard />} />
         <Route path='/cashier/productphoto' element={<StproductPhoto />} />
-
+        <Route path='/cashier/mainorder/formtable' element={<Formtable />} />
 
 
 
