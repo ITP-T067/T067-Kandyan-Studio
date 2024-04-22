@@ -24,7 +24,6 @@ export default function PendingOrders() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [filteredOrder, setFilteredOrder] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filename, setfilename] = useState(null);
   
 
     useEffect(() => {
@@ -52,7 +51,7 @@ export default function PendingOrders() {
         });
       };
 
-  const handlePayClick = (orderId) => {
+  const handleRequestClick = (orderId) => {
     setSelectedOrderId(orderId);
     setShowPayAlert(true);
     navigate('/pendingorder');
@@ -155,7 +154,8 @@ export default function PendingOrders() {
                                     </td>
                                     <td className="p-2">
                                         <div className="mx-auto text-kwhite">
-                                        <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[10rem]`} onClick={() => handlePayClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Upload pay Slip</button>
+                                        <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]`} onClick={() => handleRequestClick(order._id)} disabled={order.order_status === 'Pending'}>Request</button>
+                                        {/* <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[10rem]`} onClick={() => handlePayClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Upload pay Slip</button> */}
                                         <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kred opacity-50' : 'kred'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]`} onClick={() => handleDeleteClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Delete</button>
                                         </div>
                                     </td>
@@ -165,7 +165,7 @@ export default function PendingOrders() {
                 </table>
             </div>
             {/* uplaod slip alert */}
-            {showPayAlert && (
+            {/* {showPayAlert && (
                 <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
                     <div className="bg-white p-8 rounded-3xl">
                     {pendingOrders
@@ -215,7 +215,7 @@ export default function PendingOrders() {
                     ))}
                     </div>
                 </div>
-            )}
+            )} */}
 
             {/* Delete alert */}
             {showDeleteAlert && (

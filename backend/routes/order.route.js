@@ -3,7 +3,7 @@ const multer = require('multer');
 const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder, index_count_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
 const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/projectManagement/offlineOrder.controller.js");
 const {create_addToCart, index_addToCart, del_addToCart, cart_find_item} = require("../controllers/onlineOrder/addToCart.controller");
-const {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder, del_pendingOrder} = require("../controllers/onlineOrder/pending.controller")
+const {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder, del_pendingOrder, updateStatusToPending} = require("../controllers/onlineOrder/pending.controller")
 
 // Multer configuration
 const storage = multer.diskStorage({
@@ -38,7 +38,7 @@ router.get("/on/get/pending", index_pendingOrder);
 router.get("/on/get/pending/:id", getOrderById_pendingOrder);
 router.put("/on/update/pending/", update_pendingOrder);
 router.delete("/on/delete/pending/:id", del_pendingOrder);
-
+router.put("/on/update/pending/:id", updateStatusToPending);
 router.get("/on/count/get/order", index_count_onOrder);
 
 
@@ -48,5 +48,7 @@ router.get("/off/", index_offOrder);
 router.post("/off/create", create_offOrder);
 router.put("/off/update", update_offOrder);
 router.delete("/off/delete/:id", del_offOrder);
+
+
 
 module.exports = router;

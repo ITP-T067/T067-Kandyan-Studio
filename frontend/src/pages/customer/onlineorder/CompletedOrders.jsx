@@ -43,6 +43,7 @@ export default function CompletedOrders() {
           return { ...order, Completed_Date: project.Completed_Date }; // Add completed date from project to order
         })
       );
+      
 
       setCompletedOrders(completedOrdersWithProjectData);
     } catch (error) {
