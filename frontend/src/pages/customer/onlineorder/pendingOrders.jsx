@@ -206,8 +206,20 @@ export default function PendingOrders() {
                                         Upload diposit slip
                                     </label>
                                 </div>
-                                <div class="md:w-2/3">
-                                <input class="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file" onChange={(e) => setfilename(e.target.files[0])} required/>
+                                <div class="md:w-2/3 flex items-center space-x-2">
+                                    {order.order_slip && (
+                                        <div className="flex items-center space-x-2">
+                                            <label className="text-kwhite">Current File: </label>
+                                            <a href={"http://localhost:8010/uploads/"+order.order_slip} target="_blank" rel="noopener noreferrer">{order.order_slip}</a>
+                                        </div>
+                                    )}
+                                    <input 
+                                        type="file" 
+                                        onChange={(e) => setfilename(e.target.files[0])} 
+                                        className="block bg-kwhite rounded-xl py-2 px-4 text-kblack font-bold focus:outline-none"
+                                        required
+                                    />
+                                    {filename && <span className="text-kwhite">{filename.name}</span>}
                                 </div>
                             </div>
                             <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded">Pay</button>

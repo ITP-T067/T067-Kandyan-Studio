@@ -58,7 +58,7 @@ export default function Projects() {
     useEffect(() => {
         const results = dataList.filter((el) => {
             const projectName = el.Project_Name ? el.Project_Name.toLowerCase() : '';
-            const itemName = el.OrderModel === "OnlineOrder" && el.Order_ID && el.Order_ID.Item_ID ? el.Order_ID.Item_ID.name.toLowerCase() : el.Item_Name ? el.Item_Name.toLowerCase() : '';
+            const itemName = el.Order_ID.Item_Name ? el.Order_ID.Item_Name.toLowerCase() : '';
     
             return projectName.includes(searchTerm.toLowerCase()) || itemName.includes(searchTerm.toLowerCase());
         });
@@ -110,7 +110,7 @@ export default function Projects() {
                             <th className="px-4 py-2">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-kgray bg-opacity-40 h-[80px]">
+                    <tbody className="bg-kgray bg-opacity-20 h-[80px]">
                         {searchTerm === "" ? (
                             dataList.length > 0 ? (
                                 dataList.map((el) => {

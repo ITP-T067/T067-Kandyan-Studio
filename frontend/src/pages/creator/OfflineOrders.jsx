@@ -25,7 +25,7 @@ export default function OfflineOrders() {
 
       useEffect(() => {
         getFetchData();
-        console.log(dataList);
+        console.log(dataList[0]);
       }, []);
     
 
@@ -67,11 +67,11 @@ export default function OfflineOrders() {
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+          <tbody className="bg-kgray bg-opacity-20 h-[80px]">
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                if(el.Project_Status != "Added" && el.Status == "Completed"){
+                if(el.Project_Status != "Added" && el.Status == "Paid"){
                   return(
                     <tr>
                       <td className="px-4 py-2 text-center">{el.Order_Type}</td>

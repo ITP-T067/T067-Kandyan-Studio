@@ -66,7 +66,7 @@ export default function Orders() {
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+          <tbody className="bg-kgray bg-opacity-20 h-[80px]">
             {
               dataList[0] ? (
               dataList.map((el)=>{

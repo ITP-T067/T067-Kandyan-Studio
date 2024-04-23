@@ -17,7 +17,16 @@ export default function PhysicalOrders() {
     Status: "Not Paid",
     Project_Status: "Not Added",
   });
+  
+  //the order types
+  const orderTypes = {
+    sublimation: ["Mug", "Magic Mug", "Medals", "Rock", "Tile", "Souvenir"],
+    photoPrints: ["4R", "10R", "2R", "10RW", "6R", "6RW"],
+    laminates: ["4R", "10R", "10RW", "6R", "6RW"],
+    frames: ["Black", "Brown", "White"],
+  };
 
+  //onChange function
   const handleOnchange = (e) => {
     const {value,name} = e.target
     setFormData((prev)=> {
@@ -28,8 +37,35 @@ export default function PhysicalOrders() {
       }
     })
   }
+  
+  //validate phone number
+  const validatePhoneNumber = (phone) => {
+    const re = /^[0-9]{10}$/; 
+    return re.test(String(phone).toLowerCase());
+  };
+  
+  //submit function
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const artworkPriceRegex = /^\d+(\.\d{1,2})?$/;
+    
+    if (!artworkPriceRegex.test(formData.Artwork_Price)) {
+      alert("Please enter a valid Artwork Price (numeric value with up to 2 decimal places).");
+      return;
+    }
+
+    // Validation for Quantity (Number of Edits)
+    if (isNaN(formData.Quantity) || formData.Quantity < 1) {
+      alert("Please enter a valid Number of Edits (minimum value should be 1).");
+      return;
+    }
+
+    if (!validatePhoneNumber(formData.Phone_Number)) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+  
     console.log("Form Data:", formData); // Log form data before sending the request
     try {
       const data = await axios.post("/order/off/create", formData);
@@ -96,19 +132,49 @@ export default function PhysicalOrders() {
 
           <div className="flex flex-row mb-5 justify-evenly">
             <div className="flex flex-col">
-              <label htmlFor="Order_Type" className="text-kwhite font-bold mr-4">Order Type </label>
+              <label htmlFor="Order_Type" className="text-kwhite font-bold mr-4">
+                Order Type
+              </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Order_Type" name="Order_Type" onChange={handleOnchange} value={formData.Order_Type} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <select
+                  id="Order_Type"
+                  name="Order_Type"
+                  onChange={handleOnchange}
+                  value={formData.Order_Type}
+                  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 bg-kgray text-kwhite"
+                >
+                  <option value="sublimation" className=' bg-kgray bg-opacity-35'>Sublimation</option>
+                  <option value="photoPrints">Photo Prints</option>
+                  <option value="laminates">Laminates</option>
+                  <option value="frames">Frames</option>
+                </select>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="Item_Name" className="text-kwhite font-bold mr-4">Item Name </label>
+              <label htmlFor="Item_Name" className="text-kwhite font-bold mr-4 ">
+                Item Name
+              </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Item_Name" name="Item_Name" onChange={handleOnchange} value={formData.Item_Name} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <select
+                  id="Item_Name"
+                  name="Item_Name"
+                  onChange={handleOnchange}
+                  value={formData.Item_Name}
+                  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 bg-kgray text-kwhite"
+                  disabled={!formData.Order_Type}
+                >
+                  {formData.Order_Type &&
+                    orderTypes[formData.Order_Type].map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                </select>
               </div>
             </div>
           </div>
+
 
           <div className="flex flex-row mb-5 justify-evenly">
 

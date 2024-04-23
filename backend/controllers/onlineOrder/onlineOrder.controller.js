@@ -113,11 +113,11 @@ const del_onOrder = async(req,res, next) =>{
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'ssd.dias29@gmail.com',
-        pass: 'veia uath lutv zpot'
+        user: 'kandyan.info@gmail.com',
+        pass: 'ukle odkn trba qhuh'
     }
 });
-
+//veia uath lutv zpot
 const send_email_onOrder =  async (req, res) => {
 const { to, subject, text } = req.body;
 
@@ -126,7 +126,7 @@ try {
     from: 
     {
         name: "Kandyan Studio",
-        address: "ssd.dias29@gmail.com"
+        address: "kandyan.info@gmail.com"
     },
     to,
     subject,

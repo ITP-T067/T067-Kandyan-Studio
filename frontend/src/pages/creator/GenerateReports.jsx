@@ -39,7 +39,13 @@ export default function GenerateReports() {
         }
     }, [startDate, endDate]); 
 
-    const componentRef = useRef(null);
+    const componentRef = useRef([]);
+
+    const generateNewPDF = useReactToPrint({
+        content : () => componentRef.current,
+        docunentTitle: "Project Report",
+        onAfterPrint: () => alert("Data Saved in pdf"),
+    })
 
     const generatePDF = () => {
         const pdf = new jsPDF();
@@ -102,12 +108,12 @@ export default function GenerateReports() {
                             selected={endDate}
                             onChange={handleEndDateChange}
                         />
-                        <button type="button" onClick={getFetchData} className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">GENERATE</button>
+                        {/* <button type="button" onClick={generateNewPDF}className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">GENERATE</button> */}
                     </div>
                 </div>
 
                 {isDataLoaded && (
-                    <div className="addContainer w-[530px] h-80 bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-0 absolute top-1/2 left-1/2 transform -translate-x-1/2  p-5">
+                    <div ref={componentRef} className="addContainer w-[530px] h-80 bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-0 absolute top-1/2 left-1/2 transform -translate-x-1/2  p-5">
                         <h className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-0">Total Project Summary</h>
                         <div className="flex flex-col px-5 py-5">
                             <div className="mb-5">
