@@ -2,6 +2,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const addToCartSchema = new mongoose.Schema({
+    Cus_ID: {  
+        type: Schema.Types.ObjectId,  
+        ref: 'Customer',  
+        default : "66147c480a94b623c0e9a698",
+    }, 
+    
     Item_ID: {  
         type: Schema.Types.ObjectId,  
         ref: 'Item',  
@@ -27,11 +33,6 @@ const addToCartSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // Cus_ID: {  
-    //     type: Schema.Types.ObjectId,  
-    //     ref: 'Customer',  
-    //     required: true, 
-    // }, 
 })
 
 const addToCart = mongoose.model('addToCart', addToCartSchema);

@@ -28,6 +28,7 @@ export default function CustomerCart() {
   
     // Update selected item names
     const updatedSelectedItemNames = updatedSelectedItems.map(itemId => {
+      
       const selectedItem = cartItems.find(item => item._id === itemId);
       return `${selectedItem.item_Name}-${selectedItem.item_Quantity}`;
     });
@@ -127,6 +128,10 @@ export default function CustomerCart() {
     setShowPayAlert(false);
   }
 
+  const showPdf = (image) => {
+    window.open(`http://localhost:8010/uploads/`+ image);
+  };
+
   const getCartItems = () => {
     axios.get('order/on/get/cart/')
       .then(response => {
@@ -174,7 +179,7 @@ export default function CustomerCart() {
   const selectedItemsPrices = cartItems.filter(item => selectedItems.includes(item._id));
   const subtotalPrice = selectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * curr.item_Quantity, 0);
   
-  let totalAmount = subtotalPrice;
+  let totalAmount = subtotalPrice-200;
   if (selectedItems.length > 0) {
     // totalAmount -= 5000; // Apply discount only if at least one item is selected
   }
@@ -238,7 +243,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" />
+              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -262,12 +267,12 @@ export default function CustomerCart() {
             <div className="w-[28rem] top-[160px] absolute">
                   <div className="absolute font-normal font-['Inter']">Loyalty Discount</div>
                   <div className="text-right font-normal font-['Inter']">
-                    {selectedItems.length > 0 ? 'LKR 5,000.00' : 'LKR 0.00'}
+                    {selectedItems.length > 0 ? 'LKR 200.00' : 'LKR 0.00'}
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">
               <div className="absolute font-normal font-['Inter']">Total</div>
-              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total}.00</div>
+              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total > 0 ? total : 0}.00</div>
             </div>
           </div>
           <div>

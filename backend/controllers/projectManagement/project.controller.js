@@ -149,4 +149,17 @@ const getProjectReport_cproject = async (req, res) => {
 }
 
 
-module.exports = { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject, getProjectReport_cproject };
+//get data within pass itemId
+const cart_find_item_withing_order_id = async (req, res, next) => {
+    const itemId = req.params.id;
+
+    try {
+        const data = await Project.findOne({ Order_ID: itemId });
+        return res.status(200).send({ success: true, message: "Item found successfully", data: data });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+module.exports = { index_cproject, getProjectById_cproject, create_cproject, update_cproject, del_cproject, getProjectReport_cproject, cart_find_item_withing_order_id };

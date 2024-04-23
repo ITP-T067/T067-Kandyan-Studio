@@ -18,10 +18,13 @@ export default function PendingOrders() {
 
   const navigate = useNavigate();
   const [OnlineOrders, setOnlineOrders] = useState([]);
+  const [filteredOrder, setFilteredOrder] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         getOnlineOrders();
     }, []);
+    
 
     const getOnlineOrders = async () => {
     try {
@@ -31,6 +34,18 @@ export default function PendingOrders() {
         console.error('Error fetching pending orders:', error);
     }
     };
+
+    useEffect(() => {
+        const filtered = OnlineOrders.filter(order =>
+            order.Project_Status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.Item_Name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredOrder(filtered);
+      }, [OnlineOrders, searchQuery]);
+    
+      const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+      };
 
 
   return (
@@ -52,10 +67,25 @@ export default function PendingOrders() {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+
+            {/* search bar */}
+            <div>
+                 <form className=" max-w-md mx-auto left-0 right-0">
+                    <div>
+                    <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name or status" required />
+                    </div>
+                </form>
+            </div>
+
+            <div className="p-8">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack bg-opacity-40">
+                        <tr className="bg-kgray bg-opacity-30">
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
@@ -69,7 +99,7 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {OnlineOrders
+                        {filteredOrder
                             .filter(order => order.Project_Status === 'Added' || order.Project_Status === 'Not Taken')
                             .map((order, index) => (
                                 <tr
@@ -85,22 +115,22 @@ export default function PendingOrders() {
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
                                             {order.Item_Name}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
                                             {order.Quantity}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
                                             {order.Order_Amount}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
                                             {order.Project_Status}
                                         </Typography>
                                     </td>

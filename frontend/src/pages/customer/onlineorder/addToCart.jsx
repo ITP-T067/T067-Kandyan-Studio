@@ -91,14 +91,18 @@ export default function AddToCart() {
 
                 <div className="flex justify-center mx-auto md:mx-0">
                   
-                  <div className="flex items-center ml-[12.5rem]">
+                  {/* <div className="flex items-center ml-[12.5rem]">
                     <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg" style={{ width: '250px', height: '250px'}} />
+                  </div> */}
+
+                  <div className="flex items-center ml-[5rem] mt-8">
+                    <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg" style={{ width: '450px', height: '450px'}} />
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="py-8 ml-[8rem]">
+                <div className="py-8 ml-[rem]"> {/*8rem */}
                   <h2 className="text-5xl font-bold text-kwhite ml-10 mb-2 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
@@ -127,12 +131,12 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
+          {/* <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2"/>
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
-          </div>
+          </div> */}
         </div>
       </div>
       {showAlert && (
