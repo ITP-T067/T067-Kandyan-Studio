@@ -19,7 +19,7 @@ const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
               <input className='py-2 bg-kgray bg-opacity-5' type="number" id="quantity" name="quantity" onChange={handleOnChange} value={rest.quantity}/>
   
               <label htmlFor="mobile">Unit Price :</label>
-              <input className='py-2 bg-kgray bg-opacity-5't type="number" id="maxCapacity" name="maxCapacity" onChange={handleOnChange} value={rest.maxCapacity}/>
+              <input className='py-2 bg-kgray bg-opacity-5't type="number" id="unitPrice" name="unitPrice" onChange={handleOnChange} value={rest.unitPrice}/>
   
               <Button className='m-2 bg-kgreen text-lg' type="submit">Submit</Button>
               </div>

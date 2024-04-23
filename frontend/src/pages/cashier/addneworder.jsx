@@ -66,7 +66,7 @@ function AddNewOrder(){
 const [formData,setFormData] = useState({
   name : "",
   quantity : "",
-  maxCapacity : "",
+  unitPrice : "",
    
 })
 
@@ -98,7 +98,7 @@ const handleSubmit = async(e)=>{
           setFormData({
             name :"",
             quantity :"",
-            maxCapacity : ""
+            unitPrice : ""
           })
           getFetchData()
         }
@@ -108,7 +108,7 @@ const handleSubmit = async(e)=>{
 const [formDataEdit,setFormDataEdit] = useState({
   name : "",
   quantity : "",
-  maxCapacity : "",
+  unitPrice : "",
   _id : ""
 })
 
@@ -255,7 +255,7 @@ const handleEdit = (el)=>{
 
          {/* payment  and table of added items*/}
         <div className=" m-1  rounded-lg bg-kblack w-1/4 text-kwhite ">
-          <h2 className="font-extrabold text-center text-2xl text-opacity-70">Item List</h2>
+          <h2 className="font-extrabold text-center text-2xl text-opacity-70 m-4">Item List</h2>
         
         <table className="m-5 text-lg">
             
@@ -275,7 +275,7 @@ const handleEdit = (el)=>{
                   <tr >
                       <td className="m-1">{el.name}</td>
                       <td>{el.quantity}</td>
-                      <td>{el.maxCapacity}</td>
+                      <td>{el.unitPrice}</td>
                       <td>
                         <button className='bg-kblue m-2 text-lg px-3 py-2 rounded-md' onClick={()=>handleEdit(el)}>E</button>
                       </td>
@@ -288,7 +288,7 @@ const handleEdit = (el)=>{
           </table>
 
       <center><a href="/cashier/checkout">
-        <Button className="bg-kgreen text-kwhite text-3xl rounded-full px-max transition-transform hover:scale-110">{"Place Order"}</Button></a></center>
+        <Button className="bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"Place Order"}</Button></a></center>
       </div>
 
       </div>

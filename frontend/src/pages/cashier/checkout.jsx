@@ -7,6 +7,14 @@ axios.defaults.baseURL = "http://localhost:8010"
 
 function Checkout() {
 
+  const calcTotal = (value1, valve2) => {
+    return Math.round(value1 * valve2);
+  };
+
+  const calcgrosstot = (value1,valve2) => {
+    return Math.round(value1 + valve2);
+  };
+
   const GoBack = () => {
     window.location.href = "/cashier/addneworder";
   };
@@ -29,14 +37,14 @@ function Checkout() {
 
       
         <div className="main bg-kblack bg-opacity-50 text-kwhite">
-        
+        <form class="lg:mt-12">
       <div class=" mx-auto w-full">
         <div class="grid lg:grid-cols-3 gap-6">
           <div class="lg:col-span-2 max-lg:order-1 p-6 max-w-4xl mx-auto w-full">
             <div class="text-center max-lg:hidden">
               <h2 class="text-3xl font-extrabold  inline-block border-b-4 border-[#333] pb-1">Checkout</h2>
             </div>
-            <form class="lg:mt-12">
+            
               <div>
                 <h2 class="text-3xl font-extrabold text-kwhite">Customer info</h2>
                 <div class="grid grid-cols-4 gap-6 mt-8 text-lg">
@@ -46,6 +54,9 @@ function Checkout() {
                     <h1 className="text-xl m-2">Telephone :</h1>
                   <input type="number" placeholder="Telephone"
                     class="ring-1 col-span-3 py-3 rounded-md "  />
+                    <h1 className="text-xl m-2">Email Address :</h1>
+                  <input type="email" placeholder="Email address"
+                    class="ring-1 col-span-3 py-3 rounded-md "  />
                 </div>
               </div>
               <div class="mt-12">
@@ -54,7 +65,7 @@ function Checkout() {
                    <div class="flex items-center">
                     <input type="radio" class="w-5 h-5 cursor-pointer" id="card" checked />
                     <label for="card" class="ml-4 flex gap-2 cursor-pointer text-lg">
-                      Cash
+                      Cash Payment
                     </label>
                   </div>
 
@@ -66,12 +77,7 @@ function Checkout() {
                       <img src="https://readymadeui.com/images/master.webp" class="w-12" alt="card3" />
                     </label>
                   </div>
-                  <div class="flex items-center">
-                    <input type="radio" class="w-5 h-5 cursor-pointer" id="paypal" />
-                    <label for="paypal" class="ml-4 flex gap-2 cursor-pointer text-lg">
-                      Bank Transfer
-                    </label>
-                  </div>
+                  
                 </div>
                 <div class="grid gap-6 mt-8">
                    <div class="flex bg-white border-b-2 focus-within:border-[#333] overflow-hidden">
@@ -80,10 +86,10 @@ function Checkout() {
                 </div>
               </div>
               <div class="flex flex-wrap gap-4 mt-8">
-                <button type="button" class="min-w-[150px] px-6 py-3.5 text-lg bg-kred rounded-md hover:bg-gray-200" onClick={GoBack}>Back</button>
+                <button type="button" class="min-w-[150px] px-6 py-3.5 text-lg bg-kred  rounded-md hover:scale-105 transition-transform" onClick={GoBack}>Add Item</button>
               
               </div>
-            </form>
+            
           </div>
           <div class="bg-gray-100 lg:h-screen lg:sticky lg:top-0  ring-kwhite ring-opacity-45">
             <div class="relative h-full">
@@ -106,13 +112,15 @@ function Checkout() {
               {
                 dataList.map((el)=>{
 
+                  const total = calcTotal(el.quantity, el.unitPrice);
+                  
                   return(
                   <tr>
                       <td>{el.name}</td>
                       <td>{el.quantity}</td>
-                      <td>{el.maxCapacity}</td>
-                      <td>{el.total}</td>
-                      
+                      <td>{el.unitPrice}</td>
+                      <td>{total}</td>
+                    
                   </tr> 
                   )
                 })
@@ -139,7 +147,7 @@ function Checkout() {
             </div>
           </div>
         </div>
-      </div>
+      </div></form>
     </div>
 
         

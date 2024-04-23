@@ -13,7 +13,7 @@ const MainorderSchema = new mongoose.Schema({
         required: true,
     },
 
-    maxCapacity: {
+    unitPrice: {
         type: Number,
         required: true,
     },
