@@ -177,7 +177,7 @@ export default function CustomerCart() {
 
   const calculateTotalPrice = () => {
   const selectedItemsPrices = cartItems.filter(item => selectedItems.includes(item._id));
-  const subtotalPrice = selectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * curr.item_Quantity, 0);
+  const subtotalPrice = selectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * (curr.item_Quantity), 0);
   
   let totalAmount = subtotalPrice-200;
   if (selectedItems.length > 0) {
@@ -190,17 +190,49 @@ export default function CustomerCart() {
 
 
   //counter button
-  const [count, setCount] = useState(0);
-
-  const increment = () => {
-    setCount(count + 1);
+  const increment = (itemId) => {
+    const updatedCartItems = cartItems.map(item => {
+      if (item._id === itemId) {
+        return {
+          ...item,
+          item_Quantity: item.item_Quantity + 1
+        };
+      }
+      return item;
+    });
+    setCartItems(updatedCartItems);
+    
+    // Calculate the updated subtotal considering the incremented quantity
+    const updatedSelectedItemsPrices = updatedCartItems.filter(item => selectedItems.includes(item._id));
+    const updatedSubtotalPrice = updatedSelectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * curr.item_Quantity, 0);
+    const updatedTotalAmount = selectedItems.length > 0 ? updatedSubtotalPrice - 200 : updatedSubtotalPrice;
+    
+    // Update subtotal and total
+    setSubtotal(updatedSubtotalPrice);
+    setTotal(updatedTotalAmount);
   };
+  
+  const decrement = (itemId) => {
+    const updatedCartItems = cartItems.map(item => {
+      if (item._id === itemId && item.item_Quantity > 1) {
+        return {
+          ...item,
+          item_Quantity: item.item_Quantity - 1
+        };
+      }
+      return item;
+    });
+    setCartItems(updatedCartItems);
 
-  const decrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
+    const updatedSelectedItemsPrices = updatedCartItems.filter(item => selectedItems.includes(item._id));
+    const updatedSubtotalPrice = updatedSelectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * curr.item_Quantity, 0);
+    const updatedTotalAmount = selectedItems.length > 0 ? updatedSubtotalPrice - 200 : updatedSubtotalPrice;
+    
+    // Update subtotal and total
+    setSubtotal(updatedSubtotalPrice);
+    setTotal(updatedTotalAmount);
   };
+  
 
   return (
     <div>
@@ -235,15 +267,15 @@ export default function CustomerCart() {
               <img className="ml-8 w-16 h-16 rounded-2xl" src={require(`../../../../../backend/uploads/StockManagement/${item.item_image}`)} alt="item" />
               <div className='text-kwhite ml-10 text-lg'>LKR : {item.item_Price}.00</div>
               <div className="flex justify-center mt-16 ml-8 ">
-                <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kred focus:outline-none" onClick={decrement}>
+                <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kred focus:outline-none" onClick={() => decrement(item._id)}>
                   <HiMinusCircle className='h-5 w-5'/>
                 </button>
                   <input type="text" value={item.item_Quantity} className="px-2 py-1 border border-kblue text-kwhite font-bold max-w-[60px] text-center" readOnly/>
-                <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kgreen focus:outline-none" onClick={increment}>
+                <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kgreen focus:outline-none" onClick={() => increment(item._id)}>
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
+              <img className="mx-auto w-8 h-8 mt-5 ml-16 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
