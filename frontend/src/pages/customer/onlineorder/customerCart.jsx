@@ -260,10 +260,10 @@ export default function CustomerCart() {
 
         <div className="relative text-kwhite mb-[4rem] mt-4 ml-8">
           <div className="absolute text-xl font-normal cursor-pointer hover:text-kwhite">
-            <button className={`rounded-full bg-kgreen p-2 hover:bg-kyellow px-4 ${isCheckoutDisabled || showPayAlert || showAlert ? 'opacity-50 cursor-not-allowed' : 'hover:bg-kgreen'}`} onClick={handleSelectAll} > Select all items </button>
+            <button className={`rounded-full bg-kgreen p-2 hover:bg-kyellow px-4 `} onClick={handleSelectAll} > Select all items </button>
           </div>
           <div className="top-0 absolute right-1/2 text-xl font-normal cursor-pointer hover:text-kwhite">
-            <button className={`rounded-full bg-kblue p-2 hover:bg-kyellow px-4 ${isCheckoutDisabled || showPayAlert || showAlert ? 'opacity-50 cursor-not-allowed' : 'hover:bg-kblue'}`} onClick={handleDeselectAll}>Deselect all items</button>
+            <button className={`rounded-full bg-kblue p-2 hover:bg-kyellow px-4 `} onClick={handleDeselectAll}>Deselect all items</button>
           </div>
           <div className="w-6 h-6 left-0 top-0 absolute flex-col justify-start items-start inline-flex" />
         </div>
