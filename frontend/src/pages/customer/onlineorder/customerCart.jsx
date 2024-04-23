@@ -17,6 +17,16 @@ export default function CustomerCart() {
   const [deleteItemId, setDeleteItemId] = useState(null);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [filename, setfilename] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleOkButtonClick = () => {
+    setShowAlert(true);
+  };
+
+  const handleOKButtonClick = () => {
+    setShowAlert(false);
+    navigate('/customercart');
+  };
 
   const handleCheckboxChange = (select) => {
     const updatedSelectedItems = selectedItems.includes(select)
@@ -236,7 +246,7 @@ export default function CustomerCart() {
 
   return (
     <div>
-      <div className={`h-[35rem] bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 relative ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''}`}>
+      <div className={`h-[35rem] bg-kgray bg-opacity-30 rounded-3xl ml-12 mr-12 relative ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''} ${showAlert ? 'blur' : ''}`}>
         <div className="relative">
           <div className="flex items-center ml-6 pt-5" >
             <svg className="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" onClick={() => navigate('/cusdashboard')}>
@@ -250,10 +260,10 @@ export default function CustomerCart() {
 
         <div className="relative text-kwhite mb-[4rem] mt-4 ml-8">
           <div className="absolute text-xl font-normal cursor-pointer hover:text-kwhite">
-            <button className="rounded-full bg-kgreen p-2 hover:bg-kyellow px-4" onClick={handleSelectAll}> Select all items </button>
+            <button className={`rounded-full bg-kgreen p-2 hover:bg-kyellow px-4 ${isCheckoutDisabled || showPayAlert || showAlert ? 'opacity-50 cursor-not-allowed' : 'hover:bg-kgreen'}`} onClick={handleSelectAll} > Select all items </button>
           </div>
           <div className="top-0 absolute right-1/2 text-xl font-normal cursor-pointer hover:text-kwhite">
-            <button className="rounded-full bg-kblue p-2 hover:bg-kyellow px-4" onClick={handleDeselectAll}>Deselect all items</button>
+            <button className={`rounded-full bg-kblue p-2 hover:bg-kyellow px-4 ${isCheckoutDisabled || showPayAlert || showAlert ? 'opacity-50 cursor-not-allowed' : 'hover:bg-kblue'}`} onClick={handleDeselectAll}>Deselect all items</button>
           </div>
           <div className="w-6 h-6 left-0 top-0 absolute flex-col justify-start items-start inline-flex" />
         </div>
@@ -362,7 +372,7 @@ export default function CustomerCart() {
                   <input className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0])} required accept='.pdf,image/*'/>
                 </div>
               </div>
-              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Order Now</button>
+              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit' onClick={handleOkButtonClick} >Order Now</button>
             </form>
           </div>
         </div>
@@ -381,6 +391,14 @@ export default function CustomerCart() {
              </div>
              
             )}
+      {showAlert && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
+          <div className="bg-white p-14 rounded-3xl">
+            <p className="text-center text-3xl font-bold text-kwhite">Yor Order has been placed successfully!</p>
+            <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-8 mt-4 rounded" onClick={handleOKButtonClick}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

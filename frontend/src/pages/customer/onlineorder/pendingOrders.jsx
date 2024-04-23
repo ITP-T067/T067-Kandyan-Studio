@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react'
 import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
