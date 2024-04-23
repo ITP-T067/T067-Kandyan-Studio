@@ -265,7 +265,7 @@ const SupplyRequest = () => {
         <>
             <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
             {editSection && (
-                <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
+                <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50">
                     <button
                         className="absolute top-5 right-5 bg-kblack text-kwhite"
                         onClick={() => setEditSection(false)}
