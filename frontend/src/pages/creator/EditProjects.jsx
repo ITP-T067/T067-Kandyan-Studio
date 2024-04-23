@@ -60,6 +60,10 @@ export default function EditProjects() {
             }
         }
         const data = await axios.put("/project/update", formDataEdit)
+        console.log(projectDetails.Order_ID);
+        if(formDataEdit.Status == "Completed" && projectDetails.OrderModel === "OnlineOrder"){
+            const dataResponse = await axios.put("/order/on/update/", {_id: projectDetails.Order_ID, Project_Status: "Completed"})
+        }
         if(data.data.success){
             navigate('/creator/')
             getFetchData()
