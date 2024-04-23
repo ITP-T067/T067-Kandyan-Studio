@@ -34,6 +34,7 @@ const RequestForm = () => {
     const [itemMaxCapacity, setItemMaxCapacity] = useState(0);
     const [itemSellingPrice, setItemSellingPrice] = useState(0);
     const [itemDiscount, setItemDiscount] = useState(0);
+    const [slotsLeft, setSlotsLeft] = useState(0);
 
 
     useEffect(() => {
@@ -43,6 +44,8 @@ const RequestForm = () => {
             setItemQuantity(itemObj.quantity);
             setItemMaxCapacity(itemObj.maxCapacity);
             setItemSellingPrice(itemObj.sellingPrice);
+            setSlotsLeft(itemObj.maxCapacity - itemObj.quantity);
+
 
             import(`../../../../../backend/uploads/StockManagement/${itemObj.image}`)
                 .then(image => {
@@ -115,25 +118,38 @@ const RequestForm = () => {
         window.location.href = "/manager/stockdept/stocklevels";
     };
 
-    const calcTotal = (quantity,itemSellingPrice,itemDiscount) => {
-        return (quantity * itemSellingPrice)-itemDiscount;
+    const calcTotal = (quantity, itemSellingPrice, itemDiscount) => {
+        return (quantity * itemSellingPrice) - itemDiscount;
     }
+
+    const [remainingSlotsError, setRemainingSlotsError] = useState("");
+
+    const handleQuantityChange = (e) => {
+        const enteredQuantity = parseInt(e.target.value);
+        if (enteredQuantity > slotsLeft) {
+            setRemainingSlotsError("Quantity exceeds remaining slots");
+            setQuantity(enteredQuantity);
+        } else {
+            setQuantity(enteredQuantity);
+            setRemainingSlotsError("");
+        }
+    };
 
     return (
         <>
             {isAlert && (<Alert message={message} type={alertStatus} />)}
             <div className="mx-5 mb-5">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <Button
-                                onClick={GoBack}
-                                className="flex items-center bg-transparent text-kwhite px-5"
-                            >
-                                <HiOutlineArrowCircleLeft className="w-10 h-10" />
-                                <span className="text-2xl ml-5">Request Supplies</span>
-                            </Button>
-                        </div>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <Button
+                            onClick={GoBack}
+                            className="flex items-center bg-transparent text-kwhite px-5"
+                        >
+                            <HiOutlineArrowCircleLeft className="w-10 h-10" />
+                            <span className="text-2xl ml-5">Request Supplies</span>
+                        </Button>
                     </div>
+                </div>
             </div>
             <form onSubmit={handleSubmit}>
                 <div className='grid grid-cols-3'>
@@ -142,60 +158,71 @@ const RequestForm = () => {
                             <div className='grid grid-cols-1 bg-kwhite/20 rounded-lg items-center justify-center m-5 p-5'>
                                 <img src={itemImage} className="mx-auto w-40 h-auto rounded-full" />
                                 <span className='text-3xl font-bold mx-auto mt-5'>{itemName}</span>
-                                <span className='text-center'>{itemDescription}</span>
-                                <span className='text-center w-full bg-kblack p-2 mt-5 rounded-full'>{itemQuantity} Out of {itemMaxCapacity} Left</span>
+                                <span className='truncate max-w-xs'>{itemDescription}</span>
+                                <span className='text-center w-full bg-kblack p-2 mt-5 rounded-full'>{itemQuantity} Out of {itemMaxCapacity}</span>
                             </div>
                             <div className='col-span-2 my-auto mx-auto'>
-                                <div className="grid grid-cols-3 p-5 items-center">
+                                <div className="grid grid-cols-5 p-5 items-center">
                                     <label htmlFor="quantity">Quantity</label>
-                                    <div class="mt-2 col-span-2">
+                                    <div class="col-span-2">
                                         <input
                                             type="number"
                                             name="quantity"
                                             id="quantity"
                                             className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
                                             value={quantity}
-                                            onChange={(e) => setQuantity(e.target.value)}
+                                            onChange={handleQuantityChange}
                                         />
                                     </div>
+                                    <div className="col-span-2 text-center w-full bg-kblack/80 p-1 ml-5 rounded-lg">
+        {slotsLeft} slots left
+    </div>
+                                    {remainingSlotsError ? (
+    <div className="col-span-5 text-center w-full bg-kred/40 mt-5 p-1 ml-5 rounded-lg">
+        {remainingSlotsError}
+    </div>
+) : (
+    ''
+)}
+
                                 </div>
                                 <div className="grid grid-cols-3 p-5 items-center">
                                     <label htmlFor="supplier">Supplier</label>
                                     <div class="mt-2 col-span-2">
-                                    <select
-                                        className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
-                                        id="supplier"
-                                        value={supplier}
-                                        onChange={(e) => setSupplier(e.target.value)}
-                                    >
-                                        <option value="">Select a supplier</option>
-                                        <option value="supplier1">Supplier 1</option>
-                                        <option value="supplier2">Supplier 2</option>
-                                        <option value="supplier3">Supplier 3</option>
-                                    </select>
+                                        <select
+                                            className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
+                                            id="supplier"
+                                            value={supplier}
+                                            onChange={(e) => setSupplier(e.target.value)}
+                                        >
+                                            <option value="">Select a supplier</option>
+                                            <option value="supplier1">Supplier 1</option>
+                                            <option value="supplier2">Supplier 2</option>
+                                            <option value="supplier3">Supplier 3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="flex p-5 items-center justify-between">
                                     <label htmlFor="exdate">Expected Delivery Date</label>
                                     <DatePicker
-                        placeholderText="Select Date"
-                        className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
-            id="exdate"
-            selected={exdate}
-            onChange={(date) => setExDate(date)}
-          />
+                                        placeholderText="Select Date"
+                                        className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
+                                        id="exdate"
+                                        selected={exdate}
+                                        onChange={(date) => setExDate(date)}
+                                    />
                                 </div>
                                 <div className="grid grid-cols-3 p-5 items-center">
                                     <label htmlFor="additional">Additional (Optional)</label>
                                     <div class="mt-2 col-span-2">
-                                    <textarea
-                                        className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
-                                        id="additional"
-                                        cols="100"
-                                        rows="5"
-                                        value={additional}
-                                        onChange={(e) => setAdditional(e.target.value)}
-                                    />
+                                        <textarea
+                                            className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
+                                            id="additional"
+                                            cols="100"
+                                            rows="5"
+                                            value={additional}
+                                            onChange={(e) => setAdditional(e.target.value)}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +247,7 @@ const RequestForm = () => {
                             </tr>
                             <tr className="border-b bg-kwhite/20 text-kwhite p-4">
                                 <td className='border-r bg-kblack/60 text-center items-center'>Subtotal</td>
-                                <td colSpan={2} className='text-right pr-5 bg-kblack/40'>{Number(quantity*itemSellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })} </td>
+                                <td colSpan={2} className='text-right pr-5 bg-kblack/40'>{Number(quantity * itemSellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })} </td>
                             </tr>
                             <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                 <td className='border-r bg-kblack/60'>Discount</td>
@@ -229,7 +256,7 @@ const RequestForm = () => {
                         </table>
                         <div className="flex items-center justify-between p-3 text-2xl bg-kblack rounded-lg mt-5">
                             <p>Total:</p>
-                            <span>{Number(calcTotal(quantity,itemSellingPrice,itemDiscount)).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</span>
+                            <span>{Number(calcTotal(quantity, itemSellingPrice, itemDiscount)).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</span>
                         </div>
                         <div className="grid grid-cols-2 gap-6 mt-5 text-kblack">
                             <button type="submit" className="bg-kred text-kwhite rounded-lg p-3">Submit</button>

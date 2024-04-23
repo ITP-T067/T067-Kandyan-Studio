@@ -17,18 +17,18 @@ const AddItemForm = () => {
         sellingPrice: "",
         buyingPrice: 0,
         file: null
-    })
+    });
 
     const handleOnChange = (e) => {
-        const {value,name} = e.target;
+        const { value, name } = e.target;
 
-        if(name === 'file'){
-            setFormData((prev)=>({
+        if (name === 'file') {
+            setFormData((prev) => ({
                 ...prev,
                 [name]: e.target.files[0]
             }));
-        }else{
-            setFormData((prev)=>({
+        } else {
+            setFormData((prev) => ({
                 ...prev,
                 [name]: value,
             }));
@@ -36,7 +36,7 @@ const AddItemForm = () => {
     };
 
     const [isAlert, setIsAlert] = useState(false);
-    const [alertStatus, setAlertStatus] = useState('succesßs');
+    const [alertStatus, setAlertStatus] = useState('success');
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
@@ -57,7 +57,6 @@ const AddItemForm = () => {
             const data = await axios.post("/item/create", formDataToSend);
             console.log("Response:", data); // Log the response from the server
             if (data.data.success) {
-                //alert(data.data.message);
                 setIsAlert(true);
                 setAlertStatus('success');
                 setMessage("Item Added Successfully !");
@@ -65,7 +64,7 @@ const AddItemForm = () => {
                     setIsAlert(false);
                     window.location.href = "/manager/stockdept/items/";
                 }, 3000);
-            }else{
+            } else {
                 setIsAlert(true);
                 setAlertStatus('danger');
                 setMessage("Failed to Add Item !");
@@ -77,7 +76,7 @@ const AddItemForm = () => {
             console.log(error.response.data);
             setIsAlert(true);
             setAlertStatus('warning');
-            setMessage("Error Occured While Adding Item, Check For Empty Fields !");
+            setMessage("Error Occurred While Adding Item, Check For Empty Fields !");
         }
     };
 
@@ -88,97 +87,114 @@ const AddItemForm = () => {
     return (
         <>
             <div className="mx-5 mb-5">
-                <Card>
-                    <CardBody className="flex items-center justify-between">
                         <div>
                             <Button
                                 onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+                                className="flex items-center bg-transparent text-kwhite px-5"
                             >
-                                <HiOutlineArrowCircleLeft className="w-5 h-5" />
-                                <span className="text-sm">Add Item</span>
+                                <HiOutlineArrowCircleLeft className="w-10 h-10" />
+                                <span className="text-2xl ml-5">Add Item</span>
                             </Button>
                         </div>
-                    </CardBody>
-                </Card>
             </div>
-            <div className="flex p-3 m-5 text-kwhite bg-kwhite/20 rounded-lg">
-                <form onSubmit={handleSubmit}>
-                    <div className="flex flex-col m-5">
-                        <label htmlFor="itemName">Item Name</label>
+            <div className="flex p-10 m-5 text-kwhite bg-kwhite/20 rounded-lg w-1/2 mx-auto ">
+                <form onSubmit={handleSubmit} className="grid grid-cols-3 items-center justify-between">
+                    <label htmlFor="itemName">Item Name</label>
+                    <div className="m-3 col-span-2 items-center justify-between">
                         <input
                             type="text"
-                            className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
+                            className="bg-kwhite rounded-lg text-kblack w-full text-sm"
                             name="name"
                             value={formData.name}
                             onChange={handleOnChange}
                         />
                     </div>
-                    <div className="flex flex-col m-5">
-                        <label htmlFor="description">Description</label>
-                        <input
-                            type="text"
-                            className="bg-kwhite rounded-lg p-1 text-kblack text-sm w-full"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleOnChange}
-                        />
-                    </div>
-                    <div className="flex flex-col m-5">
-                        <label htmlFor="type">Type</label>
-                        <input
-                            type="text"
-                            className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
+                    <label htmlFor="type">Type</label>
+                    <div className="m-3 col-span-2 items-center justify-between">
+                        <select
+                            className="bg-kwhite rounded-lg text-kblack w-full text-sm"
                             name="type"
                             value={formData.type}
                             onChange={handleOnChange}
-                        />
+                            required
+                        >
+                            <option value=""></option>
+                            <option value="Sublimations">Sublimations</option>
+                            <option value="Photo Prints">Photo Prints</option>
+                            <option value="Laminates">Laminates</option>
+                            <option value="Frames">Frames</option>
+                        </select>
+                        {/* <input
+                            type="text"
+                            className="bg-kwhite rounded-lg text-kblack w-full text-sm"
+                            name="type"
+                            value={formData.type}
+                            onChange={handleOnChange}
+                        /> */}
                     </div>
-                    <div className="flex items-center justify between m-5">
-                        <div className='mr-3'>
-                            <label htmlFor="quantity">Initial Quantity</label>
-                            <input
-                                type="number"
-                                className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                name="quantity"
-                                value={formData.quantity}
-                                onChange={handleOnChange}
-                            />
+                    <label htmlFor="description">Description</label>
+                    <div className="m-3 col-span-2 items-center justify-between">
+                        <textarea
+                            cols={50}
+                            rows={3}
+                            className="bg-kwhite rounded-lg text-kblack w-full text-sm"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleOnChange}
+                        ></textarea>
+                    </div>
+                    <div className='col-span-3 mr-5'>
+                            <div className="grid grid-cols-4 items-center justify between my-2">
+                                <label htmlFor="quantity">Initial Quantity</label>
+                                <div className='mr-3'>
+                                    <input
+                                        type="number"
+                                        className="bg-kwhite rounded-lg text-kblack w-full text-sm mr-5"
+                                        name="quantity" 
+                                        value={formData.quantity}
+                                        onChange={handleOnChange}
+                                    />
+                                </div>
+                                <label className='ml-5' htmlFor="capacity">Max Capacity</label>
+                                <div>
+                                    <input
+                                        type="number"
+                                        className="bg-kwhite rounded-lg text-kblack w-full text-sm"
+                                        name="maxCapacity"
+                                        value={formData.maxCapacity}
+                                        onChange={handleOnChange}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="capacity">Max Capacity</label>
-                            <input
-                                type="number"
-                                className="bg-kwhite rounded-lg p-1 text-kblack text-sm"
-                                name="maxCapacity"
-                                value={formData.maxCapacity}
-                                onChange={handleOnChange}
-                            />
+                    <div className='col-span-2 grid-rows-2 items-center justify-between'>
+                        <div className='col-span-2 items-center justify-between'>
+                            <div className="grid grid-cols-3 items-center justify-between mt-3">
+                                <label htmlFor="price">Selling Price</label>
+                                <div className='col-span-2 grid grid-cols-3 items-center p-2'>
+                                    <span>LKR</span>
+                                    <input
+                                        type="number"
+                                        className="col-span-2 bg-kwhite rounded-lg text-kblack w-full text-sm"
+                                        name="sellingPrice"
+                                        value={formData.sellingPrice}
+                                        onChange={handleOnChange}
+                                    />
+                                </div>
+                                <label htmlFor="photo">Upload Photo</label>
+                                <div className='col-span-2 mr-2'>
+                                    <input
+                                        type="file"
+                                        className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm my-3"
+                                        name="file"
+                                        onChange={handleOnChange}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex items-center justify between m-5">
-                        <div className='mr-3'>
-                            <label htmlFor="price">Selling Price</label>
-                            <input
-                                type="number"
-                                className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm"
-                                name="sellingPrice"
-                                value={formData.sellingPrice}
-                                onChange={handleOnChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="photo">Upload Photo</label>
-                            <input
-                                type="file"
-                                className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm "
-                                name="file"
-                                onChange={handleOnChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="p-4 text-kblack flex flex-col">
-                        <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
+                    <div className="p-2 text-kblack flex flex-col row-span-2 ml-5 bg-kwhite/20 rounded-lg">
+                        <button type="submit" className="bg-kred text-kwhite rounded-lg p-2 mb-3 border">Submit</button>
                         <button className="bg-kwhite text-kblack rounded-lg p-3" onClick={GoBack}>Cancel</button>
                     </div>
                 </form>

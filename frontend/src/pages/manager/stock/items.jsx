@@ -181,6 +181,20 @@ const Items = () => {
                                 onChange={handleEditOnchange} 
                             />
                         </div>
+                        <div className="grid grid-cols-2">
+                        <div className="flex items-center justify between m-5">
+                            <div>
+                                <label htmlFor="maxCapacity">Max Capacity</label>
+                                <input
+                                    type="number"
+                                    className="bg-kwhite rounded-lg p-1 text-kblack text-sm" 
+                                    id="maxCapacity"
+                                    value={formDataEdit.maxCapacity}
+                                    onChange={handleEditOnchange}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify between m-5">
                         <div className="flex flex-col m-5">
                             <label htmlFor="type">Type</label>
                             <input
@@ -191,29 +205,6 @@ const Items = () => {
                                 onChange={handleEditOnchange}
                             />
                         </div>
-                        <div className="flex items-center justify between m-5">
-                            <div>
-                                <label htmlFor="maxCapacity">Max Capacity</label>
-                                <input
-                                    type="number" 
-                                    className="bg-kwhite rounded-lg p-1 text-kblack text-sm" 
-                                    id="maxCapacity"
-                                    value={formDataEdit.maxCapacity}
-                                    onChange={handleEditOnchange}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex items-center justify between m-5">
-                            <div className='mr-3'>
-                                <label htmlFor="sellingPrice">Selling Price</label>
-                                <input 
-                                    type="number" 
-                                    className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
-                                    id="sellingPrice" 
-                                    value={formDataEdit.sellingPrice}
-                                    onChange={handleEditOnchange}
-                                />
-                            </div>
                             {/* Image Upload 
                             <div>
                                 <label htmlFor="image">Upload Photo</label>
@@ -228,6 +219,17 @@ const Items = () => {
                             
                                 <input type="hidden" name="itemID" value={formDataEdit._id} />
                         </div>
+                        </div>
+                        <div className='mr-3'>
+                                <label htmlFor="sellingPrice">Selling Price</label>
+                                <input 
+                                    type="number" 
+                                    className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
+                                    id="sellingPrice" 
+                                    value={formDataEdit.sellingPrice}
+                                    onChange={handleEditOnchange}
+                                />
+                            </div>
                         <div className="p-4 text-kblack flex flex-col">
                             <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
                         </div>
@@ -235,32 +237,33 @@ const Items = () => {
                 </div>
             )}
             <div className="mx-5 mb-5">
-                <div className="grid grid-cols-4 w-full bg-transparent items-center">
+                <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
                             <Button
                                 onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md mx-10"
+                                className="col-span-2 flex items-center bg-transparent text-kwhite px-5"
                             >
                                 <HiOutlineArrowCircleLeft className="w-10 h-10" />
-                                <span className="text-2xl ml-5">
-                                    <Typography>Item List</Typography>
-                                </span>
+                                <span className="text-2xl ml-5">Item List</span>
                             </Button>
-                        <div className="col-span-2 px-20">
+                        <div className="col-span-3 px-20">
                             <input
                                 type="search"
                                 placeholder="Search By Item Name"
-                                className="flex items-center bg-kwhite rounded-full p-2 text-sm"
+                                className="flex items-center bg-kwhite rounded-full p-2 px-5 text-sm"
                                 value = {searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <div></div>
+                        <div>
                             <Button
-                                className="flex space-x-2 items-center justify-center bg-kblue text-kwhite px-5 rounded-lg mx-10"
+                                className="flex space-x-2 items-center justify-center bg-kgreen text-kwhite px-10 rounded-full"
                                 onClick={handleButton("Add")}
                             >
                                 <HiOutlinePlusCircle className="w-5 h-5" />
                                 <span className="text-sm">Add Item</span>
                             </Button>
+                            </div>
                 </div>
             </div>
             <div className="px-10">
@@ -283,23 +286,23 @@ const Items = () => {
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                     <td className="px-10">
                                         <div className="grid grid-cols-2 items-center">
-                                        <img className="w-14 h-14 rounded-full mr-5" src={require(`../../../../../backend/uploads/StockManagement/${il.image}`)} alt={il.name} /> {/* Added alt attribute */}
+                                        <img className="w-14 h-14 rounded-full mr-5" src={`../../../../../backend/uploads/StockManagement/${il.image}`} alt={il.name} /> {/* Added alt attribute */}
                                         <span>{il.name}</span>
                                         </div>
 </td>
-                                        <td>{il.description}</td>
+                                        <td className="truncate max-w-xs">{il.description}</td>
                                         <td>{il.type}</td>
                                         <td>{il.quantity} Out of {il.maxCapacity}</td>
                                         <td>{Number(il.sellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
-                                        <td className="p-4 text-kblack flex">
-                                            <div className="flex justify-center gap-3 mx-auto">
+                                        <td className="p-4 text-kblack items-center justify-center">
+                                            <div className="grid grid-cols-4 justify-center gap-3 mx-auto">
                                                 <Button className="p-3 bg-kblue" onClick={() => handleEdit(il)}>
-                                                    <PencilIcon className="h-4 w-4 text-kwhite" />
+                                                    <PencilIcon className="h-4 w-4 text-kwhite mx-auto"/>
                                                 </Button>
                                                 <Button className="p-3 bg-kred" onClick={() => handleDelete(il._id)}>
-                                                    <TrashIcon className="h-4 w-4 text-kwhite" />
+                                                    <TrashIcon className="h-4 w-4 text-kwhite mx-auto" />
                                                 </Button>
-                                                <Button size="sm" className="bg-kred text-kwhite">
+                                                <Button size="sm" className="bg-kred text-kwhite col-span-2">
                                                     Remove Waste
                                                 </Button>
                                             </div>
