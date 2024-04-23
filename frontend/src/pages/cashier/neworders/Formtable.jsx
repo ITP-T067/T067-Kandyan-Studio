@@ -1,12 +1,18 @@
 import { Button } from '@material-tailwind/react'
-import React from 'react'
 import { MdClose } from 'react-icons/md'
+import React, { useEffect, useState } from 'react';
+import '../../../Styles/addToCart.css';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
+
     return(
-
-         <div className="absolute top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center backdrop-blur-lg">
-
+<div>
+         <div className=" fixed top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center backdrop-blur-lg">
+          
            <form onSubmit={handleSubmit}>
            
            <div className='m-10'>
@@ -24,7 +30,15 @@ const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
               <Button className='m-2 bg-kgreen text-lg' type="submit">Submit</Button>
               </div>
             </form>
-          </div>
+            </div>
+
+
+
+
+
+
+</div>
+
     )
 }
 

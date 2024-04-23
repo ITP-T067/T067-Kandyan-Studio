@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const MainorderSchema = new mongoose.Schema({
+const PlaceorderSchema = new mongoose.Schema({
 
-    billNo: {
-        type: String,
-        required: true,
-    },
-
-    customer: {
+    
+    cusname: {
         type: String,
         required: true,
     },
@@ -23,34 +19,34 @@ const MainorderSchema = new mongoose.Schema({
         required: true,
     },
 
-    paymentmethod: {
-        type: String,
-        required: true,
-    },
-
-    total: {
-        type: String,
+    grosstotal: {
+        type: Number,
         required: true,
     },
 
     tendered: {
-        type: String,
+        type: Number,
         required: true,
     },
 
     change: {
-        type: String,
+        type: Number,
         required: true,
     },
 
-    paymentStatus: {
-        type: String,
+    discount: {
+        type: Number,
+        required: true,
+    },
+
+    nettotal: {
+        type: Number,
         required: true,
     },
   
 });
 
-const Item = mongoose.model('Mainorder', MainorderSchema);
+const Item = mongoose.model('Placeorder', PlaceorderSchema);
 
 module.exports = Item;
 

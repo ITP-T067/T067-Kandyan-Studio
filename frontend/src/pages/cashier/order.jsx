@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
 import pending from "../../images/cashier/ordermain/Time.png"
 import addnew from "../../images/cashier/ordermain/Add_square.png"
 import check from "../../images/cashier/ordermain/Check_ring.png"
@@ -7,66 +7,56 @@ import axios from "axios";
 import React, { useEffect, useState } from 'react';
 
 
-const TABLE_HEAD = ["Customer", "Creator", "Date", ""];
-  
- const TABLE_ROWS = [
-   {
-     name: "John Michael",
-     job: "Manager",
-     date: "23/04/18",
-   },
-   {
-     name: "Alexa Liras",
-     job: "Developer",
-     date: "23/04/18",
-   },
-   {
-     name: "Laurent Perrier",
-     job: "Executive",
-     date: "19/09/17",
-   },
-   {
-     name: "Michael Levi",
-     job: "Developer",
-     date: "24/12/08",
-   },
-   {
-     name: "Richard Gran",
-     job: "Manager",
-     date: "04/10/21",
-   },
- ];
-  
+function Ordermain(){
 
-const Ordermain = () => {
+  const [dataList, setDataList] = useState([]);
+
+    const getFetchData = async () => {
+        try {
+          const response = await axios.get("/project/");
+          if (response.data.success) {
+            setDataList(response.data.data);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+      useEffect(() =>{
+        getFetchData()
+      }, [])
+
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
 
   const [currentStatus, setCurrentStatus] = useState();
   const [itemsData, setItemsData] = useState([]);
  
 
 //getstatus
-  const getStatus = async(value) => {
+  // const getStatus = async(value) => {
   
-        const response = await axios.get("/studio/")
-        .then(response => {
-          const status = response.data.data;
-          const itemsData = status.map(item => ({
-            ...item,
+  //       const response = await axios.get("/studio/")
+  //       .then(response => {
+  //         const status = response.data.data;
+  //         const itemsData = status.map(item => ({
+  //           ...item,
     
-          }));
-          setItemsData(status);
-        })
-        .catch(error => {
-          console.error('Error fetching items:', error);
-        });
-  }
+  //         }));
+  //         setItemsData(status);
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching items:', error);
+  //       });
+  // }
 
 
 
   return (
     <div className='order'>
 
-    <div class="flex flex-row justify-center  ">
+    <div class="flex flex-row justify-center">
 
     <a href='/cashier/addneworder'>
     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105" >
@@ -74,35 +64,31 @@ const Ordermain = () => {
     <h3>ADD NEW ORDER</h3>
     </div></a>
 
-<a href='/cashier/pendingorders'>
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
-  <img src={pending}/>
-  <h3>PENDING ORDERS</h3>
-</div>
-</a>
+    <a href='/cashier/pendingorders'>
+    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+      <img src={pending}/>
+      <h3>PENDING ORDERS</h3>
+    </div>
+    </a>
 
-<a href='/cashier/completedorders'>
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
-  <img src={check}/>
-  <h3>COMPLETED ORDERS</h3>
-</div>
-</a>
+    <a href='/cashier/completedorders'>
+    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">
+      <img src={check}/>
+      <h3>COMPLETED ORDERS</h3>
+    </div>
+    </a>
 
-<a href='/cashier/supplierpayment'>
+    <a href='/cashier/supplierpayment'>
+    <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105 ">
+      <img src={supplier}/>
+      <h3>SUPPLIER PAYMENTS</h3>
+    </div>
+    </a>
 
-
-<div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105 ">
-
-  <img src={supplier}/>
-  <h3>SUPPLIER PAYMENTS</h3>
-</div>
-</a>
-
-
-<div class="m-1 rounded-lg bg-kblack px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
-<h3 className="text-kwhite text-center">STUDIO STATUS</h3><br/><br/>
-  <h2 className="text-kred text-center">{itemsData}</h2><br/>
-</div>
+  <div class="m-1 rounded-lg bg-kblack px-8 py-9 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
+    <h3 className="text-kwhite text-center">STUDIO STATUS</h3><br/><br/>
+      <h2 className="text-kred text-center">OCCUPIED</h2><br/>
+  </div>
 
 
 </div> 
@@ -110,55 +96,45 @@ const Ordermain = () => {
 <div class="m-1 px-10 py-12 flex flex-row  ">
 
      <Card className=" m-1 h-full w-full  rounded-lg bg-kblack bg-opacity-10 text-kwhite">
-      <h3 className="text-center">Creator's Orders</h3>
-       <table className=" m-1 w-400 min-w-max table-auto text-center border">
-         <thead>
-           <tr>
-             {TABLE_HEAD.map((head) => (
-               <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                 <Typography
-                   variant="small"
-                   color="blue-gray"
-                   className="font-normal leading-none opacity-70"
-                 >
-                   {head}
-                 </Typography>
-               </th>
-             ))}
-           </tr>
-         </thead>
-         <tbody>
-           {TABLE_ROWS.map(({ name, job, date }, index) => {
-             const isLast = index === TABLE_ROWS.length - 1;
-             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50 ";
-  
-             return (
-               <tr key={name}>
-                 <td className={classes}>
-                   <Typography variant="small" color="blue-gray" className="font-normal">
-                     {name}
-                   </Typography>
-                 </td>
-                 <td className={`${classes} bg-blue-gray-50/50`}>
-                   <Typography variant="small" color="blue-gray" className="font-normal">
-                     {job}
-                   </Typography>
-                 </td>
-                 <td className={classes}>
-                   <Typography variant="small" color="blue-gray" className="font-normal">
-                     {date}
-                   </Typography>
-                 </td>
-                 <td className={`${classes} bg-blue-gray-50/50 `}>
-                   <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium transition-transform duration-300 ease-in-out hover:scale-150 ">
-                     View
-                   </Typography>
-                 </td>
-               </tr>
-             );
-           })}
-         </tbody>
-       </table>
+      <h3 className=" text-lg text-center font-extrabold">Creator Orders</h3>
+      <div className='mt-5 mx-auto w-11/12 overflow-scroll'>
+            <table className="w-full border-collapse text-kwhite ">
+            <thead  className="bg-kblack text-kwhite h-[60px]">
+                <tr>
+                <th className="px-4 py-2">Name</th>
+                <th className="px-4 py-2">Order Name</th>
+                <th className="px-4 py-2">Customer Name</th>
+                <th className="px-4 py-2">Added Date</th>
+                <th className="px-4 py-2">Completed Date</th>
+                </tr>
+            </thead>
+            <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+                {dataList.length > 0 ? (
+                    dataList.map((el) => {
+                        if(el.Status == "Completed"){
+                        
+                        return (
+                            <tr key={el._id}>
+                                <td className="px-4 py-2 text-center">{el.Project_Name}</td>
+                                <td className="px-4 py-2 text-center">
+                                                {el.Order_ID ? el.Order_ID.Item_Name : 'N/A'}</td>
+                                <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Cus_ID.Cus_Name : 'N/A'}</td>
+                                <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
+                                <td className="px-4 py-2 text-center">{formatDate(el.Completed_Date)}</td>
+                                <td className="px-4 py-2 text-center"><Button className="bg-kblue transition-transform hover:scale-110">{"View"}</Button></td>
+                        
+                            </tr>
+                        )
+                        }
+                    })
+                ) : (
+                    <tr>
+                        <td colSpan="4">No data available</td>
+                    </tr>
+                )}
+            </tbody>
+            </table>
+        </div>
      </Card>
      <Card className="h-full w-full "> 
      <div className="both flex flex-col">

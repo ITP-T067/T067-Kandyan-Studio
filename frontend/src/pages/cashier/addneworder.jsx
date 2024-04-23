@@ -10,20 +10,8 @@ axios.defaults.baseURL = "http://localhost:8010"
 function AddNewOrder(){
 
 
-    //Search Item
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [searchResults, setSearchResults] = useState([]);
-
-  // useEffect(() => {
-  //     const results = dataList.filter((item) =>
-  //         item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-  // setSearchResults(results);
-  // },[searchTerm, dataList]);
-
-
   const [itemsData, setItemsData] = useState([]);
- 
+
 
   const GoBack = () => {
     window.location.href = "/cashier/ordermain";
@@ -51,7 +39,8 @@ function AddNewOrder(){
          const items = response.data.data;
          const itemsData = items.map(item => ({
            ...item,
-           quantity: 0, // Initialize quantity for each item
+           quantity: 0
+           , // Initialize quantity for each item
          }));
          setItemsData(itemsData);
        })
@@ -61,7 +50,7 @@ function AddNewOrder(){
   };
    
 
-/*end new */
+
 
 const [formData,setFormData] = useState({
   name : "",
@@ -82,15 +71,14 @@ const handleOnChange = (e)=>{
 
 const [addSection,setAddSection] = useState(false)
 const [editSection,seteditSection] = useState(false) 
-const [isAlert, setIsAlert] = useState(false);
-const [alertStatus, setAlertStatus] = useState('succesßs');
-const [message, setMessage] = useState('');
+const [itemname,setItemname] = useState(false)
+
 
 const handleSubmit = async(e)=>{
   e.preventDefault()
 
       const data = await axios.post("/mainorder/create/", formData);
-      console.log(formData)
+     
         if(data.data.success){
           setAddSection(false)
           alert(data.data.message)
@@ -159,8 +147,6 @@ const handleEdit = (el)=>{
   seteditSection(true)
 }
 
-/*start new new */
-
 
     return (
       <div className='mainclass'>
@@ -177,16 +163,6 @@ const handleEdit = (el)=>{
                                 <span className="text-sm">Order</span>
                             </Button>
                         </div>
-                        
-                        {/* <div className=" px-10">
-                            <input
-                                type="search"
-                                placeholder="Search"
-                                className="bg-kwhite text-kblack rounded-full p-2 text-lg "
-                                value = {searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div> */}
                         
                         <div className='flex flex-row'>
                             <Button
@@ -232,8 +208,9 @@ const handleEdit = (el)=>{
        
 
         {itemsData.map(item => (
-        <div key={item._id} className="card w-64 h-96 relative cursor-pointer">
-            
+
+        <div key={item._id} className="card w-64 h-96 relative cursor-pointer backdrop-blur-md">
+          
             <form onSubmit={handleSubmit}>
               <div className="w-64 h-auto bg-kwhite opacity-100 rounded-xl">
                 <center>
@@ -241,8 +218,9 @@ const handleEdit = (el)=>{
                  onChange={(handleOnChange)}>{item.name}</div>
                   <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} 
                   style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
+                  <div className="">Quantity {}</div>
                   <Button className="bg-kgreen text-kwhite opacity-100 text-lg px-20 py-3 hover:bg-kblack rounded-xl m-1 
-                  transition-transform duration-300 ease-in-out hover:scale-105" type="submit" onClick={()=>setAddSection(true)} >{"Add"}</Button>
+                  transition-transform duration-300 ease-in-out hover:scale-105" type="submit" onClick={() => setAddSection(true)} >{"Add"}</Button>
                 </center>
               </div>
             </form>
@@ -288,8 +266,9 @@ const handleEdit = (el)=>{
           </table>
 
       <center><a href="/cashier/checkout">
-        <Button className="bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"Place Order"}</Button></a></center>
+        <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"Place Order"}</Button></a></center>
       </div>
+      
 
       </div>
       <div className="container ">
@@ -301,8 +280,8 @@ const handleEdit = (el)=>{
             handleSubmit={handleSubmit}
             handleOnChange={handleOnChange}
             handleClose={()=>setAddSection(false)}
-            rest={formData}
-            
+            rest={itemsData}
+            nameitem={itemsData.name}
             
             />
           )
@@ -320,6 +299,7 @@ const handleEdit = (el)=>{
         
         
         </div>
+
       </div>
       
     );

@@ -11,10 +11,6 @@ function Checkout() {
     return Math.round(value1 * valve2);
   };
 
-  const calcgrosstot = (value1,valve2) => {
-    return Math.round(value1 + valve2);
-  };
-
   const GoBack = () => {
     window.location.href = "/cashier/addneworder";
   };
@@ -33,11 +29,57 @@ function Checkout() {
   },[])
 
 
+  //create
+
+  const [formData,setFormData] = useState({
+    cusname : "",
+    telephone : 0,
+    email : "",
+    grosstotal : 0,
+    tendered:0,
+    change:0,
+    discount:0,
+    nettotal:0
+  })
+  
+  const handleOnChange = (e)=>{
+    const {value,name} = e.target 
+    setFormData ((preve)=>{
+        return{
+          ...preve,
+          [name] : value
+        }
+    })
+  }
+
+  
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
+  
+        const data = await axios.post("/checkout/create/", formData);
+        console.log(formData)
+          if(data.data.success){
+            alert(data.data.message)
+            getFetchData()
+            setFormData({
+              cusname : "",
+              telephone : 0,
+              email : "",
+              grosstotal : 0,
+              tendered:0,
+              change:0,
+              discount:0,
+              nettotal:0
+            })
+            getFetchData()
+          }
+  } 
+
     return (
 
-      
-        <div className="main bg-kblack bg-opacity-50 text-kwhite">
-        <form class="lg:mt-12">
+
+  <div className="main bg-kblack bg-opacity-50 text-kwhite">
+  <form classname="lg:mt-12" onSubmit={handleSubmit}>
       <div class=" mx-auto w-full">
         <div class="grid lg:grid-cols-3 gap-6">
           <div class="lg:col-span-2 max-lg:order-1 p-6 max-w-4xl mx-auto w-full">
@@ -49,14 +91,14 @@ function Checkout() {
                 <h2 class="text-3xl font-extrabold text-kwhite">Customer info</h2>
                 <div class="grid grid-cols-4 gap-6 mt-8 text-lg">
                   <h1 className="text-xl m-2">Customer Name :</h1>
-                  <input type="text" placeholder="Name"
-                    class="ring-1 col-span-3 py-3 rounded-md "  />
+                  <input type="text" placeholder="Name" id="cusname" name="cusname"
+                    class="ring-1 col-span-3 py-3 rounded-md " onChange={handleOnChange} />
                     <h1 className="text-xl m-2">Telephone :</h1>
-                  <input type="number" placeholder="Telephone"
-                    class="ring-1 col-span-3 py-3 rounded-md "  />
+                  <input type="number" placeholder="Telephone" id="telephone" name="telephone"
+                    class="ring-1 col-span-3 py-3 rounded-md " onChange={handleOnChange} />
                     <h1 className="text-xl m-2">Email Address :</h1>
-                  <input type="email" placeholder="Email address"
-                    class="ring-1 col-span-3 py-3 rounded-md "  />
+                  <input type="email" placeholder="Email address" id="email" name="email"
+                    class="ring-1 col-span-3 py-3 rounded-md "  onChange={handleOnChange} />
                 </div>
               </div>
               <div class="mt-12">
@@ -131,23 +173,24 @@ function Checkout() {
                 </div>
                     <div className="grid grid-cols-3 grid-rows-5 gap-4">
                     <h1 className="text-2xl">Gross Total :</h1>
-                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number"></input>
+                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number" id="grosstotal" name="grosstotal" onChange={handleOnChange} ></input>
                     <h1 className="text-2xl">Tendered :</h1>
-                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number"></input>
+                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number" id="tendered" name="tendered"  onChange={handleOnChange} ></input>
                     <h1 className="text-2xl">Change  :</h1>
-                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number"></input>
+                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number" id="change" name="change"  onChange={handleOnChange} ></input>
                      <h1 className="text-2xl">Discount  :</h1>
-                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number"></input>
+                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number" id="discount" name="discount"  onChange={handleOnChange} ></input>
                     <h1 className="text-2xl">Net total  :</h1>
-                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number"></input>
-                    <Button className="bg-kred text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kred">{"Advance payment"}</Button>
+                    <input className="ring-1 col-span-2 ring-kwhite ring-opacity-10 px-6 py-2 rounded-xl" type="number" id="nettotal" name="nettotal"  onChange={handleOnChange} ></input>
+                    <Button className="bg-kred text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kred" type="submit">{"Advance payment"}</Button>
                     <Button className="bg-kgreen text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kgreen">{"Full Payment"}</Button>
                     </div>
               </div>
             </div>
           </div>
         </div>
-      </div></form>
+      </div>
+</form>
     </div>
 
         
