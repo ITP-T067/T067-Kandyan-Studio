@@ -84,7 +84,9 @@ function ReviewForm() {
           className="review-message"
           value={message || ""}
           onChange={(e) => setMessage(e.target.value)}
-        />
+            style={{ color: "black" }} // Apply inline style
+/>
+
       </div>
       <div>
         <label htmlFor="date">Date:</label>

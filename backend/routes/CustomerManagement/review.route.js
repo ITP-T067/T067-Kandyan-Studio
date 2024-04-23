@@ -12,7 +12,7 @@ const {
 
 router.post("/add", addreview);
 router.post("/display", displayreview);
-router.put("/update/:id", updatereview);
+router.patch("/update/:id", updatereview);
 router.delete("/delete/:id", deleteReview);
 
 router.post("/loyalty/add", loyalty_customer);

@@ -9,6 +9,7 @@
   color: #f5f3ef;
   background-color: #717c897e;
   margin-top: 50px;
+  font-size: 20px;
 }
 
 .star-rating {
@@ -38,7 +39,7 @@
 
 .review-form-container label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: px;
   font-weight: bold;
 }
 

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import {Button} from "@material-tailwind/react"
 import axios from "axios";
-import Intro from "../loyalty/Intro";
 import "../../../Styles/customer/reviewTable.css";
+import { HiOutlineArrowCircleLeft} from "react-icons/hi";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
+
+axios.defaults.baseURL = "http://localhost:8010/"
 
 function ReviewTable() {
   const [reviews, setReviews] = useState([]);
@@ -14,6 +18,11 @@ function ReviewTable() {
     // Fetch data from backend when component mounts
     fetchData();
   }, []);
+  
+    const GoBack = () => {
+        window.location.href = "/review/";
+    }
+
 
   const fetchData = async () => {
     try {
@@ -68,8 +77,17 @@ function ReviewTable() {
   };
 
   return (
-    <div className="containerDisplay">
-      <Intro />
+    
+    <div className="mx-5 mb-5">
+      
+    
+                      <Button
+                                onClick={GoBack}
+                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+                            >
+                                <HiOutlineArrowCircleLeft className="w-8 h-8" />
+                                <span className="text-3xl">Review</span>
+                            </Button>
       <div className="review-table-container">
         <input
           type="search"
@@ -80,42 +98,45 @@ function ReviewTable() {
           onChange={handleSearchChange}
         />
         <table className="review-table">
-          <thead>
+          <thead className="bg-kblack text-kwhite h-[50px]">
             <tr>
-              <th>Message</th>
-              <th>Date</th>
-              <th>Action</th>
+              <th className="px-4 py-2">Message</th>
+              <th className="px-4 py-2">Date</th>
+              <th className="px-4 py-2">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-kgray bg-opacity-100 h-[60px]">
             {filteredReviews.map((review, index) => (
               <tr key={index}>
-                <td>{review.message}</td>
-                <td>{review.date}</td>
+                <td className="px-4 py-2 text-center">{review.message}</td>
+                <td className="px-4 py-2 text-center">{review.date}</td>
                 <td>
-                  <button onClick={() => updateReview(index, review.message)}>
-                    Update Review
+                <button className="p-3 mr-3 bg-kblue" onClick={() => updateReview(index, review.message)}>
+                  <PencilIcon className="h-6 w-6 text-kwhite rounded-full" />
                   </button>
-                  <button onClick={() => deleteReview(index)}>Delete</button>
-                </td>
+                  <button className="p-3 bg-kred" onClick={() => deleteReview(index)}>
+                  <TrashIcon className="h-6 w-6 text-kwhite" />
+                </button>
+              </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       {selectedReview && (
-        <div className="update-container">
-          <form onSubmit={handleUpdate}>
-            <input
-              type="text"
-              value={updatedMessage}
-              onChange={(e) => setUpdatedMessage(e.target.value)}
-              placeholder="Updated message"
-            />
-            <button type="submit">Submit Update</button>
-          </form>
-        </div>
-      )}
+  <div className="update-container blur-background">
+    <form onSubmit={handleUpdate}>
+      <input 
+        type="text"
+        value={updatedMessage}
+        onChange={(e) => setUpdatedMessage(e.target.value)}
+        placeholder="Updated message"
+      />
+      <button className="bg-kblue text-kwhite p-3 px-5" type="submit">Submit Update</button>
+    </form>
+  </div>
+)}
+
     </div>
   );
 }

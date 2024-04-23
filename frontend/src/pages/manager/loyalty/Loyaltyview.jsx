@@ -30,22 +30,27 @@ export default function Loyaltyview() {
 
 const getDetails = async () => {
     try {
-        const response = await axios.get('/order/on/get/cusdetail/66147c480a94b623c0e9a698');
-        console.log(response);
-        if (response.data.success) {
-            setDetails(response.data.data);
-        }
+      const response = await axios.get('/order/on/get/cusdetail/66147c480a94b623c0e9a698');
+      if (response.data.success) {
+          const customerID = response.data.data.Cus_ID; // Assuming _id is the customer ID
+          const customerResponse = await axios.get(`/customer/find/${customerID}`);
+          if (customerResponse.data.success) {
+              const customer = customerResponse.data.data;
+              setDetails({ ...response.data.data, customerName: customer.Cus_Name });
+          }
+      }
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 };
+
 const calculateStatus = (amount) => {
     if (amount < 1000) {
-        return "Bronze";
+        return "BRONZE";
     } else if (amount >= 1000 && amount <= 2000) {
-        return "Gold";
+        return "GOLD";
     } else {
-        return "Platinum";
+        return "PLATINUM";
     }
 };
 
@@ -105,37 +110,45 @@ const calculateStatus = (amount) => {
             </tr>
           </thead>
           <tbody>
- {Object.keys(details).length > 0 ? (
-    <tr className="bg-kgray text-kwhite text-center p-4 bg-opacity-20">
-      <td>
-        <Typography variant="lead" color="blue-gray" className="font-normal">
-          {details._id}
-        </Typography>
-      </td>
-      <td>
-        <Typography variant="lead" color="blue-gray" className="font-normal">
-          {details.Order_Amount}
-        </Typography>
-      </td>
-      <td className='text-plgreen'>
-        <Typography variant="lead" color="green" className="font-normal">
-        {calculateStatus(details.Order_Amount)}
-        </Typography>
-      </td>
-      <td className="p-2">
-        <div className="mx-auto text-kwhite">
-          <button type="button" className="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleViewClick}>View</button>
-          <button type="button" className="bg-kred focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDeleteClick}>Delete</button>
-        </div>
-      </td>
+          {Object.keys(details).length > 0 ? (
+            <tr className={`text-kwhite text-center p-4 bg-opacity-20  ${
+              calculateStatus(details.Order_Amount) === "BRONZE" ? "bg-kred" :
+              calculateStatus(details.Order_Amount) === "GOLD" ? "bg-kyellow" :
+              calculateStatus(details.Order_Amount) === "PLATINUM" ? "bg-kwhite" : ""
+          }`}>
+          
+        <td>
+            <Typography variant="lead" color="blue-gray" className="font-normal">
+             {details.customerName}
+            </Typography>
+        </td>
+        <td>
+            <Typography variant="lead" color="blue-gray" className="font-normal">
+                {details.Order_Amount}
+            </Typography>
+        </td>
+        <td className='text-5xl text-kwhiten'>
+            <Typography variant="lead" color="green" className="font-normal" >
+                {calculateStatus(details.Order_Amount)}
+            </Typography>
+        </td>
+        <td className="p-2">
+            <div className="mx-auto text-kwhite">
+                <button type="button" className="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleViewClick}>View</button>
+                <button type="button" className="bg-kred focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]" onClick={handleDeleteClick}>Delete</button>
+            </div>
+        </td>
     </tr>
- ) : (
+    
+
+) : (
     <tr>
-      <td colSpan={TABLE_HEAD.length} className="text-center text-kwhite py-4">
-        No data available
-      </td>
+        <td colSpan={TABLE_HEAD.length} className="text-center text-kwhite py-4">
+            No data available
+        </td>
     </tr>
- )}
+)}
+
 </tbody>
 
         </table>
