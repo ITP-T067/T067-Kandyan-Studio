@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { HiMinusCircle,HiPlusCircle } from "react-icons/hi";
+import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -27,6 +28,7 @@ export default function CustomerCart() {
   
     // Update selected item names
     const updatedSelectedItemNames = updatedSelectedItems.map(itemId => {
+      
       const selectedItem = cartItems.find(item => item._id === itemId);
       return `${selectedItem.item_Name}-${selectedItem.item_Quantity}`;
     });
@@ -126,6 +128,10 @@ export default function CustomerCart() {
     setShowPayAlert(false);
   }
 
+  const showPdf = (image) => {
+    window.open(`http://localhost:8010/uploads/`+ image);
+  };
+
   const getCartItems = () => {
     axios.get('order/on/get/cart/')
       .then(response => {
@@ -173,7 +179,7 @@ export default function CustomerCart() {
   const selectedItemsPrices = cartItems.filter(item => selectedItems.includes(item._id));
   const subtotalPrice = selectedItemsPrices.reduce((acc, curr) => acc + curr.item_Price * curr.item_Quantity, 0);
   
-  let totalAmount = subtotalPrice;
+  let totalAmount = subtotalPrice-200;
   if (selectedItems.length > 0) {
     // totalAmount -= 5000; // Apply discount only if at least one item is selected
   }
@@ -237,7 +243,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/StockManagement/${item.item_image}`)} alt="file" />
+              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -261,12 +267,12 @@ export default function CustomerCart() {
             <div className="w-[28rem] top-[160px] absolute">
                   <div className="absolute font-normal font-['Inter']">Loyalty Discount</div>
                   <div className="text-right font-normal font-['Inter']">
-                    {selectedItems.length > 0 ? 'LKR 5,000.00' : 'LKR 0.00'}
+                    {selectedItems.length > 0 ? 'LKR 200.00' : 'LKR 0.00'}
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">
               <div className="absolute font-normal font-['Inter']">Total</div>
-              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total}.00</div>
+              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total > 0 ? total : 0}.00</div>
             </div>
           </div>
           <div>
@@ -278,6 +284,9 @@ export default function CustomerCart() {
       {showPayAlert && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
           <div className="bg-white p-8 rounded-3xl">
+            <button className='bg-kwhite h-4 w-4' onClick={() => setShowPayAlert(false)}>
+            <HiXMark />
+            </button>
             <form className="w-full max-w-" onSubmit={checkout}>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
@@ -303,6 +312,14 @@ export default function CustomerCart() {
                   </label>
                 </div>
               </div>
+              <div className="md:flex md:items-center">
+                <div className="md:w-1/3"/>
+                <div className="md:w-2/3">
+                <label className="block ml-2 text-korange font-bold md:text-left pr-4">
+                    you can upload pay,ent slip here
+                  </label>
+                </div>
+              </div>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                   <label className="block text-kwhite  md:text-right mb-1 md:mb-0 pr-4">
@@ -310,11 +327,10 @@ export default function CustomerCart() {
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <input 
-                    className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0])}/>
+                  <input className="block bg-kwhite rounded-xl w-full py-2 px-4 text-kblack font-bold focus:outline-none" type="file"  onChange={(e) => setfilename(e.target.files[0])} required accept='.pdf,image/*'/>
                 </div>
               </div>
-              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Pay</button>
+              <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mt-4 rounded" type='submit'>Order Now</button>
             </form>
           </div>
         </div>

@@ -142,4 +142,18 @@ try {
 };
 
 
-module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder};
+//read item
+const index_count_onOrder = async(req, res, next) => {
+    try {
+        const data = await OnlineOrder.find();
+        if(res.status(201)){
+            res.json({success : true , data: data});
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder, index_count_onOrder};

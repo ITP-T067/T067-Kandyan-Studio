@@ -71,4 +71,40 @@ const update_pendingOrder = async(req, res, next) => {
 
 }
 
-module.exports = {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder};
+const del_pendingOrder = async(req,res, next) =>{
+    const id = req.params.id
+    console.log(id)
+
+    try{
+        const data = await pendingOrder.deleteOne({_id : id})
+        if(res.status(201)){
+            res.send({success:true, message: "Order deleted successfully", data : data})
+        }
+    }catch(error){
+        next(error);
+    }
+}
+
+
+const updateStatusToPending = async (req, res, next) => {
+    const orderId = req.params.id;
+
+    try {
+        // Find the pending order by its ID
+        const existingOrder = await pendingOrder.findById(orderId);
+
+        if (!existingOrder) {
+            return res.status(404).json({ success: false, message: "Pending order not found" });
+        }
+
+        // Update the status of the pending order to "Pending"
+        existingOrder.order_status = "Pending";
+        await existingOrder.save();
+
+        return res.status(200).json({ success: true, message: "Pending order status updated to 'Pending'", data: existingOrder });
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder, del_pendingOrder, updateStatusToPending};
