@@ -4,7 +4,8 @@ const {errorHandler} = require("../../utils/error");
 //create data
 const create_package = async(req, res, next) => {
     try{
-        const { pkg_category, pkg_name, price, image, description,  } = req.body; 
+        const { pkg_category, pkg_name, price, description,  } = req.body;
+        const {filename:image} = req.file; 
 
         const newPackage = new Package({
             pkg_category,

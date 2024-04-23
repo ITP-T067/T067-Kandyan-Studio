@@ -33,12 +33,6 @@ const packageSchema = new mongoose.Schema({
         required: true,
     },
 
-    // employee_id: {
-
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Employee'  //change accordingly
-    // },
-
 }, {timestamps:true})
 
 const Package = mongoose.model('Package', packageSchema);

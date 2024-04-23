@@ -11,14 +11,13 @@ const eventSchema = new mongoose.Schema({
 
     cus_contact: {
 
-        type: Number,
+        type: String,
         required: true,
     },
 
     date: {
 
         type: Date,
-        required: true,       
     },
 
     venue: {
@@ -49,7 +48,7 @@ const eventSchema = new mongoose.Schema({
     //     ref: 'Customer'
     // },
 
-}, {timestamps:true})
+}, { timestamps: true })
 
 const Event = mongoose.model('Event', eventSchema);
 

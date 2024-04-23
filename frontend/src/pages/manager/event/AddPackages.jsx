@@ -11,7 +11,7 @@ function AddPackages() {
     pkg_category: "",
     pkg_name: "",
     price: 0,
-    image: "",
+    file: null,
     description: ""
   })
 
@@ -65,7 +65,7 @@ function AddPackages() {
   const handleOnChange = (e) => {
     const {value,name} = e.target;
 
-    if(name === 'none'){  //file
+    if(name === 'file'){  //file
         setFormData((prev)=>({
             ...prev,
             [name]: e.target.files[0]
@@ -106,17 +106,18 @@ function AddPackages() {
         alert("Package name already exists in the selected category.");
         return;
     }
-    // const formDataSend = new FormData();
-    // formDataSend.append("pkg_category", formData.pkg_category);
-    // formDataSend.append("pkg_name", formData.pkg_name);
-    // formDataSend.append("price", formData.price);
-    // formDataSend.append("description", formData.description);
-    // formDataSend.append("file", formData.file);
+
+    const formDataSend = new FormData();
+    formDataSend.append("pkg_category", formData.pkg_category);
+    formDataSend.append("pkg_name", formData.pkg_name);
+    formDataSend.append("price", formData.price);
+    formDataSend.append("description", formData.description);
+    formDataSend.append("file", formData.file);
     
     console.log("Form data: ", formData);
 
    
-      const response = await axios.post("/package/create", formData);
+      const response = await axios.post("/package/create", formDataSend);
 
       //handle response
       console.log("Response:",response);
@@ -128,7 +129,7 @@ function AddPackages() {
           alert("Failed to add Package");
       }
     } catch (error) {
-      console.error("Error: ", error);
+      console.error(error.response.data);
       alert("An error occured while adding package");
     }
   };
@@ -187,9 +188,8 @@ function AddPackages() {
               <div className=" mt-3 mb-4 ml-5 flex justify-start gap-4">
                   <label className="form-label text-kwhite">Upload an Image</label>
                   <input className="form-control rounded-md  w-48 bg-kwhite h-6 text-sm" 
-                        type="text"
-                        name="image" 
-                        value={formData.file}
+                        type="file"
+                        name="file" 
                         onChange={handleOnChange}
                   /> 
               </div>

@@ -6,7 +6,7 @@ const {errorHandler} = require("../../utils/error")
 const get_events = async(req, res, next) => {
 
     try{
-        const data = await Event.find({}).populate('package_id');
+        const data = await Event.find();
         if(data){
             res.json({success : true, data: data});
         } else {
@@ -18,16 +18,46 @@ const get_events = async(req, res, next) => {
     }
 }
 
+//get events populating package id
+const get_eventsByPackage = async(req, res, next) => {
+    try{
+        const data = await Event.find().populate('package_id', 'pkg_category pkg_name price');
+        if(data){
+            res.json({success : true, data: data});
+        } else {
+            res.json({ success: false, message: "No data avaliable"});
+        }
+    }catch(error){
+        next(error);
+    }
+};
+
 //create data
 const create_event = async(req, res, next) => {
     try{
-        const { cus_name, cus_contact, date, venue, file, additional } = req.body;
-        const package_id = req.body.package_id;
+        const { cus_name, cus_contact, date, package_id, venue, additional } = req.body;
+        const { filename: file } = req.file;
+        // // Check if a file was uploaded
+        // if (!req.file) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "File is required."
+        //     });
+        // }
+
+        // const { filename: file } = req.file;
+
+        // Check if the date is null or undefined
+        if (!date) {
+            return res.status(400).json({
+                success: false,
+                message: "Date is required."
+            });
+        }
 
         //checking if the booking date is already booked
         const existingEvent = await Event.findOne        
         ({date}); 
-        res.json("findingg");  
         if(existingEvent){
             return res.status(400).json({
                 success: false,
@@ -64,7 +94,7 @@ const getEventByID = async(req, res, next) => {
     const eventId = req.params.id;
 
     try{
-        const Event = await Event.findById(eventId).populate({
+        const event = await Event.findById(eventId).populate({
             path: 'Event_ID'
         })
 
@@ -122,4 +152,4 @@ const delete_event = async(req, res, next) => {
     }
 }
 
-module.exports = { get_events, get_packagesByCategory, create_event, getEventByID, update_event, delete_event};
+module.exports = { get_events, get_eventsByPackage, get_packagesByCategory, create_event, getEventByID, update_event, delete_event};

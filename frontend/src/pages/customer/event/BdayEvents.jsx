@@ -20,19 +20,20 @@ function BdayEvents({ packageName }) {
   const [dataList, setDataList] = useState([]);
   const [selectedPackageId, setSelectedPackageId] = useState(''); // Add package_id state
 
-  // const formatDate = (dateString) => {
-  //   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-  //   return new Date(dateString).toLocaleDateString(undefined, options);
-  // };
   const { package_id } = useParams();
   const [formData, setFormData] = useState({
     cus_name: "",
     venue: "",
     cus_contact: "",
     additional: "",
-    file: "",
-    package_id: selectedPackageId, // Add package_id to the form data
-  })
+    file: null,
+    date: new Date(),
+    package_id: "", // Add package_id to the form data
+  });
+
+  useEffect(() => {
+    setSelectedPackageId(package_id);
+  }, [package_id]);
 
   //including package_id into event data
   const handleId = (id) => {
@@ -40,25 +41,6 @@ function BdayEvents({ packageName }) {
     setAddSection(true);
     console.log("Selected Package ID: ", id);
   };
-
-  //fetching package id
-  // const fetchPackageId = async (package_id) => {
-  //   try { 
-  //     const response = await axios.get("/package/"+package_id);
-  //     const {data} = response;
-  //     console.log("Package Data: ", data);
-
-  //     //filter package id
-  //     const filteredPackage = data.filter(pkg =>package_id === pkg._id);
-  //     console.log("Filtered Package: ", filteredPackage);
-
-  //     if({filteredPackage}){
-  //       setPackageId(filteredPackage[0]._id);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Fetching data: ",error);
-  //   }
-  // };  
 
   // Fetch packages by category when the selectedCategory state changes
   const fetchPackagesByCategory = async () => {
@@ -81,14 +63,10 @@ function BdayEvents({ packageName }) {
     fetchPackagesByCategory();
   }, [dataList]);
 
-  // useEffect(() => {
-  //   fetchPackageId(package_id);
-  // },[package_id]);
-
   const handleOnChange = (e) => {
     const { value, name } = e.target;
 
-    if (name === 'none') {
+    if (name === 'file') {
       setFormData((prev) => ({
         ...prev,
         [name]: e.target.files[0]
@@ -97,8 +75,7 @@ function BdayEvents({ packageName }) {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
-        date: selectedDate, // Add selectedDate to the form data
-        package_id: selectedPackageId, // Add package_id to the form data
+        package_id: selectedPackageId
       }));
     }
   };
@@ -106,34 +83,45 @@ function BdayEvents({ packageName }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Update formData with selectedDate
-    // setFormData((prev) => ({
-    //   ...prev,
-    // }));
+    // // Check if date is null or undefined
+    // if (!formData.date) {
+    //   alert('Please select a date.');
+    //   return;
+    // }
 
-    const eventData = {
-      ...formData,
-      date: selectedDate, // Add selectedDate to the form data
-      package_id: selectedPackageId, // Add package_id to the form data  
-    };
+    // Set the package_id from selectedPackageId
+    setFormData((prev) => ({
+      ...prev,
+      package_id: selectedPackageId,
+    }));
 
+    const formDataSend = new FormData();
+    formDataSend.append("cus_name", formData.cus_name);
+    formDataSend.append("cus_contact", formData.cus_contact);
+    formDataSend.append("date", formData.date);
+    formDataSend.append("venue", formData.venue);
+    formDataSend.append("additional", formData.additional);
+    formDataSend.append("file", formData.file);
+    formDataSend.append("package_id", formData.package_id);
 
-    console.log("Form Data: ", eventData);
+    console.log("Form Data: ", formData);
 
     try {
-      const response = await axios.post('/event/create', eventData);
+      const response = await axios.post("/event/create", formDataSend);
+      console.log("Response: ", response.data); // Log the response from the server
 
       //handle response
-      console.log("Response: ", response);
+      console.log("Response: ", response.data);
 
       if (response.data.success) {
         alert("Event added successfully");
+
         setAddSection(false);
       } else {
         alert("Failed to add Event");
       }
     } catch (error) {
-      console.error("Error: ", error);
+      console.log(error.response.data);
       alert("An error occured while adding event")
     }
   };
@@ -263,17 +251,17 @@ function BdayEvents({ packageName }) {
                     name="cus_name"
                     onChange={handleOnChange}
                     value={formData.cus_name}
-                     required />
+                    required />
                 </div>
                 <div>
                   <label htmlFor="date" className="block text-kwhite">Date</label>
                   <DatePicker
                     className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1"
-                    id="date"
                     name="date"
                     selected={selectedDate}
                     onChange={(date) => setSelectedDate(date)}
-                  required/>
+                    dateFormat="yyyy/MM/dd"
+                    required />
                 </div>
                 <div>
                   <label htmlFor="cus_contact" className="block text-kwhite">Contact No</label>
@@ -306,13 +294,13 @@ function BdayEvents({ packageName }) {
                 </div>
                 <div>
                   <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-                  <input type="text"
+                  <input type="file"
                     id="file"
                     name="file"
                     onChange={handleOnChange}
-                    className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" required />
+                    className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1"  />
                 </div>
-                <input type="hidden" name="package_id" value={package_id} />
+                <input type="hidden" name="package_id" value={selectedPackageId} onChange={handleOnChange} />
               </div>
               <div className="flex justify-between">
                 <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={() => setAddSection(false)}>Close</button>
