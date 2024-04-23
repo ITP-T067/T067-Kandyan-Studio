@@ -21,6 +21,7 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
+import Profile from './pages/customer/loyalty/Profile.jsx';
 
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
@@ -101,6 +102,7 @@ root.render(
         <Route path='/addreview' element={<AddReview/>}/>
         <Route path='/review' element={<Review/>}/>
         <Route path='/viewreview' element={<ReviewTable/>}/>
+        <Route path='/profile' element={<Profile/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
@@ -132,6 +134,7 @@ root.render(
         <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
         <Route path='/creator/generateReports' element={<Generatereports/>}/>
         <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
+        
         
         {/* Studio Operator Dashboard*/}
         <Route path='/studiooperator/' element={<StudioDash/>}/>

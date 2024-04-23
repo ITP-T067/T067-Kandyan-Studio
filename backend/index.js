@@ -18,6 +18,9 @@ const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.rout
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
 
+//loyalty
+ const loyaltyRouter=require("./routes/order.route.js");
+
 
 const app = express()
 app.use(cors())
@@ -46,6 +49,8 @@ app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
+
+
 
 //Customer
 app.use('/review', reviewRouter);

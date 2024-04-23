@@ -6,7 +6,6 @@ import { HiOutlineLogout,HiOutlineShoppingCart,HiBookmark } from "react-icons/hi
 const CustomerHeader = () => {
     const userRole = localStorage.getItem('userRole');
     const username = localStorage.getItem('username');
-    
     const myorder = () => {
         window.location.href = '/myorder';
     }
@@ -22,7 +21,6 @@ const CustomerHeader = () => {
     const reviews = () => {
         window.location.href = '/review';
     }
-    
 
 
     const handleLogout = () => {

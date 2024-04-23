@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder } = require("../controllers/onlineOrder/onlineOrder.controller.js");
+const {index_onOrder, getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder, find_cusid_data } = require("../controllers/onlineOrder/onlineOrder.controller.js");
 const {index_offOrder, create_offOrder, update_offOrder, del_offOrder } = require("../controllers/projectManagement/offlineOrder.controller.js");
 const {create_addToCart, index_addToCart, del_addToCart, cart_find_item} = require("../controllers/onlineOrder/addToCart.controller");
 const {create_pendingOrder, index_pendingOrder, getOrderById_pendingOrder, update_pendingOrder, del_pendingOrder} = require("../controllers/onlineOrder/pending.controller")
@@ -46,5 +46,9 @@ router.get("/off/", index_offOrder);
 router.post("/off/create", create_offOrder);
 router.put("/off/update", update_offOrder);
 router.delete("/off/delete/:id", del_offOrder);
+
+
+//loyalty cus details find
+router.get("/on/get/cusdetail/:id", find_cusid_data);
 
 module.exports = router;

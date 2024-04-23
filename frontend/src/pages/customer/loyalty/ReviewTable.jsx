@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Intro from "../loyalty/Intro";
-import "../../../Styles/Customer/reviewTable.css"
-
+import "../../../Styles/customer/reviewTable.css";
 
 
 function ReviewTable() {

@@ -142,4 +142,15 @@ try {
 };
 
 
-module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder};
+//loyalty part
+const find_cusid_data = async (req, res, next) => {
+    const cusId = req.params.id;
+    try {
+        const data = await OnlineOrder.findOne({ Cus_ID: cusId });
+        return res.status(200).send({ success: true, message: "Item found successfully", data: data });
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports = { index_onOrder,getOrderById_onOrder, create_onOrder, update_onOrder, del_onOrder, send_email_onOrder, find_cusid_data};

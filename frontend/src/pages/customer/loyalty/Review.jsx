@@ -2,7 +2,7 @@ import React from "react";
 import Intro from "../loyalty/Intro";
 import ReviewSelection from "../loyalty/ReviewSelection";
 import { Link } from "react-router-dom";
-import "../../../Styles/Customer/Review.css";
+import "../../../Styles/customer/Review.css";
 
 function Review() {
   return (
