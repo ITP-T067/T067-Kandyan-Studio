@@ -3,6 +3,8 @@ import pending from "../../images/cashier/ordermain/Time.png"
 import addnew from "../../images/cashier/ordermain/Add_square.png"
 import check from "../../images/cashier/ordermain/Check_ring.png"
 import supplier from "../../images/cashier/ordermain/Desk_fill.png"
+import axios from "axios";
+import React, { useEffect, useState } from 'react';
 
 
 const TABLE_HEAD = ["Customer", "Creator", "Date", ""];
@@ -37,6 +39,30 @@ const TABLE_HEAD = ["Customer", "Creator", "Date", ""];
   
 
 const Ordermain = () => {
+
+  const [currentStatus, setCurrentStatus] = useState();
+  const [itemsData, setItemsData] = useState([]);
+ 
+
+//getstatus
+  const getStatus = async(value) => {
+  
+        const response = await axios.get("/studio/")
+        .then(response => {
+          const status = response.data.data;
+          const itemsData = status.map(item => ({
+            ...item,
+    
+          }));
+          setItemsData(status);
+        })
+        .catch(error => {
+          console.error('Error fetching items:', error);
+        });
+  }
+
+
+
   return (
     <div className='order'>
 
@@ -75,7 +101,7 @@ const Ordermain = () => {
 
 <div class="m-1 rounded-lg bg-kblack px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
 <h3 className="text-kwhite text-center">STUDIO STATUS</h3><br/><br/>
-  <h2 className="text-kred text-center">OCCUPIED</h2><br/>
+  <h2 className="text-kred text-center">{itemsData}</h2><br/>
 </div>
 
 
