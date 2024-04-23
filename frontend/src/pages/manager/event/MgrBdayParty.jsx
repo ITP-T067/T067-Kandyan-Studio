@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react'
 import { Link , useLocation, useParams} from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Standard from '../../../images/events/party1.jpg'
-import Premium from '../../../images/events/party2.png'
-import Diamond from '../../../images/events/party3.jpg'
 import axios from 'axios';
 
 axios.defaults.baseURL = "http://localhost:8010/";
@@ -153,7 +150,7 @@ function MgrBdayParty({packageName}) {
                     return (
                       // {/* Standard */}
                       <div key={pkg._id} className="card2 w-80  h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Standard}/>
+                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                           <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                           {pkg.description.split('\n').map((line, index) => (
@@ -173,7 +170,7 @@ function MgrBdayParty({packageName}) {
                     return (
                         // {/* Regular */}
                       <div  key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Premium}/>
+                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                             {pkg.description.split('\n').map((line, index) => (
@@ -193,7 +190,7 @@ function MgrBdayParty({packageName}) {
                     return (
                       // {/* Diamond */}
                       <div  key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Diamond}/>
+                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                             {pkg.description.split('\n').map((line, index) => (

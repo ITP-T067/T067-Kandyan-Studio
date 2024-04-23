@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react'
 import { Link , useLocation, useParams} from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Minimal from '../../../images/events/minimal.jpg'
-import Regular from '../../../images/events/regular.jpg'
-import Deluxe from '../../../images/events/deluxe.jpg'
 import axios from 'axios';
 
 axios.defaults.baseURL = "http://localhost:8010/";
@@ -118,7 +115,7 @@ function MgrWedding({packageName}) {
   };
 
   return (
-    <div>
+    <div className="h-[100vh]">
       <div className={`container ${editSection ? 'blur' : ''}`}>
         {/* back nav */}
         <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
@@ -159,7 +156,7 @@ function MgrWedding({packageName}) {
                     return (
                       // {/* Minimal */}
                       <div key={pkg._id} className="card2 w-80  h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Minimal}/>
+                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                           <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                           {pkg.description.split('\n').map((line, index) => (
@@ -180,7 +177,7 @@ function MgrWedding({packageName}) {
                     return (
                         // {/* Regular */}
                       <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Regular}/>
+                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                             {pkg.description.split('\n').map((line, index) => (
@@ -201,7 +198,7 @@ function MgrWedding({packageName}) {
                     return (
                       // {/* Deluxe */}
                       <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Deluxe}/>
+                        <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)}/>
                         <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                             <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                             {pkg.description.split('\n').map((line, index) => (

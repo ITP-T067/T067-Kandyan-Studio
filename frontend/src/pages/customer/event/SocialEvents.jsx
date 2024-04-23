@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Standard from '../../../images/events/social1.jpg'
-import Premium from '../../../images/events/social2.jpg'
-import Diamond from '../../../images/events/social3.jpg'
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 
@@ -26,14 +23,18 @@ function SocialEvents({ packageName }) {
   // };
   const { package_id } = useParams();
   const [formData, setFormData] = useState({
-    date: setSelectedDate,
+    date: selectedDate,
     cus_name: "",
     venue: "",
     cus_contact: "",
     additional: "",
-    file: "",
+    file: null,
     package_id: selectedPackageId, // Add package_id to the form data
-  })
+  });
+
+  useEffect(() => {
+    setSelectedPackageId(package_id);
+  }, [package_id]);
 
   //including package_id into event data
   const handleId = (id) => {
@@ -41,25 +42,6 @@ function SocialEvents({ packageName }) {
     setAddSection(true);
     console.log("Selected Package ID: ", id);
   };
-
-  //fetching package id
-  // const fetchPackageId = async (package_id) => {
-  //   try { 
-  //     const response = await axios.get("/package/"+package_id);
-  //     const {data} = response;
-  //     console.log("Package Data: ", data);
-
-  //     //filter package id
-  //     const filteredPackage = data.filter(pkg =>package_id === pkg._id);
-  //     console.log("Filtered Package: ", filteredPackage);
-
-  //     if({filteredPackage}){
-  //       setPackageId(filteredPackage[0]._id);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Fetching data: ",error);
-  //   }
-  // };  
 
   // Fetch packages by category when the selectedCategory state changes
   const fetchPackagesByCategory = async () => {
@@ -82,14 +64,10 @@ function SocialEvents({ packageName }) {
     fetchPackagesByCategory();
   }, [dataList]);
 
-  // useEffect(() => {
-  //   fetchPackageId(package_id);
-  // },[package_id]);
-
   const handleOnChange = (e) => {
     const { value, name } = e.target;
 
-    if (name === 'none') {
+    if (name === 'file') {
       setFormData((prev) => ({
         ...prev,
         [name]: e.target.files[0]
@@ -107,28 +85,30 @@ function SocialEvents({ packageName }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Update formData with selectedDate
-    // setFormData((prev) => ({
-    //   ...prev,
-    // }));
+    setFormData((prev) => ({
+      ...prev,
+      package_id: selectedPackageId,
+    }));
 
-    const eventData = {
-      ...formData,
-      date: selectedDate,
-      package_id: selectedPackageId, // Add package_id to the form data  
-    };
+    const formDataSend = new FormData();
+    formDataSend.append("date", formData.date);
+    formDataSend.append("cus_name", formData.cus_name);
+    formDataSend.append("cus_contact", formData.cus_contact);
+    formDataSend.append("venue", formData.venue);
+    formDataSend.append("additional", formData.additional);
+    formDataSend.append("file", formData.file);
+    formDataSend.append("package_id", formData.package_id);
 
-
-    console.log("Form Data: ", eventData);
+    console.log("Form Data: ", formData);
 
     try {
-      const response = await axios.post('/event/create', eventData);
+      const response = await axios.post('/event/create', formDataSend);
 
       //handle response
       console.log("Response: ", response);
 
       if (response.data.success) {
-        alert("Event added successfully");
+        alert("Event booked successfully");
         setAddSection(false);
       } else {
         alert("Failed to add Event");
@@ -146,7 +126,7 @@ function SocialEvents({ packageName }) {
   };
 
   return (
-    <div>
+    <div className="h-[100vh]">
       <div className={`container ${addSection ? 'blur' : ''}`}>
         {/* back nav */}
         <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
@@ -182,7 +162,7 @@ function SocialEvents({ packageName }) {
                   return (
                     // {/* Standard */}
                     <div key={pkg._id} className="card2 w-80  h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Standard} />
+                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
@@ -201,7 +181,7 @@ function SocialEvents({ packageName }) {
                   return (
                     // {/* Regular */}
                     <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Premium} />
+                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
@@ -220,7 +200,7 @@ function SocialEvents({ packageName }) {
                   return (
                     // {/* Diamond */}
                     <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Diamond} />
+                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
@@ -273,6 +253,7 @@ function SocialEvents({ packageName }) {
                     name="date"
                     selected={selectedDate}
                     onChange={(date) => setSelectedDate(date)}
+                    dateFormat="yyyy-MM-dd"
                     required />
                 </div>
                 <div>
@@ -296,7 +277,7 @@ function SocialEvents({ packageName }) {
                 </div>
 
                 <div>
-                  <label htmlFor="additioal" className="block text-kwhite">Additional</label>
+                  <label htmlFor="additioal" className="block text-kwhite">Additional (location, time etc..)</label>
                   <input type="text"
                     id="additional"
                     name="additional"
@@ -306,13 +287,13 @@ function SocialEvents({ packageName }) {
                 </div>
                 <div>
                   <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-                  <input type="text"
+                  <input type="file"
                     id="file"
                     name="file"
                     onChange={handleOnChange}
                     className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" required />
                 </div>
-                <input type="hidden" name="package_id" value={package_id} />
+                <input type="hidden" name="package_id" value={setSelectedPackageId} onChange={handleOnChange} />
               </div>
               <div className="flex justify-between">
                 <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={() => setAddSection(false)}>Close</button>

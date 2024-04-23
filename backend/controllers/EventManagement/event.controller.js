@@ -56,8 +56,7 @@ const create_event = async(req, res, next) => {
         }
 
         //checking if the booking date is already booked
-        const existingEvent = await Event.findOne        
-        ({date}); 
+        const existingEvent = await Event.findOne({date}); 
         if(existingEvent){
             return res.status(400).json({
                 success: false,
@@ -79,12 +78,12 @@ const create_event = async(req, res, next) => {
 
         res.status(201).json({
             success: true,
-            message: "Event created successfully",
+            message: "Event booking successful",
             data: newEvent
         });
         
     }catch(error){
-        console.error("Error creating event: ", error)
+        console.error("Error booking event: ", error)
         next(error);
     }
 }
@@ -127,6 +126,14 @@ const update_event = async(req, res, next) => {
     console.log(rest)
     try{
         const data = await Event.updateOne({_id : _id}, rest)
+        const existingEvent = await Event.findOne        
+        ({date}); 
+        if(existingEvent){
+            return res.status(400).json({
+                success: false,
+                message: "This date is already booked."
+            });
+        }
         if(res.status(201)){
             res.send({success:true, message: "Event updated successfully", data: data})
         }

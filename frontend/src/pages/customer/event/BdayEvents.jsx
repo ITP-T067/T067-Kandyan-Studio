@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Standard from '../../../images/events/party1.jpg'
-import Premium from '../../../images/events/party2.png'
-import Diamond from '../../../images/events/party3.jpg'
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 
@@ -16,7 +13,7 @@ function BdayEvents({ packageName }) {
   const [addSection, setAddSection] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [packageNameLabel, setPackageNameLabel] = useState('');
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [dataList, setDataList] = useState([]);
   const [selectedPackageId, setSelectedPackageId] = useState(''); // Add package_id state
 
@@ -27,7 +24,7 @@ function BdayEvents({ packageName }) {
     cus_contact: "",
     additional: "",
     file: null,
-    date: new Date(),
+    date:selectedDate,
     package_id: "", // Add package_id to the form data
   });
 
@@ -75,6 +72,7 @@ function BdayEvents({ packageName }) {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
+        date: selectedDate,
         package_id: selectedPackageId
       }));
     }
@@ -96,6 +94,7 @@ function BdayEvents({ packageName }) {
     }));
 
     const formDataSend = new FormData();
+    formDataSend.append("date", formData.date)
     formDataSend.append("cus_name", formData.cus_name);
     formDataSend.append("cus_contact", formData.cus_contact);
     formDataSend.append("date", formData.date);
@@ -114,8 +113,7 @@ function BdayEvents({ packageName }) {
       console.log("Response: ", response.data);
 
       if (response.data.success) {
-        alert("Event added successfully");
-
+        alert("Event booked successfully");
         setAddSection(false);
       } else {
         alert("Failed to add Event");
@@ -133,7 +131,7 @@ function BdayEvents({ packageName }) {
   };
 
   return (
-    <div>
+    <div className="h-[100vh]">
       <div className={`container ${addSection ? 'blur' : ''}`}>
         {/* back nav */}
         <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
@@ -169,7 +167,7 @@ function BdayEvents({ packageName }) {
                   return (
                     // {/* Standard */}
                     <div key={pkg._id} className="card2 w-80  h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Standard} />
+                      <img className="img2 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
@@ -188,7 +186,7 @@ function BdayEvents({ packageName }) {
                   return (
                     // {/* Regular */}
                     <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Premium} />
+                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
@@ -207,7 +205,7 @@ function BdayEvents({ packageName }) {
                   return (
                     // {/* Diamond */}
                     <div key={pkg._id} className="card3 w-80 h-[30rem] mb-8 bg-kgray backdrop-filter backdrop-blur-lg rounded-xl border-2 border-kyellow">
-                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={Diamond} />
+                      <img className="img3 w-72 mx-auto block rounded-lg mt-3 border-2 border-kwhite" src={require(`../../../../../backend/uploads/EventManagement/${pkg.image}`)} />
                       <div className="decsription flex flex-col justify-center items-center text-kwhite mt-2 font-[inter]">
                         <p className="type text-2xl font-bold">{pkg.pkg_name} Package</p>
                         {pkg.description.split('\n').map((line, index) => (
