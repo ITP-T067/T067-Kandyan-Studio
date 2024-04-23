@@ -5,6 +5,8 @@ import Photography from '../images/photography.png';
 import DigitalPrinting from '../images/dp.png';
 import Passport from '../images/ps.png';
 import Album from '../images/ab.png';
+import review from '../images/sample.png';
+import footer from '../images/foot.png';
 import { useNavigate } from 'react-router-dom';
 import NormalHeader from './header';
 
@@ -81,7 +83,7 @@ function Home() {
 
       {/* about us card */}
       <div className="about_card">
-        <div className="AboutUs top-0">ABOUT US</div>
+        <div className="AboutUs top-0 ">ABOUT US</div>
         <div className='aboutImage'>
           <img src={MainImage} alt="Centered Image" />
         </div>
@@ -91,9 +93,15 @@ function Home() {
       </div>
 
       {/* rating card */}
-      <div className="rate_card">
-      
+      <div className="rate_card flex justify-center ">
+        <img src={review} alt="Centered Image" className="w-[87rem] h-[12rem rounded-3xl" />
       </div>
+
+
+      <div className="foot_card flex justify-center">
+  <img src={footer} alt="Centered Image" className="w-[87rem] h-[12rem rounded-3xl" />
+</div>
+
     </div>
   );
 }
