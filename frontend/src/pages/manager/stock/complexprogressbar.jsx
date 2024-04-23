@@ -48,7 +48,7 @@ const ComplexProgressBar = ({ itemQuantity, maxCapacity, reqQuantity }) => {
     const expectedPercentage = calcExpectedPercentage(reqQuantity, maxCapacity);
 
     return (
-        <div className={`flex items-center ${expectedColorChanger(expectedPercentage)} rounded-full p-1 drop-shadow-lg`}>
+        <div className={`flex items-center ${expectedColorChanger(percentage+expectedPercentage)} rounded-full p-1 drop-shadow-lg`}>
             <div className="w-full flex bg-kgray overflow-hidden rounded-full border text-xs text-center justify-items-start">
                 <div
                     className={"flex justify-center overflow-hidden " + colorChanger(percentage) + " p-2 items-center text-kwhite "}

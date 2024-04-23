@@ -196,9 +196,9 @@ const RequestForm = () => {
                                             onChange={(e) => setSupplier(e.target.value)}
                                         >
                                             <option value="">Select a supplier</option>
-                                            <option value="supplier1">Supplier 1</option>
-                                            <option value="supplier2">Supplier 2</option>
-                                            <option value="supplier3">Supplier 3</option>
+                                            <option value="Photo Technica">Photo Technica</option>
+                                            <option value="Nine Hearts">Nine Hearts</option>
+                                            <option value="Pettah Traders">Pettah Traders</option>
                                         </select>
                                     </div>
                                 </div>

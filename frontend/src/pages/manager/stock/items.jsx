@@ -155,10 +155,10 @@ const Items = () => {
             {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
-                    <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
-                        <Typography color="black" size="xl" bold>
+                    <form onSubmit={handleUpdate} className="bg-kblack/60 text-kwhite p-10 rounded-lg drop-shadow-md">
+                        <span className="text-2xl text-center font-bold items-center justify-center w-full">
                             Edit Item
-                        </Typography>
+                        </span>
                         <div className="flex flex-col m-5">
                             <label htmlFor="itemName">Item Name</label>
                             <input
@@ -286,7 +286,7 @@ const Items = () => {
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                                     <td className="px-10">
                                         <div className="grid grid-cols-2 items-center">
-                                        <img className="w-14 h-14 rounded-full mr-5" src={`../../../../../backend/uploads/StockManagement/${il.image}`} alt={il.name} /> {/* Added alt attribute */}
+                                        <img className="w-14 h-14 rounded-full mr-5" src={require(`../../../../../backend/uploads/StockManagement/${il.image}`)} alt={il.name} /> {/* Added alt attribute */}
                                         <span>{il.name}</span>
                                         </div>
 </td>

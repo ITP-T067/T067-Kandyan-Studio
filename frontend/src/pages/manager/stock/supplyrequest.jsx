@@ -162,6 +162,16 @@ const SupplyRequest = () => {
         console.log(dataList);
     }, []);
 
+    useEffect(() => {
+        if (startDate && endDate && startDate > endDate) {
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Invalid Date Range!");
+        } else {
+            setIsAlert(false);
+        }
+    }, [startDate, endDate]);
+
     // Fetch Data Function
     const getFetchData = async () => {
         try {
@@ -227,8 +237,6 @@ const SupplyRequest = () => {
 
     const generatePDF = useReactToPrint({
     content: () => componentPDF.current,
-    documentTitle: "Supply Request Report",
-    onAfterPrint: () => alert("Data saved in PDF")
   });
 
     // Pagination
@@ -261,6 +269,68 @@ const SupplyRequest = () => {
         }
     }
 
+
+    const SupplyRequestPrintable = ({ dataList, startDate, endDate }) => {
+        return (
+            <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg">
+                    <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Supply Request Report</div>
+                    <div className="flex items-center justify-between">
+                    <span className="text-sm text-kblack mb-3">Generated on: {new Date().toLocaleString()}</span>
+                    <span className="text-sm text-kblack mb-3">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                    </div>
+                    <table className="w-full table-fixed border rounded-lg overflow-hidden">
+        <thead>
+            <tr className="bg-kblack border-kblack text-kwhite border text-center">
+                <th>Date</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Supplier</th>
+                <th>Expected Delivery Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+                {dataList.map((srl, index) => {
+                    const ReqDate = new Date(srl.date);
+                    const ReqDateStr =
+                        ReqDate.getDate() +
+                        " - " +
+                        (ReqDate.getMonth() + 1) +
+                        " - " +
+                        ReqDate.getFullYear();
+
+                    const ExDate = new Date(srl.exdate);
+                    const ExDateStr =
+                        ExDate.getDate() +
+                        " - " +
+                        (ExDate.getMonth() + 1) +
+                        " - " +
+                        ExDate.getFullYear();
+
+                    return (
+                        <tr key={srl._id} className="border text-kblack text-center items-center p-4">
+                            <td>{ReqDateStr}</td>
+                            <td>{srl.name}</td>
+                            <td>{srl.reqquantity}</td>
+                            <td>{srl.supplier}</td>
+                            <td>{ExDateStr}</td>
+                            <td>{srl.status}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+    </table>
+                </div>
+        );
+    };
+
+    const componentRef = useRef();
+
+
+    const [reportSection, setReportSection] = useState(false);
+
     return (
         <>
             <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
@@ -272,7 +342,10 @@ const SupplyRequest = () => {
                     >
                         X
                     </button>
-                    <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
+                    <form onSubmit={handleUpdate} className=" p-10 rounded-lg bg-kblack/60 text-kwhite">
+                    <span className="text-2xl text-center font-bold items-center justify-center w-full">
+                            Edit Supply Request
+                        </span>
                         <div className="flex flex-col m-5">
                             <label htmlFor="item">Item Name</label>
                             <input
@@ -341,6 +414,20 @@ const SupplyRequest = () => {
                 </div>
             )}
 
+{reportSection && (
+    <div className="fixed grid grid-cols-1 top-0 left-0 h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50 p-24 ">
+    <button
+                className="absolute top-5 right-5 bg-kblack text-kwhite"
+                onClick={() => setReportSection(false)}
+            >
+                X
+            </button>
+    <SupplyRequestPrintable ref={componentRef} dataList={searchResults} startDate={startDate} endDate={endDate}/>
+    <button className="bg-kgreen rounded-lg text-kwhite mx-50 mx-64 p-2" onClick={generatePDF}>Print</button>
+    </div>
+)}
+            
+
             <div className="mx-5 mb-5">
             <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
                             <Button
@@ -382,14 +469,14 @@ const SupplyRequest = () => {
                             </Button>
                         <DatePicker
                         placeholderText="Start Date"
-            className='text-kwhite bg-kwhite text-sm py-2 px-1 rounded-full text-center'
+            className='text-kblack bg-kwhite text-sm py-2 px-1 rounded-full text-center'
             selected={startDate}
             onChange={handleStartDateChange}
           />
           <span className='mx-5 font-bold text-kwhite text-mb'>to</span>
           <DatePicker
           placeholderText="End Date"
-            className='text-kwhite text-sm bg-kwhite py-2 px-1 rounded-full text-center'
+            className='text-kblack text-sm bg-kwhite py-2 px-1 rounded-full text-center'
             selected={endDate}
             onChange={handleEndDateChange}
           />
@@ -397,14 +484,14 @@ const SupplyRequest = () => {
                         <div>
                             <Button
                                 className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
-                                onClick={generatePDF}
+                                onClick={() => setReportSection(true)}
                             >
                                 <HiOutlineDocumentReport className="w-5 h-5" />
                                 <span className="text-sm">Generate Reports</span>
                             </Button>
                         </div>
                     </div>
-            <div className="px-10" ref={componentPDF}>
+            <div className="px-10">
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite border-b text-center">

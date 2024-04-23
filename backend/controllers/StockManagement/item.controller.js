@@ -13,12 +13,16 @@ const index_item = async(req, res, next) => {
     }
 }
 
-//create item
-const create_item = async(req, res, next) => {
-    
-    try{
-        const {name, description, type, quantity, maxCapacity, damaged, sellingPrice, buyingPrice} = req.body;
-        const {filename:image} = req.file;
+// create item
+const create_item = async (req, res, next) => {
+    try {
+        const { name, description, type, quantity, maxCapacity, damaged, sellingPrice, buyingPrice } = req.body;
+        const { filename: image } = req.file;
+
+        // Check if maxCapacity is less than quantity
+        if (parseInt(maxCapacity) < parseInt(quantity)) {
+            return res.status(400).json({ success: false, message: "Max Capacity should be greater than or equal to Quantity" });
+        }
 
         const data = new Item({
             name,
@@ -34,14 +38,13 @@ const create_item = async(req, res, next) => {
 
         await data.save();
 
-        if(res.status(201)){
-            res.send({success : true, message : "Item saved successfully", data: data});
-        }
+        return res.status(201).json({ success: true, message: "Item saved successfully", data: data });
 
-    }catch(error){
+    } catch (error) {
         next(error);
     }
 }
+
 
 /*
 const update_item = async (req, res, next) => {

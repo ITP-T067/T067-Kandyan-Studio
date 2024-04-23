@@ -3,6 +3,8 @@ import { Card, Button, CardBody } from "@material-tailwind/react";
 import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import axios from "axios";
 
+import Alert from "../../../Components/Common/Alerts/alert";
+
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const AddItemForm = () => {
@@ -51,7 +53,15 @@ const AddItemForm = () => {
         formDataToSend.append("sellingPrice", formData.sellingPrice);
         formDataToSend.append("buyingPrice", formData.buyingPrice);
         formDataToSend.append("file", formData.file);
-
+    
+        // Check if maxCapacity is less than quantity
+        if (parseInt(formData.maxCapacity) < parseInt(formData.quantity)) {
+            setIsAlert(true);
+            setAlertStatus('error');
+            setMessage("Max Capacity should be greater than or equal to Quantity !");
+            return;
+        }
+    
         console.log("Form Data:", formDataToSend);
         try {
             const data = await axios.post("/item/create", formDataToSend);
@@ -79,6 +89,8 @@ const AddItemForm = () => {
             setMessage("Error Occurred While Adding Item, Check For Empty Fields !");
         }
     };
+    
+
 
     const GoBack = () => {
         window.location.href = "/manager/stockdept/items/";
@@ -86,6 +98,7 @@ const AddItemForm = () => {
 
     return (
         <>
+        <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
             <div className="mx-5 mb-5">
                         <div>
                             <Button
