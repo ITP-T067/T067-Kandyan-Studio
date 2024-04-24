@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react'
 import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -51,11 +50,23 @@ export default function PendingOrders() {
         });
       };
 
-  const handleRequestClick = (orderId) => {
-    setSelectedOrderId(orderId);
-    setShowPayAlert(true);
-    navigate('/pendingorder');
-  };
+      const handleRequestClick = (orderId) => {
+        axios.put(`order/on/update/pending/${orderId}`)
+            .then(response => {
+                console.log('Order status updated successfully:', response.data);
+                getPendingOrders(); // Refresh the pending orders list
+            })
+            .catch(error => {
+                console.error('Error updating order status:', error);
+            });
+    };
+    
+
+    // const handleRequestClick = (orderId) => {
+    //     setSelectedOrderId(orderId);
+    //     setShowPayAlert(true);
+    //     navigate('/pendingorder');
+    // };
 
   const handleDeleteClick = (orderId) => {
     setDeleteOrderId(orderId);
@@ -75,7 +86,8 @@ export default function PendingOrders() {
     setSearchQuery(e.target.value);
   };
 
-
+  const deleteAlertClass = showDeleteAlert ? "fixed top-1/4 left-1/2 transform -translate-x-1/2 " : "hidden";
+  
   return (
     <div>
       <div className={`mx-5 mb-5 ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''} `}>
@@ -104,7 +116,7 @@ export default function PendingOrders() {
                     </div>
                 </form>
             </div>
-            <div className={`p-8  ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''}`}>
+            <div className={`p-8 ${showDeleteAlert ? 'blur' : ''}`}>
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kgray bg-opacity-30">
@@ -219,15 +231,15 @@ export default function PendingOrders() {
 
             {/* Delete alert */}
             {showDeleteAlert && (
-               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
+               <div className={`${deleteAlertClass} bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center`}>
                <div className="bg-white p-8 rounded-3xl text-center">
-                 <p className="text-3xl font-bold text-kwhite">Do you want to delete?</p>
-                 <div className="mt-4">
-                   <button className="inline-block bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mr-8 rounded" onClick={deletePendingItems}>Yes</button>
-                   <button className="inline-block bg-kred hover:bg-red-600 text-kwhite font-bold py-2 px-4 rounded" onClick={() => setShowDeleteAlert(false)}>No</button>
-                 </div>
+                   <p className="text-3xl font-bold text-kwhite">Do you want to delete?</p>
+                   <div className="mt-4">
+                       <button className="inline-block bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mr-8 rounded" onClick={deletePendingItems}>Yes</button>
+                       <button className="inline-block bg-kred hover:bg-red-600 text-kwhite font-bold py-2 px-4 rounded" onClick={() => setShowDeleteAlert(false)}>No</button>
+                   </div>
                </div>
-             </div>
+           </div>
              
             )}
     </div>
