@@ -1,3 +1,4 @@
+const SupplyRequest = require('../../models/StockManagement/supplyrequest.model');
 const Item = require('../../models/StockManagement/item.model');
 const { errorHandler } = require('../../utils/error');
 const nodemailer = require("nodemailer");
@@ -46,31 +47,6 @@ const create_item = async (req, res, next) => {
 }
 
 
-/*
-const update_item = async (req, res, next) => {
-    
-    console.log(req.body);
-    console.log(req.file); // Log req.file to check if the file was uploaded
-    if (!req.file) {
-        return res.status(400).send({ success: false, message: "No file uploaded" });
-    }
-    const {_id, ...rest} = req.body;
-    const {filename:image} = req.file;
-    console.log(rest);
-    try {
-        const data = await Item.updateOne({_id : _id},image, rest);
-        if(res.status(201)){
-            res.send({success:true, message: "Item updated successfully", data : data});
-        }
-    }catch(error){
-        next(error);
-    }
-    
-};
-*/
-
-
-
 //update item
 
 const update_item = async(req, res, next) => {
@@ -95,10 +71,21 @@ const del_item = async(req, res, next) => {
     console.log(id);
 
     try {
-        const data = await Item.deleteOne({_id : id});
-        if(res.status(201)){
+        const check = await SupplyRequest.findOne({
+            item: id,
+        });
+
+        if (check) {
+            return alert("Cannot delete item as it is in a supply request");
+        }else{
+            console.log("No supply request found");
+
+            const data = await Item.deleteOne({_id : id});
+            if(res.status(201)){
             res.send({success:true, message: "Item deleted successfully", data : data});
         }
+        }
+
     }catch(error){
         next(error);
     }
