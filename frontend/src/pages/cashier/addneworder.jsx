@@ -386,7 +386,7 @@ setSearchResults(results);
           </table>
 
       <center><a href="/cashier/checkout">
-        <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"Place Order"}</Button></a></center>
+        <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"CHECKOUT"}</Button></a></center>
       </div>
       
 

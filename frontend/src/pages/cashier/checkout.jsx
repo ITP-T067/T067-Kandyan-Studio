@@ -6,6 +6,10 @@ import { useReactToPrint } from "react-to-print";
 axios.defaults.baseURL = "http://localhost:8010";
 
 function Checkout() {
+
+
+const [editSection,seteditSection] = useState(false) 
+
  const calcTotal = (qty, price) => {
     return qty * price;
  };
@@ -78,6 +82,15 @@ function Checkout() {
      }));
   }
 };
+
+//delete all items
+      const handleDelete = async(id)=>{
+      const data = await axios.delete("mainorder/delete/"+id)
+        if(data.data.success){
+          getFetchData()
+        
+        }
+      }
 
 
 const handleSubmit = async (e) => {
@@ -273,7 +286,7 @@ const GoBack = () => {
                             type="submit" 
                             onClick={()=>setStatus("Completed")}>{"Full Payment"}</Button>
                     <Button className="bg-kblue text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kblue" 
-                            onClick={generatePDF}>{"PRINT INVOICE"}</Button>
+                            onClick={generatePDF}>{"VIEW INVOICE"}</Button>
                       </div>
                     </div> 
                  </div>
@@ -282,6 +295,8 @@ const GoBack = () => {
            </div>
          </div>
        </form>
+
+    
      </div>
 
         );
