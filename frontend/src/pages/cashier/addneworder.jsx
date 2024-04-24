@@ -4,6 +4,7 @@ import axios from "axios";
 import { HiOutlineArrowCircleLeft, } from "react-icons/hi";
 import Formtable from './neworders/Formtable';
 import { MdClose } from 'react-icons/md'
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 axios.defaults.baseURL = "http://localhost:8010"
 
@@ -375,9 +376,9 @@ setSearchResults(results);
                       <td>{el.quantity}</td>
                       <td>{el.unitPrice}</td>
                       <td>
-                        <button className='bg-kblue m-2 text-lg px-3 py-2 rounded-md' onClick={()=>handleEdit(el)}>E</button>
+                        <button className='bg-kblue m-2 text-lg px-3 py-2 rounded-md' onClick={()=>handleEdit(el)}><PencilIcon className="h-4 w-4 text-kwhite" /></button>
                       </td>
-                      <td><button className='bg-kred m-2 text-lg ring-1 px-3 py-2 rounded-md' onClick={()=>handleDelete(el._id)}>D</button></td>
+                      <td><button className='bg-kred m-2 text-lg ring-1 px-3 py-2 rounded-md' onClick={()=>handleDelete(el._id)}>  <TrashIcon className="h-4 w-4 text-kwhite" /></button></td>
                     </tr> 
                   )
                 })
