@@ -165,7 +165,7 @@ const GoBack = () => {
                 <div class="grid grid-cols-4 gap-6 mt-8 text-lg">
                   <h1 className="text-xl m-2">Customer Name :</h1>
                   <input type="text" 
-                         placeholder="Name" 
+                         placeholder="Name"  
                          id="cusname" 
                          name="cusname"
                          class="ring-1 col-span-3 py-3 rounded-md " 

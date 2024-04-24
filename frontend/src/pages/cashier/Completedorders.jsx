@@ -143,7 +143,7 @@ const Completedorders = () => {
                     <td>
                       <Button
                         className="p-3 bg-kblack text-kwhite text-lg"
-                        onClick={handleRequestButton(il._id)}
+                        
                       >
                         {"View"}
                       </Button>

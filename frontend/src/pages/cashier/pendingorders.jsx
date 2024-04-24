@@ -169,7 +169,7 @@ const paginate = (pageNumber) => {
                                         </td> */}
 
                                         <td>
-                                            <Button className="p-3 bg-kblack text-kwhite text-lg" onClick={handleRequestButton(il._id)}>
+                                            <Button className="p-3 bg-kblack text-kwhite text-lg" >
                                                 {"COMPLETE"}
                                             </Button>
                                         </td>
