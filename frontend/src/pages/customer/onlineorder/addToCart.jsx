@@ -91,14 +91,18 @@ export default function AddToCart() {
 
                 <div className="flex justify-center mx-auto md:mx-0">
                   
-                  <div className="flex items-center ml-[12.5rem]">
+                  {/* <div className="flex items-center ml-[12.5rem]">
                     <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg" style={{ width: '250px', height: '250px'}} />
+                  </div> */}
+
+                  <div className="flex items-center ml-[5rem] mt-8">
+                    <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg" style={{ width: '450px', height: '450px'}} />
                   </div>
                 </div>
               </div>
 
               <div>
-                <div className="py-8 ml-[8rem]">
+                <div className="py-8 ml-[rem]"> {/*8rem */}
                   <h2 className="text-5xl font-bold text-kwhite ml-10 mb-2 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
@@ -113,10 +117,10 @@ export default function AddToCart() {
                  <form onSubmit={handleAddToCartClick}>
                     <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
-                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
+                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)} accept='pdf,image/*'/>
                     </div>
                     <div>
-                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
+                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here quality imagge)</div>
                       <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  onChange={(e) => setfilename(e.target.files[0])} required />
                     </div>
                     <div>
@@ -127,12 +131,12 @@ export default function AddToCart() {
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
+          {/* <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2"/>
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
             <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
-          </div>
+          </div> */}
         </div>
       </div>
       {showAlert && (

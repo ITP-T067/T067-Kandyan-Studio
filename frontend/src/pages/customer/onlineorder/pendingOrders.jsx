@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react'
 import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { HiXMark } from "react-icons/hi2";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -24,7 +23,6 @@ export default function PendingOrders() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [filteredOrder, setFilteredOrder] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filename, setfilename] = useState(null);
   
 
     useEffect(() => {
@@ -52,11 +50,23 @@ export default function PendingOrders() {
         });
       };
 
-  const handlePayClick = (orderId) => {
-    setSelectedOrderId(orderId);
-    setShowPayAlert(true);
-    navigate('/pendingorder');
-  };
+      const handleRequestClick = (orderId) => {
+        axios.put(`order/on/update/pending/${orderId}`)
+            .then(response => {
+                console.log('Order status updated successfully:', response.data);
+                getPendingOrders(); // Refresh the pending orders list
+            })
+            .catch(error => {
+                console.error('Error updating order status:', error);
+            });
+    };
+    
+
+    // const handleRequestClick = (orderId) => {
+    //     setSelectedOrderId(orderId);
+    //     setShowPayAlert(true);
+    //     navigate('/pendingorder');
+    // };
 
   const handleDeleteClick = (orderId) => {
     setDeleteOrderId(orderId);
@@ -76,7 +86,8 @@ export default function PendingOrders() {
     setSearchQuery(e.target.value);
   };
 
-
+  const deleteAlertClass = showDeleteAlert ? "fixed top-1/4 left-1/2 transform -translate-x-1/2 " : "hidden";
+  
   return (
     <div>
       <div className={`mx-5 mb-5 ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''} `}>
@@ -99,21 +110,16 @@ export default function PendingOrders() {
 
             {/* search bar */}
             <div>
-                 <form className="absolute max-w-md mx-auto left-0 right-0">
+                 <form className=" max-w-md mx-auto left-0 right-0">
                     <div>
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </div>
-                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search" required />
+                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Filter Status" required />
                     </div>
                 </form>
             </div>
-            <div className={`p-16  ${showPayAlert ? 'blur' : ''} ${showDeleteAlert ? 'blur' : ''}`}>
+            <div className={`p-8 ${showDeleteAlert ? 'blur' : ''}`}>
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack bg-opacity-40">
+                        <tr className="bg-kgray bg-opacity-30">
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
@@ -127,7 +133,7 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {pendingOrders
+                        {filteredOrder
                             .filter(order => order.order_status === 'Pending' || order.order_status === 'Rejected')
                             .map((order, index) => (
                                 <tr
@@ -138,29 +144,30 @@ export default function PendingOrders() {
                                     } text-kwhite text-center p-4`}
                                 >
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal
+                                        <Typography variant="lead" className="font-normal
                                         ">
                                             {new Date(order.order_Date).toISOString().split('T')[0]}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.item_Names}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.total_Price}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
+                                        <Typography variant="lead" className="font-normal">
                                             {order.order_status}
                                         </Typography>
                                     </td>
                                     <td className="p-2">
                                         <div className="mx-auto text-kwhite">
-                                        <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[10rem]`} onClick={() => handlePayClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Upload pay Slip</button>
+                                        <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]`} onClick={() => handleRequestClick(order._id)} disabled={order.order_status === 'Pending'}>Request</button>
+                                        {/* <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kyellow opacity-50' : 'kyellow'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[10rem]`} onClick={() => handlePayClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Upload pay Slip</button> */}
                                         <button type="button" class={`bg-${order.order_status === 'Pending' ? 'kred opacity-50' : 'kred'} focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]`} onClick={() => handleDeleteClick(order._id)} disabled={order.order_status === 'Pending' || showPayAlert || showDeleteAlert}>Delete</button>
                                         </div>
                                     </td>
@@ -170,7 +177,7 @@ export default function PendingOrders() {
                 </table>
             </div>
             {/* uplaod slip alert */}
-            {showPayAlert && (
+            {/* {showPayAlert && (
                 <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
                     <div className="bg-white p-8 rounded-3xl">
                     {pendingOrders
@@ -220,19 +227,19 @@ export default function PendingOrders() {
                     ))}
                     </div>
                 </div>
-            )}
+            )} */}
 
             {/* Delete alert */}
             {showDeleteAlert && (
-               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
+               <div className={`${deleteAlertClass} bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center`}>
                <div className="bg-white p-8 rounded-3xl text-center">
-                 <p className="text-3xl font-bold text-kwhite">Do you want to delete?</p>
-                 <div className="mt-4">
-                   <button className="inline-block bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mr-8 rounded" onClick={deletePendingItems}>Yes</button>
-                   <button className="inline-block bg-kred hover:bg-red-600 text-kwhite font-bold py-2 px-4 rounded" onClick={() => setShowDeleteAlert(false)}>No</button>
-                 </div>
+                   <p className="text-3xl font-bold text-kwhite">Do you want to delete?</p>
+                   <div className="mt-4">
+                       <button className="inline-block bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-4 mr-8 rounded" onClick={deletePendingItems}>Yes</button>
+                       <button className="inline-block bg-kred hover:bg-red-600 text-kwhite font-bold py-2 px-4 rounded" onClick={() => setShowDeleteAlert(false)}>No</button>
+                   </div>
                </div>
-             </div>
+           </div>
              
             )}
     </div>
