@@ -1,1 +1,320 @@
-hi im kaveen, thank you.
+hi im kaveen, thank you.import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from "axios"
+import Formtable from './component/Formtable';
+import logo1 from './images/logo.png'
+import bg from './images/BG.png'
+import add from './images/Add_square.png'
+import sup from './images/Desk_fill.png'
+import pend from './images/Time.png'
+import comp from './images/Check_ring.png'
+
+axios.defaults.baseURL = "http://localhost:8010"
+
+function App() {
+
+  const [addSection,setAddSection] = useState(false)
+  const [editSection,seteditSection] = useState(false) 
+  const [formData,setFormData] = useState({
+    name : "",
+    email : "",
+    mobile : "",
+     
+  })
+
+  const [formDataEdit,setFormDataEdit] = useState({
+    name : "",
+    email : "",
+    mobile : "",
+    _id : ""
+  })
+
+  const [dataList,setDataList] = useState([])
+ 
+    const handleOnChange = (e)=>{
+        const {value,name} = e.target 
+        setFormData ((preve)=>{
+            return{
+              ...preve,
+              [name] : value
+            }
+        })
+      }
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
+    const data = await axios.post("/create",formData)
+    console.log(formData)
+      if(data.data.success){
+        setAddSection(false)
+        alert(data.data.message)
+        getFetchData()
+        setFormData({
+          name :"",
+          email : "",
+          mobile : ""
+        })
+        getFetchData()
+      }
+    } 
+
+  const getFetchData = async()=>{
+    const data = await axios.get("/")
+      if(data.data.success){     
+        setDataList(data.data.data)
+      }
+  }
+     
+  useEffect(()=>{
+    getFetchData()
+  },[])
+
+  const handleDelete = async(id)=>{
+    const data = await axios.delete("/delete/"+id)
+      if(data.data.success){
+        getFetchData()
+      
+      }
+    }
+
+  const handleUpdate = async(e)=>{ 
+    e.preventDefault()
+    const data = await axios.put("/update/",formDataEdit)
+    if(data.data.success){
+      getFetchData()
+      alert(data.data.message)
+      seteditSection(false)
+    }
+  } 
+ 
+  const handleEditOnChange = async(e)=>{
+    const {value,name} = e.target 
+    setFormDataEdit((preve)=>{
+        return{
+          ...preve,
+          [name] : value
+        }
+    })
+  }
+
+  const handleEdit = (el)=>{
+    setFormDataEdit(el)
+    seteditSection(true)
+  }
+
+  return (
+    <>
+       <nav className="navbar">
+            <div className='navbar-title navbar-text'>Cashier's Dashboard</div>
+            <a href="#">
+                <img src={logo1} width="30" height="30" alt="Logo" />
+            </a>
+            <div className="navbar-buttons">
+                <button className="actor-button navbar-text" id="actor">My Profile</button>
+                <button className="logout-button navbar-text" id="logout">Logout</button>
+            </div>
+        </nav>
+
+        <div className="CashierDashboardOrder" style={{width: 1487, height: 734, position: 'relative', background: 'white'}}>
+  <div className="Bg" style={{width: 1487, height: 762, left: 0, top: 0, position: 'absolute', mixBlendMode: 'darken'}}>
+    <img className="Screenshot20240211At2352" style={{width: 1487, height: 762, left: 0, top: 0, position: 'absolute'}} src={bg} />
+    <div className="Rectangle4313" style={{width: 1487, height: 762, left: 0, top: 0, position: 'absolute', background: 'rgba(255, 255, 255, 0.10)', backdropFilter: 'blur(100px)'}} />
+  </div>
+  <div className="Rectangle4295" style={{width: 557.83, height: 410.81, left: 23, top: 310.88, position: 'absolute', background: 'rgba(255, 255, 255, 0)', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14, border: '1px white solid'}} />
+  <div className="Rectangle4298" style={{width: 549.77, height: 128.87, left: 601.26, top: 310.88, position: 'absolute', background: '#A7FFA5', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+  <div className="Rectangle4299" style={{width: 549.77, height: 128.87, left: 601.26, top: 449.10, position: 'absolute', background: '#FF6C6C', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+  <div className="Rectangle4300" style={{width: 549.77, height: 128.87, left: 601.26, top: 587.31, position: 'absolute', background: 'black', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+  <div className="Rectangle4301" style={{width: 266, height: 290, left: 1190.62, top: 426.19, position: 'absolute', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14, border: '1px white solid'}} />
+  <div className="Rectangle4302" style={{width: 265.67, height: 313.63, left: 1190.62, top: 99.91, position: 'absolute', background: 'black', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14, border: '1px white solid'}} />
+  <div className="DeskFill" style={{width: 151, height: 153, left: 1252.62, top: 446.19, position: 'absolute'}}>
+    <div className="Line2" style={{width: 19.13, height: 50.33, left: 100.67, top: 19.12, position: 'absolute', transform: 'rotate(90deg)', transformOrigin: '0 0', borderRadius: 1, border: '2px white solid'}}></div>
+    <img className="Subtract" style={{width: 113.25, height: 108.38, left: 18.88, top: 25.50, position: 'absolute'}} src="https://via.placeholder.com/113x108" />
+  </div>
+
+  
+  <div className="CreatorSOrders" style={{width: 302.96, left: 48.75, top: 352.91, position: 'absolute', color: 'white', fontSize: 32, fontWeight: '700', wordWrap: 'break-word'}}>Creator’s orders</div>
+  <div className="SeeAll" style={{width: 78.67, height: 44.30, left: 454.08, top: 356.61, position: 'absolute', color: 'white', fontSize: 24, fontWeight: '400', textDecoration: 'underline', wordWrap: 'break-word'}}>See All</div>
+  <div className="Rectangle102" style={{width: 482.31, height: 47, left: 50.44, top: 420.91, position: 'absolute', background: '#4F4F4F'}} />
+  <div className="MrSapna" style={{width: 94.28, left: 75.78, top: 433.91, position: 'absolute', color: 'black', fontSize: 20, fontWeight: '700', wordWrap: 'break-word'}}>Mr.Sapna</div>
+  <div className="MrSapna" style={{width: 94.28, left: 75.78, top: 433.91, position: 'absolute', color: 'white', fontSize: 20, fontWeight: '700', wordWrap: 'break-word'}}>Mr.Sapna</div>
+  <div className="Rectangle119" style={{width: 91.82, height: 27, left: 431.31, top: 430.91, position: 'absolute', background: '#D9D9D9', borderRadius: 2}} />
+  <div className="View" style={{width: 44.89, left: 454.78, top: 430.91, position: 'absolute', color: 'black', fontSize: 20, fontWeight: '400', wordWrap: 'break-word'}}>view</div>
+  <div className="Rectangle105" style={{width: 482.31, height: 47, left: 51.17, top: 474.91, position: 'absolute', background: '#4F4F4F'}} />
+  <div className="MrPahasaraniya" style={{width: 165.24, left: 75.78, top: 486.91, position: 'absolute', color: 'white', fontSize: 20, fontWeight: '700', wordWrap: 'break-word'}}>Mr.Pahasaraniya</div>
+  <div className="Rectangle106" style={{width: 91.82, height: 27, left: 432.33, top: 484.91, position: 'absolute', background: '#D9D9D9', borderRadius: 2}} />
+  <div className="View" style={{width: 44.89, left: 455.80, top: 484.91, position: 'absolute', color: 'black', fontSize: 20, fontWeight: '400', wordWrap: 'break-word'}}>view</div>
+  <div className="Rectangle107" style={{width: 482.31, height: 47, left: 51.17, top: 528.91, position: 'absolute', background: '#4F4F4F'}} />
+  <div className="Rectangle108" style={{width: 91.82, height: 27, left: 432.33, top: 538.91, position: 'absolute', background: '#D9D9D9', borderRadius: 2}} />
+  <div className="View" style={{width: 44.89, left: 455.80, top: 538.91, position: 'absolute', color: 'black', fontSize: 20,  fontWeight: '400', wordWrap: 'break-word'}}>view</div>
+  <div className="Rectangle109" style={{width: 482.31, height: 47, left: 50.44, top: 582.91, position: 'absolute', background: '#4F4F4F'}} />
+  <div className="Rectangle110" style={{width: 91.82, height: 27, left: 431.31, top: 592.91, position: 'absolute', background: '#D9D9D9', borderRadius: 2}} />
+  <div className="View" style={{width: 44.89, left: 454.78, top: 592.91, position: 'absolute', color: 'black', fontSize: 20,  fontWeight: '400', wordWrap: 'break-word'}}>view</div>
+  
+  <div className="cards" style={{width: 264.57, height: 200, left: 886.46, top: 96, position: 'absolute'}}>
+    <div className="Whitecashier" style={{width: 264.57, height: 200, left: 0, top: 0, position: 'absolute', justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+      <div className="Rectangle4299" style={{width: 264.57, height: 200, justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+        <div className="Rectangle4298" style={{width: 264.57, height: 200, background: 'rgba(255, 255, 255, 0.70)', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+      </div>
+    </div>
+    <div className="DeskFill" style={{width: 96.40, height: 87, left: 27.69, top: 7, position: 'absolute'}}>
+      <img src={sup}></img> </div>
+    <div className="SupplierPayments" style={{width: 140.49, left: 39.74, top: 120, position: 'absolute', color: 'black', fontSize: 20, fontWeight: '600', wordWrap: 'break-word'}}><a className='' href="neworder.js"><center>CUSTOMER <br/>LIST</center></a></div>
+  </div>
+  
+
+  <div className="cards" style={{width: 395.84, height: 200, left: 508.90, top: 96, position: 'absolute'}}>
+    <div className="Whitecashier" style={{width: 264.57, height: 200, left: 90.42, top: 0, position: 'absolute', justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+      <div className="Rectangle4299" style={{width: 264.57, height: 200, justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+        <div className="Rectangle4298" style={{width: 264.57, height: 200, background: 'rgba(255, 255, 255, 0.70)', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+      </div>
+    </div>
+    <div className="CompletedOrders" style={{width: 395.84, left: 0, top: 122.44, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 20,  fontWeight: '600', wordWrap: 'break-word'}}>COMPLETED <br/>ORDERS</div>
+    <div className="CheckRing" style={{width: 95.37, height: 84, left: 121.18, top: 8, position: 'absolute'}}>
+      <img src ={comp}></img>
+        </div>
+  </div>
+
+  <div className="cards" style={{width: 291.24, height: 200, left: 289.59, top: 96, position: 'absolute'}}>
+    <div className="Whitecashier" style={{width: 263.55, height: 200, left: 23.62, top: 0, position: 'absolute', justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+      <div className="Rectangle4299" style={{width: 263.55, height: 200, justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+        <div className="Rectangle4298" style={{width: 263.55, height: 200, background: 'rgba(255, 255, 255, 0.70)', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+      </div>
+    </div>
+    <div className="PendingOrders" style={{width: 291.24, left: 0, top: 126.44, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 20,  fontWeight: '600', wordWrap: 'break-word'}}>PENDING ORDERS</div>
+    <div className="Time" style={{width: 91.27, height: 84, left: 47.21, top: 10, position: 'absolute'}}>
+      <img src={pend}/>
+       </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {/* yummmmmmmmmnmnmnmnmnmnmnmnmnnmnmnmnmnmnmnmnnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnmnnmnmnmnmnmnmnmnmnmnmn*/}
+
+
+
+
+
+
+    
+  <button className="cards"  onClick={()=>setAddSection(true)} style={{width: 263.55, height: 200, left: 23, top: 96, position: 'absolute'}}>
+    <div className="Whitecashier" style={{width: 263.55, height: 200, left: 0, top: 0, position: 'absolute', justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+      <div className="Rectangle4299" style={{width: 263.55, height: 200, justifyContent: 'center', alignItems: 'center', display: 'inline-flex'}}>
+        <div className="Rectangle4298" style={{width: 263.55, height: 200, background: 'rgba(255, 255, 255, 0.70)', boxShadow: '0px 4px 4.900000095367432px 2px rgba(0, 0, 0, 0.25)', borderRadius: 14}} />
+      </div>
+    </div>    <div className="NewOrder" style={{width: 154.85, left: 32.03, top: 127.44, position: 'absolute', color: 'black', fontSize: 20,  fontWeight: '600', wordWrap: 'break-word'}}>NEW ORDER</div>
+  <div className="AddSquare" style={{width: 66.66, height: 67, left: 27.69, top: 27, position: 'absolute'}}>
+    <img src={add}/></div>
+  </button>
+
+  <div className="MrsLasagna" style={{width: 122.66, left: 75.78, top: 538.91, position: 'absolute', color: 'white', fontSize: 20, fontWeight: '700', wordWrap: 'break-word'}}>Mrs.lasagna</div>
+  <div className="MrsChunpaan" style={{width: 143.95, left: 76.80, top: 589.91, position: 'absolute', color: 'white', fontSize: 20,  fontWeight: '700', wordWrap: 'break-word'}}>mrs.chunpaan</div>
+  <div className="Rectangle4296" style={{width: 482.31, height: 47, left: 48.75, top: 636.91, position: 'absolute', background: '#4F4F4F'}} />
+  <div className="Rectangle4297" style={{width: 91.82, height: 27, left: 429.62, top: 646.91, position: 'absolute', background: '#D9D9D9', borderRadius: 2}} />
+  <div className="View" style={{width: 44.89, left: 453.09, top: 646.91, position: 'absolute', color: 'black', fontSize: 20, fontWeight: '400', wordWrap: 'break-word'}}>view</div>
+  <div className="MrsChunpaan" style={{width: 143.95, left: 75.11, top: 643.91, position: 'absolute', color: 'white', fontSize: 20,  fontWeight: '700', wordWrap: 'break-word'}}>mrs.chunpaan</div>
+  <div className="Rectangle4288" style={{width: 698, height: 67.56, left: 55.03, top: 12.71, position: 'absolute', background: '#404040', borderTopLeftRadius: 30, borderTopRightRadius: 30, border: '1px black solid'}} />
+  <div className="Rectangle4289" style={{width: 698, height: 67.56, left: 757.03, top: 12.71, position: 'absolute', background: 'black', borderTopLeftRadius: 30, borderTopRightRadius: 30, border: '1px black solid'}} />
+  <div className="Order" style={{left: 334.03, top: 26.98, position: 'absolute', color: 'white', fontSize: 32, fontWeight: '600', wordWrap: 'break-word'}}>ORDER</div>
+  <div className="StockAvailability" style={{left: 925.60, top: 26.98, position: 'absolute', color: 'white', fontSize: 32, fontWeight: '600', wordWrap: 'break-word'}}>STOCK AVAILABILITY</div>
+  <div className="TotalIncome" style={{left: 623.41, top: 329.86, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 32,  fontWeight: '400', wordWrap: 'break-word'}}>TOTAL INCOME</div>
+  <div className="Lkr20500" style={{left: 627.53, top: 368.13, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 48,  fontWeight: '500', wordWrap: 'break-word'}}>LKR 20500</div>
+  <div className="Lkr8000" style={{left: 626.41, top: 503.79, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 48,  fontWeight: '500', wordWrap: 'break-word'}}>LKR 8000</div>
+  <div className="Lkr12000" style={{left: 627.53, top: 639.79, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 48, fontWeight: '500', wordWrap: 'break-word'}}>LKR 12000</div>
+  <div className="TotalExpenditures" style={{left: 626.41, top: 463.29, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 32,  fontWeight: '400', wordWrap: 'break-word'}}>TOTAL EXPENDITURES</div>
+  <div className="GeanarateReport" style={{width: 199, height: 68, left: 1223.62, top: 603.19, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 32,  fontWeight: '400', wordWrap: 'break-word'}}>GEANARATE <br/>REPORT</div>
+  <div className="NetProfit" style={{left: 628.53, top: 601.50, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 32, fontWeight: '400', wordWrap: 'break-word'}}>NET PROFIT</div>
+  <div className="StudioStatus" style={{left: 1282.73, top: 189.44, position: 'absolute', color: 'white', fontSize: 24, fontWeight: '400', wordWrap: 'break-word'}}>STUDIO <br/>STATUS</div>
+  <div className="Occupied" style={{left: 1241.95, top: 311.74, position: 'absolute', color: '#FF0000', fontSize: 32, fontWeight: '800', wordWrap: 'break-word'}}>OCCUPIED</div>
+</div>
+       
+       
+
+      <div className="container">
+    
+
+        {
+          addSection && (
+            <Formtable
+            handleSubmit={handleSubmit}
+            handleOnChange={handleOnChange}
+            handleClose={()=>setAddSection(false)}
+            rest={formData}
+            />
+          )
+        }
+        {
+          editSection && (
+            <Formtable
+            handleSubmit={handleUpdate}
+            handleOnChange={handleEditOnChange}
+            handleClose={()=>seteditSection(false)}
+            rest={formDataEdit}
+            />
+          )
+        }
+        
+        <div className='tablecontainer'>
+        <table>
+            
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                dataList.map((el)=>{
+                  return(
+                  <tr>
+                      <td>{el.name}</td>
+                      <td>{el.email}</td>
+                      <td>{el.mobile}</td>
+                      <td>
+                        <button className='btn btn-edit' onClick={()=>handleEdit(el)}>EDIT</button>
+                        <button className='btn btn-delete' onClick={()=>handleDelete(el._id)}>DELETE</button>
+                      </td>
+                    </tr> 
+                  )
+                })
+              }
+            </tbody>
+          </table>
+        </div> 
+      </div>
+   
+      
+      <div className='footer'>
+        <p class="legal-footer">
+    	Copyright © 2024 Kandyan Studio. All rights reserved.
+	</p>
+    </div>
+    
+
+
+
+
+
+
+
+    
+      
+    </>
+
+
+  );
+}
+
+export default App;

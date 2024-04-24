@@ -3,43 +3,171 @@ import { Card, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 import { HiOutlineArrowCircleLeft, } from "react-icons/hi";
 import Formtable from './neworders/Formtable';
-
+import { MdClose } from 'react-icons/md'
 
 axios.defaults.baseURL = "http://localhost:8010"
 
+
+
+
 function AddNewOrder(){
 
-
   const [itemsData, setItemsData] = useState([]);
+  const [addSection,setAddSection] = useState(false)
+  const [editSection,seteditSection] = useState(false) 
+  const [dataList,setDataList] = useState([])
 
+  const [addItem,setAddItem] = useState([]);
+  const [itemname,setItemname]=useState("");
+  const [quantity,setQuantity]=useState("");
+  const [unitPrice,setUnitprice]=useState("");
+  const [formData,setFormData] = useState({
+    name : "",
+    quantity :"",
+    unitPrice :"",
+     
+  })
+  const [formDataEdit,setFormDataEdit] = useState({
+    name : "",
+    quantity : "",
+    unitPrice : "",
+    _id : ""
+  })
 
+  //handleonchange
+  const handleOnChange = (e)=>{
+    const {value,name} = e.target 
+    setFormData ((preve)=>{
+        return{
+          ...preve,
+          [name] : value
+        }
+    })
+  }
+
+  //handlesubmit
+  const handleSubmit = async(e)=>{
+    e.preventDefault()
+    console.log("i came to the hand=lesubmit");
+    
+    if (!formData.name || !formData.quantity || !formData.unitPrice) {
+      alert('Please add quantity before submitting.');
+      return;
+   }
+  
+    try{
+    const data = await axios.post("/mainorder/create",formData)
+    console.log(formData)
+      if(data.data.success){
+        
+        alert(data.data.message)
+        getFetchData()
+        setFormData({
+          name :"",
+          quantity : "",
+          unitPrice : ""
+        })
+       
+        setAddSection(false)
+        getFetchData()
+      }
+    }catch(error){
+      console.log(error);
+    }
+    } 
+
+    //getfetch data
+    const getFetchData = async()=>{
+        const data = await axios.get("/mainorder/")
+          if(data.data.success){     
+            setDataList(data.data.data)
+          }
+      }
+
+      useEffect(()=>{
+        getFetchData()
+      },[])
+    
+      //handleDelete
+      const handleDelete = async(id)=>{
+        const data = await axios.delete("mainorder/delete/"+id)
+          if(data.data.success){
+            getFetchData()
+          
+          }
+        }
+
+        //handleUpdate
+        const handleUpdate = async(e)=>{ 
+            e.preventDefault()
+            const data = await axios.put("mainorder/update/",formDataEdit)
+            if(data.data.success){
+              getFetchData()
+              alert(data.data.message)
+              seteditSection(false)
+            }
+          } 
+         
+          //handleEditOnChange
+          const handleEditOnChange = async(e)=>{
+            const {value,name} = e.target 
+            setFormDataEdit((preve)=>{
+                return{
+                  ...preve,
+                  [name] : value
+                }
+            })
+          }
+
+          //handleEdit
+          const handleEdit = (el)=>{
+            setFormDataEdit(el)
+            seteditSection(true)
+          }
+
+          //handleaddsection
+          const handleaddsection = (item)=>{ 
+            setFormData({
+              name: item.name,
+              quantity: "", // Clear quantity field when adding a new item
+              unitPrice: item.sellingPrice
+            });
+            setAddSection(true);
+          }
+
+  // Go back to previous page
   const GoBack = () => {
     window.location.href = "/cashier/ordermain";
   };
 
+    // Handle button click
   const handleButton = (type) => {
-  return () => {   
-      switch (type) {
-          case "studio":
-              window.location.href = "/cashier/addnewstudio";
-              break;
-          default:
-              break;
-      }
-  };
-  };
+    return () => {   
+        switch (type) {
+            case "studio":
+                window.location.href = "/cashier/addnewstudio";
+                break;
+            default:
+                break;
+        }
+    };
+    };
+    
 
+  // Fetch items from backend
   useEffect(() => {
     getItems();
    }, []);
    
+   // Fetch items from backend
   const getItems = () => {
     axios.get('/item/')
        .then(response => {
          const items = response.data.data;
          const itemsData = items.map(item => ({
            ...item,
-           quantity: 0
+           quantity:0,
+           unitPrice:0
            , // Initialize quantity for each item
          }));
          setItemsData(itemsData);
@@ -48,104 +176,20 @@ function AddNewOrder(){
          console.error('Error fetching items:', error);
        });
   };
+
+//search
+const [searchTerm, setSearchTerm] = useState("");
+const [searchResults, setSearchResults] = useState([]);
+
+useEffect(() => {
+    const results = itemsData.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+setSearchResults(results);
+},[searchTerm, itemsData]);
+
    
-
-
-
-const [formData,setFormData] = useState({
-  name : "",
-  quantity : "",
-  unitPrice : "",
-   
-})
-
-const handleOnChange = (e)=>{
-  const {value,name} = e.target 
-  setFormData ((preve)=>{
-      return{
-        ...preve,
-        [name] : value
-      }
-  })
-}
-
-const [addSection,setAddSection] = useState(false)
-const [editSection,seteditSection] = useState(false) 
-const [itemname,setItemname] = useState(false)
-
-
-const handleSubmit = async(e)=>{
-  e.preventDefault()
-
-      const data = await axios.post("/mainorder/create/", formData);
-     
-        if(data.data.success){
-          setAddSection(false)
-          alert(data.data.message)
-          getFetchData()
-          setFormData({
-            name :"",
-            quantity :"",
-            unitPrice : ""
-          })
-          getFetchData()
-        }
-} 
-
-
-const [formDataEdit,setFormDataEdit] = useState({
-  name : "",
-  quantity : "",
-  unitPrice : "",
-  _id : ""
-})
-
-const [dataList,setDataList] = useState([])
-
-
-const getFetchData = async()=>{
-  const data = await axios.get("/mainorder/")
-    if(data.data.success){     
-      setDataList(data.data.data)
-    }
-}
-   
-useEffect(()=>{
-  getFetchData()
-},[])
-
-const handleDelete = async(id)=>{
-  const data = await axios.delete("/mainorder/delete/"+id)
-    if(data.data.success){
-      getFetchData()
     
-    }
-  }
-
-const handleUpdate = async(e)=>{ 
-  e.preventDefault()
-  const data = await axios.put("/mainorder/update/",formDataEdit)
-  if(data.data.success){
-    getFetchData()
-    alert(data.data.message)
-    seteditSection(false)
-  }
-} 
-
-const handleEditOnChange = async(e)=>{
-  const {value,name} = e.target 
-  setFormDataEdit((preve)=>{
-      return{
-        ...preve,
-        [name] : value
-      }
-  })
-}
-
-const handleEdit = (el)=>{
-  setFormDataEdit(el)
-  seteditSection(true)
-}
 
 
     return (
@@ -162,6 +206,15 @@ const handleEdit = (el)=>{
                                 <HiOutlineArrowCircleLeft className="w-5 h-5" />
                                 <span className="text-sm">Order</span>
                             </Button>
+                        </div>
+                        <div className=" px-10">
+                            <input
+                                type="search"
+                                placeholder="Search"
+                                className="bg-kwhite text-kblack rounded-full p-2 text-lg "
+                                value = {searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </div>
                         
                         <div className='flex flex-row'>
@@ -184,7 +237,7 @@ const handleEdit = (el)=>{
       {/* sub navbar*/}
       <div className="flex flex-row ">
 
-        <div className="m-1 rounded-lg bg-kwhite bg-opacity-10 px-full px-5 py-5 w-3/4">
+        <div className="m-1 rounded-lg bg-kwhite bg-opacity-10 text-lg font-bold px-full px-5 py-5 w-3/4">
 
           <div className="maincards m-1 flex flex-wrap justify-center gap-5">
 
@@ -202,29 +255,96 @@ const handleEdit = (el)=>{
           <br/>
           
          <hr className='text-kwhite opacity-30'/><br/>        
-
-        <div class="flex flex-wrap justify-center gap-5 mt-5">
+       <div class="grid grid-cols-4 justify-center gap-5">
           
        
-
+ {/* items read*/}
         {itemsData.map(item => (
 
-        <div key={item._id} className="card w-64 h-96 relative cursor-pointer backdrop-blur-md">
+        <div key={item._id} className="card w-64 h-96 relative cursor-pointer backdrop-blur-md mt-10">
           
-            <form onSubmit={handleSubmit}>
+        
               <div className="w-64 h-auto bg-kwhite opacity-100 rounded-xl">
                 <center>
-                <div className="text-white text-center text-2xl font-bold top-64 left-0 right-0" value={item.name} id="name" name="name"
-                 onChange={(handleOnChange)}>{item.name}</div>
-                  <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} 
-                  style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
-                  <div className="">Quantity {}</div>
-                  <Button className="bg-kgreen text-kwhite opacity-100 text-lg px-20 py-3 hover:bg-kblack rounded-xl m-1 
-                  transition-transform duration-300 ease-in-out hover:scale-105" type="submit" onClick={() => setAddSection(true)} >{"Add"}</Button>
+                <div className="text-white text-center text-2xl font-bold top-64 left-0 right-0">{item.name}</div>
+                <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} 
+                style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
+                <div id="unitPrice"
+                     name="unitPrice" 
+                     className="text=lg ">Rs.{item.sellingPrice}</div>
+
+                 <Button className="bg-kgreen text-kwhite opacity-100 text-lg px-20 py-3 hover:bg-kblack rounded-xl m-1 transition-transform duration-300 ease-in-out hover:scale-105" 
+                         type="submit" 
+                         onClick={() => handleaddsection(item)} >{"Add Item"}</Button>
+
                 </center>
               </div>
-            </form>
-        </div>
+     
+        {
+          addSection && (
+            <div className=" fixed top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center ring-8 ring-kgray rounded-lg shadow-2xl ">
+          
+            <form onSubmit={handleSubmit}>
+            
+            <div className='m-10'>
+             <div className="close-btn" onClick={()=>setAddSection(false)}><MdClose/></div>
+             <br/>
+               <label htmlFor="name">Item Name :</label>
+               <input className='py-2 bg-kgray bg-opacity-5' type="text" id="name" name="name" onChange={(e)=>setItemname(e.target.value)} value={formData.name} readOnly/>
+   
+               <label htmlFor="number">Quantity :</label>
+               <input className='py-2 bg-kgray bg-opacity-5' type="number" id="quantity" name="quantity" onChange={handleOnChange} />
+   
+               <label htmlFor="mobile">Unit Price :</label>
+               <input className='py-2 bg-kgray bg-opacity-5't type="number" id="unitPrice" name="unitPrice" onChange={handleOnChange} value={formData.unitPrice} readOnly/>
+   
+               <Button className='m-2 bg-kgreen text-lg text-kwhite' type="submit">Submit</Button>
+
+               </div>
+             </form>
+            </div>
+          )
+        }
+        {
+          editSection && (
+            <div className=" fixed top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center backdrop-blur-lg">
+          
+            <form onSubmit={handleUpdate}>
+            
+            <div className='m-10'>
+             
+            <div className="close-btn" onClick={()=>seteditSection(false)}><MdClose/></div>
+             <br/>
+               <label htmlFor="name">Item Name :</label>
+               <input className='py-2 bg-kgray bg-opacity-5' 
+                      type="text" 
+                      id="name" 
+                      name="name" 
+                      onChange={handleEditOnChange} value={formDataEdit.name}/>
+   
+               <label htmlFor="number">Quantity :</label>
+               <input className='py-2 bg-kgray bg-opacity-5' 
+                      type="number" 
+                      id="quantity" 
+                      name="quantity" 
+                      onChange={handleEditOnChange} value={formDataEdit.quantity}/>
+   
+               <label htmlFor="mobile">Unit Price :</label>
+               <input className='py-2 bg-kgray bg-opacity-5't 
+                      type="number" 
+                      id="unitPrice" 
+                      name="unitPrice" 
+                      onChange={handleEditOnChange} 
+                      value={formDataEdit.unitPrice}/>
+   
+               <Button className='m-2 bg-kgreen text-lg' type="submit">Submit</Button>
+               </div>
+             </form>
+             </div>
+          )
+        }
+
+      </div>
         ))}
 
         </div>
@@ -271,36 +391,9 @@ const handleEdit = (el)=>{
       
 
       </div>
-      <div className="container ">
-    
+      
 
-        {
-          addSection && (
-            <Formtable
-            handleSubmit={handleSubmit}
-            handleOnChange={handleOnChange}
-            handleClose={()=>setAddSection(false)}
-            rest={itemsData}
-            nameitem={itemsData.name}
-            
-            />
-          )
-        }
-         {
-          editSection && (
-            <Formtable
-            handleSubmit={handleUpdate}
-            handleOnChange={handleEditOnChange}
-            handleClose={()=>seteditSection(false)}
-            rest={formDataEdit}
-            />
-          )
-        }
-        
-        
-        </div>
-
-      </div>
+    </div>
       
     );
   }

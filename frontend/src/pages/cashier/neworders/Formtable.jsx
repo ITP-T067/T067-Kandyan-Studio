@@ -9,6 +9,8 @@ axios.defaults.baseURL = "http://localhost:8010/";
 
 const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
 
+  const [quantity,setQuantity]=useState("");
+
     return(
 <div>
          <div className=" fixed top-20 bottom-20 left-80 right-80 bg-kwhite m-52 text-xl text-center backdrop-blur-lg">
@@ -22,10 +24,10 @@ const Formtable = ({handleSubmit,handleOnChange,handleClose,rest}) =>{
               <input className='py-2 bg-kgray bg-opacity-5' type="text" id="name" name="name" onChange={handleOnChange} value={rest.name}/>
   
               <label htmlFor="number">Quantity :</label>
-              <input className='py-2 bg-kgray bg-opacity-5' type="number" id="quantity" name="quantity" onChange={handleOnChange} value={rest.quantity}/>
+              <input className='py-2 bg-kgray bg-opacity-5' type="number" id="quantity" name="quantity" onChange={(e) => setQuantity(e.target.value)} value={quantity}/>
   
               <label htmlFor="mobile">Unit Price :</label>
-              <input className='py-2 bg-kgray bg-opacity-5't type="number" id="unitPrice" name="unitPrice" onChange={handleOnChange} value={rest.unitPrice}/>
+              <input className='py-2 bg-kgray bg-opacity-5't type="number" id="unitPrice" name="unitPrice" onChange={handleOnChange} value={rest.sellingPrice}/>
   
               <Button className='m-2 bg-kgreen text-lg' type="submit">Submit</Button>
               </div>

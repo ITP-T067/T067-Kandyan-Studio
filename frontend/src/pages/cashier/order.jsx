@@ -30,33 +30,12 @@ function Ordermain(){
         return new Date(dateString).toLocaleDateString(undefined, options);
       };
 
-  const [currentStatus, setCurrentStatus] = useState();
-  const [itemsData, setItemsData] = useState([]);
- 
-
-//getstatus
-  // const getStatus = async(value) => {
   
-  //       const response = await axios.get("/studio/")
-  //       .then(response => {
-  //         const status = response.data.data;
-  //         const itemsData = status.map(item => ({
-  //           ...item,
-    
-  //         }));
-  //         setItemsData(status);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching items:', error);
-  //       });
-  // }
-
-
 
   return (
     <div className='order'>
 
-    <div class="flex flex-row justify-center">
+    <div class="flex flex-row justify-center font-bold text-lg">
 
     <a href='/cashier/addneworder'>
     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105" >
@@ -95,17 +74,18 @@ function Ordermain(){
 
 <div class="m-1 px-10 py-12 flex flex-row  ">
 
-     <Card className=" m-1 h-full w-full  rounded-lg bg-kblack bg-opacity-10 text-kwhite">
-      <h3 className=" text-lg text-center font-extrabold">Creator Orders</h3>
-      <div className='mt-5 mx-auto w-11/12 overflow-scroll'>
+     <Card className=" m-1 h-full w-full  rounded-lg bg-kwhite bg-opacity-10 text-kwhite ">
+      <h3 className=" text-lg text-center font-extrabold m-1">Creator Orders</h3>
+      <div className='mt-0 mx-auto'>
+      <div class="overflow-y-auto h-[20rem] ...">
             <table className="w-full border-collapse text-kwhite ">
             <thead  className="bg-kblack text-kwhite h-[60px]">
                 <tr>
-                <th className="px-4 py-2">Name</th>
-                <th className="px-4 py-2">Order Name</th>
                 <th className="px-4 py-2">Customer Name</th>
+                <th className="px-4 py-2">Order Name</th>
                 <th className="px-4 py-2">Added Date</th>
                 <th className="px-4 py-2">Completed Date</th>
+                <th></th>
                 </tr>
             </thead>
             <tbody className="bg-kgray bg-opacity-60 h-[80px]">
@@ -115,15 +95,13 @@ function Ordermain(){
                         
                         return (
                             <tr key={el._id}>
-                                <td className="px-4 py-2 text-center">{el.Project_Name}</td>
-                                <td className="px-4 py-2 text-center">
-                                                {el.Order_ID ? el.Order_ID.Item_Name : 'N/A'}</td>
-                                <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Cus_ID.Cus_Name : 'N/A'}</td>
-                                <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
+                               <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Cus_ID.Cus_Name : 'N/A'}</td>
+                                <td className="px-4 py-2 text-center">{el.Order_ID ? el.Order_ID.Item_Name : 'N/A'}</td>
+                                 <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
                                 <td className="px-4 py-2 text-center">{formatDate(el.Completed_Date)}</td>
-                                <td className="px-4 py-2 text-center"><Button className="bg-kblue transition-transform hover:scale-110">{"View"}</Button></td>
-                        
-                            </tr>
+                                <td className="px-4 py-2 text-center"><Button className="bg-kblue transition-transform hover:scale-110 ring-1">{"View"}</Button></td>
+
+                            </tr> 
                         )
                         }
                     })
@@ -134,43 +112,30 @@ function Ordermain(){
                 )}
             </tbody>
             </table>
+            </div>
         </div>
      </Card>
-     <Card className="h-full w-full "> 
-     <div className="both flex flex-col">
-     <div className="info flex justify-center ">
-     <div class="m-1 rounded-lg bg-kgreen text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full ">
-      <h3>Total Income</h3><br/><br/>
+     <Card className="h-full w-full font-bold"> 
+     <div className="">
+     
+     <div class="grid grid-cols-3 m-1 rounded-lg bg-kgreen text-kwhite text-3xl px-8 py-10 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+      <h3 className=" col-span-2">Total Income</h3>
       <h3>LRK 40000</h3>
       </div>
-      <div class="m-1 rounded-lg bg-kred text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
-      <h3>Total Expenditures</h3>
-      <br/><br/>
-      <h3>LRK 20000</h3>
-      </div>
-      <div class="m-1 rounded-lg bg-kblack text-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
-      <h3>Net Profit</h3>
-      <br/><br/>
-      <h3>LRK 20000</h3>
-      </div>
-      </div>
+      <div class="grid grid-cols-3 m-1 m-1 rounded-lg bg-kred text-kwhite text-3xl  px-8 py-10 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+      <h3 className=" col-span-2">Total Expenditures</h3>
       
+      <h3>LRK 20000</h3>
+      </div>
+      <div class=" grid grid-cols-3 m-1 rounded-lg bg-kblack text-kwhite text-3xl  px-8 py-10 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
+      <h3 className=" col-span-2">Net Profit</h3>
+    
+      <h3>LRK 20000</h3>
+      </div>
+     
       <div className="info ">
 
-       <a href='#'>
 
-     
-     <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105 ">
-
-      <h3><center>Genarate Monthly Report</center></h3>
-      </div>
-      </a> 
-
-      <a href='#'>
-      <div class="m-1 rounded-lg bg-kwhite px-8 py-8 shadow-xl ring-1 ring-slate-900/5 w-full h-auto transition-transform duration-300 ease-in-out hover:scale-105">
-      <h3><center>Genarate Daily Report</center></h3>
-      </div>
-      </a>
       
       </div>
       </div>

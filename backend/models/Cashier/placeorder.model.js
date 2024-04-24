@@ -43,6 +43,11 @@ const PlaceorderSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+
+    ordertype: {
+        type: String,
+        required: true,
+    },
   
 });
 

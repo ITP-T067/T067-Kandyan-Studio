@@ -17,6 +17,7 @@ const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.rout
 
 //Cashier 
 const mainorder = require("./routes/Cashier/mainorder.route.js");
+const placeorder = require("./routes/Cashier/placeorder.route.js");
 
 const app = express()
 app.use(cors())
@@ -48,6 +49,7 @@ app.use('/studio', studioStatusRouter);
 
 //cashier
 app.use('/mainorder', mainorder);
+app.use('/placeorder', placeorder);
 
 
 app.use((err, req, res, next) => {

@@ -1,4 +1,4 @@
-const Mainorder = require("../../models/Cashier/mainorder.model.js");
+const Placeorder = require("../../models/Cashier/placeorder.model.js");
 const {errorHandler} = require("../../utils/error.js");
 
 //create mainorder

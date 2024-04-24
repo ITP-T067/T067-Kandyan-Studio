@@ -24,8 +24,7 @@ axios.defaults.baseURL = "http://localhost:8010/";
 
 
 const Pendingorders = () => {
-
-    const [dataList, setDataList] = useState([]);
+const [dataList, setDataList] = useState([]);
 const [currentPage, setCurrentPage] = useState(1);
 const [itemsPerPage] = useState(5);
 
@@ -36,7 +35,7 @@ useEffect(() => {
 
 const getFetchData = async () => {
     try {
-        const response = await axios.get("/item/");
+        const response = await axios.get("/placeorder/");
         console.log(response);
         if (response.data.success) {
             setDataList(response.data.data);
@@ -60,10 +59,23 @@ const [searchResults, setSearchResults] = useState([]);
 
 useEffect(() => {
     const results = dataList.filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
-setSearchResults(results);
-},[searchTerm, dataList]);
+        item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+}, [searchTerm, dataList]);
+
+
+const [pendingOrders, setPendingOrders] = useState([]);
+
+useEffect(() => {
+    setPendingOrders([]); // Clear pendingOrders state before populating it again
+    dataList.forEach((item) => { // Use forEach instead of map since you're not returning anything
+        if (item.ordertype === "Pending") {
+            setPendingOrders((prev) => [...prev, item]);
+        }
+    });
+}, [dataList]);
+
 
 
 
@@ -124,34 +136,37 @@ const paginate = (pageNumber) => {
                 <table className="w-full rounded-lg overflow-hidden text-sm">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center text-lg">
-                            <th className="w-1/4 py-5">Bill No</th>
-                            <th className="w-1/4">Customer</th>
-                            <th className="w-1/4 px-10">Date</th>
-                            <th className="w-1/4 px-10">Action</th>
-                            
-                          
+                            <th>Customer</th>
+                            <th>Telephone</th>
+                            <th>Email</th>
+                            <th>Net Total</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.length > 0 ? (
-                            currentItems.map((il, index) => {
+                        {pendingOrders.length > 0 ? (
+                            pendingOrders.map((il, index) => {
                     
                                
                                 return (
                                     <>
                                     <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4 text-lg">
 
-                                        <td className="p-4"> {il.name}</td>
+                                        <td className="p-4"> {il.cusname}</td>
 
-                                        <td className="p-4"> {il.name}</td>
+                                        <td className="p-4"> {il.telephone}</td>
+
+                                        <td className="p-4"> {il.email}</td>
+
+                                        <td className="p-4"> {il.nettotal}</td>
                                         
-                                        <td className="p-4">
+                                        {/* <td className="p-4">
                                             <div className="flex flex-grow justify-center mx-auto">
                                                 <div className="p-3 text-kwhite text-lg" >
-                                                   {il.quantity}
+                                                   {il.email}
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> */}
 
                                         <td>
                                             <Button className="p-3 bg-kblack text-kwhite text-lg" onClick={handleRequestButton(il._id)}>
