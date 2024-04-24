@@ -64,6 +64,18 @@ const StudioDash = () => {
                                     <td className="px-4 py-2 text-center">2</td>
                                     <td className="px-4 py-2 text-center">None</td>
                                     </tr>
+                                    <tr>
+                                    <td className="px-4 py-2 text-center">Jennie</td>
+                                    <td className="px-4 py-2 text-center">ID</td>
+                                    <td className="px-4 py-2 text-center">3</td>
+                                    <td className="px-4 py-2 text-center">None</td>
+                                    </tr>
+                                    <tr>
+                                    <td className="px-4 py-2 text-center">Harry</td>
+                                    <td className="px-4 py-2 text-center">Passport</td>
+                                    <td className="px-4 py-2 text-center">4</td>
+                                    <td className="px-4 py-2 text-center">None</td>
+                                    </tr>
                                 {/* )
                                 }
                             }))
@@ -76,7 +88,7 @@ const StudioDash = () => {
                     </div>
                 </div>
 
-                <div className="w-11/12 mx-auto bg-kgray h-28 rounded-lg flex flex-row items-center justify-evenly bg-opacity-50 border-2 border-kwhite mt-60">
+                <div className="w-11/12 mx-auto bg-kgray h-28 rounded-lg flex flex-row items-center justify-evenly bg-opacity-50 border-2 border-kwhite mt-52">
                     <div className="h-20 flex flex-col justify-center items-center text-center">
                         <h3 className="text-kwhite text-4xl font-bold">Status</h3>
                     </div>

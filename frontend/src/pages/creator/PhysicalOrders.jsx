@@ -37,7 +37,13 @@ export default function PhysicalOrders() {
       }
     })
   }
-  
+
+  //validate customer name
+  const validateCustomerName = (name) => {
+    const re = /^[a-zA-Z\s]+$/; // Regular expression to match alphabets and spaces
+    return re.test(name);
+  };
+
   //validate phone number
   const validatePhoneNumber = (phone) => {
     const re = /^[0-9]{10}$/; 
@@ -52,6 +58,12 @@ export default function PhysicalOrders() {
     
     if (!artworkPriceRegex.test(formData.Artwork_Price)) {
       alert("Please enter a valid Artwork Price (numeric value with up to 2 decimal places).");
+      return;
+    }
+
+    // Validate customer name
+    if (!validateCustomerName(formData.Cus_Name)) {
+      alert("Please enter a valid customer name (only alphabets and spaces allowed).");
       return;
     }
 
