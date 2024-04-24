@@ -92,7 +92,15 @@ const Items = () => {
             const data = await axios.delete("/item/delete/" + id);
             if (data.data.success) {
                 getFetchData();
-                alert(data.data.message);
+                //alert(data.data.message);
+                setIsAlert(true);
+                setAlertStatus('success');
+                setMessage("Item Deleted Successfully!");
+            }
+            else{
+                setIsAlert(true);
+                setAlertStatus("error");
+                setMessage("Failed to Delete Item!");
             }
         }
     };
