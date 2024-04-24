@@ -73,10 +73,12 @@ const del_item = async(req, res, next) => {
     try {
         const check = await SupplyRequest.findOne({
             item: id,
+            status: "Paid" || "Approved",
         });
 
         if (check) {
-            return alert("Cannot delete item as it is in a supply request");
+            return res.status(400).json({ success: false, message: "Cannot delete item. Supply request found" });
+            
         }else{
             console.log("No supply request found");
 
