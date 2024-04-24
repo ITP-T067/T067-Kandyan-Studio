@@ -117,10 +117,10 @@ export default function AddToCart() {
                  <form onSubmit={handleAddToCartClick}>
                     <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
-                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
+                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)} accept='pdf,image/*'/>
                     </div>
                     <div>
-                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
+                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here quality imagge)</div>
                       <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  onChange={(e) => setfilename(e.target.files[0])} required />
                     </div>
                     <div>
