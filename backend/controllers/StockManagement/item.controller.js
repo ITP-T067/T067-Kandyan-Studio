@@ -1,4 +1,3 @@
-const SupplyRequest = require('../../models/StockManagement/supplyrequest.model');
 const Item = require('../../models/StockManagement/item.model');
 const { errorHandler } = require('../../utils/error');
 const nodemailer = require("nodemailer");
@@ -46,7 +45,6 @@ const create_item = async (req, res, next) => {
     }
 }
 
-
 //update item
 
 const update_item = async(req, res, next) => {
@@ -71,23 +69,10 @@ const del_item = async(req, res, next) => {
     console.log(id);
 
     try {
-        const check = await SupplyRequest.findOne({
-            item: id,
-            status: "Paid" || "Approved",
-        });
-
-        if (check) {
-            return res.status(400).json({ success: false, message: "Cannot delete item. Supply request found" });
-            
-        }else{
-            console.log("No supply request found");
-
-            const data = await Item.deleteOne({_id : id});
-            if(res.status(201)){
+        const data = await Item.deleteOne({_id : id});
+        if(res.status(201)){
             res.send({success:true, message: "Item deleted successfully", data : data});
         }
-        }
-
     }catch(error){
         next(error);
     }
