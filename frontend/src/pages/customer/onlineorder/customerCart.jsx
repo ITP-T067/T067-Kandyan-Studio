@@ -238,7 +238,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" />
+              <img className="mx-auto w-8 h-8 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)}  alt="file" />
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -266,8 +266,8 @@ export default function CustomerCart() {
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">
-              <div className="absolute font-normal font-normal">Total</div>
-              <div className="text-right left-[300px] font-normal font-normal">LKR {total}.00</div>
+              <div className="absolute font-normal ">Total</div>
+              <div className="text-right left-[300px] font-normal l">LKR {total}.00</div>
             </div>
           </div>
           <div>
