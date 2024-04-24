@@ -20,10 +20,10 @@ export default function PhysicalOrders() {
   
   //the order types
   const orderTypes = {
-    sublimation: ["Mug", "Magic Mug", "Medals", "Rock", "Tile", "Souvenir"],
-    photoPrints: ["4R", "10R", "2R", "10RW", "6R", "6RW"],
-    laminates: ["4R", "10R", "10RW", "6R", "6RW"],
-    frames: ["Black", "Brown", "White"],
+    Sublimation: ["Mug", "Magic Mug", "Medals", "Rock", "Tile", "Souvenir"],
+   "Photo Prints": ["4R", "10R", "2R", "10RW", "6R", "6RW"],
+    Laminates: ["4R", "10R", "10RW", "6R", "6RW"],
+    Frames: ["Black", "Brown", "White"],
   };
 
   //onChange function
@@ -91,7 +91,7 @@ export default function PhysicalOrders() {
         }); 
       }
     } catch (error) {
-      console.error("Error creating order:", error);
+      console.error("Error creating order:"+ error);
     }
   }    
 
@@ -116,16 +116,16 @@ export default function PhysicalOrders() {
           
           <div className="flex flex-row justify-evenly mb-5">
             <div className="flex flex-col">
-              <label htmlFor="Cus_Name" className="text-kwhite font-bold">Customer Name </label>
+              <label htmlFor="Cus_Name" className="text-kwhite font-bold" >Customer Name </label>
               <div className="border-2 border-kwhite rounded-lg">            
-                <input type="text" id="Cus_Name" name="Cus_Name" onChange={handleOnchange} value={formData.Cus_Name} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <input type="text" id="Cus_Name" name="Cus_Name" onChange={handleOnchange} value={formData.Cus_Name} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
               </div>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="Phone_Number" className="text-kwhite font-bold mr-4 mb-0">Phone Number </label>
+              <label htmlFor="Phone_Number" className="text-kwhite font-bold mr-4 mb-0" >Phone Number </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Phone_Number" name="Phone_Number" onChange={handleOnchange} value={formData.Phone_Number}  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <input type="text" id="Phone_Number" name="Phone_Number" onChange={handleOnchange} value={formData.Phone_Number}  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
               </div>
             </div>
           </div>
@@ -143,10 +143,10 @@ export default function PhysicalOrders() {
                   value={formData.Order_Type}
                   className="w-[480px] h-[49px] rounded-[10px] text-base p-3 bg-kgray text-kwhite"
                 >
-                  <option value="sublimation" className=' bg-kgray bg-opacity-35'>Sublimation</option>
-                  <option value="photoPrints">Photo Prints</option>
-                  <option value="laminates">Laminates</option>
-                  <option value="frames">Frames</option>
+                  <option value="Sublimation" className=' bg-kgray bg-opacity-35'>Sublimation</option>
+                  <option value="Photo Prints">Photo Prints</option>
+                  <option value="Laminates">Laminates</option>
+                  <option value="Frames">Frames</option>
                 </select>
               </div>
             </div>
@@ -181,14 +181,14 @@ export default function PhysicalOrders() {
             <div className="flex flex-col">
               <label htmlFor="Artwork_Price" className="text-kwhite font-bold mr-4">Artwork Price </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Artwork_Price" name="Artwork_Price" onChange={handleOnchange} value={formData.Artwork_Price} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <input type="text" id="Artwork_Price" name="Artwork_Price" onChange={handleOnchange} value={formData.Artwork_Price} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
               </div>
             </div>
 
             <div className="flex flex-col">
               <label htmlFor="Quantity" className="text-kwhite font-bold mr-4">Number of edits </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Quantity" name="Quantity" onChange={handleOnchange} value={formData.Quantity} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <input type="text" id="Quantity" name="Quantity" onChange={handleOnchange} value={formData.Quantity} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
               </div>
             </div>
 
