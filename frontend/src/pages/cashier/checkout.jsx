@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Button } from "@material-tailwind/react";
+import { Button, alert } from "@material-tailwind/react";
 import { useReactToPrint } from "react-to-print";
 
 axios.defaults.baseURL = "http://localhost:8010";
@@ -147,7 +147,11 @@ const GoBack = () => {
   window.location.href = "/cashier/addneworder";
 };
 
-  
+const handlecancelorder = () => {
+  window.location.href = "/cashier/ordermain";
+};
+
+  {/**return function Start */}
     return (
 
 
@@ -159,7 +163,8 @@ const GoBack = () => {
             <div class="text-center max-lg:hidden">
               <h2 class="text-3xl font-extrabold  inline-block border-b-4 border-[#333] pb-1">Checkout</h2>
             </div>
-            
+
+            {/*customer info section */}
               <div>
                 <h2 class="text-3xl font-extrabold text-kwhite">Customer info</h2>
                 <div class="grid grid-cols-4 gap-6 mt-8 text-lg">
@@ -191,25 +196,50 @@ const GoBack = () => {
               <div class="mt-12">
                 
                 <div class="grid gap-6 mt-8">
-                   <div class="flex bg-white border-b-2 focus-within:border-[#333] overflow-hidden">
-                </div>
-              
-                </div>
+                   <div class="flex bg-white border-b-2 focus-within:border-[#333] overflow-hidden"></div>
+              </div><br/>
+
               </div>
-              <div class="flex flex-wrap gap-4 mt-8">
-                <button type="button" 
-                class="min-w-[150px] px-6 py-3.5 text-lg bg-kred  rounded-md hover:scale-105 transition-transform" 
-                onClick={GoBack}>Add Item</button>
+              <h2 class=" col-span-4 text-3xl font-extrabold text-kwhite">Creator info</h2><br/><br/>
+              {/* creator info section */}
+              <div className="grid grid-cols-4">
               
+              <h1 className=" col-span-1 text-xl m-2">Edit Cost:</h1>
+              <input type="tel" 
+                          placeholder="Edits" 
+                          id="Edits" 
+                          name="Edits"
+                          class=" col-span-3 ring-1 py-3 rounded-md " 
+                          pattern="[0-9]{10}"  
+                          onChange={handleOnChange} />
               </div>
+
+              <div class="grid gap-2 mt-8">
+                   <div class="flex bg-white border-b-2 focus-within:border-[#333] overflow-hidden"></div>
+              </div><br/>
+
+              <button type="button" 
+                             class= "px-6 py-3.5 text-lg bg-kred hover:bg-opacity-50 transition-transform rounded-full w-full " 
+                             onClick={handlecancelorder}>Cancel Order</button>
+
+
+             
+              
             
           </div>
           <div class="bg-gray-100 lg:h-screen lg:sticky lg:top-0  ring-kwhite ring-opacity-45">
             <div class="relative h-full">
              <div ref={componentPDF}> 
               <div class="p-8 lg:overflow-auto lg:h-[calc(100vh-60px)] max-lg:mb-8">
-                <h2 class="text-2xl font-extrabold  text-center">Order Summary</h2>
-            
+
+                <div className="grid grid-cols-3">
+                    <h2 class="text-2xl font-extrabold col-span-2 text-center">Order Summary</h2>
+                   
+                     <button type="button" 
+                             class="min-w-[150px] px-6 py-3.5 text-lg bg-kred hover:bg-opacity-50 transition-transform rounded-full" 
+                             onClick={GoBack}>Add Item</button>
+                </div>
+
      <div className=" m-1  rounded-lg bg-kblack  text-kwhite ">
      
         <table className="m-5 text-lg justify-items-center">

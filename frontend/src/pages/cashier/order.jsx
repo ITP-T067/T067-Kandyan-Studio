@@ -73,6 +73,8 @@ function Ordermain(){
 </div> 
 
 <div class="m-1 px-10 py-12 flex flex-row  ">
+{/* 
+  creator orders table */}
 
      <Card className=" m-1 h-full w-full  rounded-lg bg-kwhite bg-opacity-10 text-kwhite ">
       <h3 className=" text-lg text-center font-extrabold m-1">Creator Orders</h3>
@@ -115,8 +117,8 @@ function Ordermain(){
             </div>
         </div>
      </Card>
-     <Card className="h-full w-full font-bold"> 
-     <div className="">
+     <Card className="h-full w-full font-bold text-lg "> 
+     {/* <div className="">
      
      <div class="grid grid-cols-3 m-1 rounded-lg bg-kgreen text-kwhite text-3xl px-8 py-10 shadow-xl ring-1 ring-slate-900/5 w-full h-full">
       <h3 className=" col-span-2">Total Income</h3>
@@ -138,6 +140,88 @@ function Ordermain(){
 
       
       </div>
+      </div> */}
+
+      <div className="grid grid-cols-4 overflow-y-auto h-[20rem] ...">
+        <table className="m-1 text-kwhite text-center col-span-2">
+          <caption>INCOME</caption>
+          <thead className="bg-kblack ">
+            <tr>
+              <th className="py-4">customer</th>
+              <th>total</th>
+            </tr>
+          </thead>
+          <tbody className="bg-kgreen bg-opacity-70">
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+              
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+
+
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table className="m-1 text-kwhite text-center col-span-2">
+        <caption>EXPENSES</caption>
+          <thead className= "bg-kblack text-lg ">
+            <tr>
+              <th className="py-4">Supplier</th>
+              <th>total</th>
+            </tr>
+          </thead>
+          <tbody className="bg-kred bg-opacity-60">
+            <tr>
+              <td>John</td>
+              <td>1000</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
      </Card>
 
