@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import pending from '../../../images/pending.png';
 import process from '../../../images/process.png';
 import complete from '../../../images/complete.png';
 import genarate from '../../../images/genarate.png';
@@ -51,7 +52,7 @@ function MyOrder() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-5 mx-auto px-10 mt-8">
-        <LinkCard image={process} title="Pending Orders" link="/pendingorder" />
+        <LinkCard image={pending} title="Pending Orders" link="/pendingorder" />
         <LinkCard image={process} title="Processing Orders" link="/processingorder" />
         <LinkCard image={complete} title="Completed Orders" link="/completeorder" />
         <LinkCard image={genarate} title="Generate Reports" link="/generatereport" />
@@ -64,7 +65,7 @@ const LinkCard = ({ image, title, link }) => (
     <div className="w-72 h-80 bg-kblack rounded-3xl border-8 border-kyellow flex justify-center">
       <img src={image} alt="Image" className="w-52 h-52 mt-5" />
     </div>
-    <div className="w-72 h-20 text-center text-kwhite text-3xl font-bold font-['Inter']">{title}</div>
+    <div className="w-72 h-20 text-center text-kwhite text-3xl font-bold">{title}</div>
   </a>
 );
 
