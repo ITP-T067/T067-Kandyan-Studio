@@ -10,5 +10,6 @@ body{
     background-repeat: no-repeat;
             background-position: center center;
             min-height: 100vh;
+            height:auto;
             backdrop-filter: blur(10px);
 }

@@ -1,36 +1,52 @@
-import React from 'react'
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import React, { useState, useEffect } from 'react'
+import { Card, Typography, CardBody } from "@material-tailwind/react";
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const TABLE_HEAD = [
-  "Date",
-  "Type",  
+  "Orderd Date",
+  "Item Name",  
+  "Quantity",
   "Total Price",
-  "Completed"
+  "Status",
 ];
 
-const TABLE_ROWS = [
-    {
-        date: "2024/01/05",
-        type: "Designing",
-        total_price: "LKR 2,950.00"
-    },
-    {
-        date: "2024/04/05",
-        type: "Designing",
-        total_price: "LKR 4,000.00"
-    },
-    {
-      date: "2024/01/05",
-      type: "Designing",
-      total_price: "LKR 1,700.00"
-    },
-    
-];
 
 export default function PendingOrders() {
 
   const navigate = useNavigate();
+  const [OnlineOrders, setOnlineOrders] = useState([]);
+  const [filteredOrder, setFilteredOrder] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        getOnlineOrders();
+    }, []);
+    
+
+    const getOnlineOrders = async () => {
+    try {
+        const response = await axios.get('order/on/'); // Replace '/path/to/your/backend/api' with your actual API endpoint
+        setOnlineOrders(response.data.data);
+    } catch (error) {
+        console.error('Error fetching pending orders:', error);
+    }
+    };
+
+    useEffect(() => {
+        const filtered = OnlineOrders.filter(order =>
+            order.Project_Status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.Item_Name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredOrder(filtered);
+      }, [OnlineOrders, searchQuery]);
+    
+      const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+      };
+
 
   return (
     <div>
@@ -51,10 +67,25 @@ export default function PendingOrders() {
                     </CardBody>
                 </Card>
             </div>
-            <div className="p-3">
+
+            {/* search bar */}
+            <div>
+                 <form className=" max-w-md mx-auto left-0 right-0">
+                    <div>
+                    <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name or status" required />
+                    </div>
+                </form>
+            </div>
+
+            <div className="p-8">
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
-                        <tr className="bg-kblack bg-opacity-40">
+                        <tr className="bg-kgray bg-opacity-30">
                             {TABLE_HEAD.map((head, index) => (
                                 <th
                                     key={head}
@@ -68,38 +99,43 @@ export default function PendingOrders() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(({ date, type, total_price }, index) => {
-                            const isLast = index === TABLE_ROWS.length;
-
-                            return (
+                        {filteredOrder
+                            .filter(order => order.Project_Status === 'Added' || order.Project_Status === 'Not Taken')
+                            .map((order, index) => (
                                 <tr
                                     key={index}
-                                    className={`${isLast ? "" : "border-b"} bg-kgray text-kwhite text-center p-4 bg-opacity-20`}
+                                    className={`${index === OnlineOrders.length  ? "" : "border-b"} ${
+                                        order.Project_Status === "Added" ? "bg-kgreen bg-opacity-30" : 
+                                        order.Project_Status === "Not Taken" ? "bg-kyellow bg-opacity-30" : "bg-kgray"
+                                    } text-kwhite text-center p-4`}
                                 >
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {date}
+                                        <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
+                                            {new Date(order.Order_Date).toISOString().split('T')[0]}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {type}
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
+                                            {order.Item_Name}
                                         </Typography>
                                     </td>
                                     <td>
-                                        <Typography variant="lead" color="blue-gray" className="font-normal">
-                                            {total_price}
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
+                                            {order.Quantity}
                                         </Typography>
                                     </td>
-                                    <td className="p-2">
-                                        <div className="mx-auto text-kwhite">
-                                        
-                                        <button type="button" class="bg-kyellow focus:ring-4 focus:outline-none font-medium rounded-3xl text-sm px-5 py-2.5 text-center me-2 mb-2 w-[6rem]">Details</button>
-                                        </div>
+                                    <td>
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
+                                            {order.Order_Amount}
+                                        </Typography>
+                                    </td>
+                                    <td>
+                                        <Typography variant="lead" className="font-normal mb-4 mt-4">
+                                            {order.Project_Status}
+                                        </Typography>
                                     </td>
                                 </tr>
-                            );
-                        })}
+                        ))}
                     </tbody>
                 </table>
             </div>

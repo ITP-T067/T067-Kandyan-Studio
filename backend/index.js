@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const path = require('path');
 
 //Manager - Stock Department
 const itemRouter = require("./routes/StockManagement/item.route.js");
@@ -11,9 +12,11 @@ const supplierlistRouter = require("./routes/Supplier/supplierlist.route.js");
 
 //Creator
 const orderRouter = require("./routes/order.route.js");
-const projectRouter = require("./routes/project.route.js");
+const projectRouter = require("./routes/ProjectManagement/project.route.js")
 const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
+const inquiryRouter = require("./routes/inquiry.route.js");
+const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.route.js");
 
 //Supplier
 const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
@@ -21,6 +24,9 @@ const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use('/uploads', express.static(path.join(__dirname, 'uploads', 'OnlineOrder')));
+
+
 
 const PORT = process.env.PORT || 8010
 
@@ -43,6 +49,8 @@ app.use('/order', orderRouter);
 app.use('/project', projectRouter);
 app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
+app.use('/inquiry', inquiryRouter);
+app.use('/studio', studioStatusRouter);
 
 //Supplier
 app.use('/supplyitem',supplyitemRouter)
@@ -53,31 +61,4 @@ app.use((err, req, res, next) => {
     return res.status(statusCode).json({success: false, statusCode, message});
  }); 
 
-
- //Image Upload
- const multer  = require('multer');
-
- const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now();
-      cb(null, uniqueSuffix + file.originalname);
-    }
-  })
-    const upload = multer({ storage: storage });
-
-    app.post("/upload-image",upload.single("image"), async(req,res) => {
-        console.log(req.body);
-        const imageName = req.file.filename;
-        try{
-            await Item.create({image: imageName});
-            res.json({status: "success"});
-        }catch(error){
-            console.log(error);
-            res.json({status: "error"});
-        }
-    })
-        
     
