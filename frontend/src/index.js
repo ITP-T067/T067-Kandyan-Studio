@@ -34,6 +34,7 @@ import CustomRequestForm from './pages/manager/stock/customreqform';
 import AddItemForm from './pages/manager/stock/additemform';
 import EditItemForm from './pages/manager/stock/edititemform';
 
+
 //Manager Dashboard - Event Department
 
 //Manager Dashboard - Finance Department
@@ -41,7 +42,7 @@ import EditItemForm from './pages/manager/stock/edititemform';
 //Manager Dashboard - Employee Department
 
 //Manager Dashboard - Supplier Department
-
+import SupplierList from './pages/manager/supplier/supplierlist.jsx';
 //Manager Dashboard - Loyalty Department
 
 
@@ -58,7 +59,10 @@ import OrderPayment from './pages/creator/OrderPayment.jsx';
 //Supplier Dashboard
 import MyItemList from './pages/supplier/table.jsx';
 import AddSupply from './pages/supplier/addSupplyItems.jsx';
-
+import SupplyReq from './pages/supplier/supplyRequest.jsx';
+import AppReq from './pages/supplier/approvedRequests.jsx';
+import SupplyInfo from './pages/supplier/supplyinfo.jsx';
+import EditSupply from './pages/supplier/editSupplyItems.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -93,8 +97,12 @@ root.render(
         <Route path='/manager/stockdept/stocklevels/customreq' element={<CustomRequestForm />} />
         <Route path='/manager/stockdept/items/additem' element={<AddItemForm />} />
         <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
-
+       
         {/* Manager Dashboard - Event Department */}
+
+
+        {/* Manager Dashboard - Supplier Department */}
+        <Route path='/manager/supplier/supplierlist' element={<SupplierList/>} />
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
@@ -102,11 +110,15 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+        
 
         {/* Supplier Dashboard*/}
         <Route path='/supplier/itemlist' element={<MyItemList/>}/>
         <Route path='/supplier/addsupply' element={<AddSupply/>}/>
-        
+        <Route path='/supplier/supplyreq' element={<SupplyReq/>}/>
+        <Route path='/supplier/approvereq' element={<AppReq/>}/>
+        <Route path='/supplier/supplyinfo' element={<SupplyInfo/>}/>
+        <Route path='/supplier/editsupply' element={<EditSupply/>}/>
         
       </Routes>
     </BrowserRouter>

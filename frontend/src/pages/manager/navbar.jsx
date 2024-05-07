@@ -12,7 +12,7 @@ const ManagerNavbar = () => {
         { title: 'Stock Department', link: '/manager/stockdept' },
         { title: 'Finance Department', link: '/manager/financedept' },
         { title: 'Employee Department', link: '' },
-        { title: 'Supplier Department', link: '' },
+        { title: 'Supplier Department', link: '/manager/supplier/supplierlist' },
         { title: 'Loyalty Department', link: '' },
     ];
 

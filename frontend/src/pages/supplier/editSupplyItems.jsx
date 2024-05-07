@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
-const EditSupply = () => {
+    const EditSupply = () => {
     const [formData, setFormData] = useState({
         item_id: "Item1",
         supplier_id: "6625f009459f1a3566dd4c45",
@@ -88,8 +88,10 @@ const EditSupply = () => {
 
     return (
         <div className="PageContainer text-kwhite" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="AddSupplyItemsForm" style={{ width: 500, position: 'relative', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+
+           <div className="AddSupplyItemsForm" style={{ width: 500, position: 'relative', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
                 <form onSubmit={handleSubmit}>
+                    <div className="text-center text-lg font-extrabold m-4">EDIT SUPPLY ITEM</div>
                     <div className="FormItem">
                         <label htmlFor="itemSelect" style={{ display: 'block', marginBottom: '5px', fontSize: '18px' }}>Item:</label>
                         <select

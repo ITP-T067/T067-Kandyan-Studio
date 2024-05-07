@@ -6,12 +6,17 @@ const mongoose = require('mongoose')
 const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
+//Manager - Supplier Department
+const supplierlistRouter = require("./routes/Supplier/supplierlist.route.js");
+
 //Creator
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/project.route.js");
 const customerRouter = require("./routes/customer.route.js");
 const receiptRouter = require("./routes/receipt.route.js");
 
+//Supplier
+const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
 
 const app = express()
 app.use(cors())
@@ -30,11 +35,17 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
 
+//Manager - Supplier Department
+app.use('/supplylist', supplierlistRouter);
+
 //Creator
 app.use('/order', orderRouter);
 app.use('/project', projectRouter);
 app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
+
+//Supplier
+app.use('/supplyitem',supplyitemRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
