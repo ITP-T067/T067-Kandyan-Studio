@@ -23,7 +23,9 @@ function MyOrder() {
       const count = orders.filter(order => order.Project_Status === 'Completed').length;
       setCompletedOrdersCount(count);// Log the count of completed orders
 
-      const totalAmount = orders.reduce((total, order) => {
+      const completedOrders = orders.filter(order => order.Project_Status === 'Completed');
+
+      const totalAmount = completedOrders.reduce((total, order) => {
         return total + order.Order_Amount;
       }, 0);
 
