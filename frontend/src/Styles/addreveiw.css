@@ -11,6 +11,14 @@
   margin-top: 50px;
   font-size: 20px;
 }
+.star-input {
+  display: none;
+} 
+
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}
 
 .star-rating {
   margin-bottom: 30px;

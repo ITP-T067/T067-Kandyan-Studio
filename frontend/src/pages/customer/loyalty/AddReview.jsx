@@ -8,11 +8,9 @@ const GoBack = () => {
 }
 function AddReview() {
   return (
-    <div>
-                            <Button
-                                onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
-                            >
+            <div>
+                 <Button onClick={GoBack}
+                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md">
                                 <HiOutlineArrowCircleLeft className="w-8 h-8" />
                                 <span className="text-3xl">Review</span>
                             </Button>

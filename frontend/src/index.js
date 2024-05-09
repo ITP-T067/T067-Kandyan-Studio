@@ -12,6 +12,9 @@ import Home from './pages/home.jsx';
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
+//signup
+import CustomerSignup from './pages/customer/CreateCust.jsx';
+
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
@@ -89,6 +92,9 @@ root.render(
         {/* Login */}
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Router />} />
+
+        {/* Signup */}
+        <Route path='/signup' element={<CustomerSignup />} />
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />

@@ -33,7 +33,7 @@ const [findCusDetails, setfindCusDetails] = useState([]);
                   <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="profile" className="h-[10rem] w-[10rem] rounded-3xl"/>
                   
               </div> 
-              <div className="col-span-4 h-[8rem] w-[40rem] p-8 bg-kwhite bg-opacity-70 rounded-3xl ml-[4rem] mt-4"> 
+              <div className="col-span-4 h-[8rem] w-[30rem] p-8 bg-kwhite bg-opacity-70 rounded-3xl ml-[4rem] mt-4"> 
                 <div className='font-bold text-xl -mt-2'>
                   <div>User Name : {findCusDetails.Cus_Name}</div>
                   <div>Email Address : {findCusDetails.Email}</div>

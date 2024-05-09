@@ -31,6 +31,7 @@ export default function Loyaltyview() {
 const getDetails = async () => {
     try {
       const response = await axios.get('/order/on/get/cusdetail/66147c480a94b623c0e9a698');
+      console.log(response);
       if (response.data.success) {
           const customerID = response.data.data.Cus_ID; // Assuming _id is the customer ID
           const customerResponse = await axios.get(`/customer/find/${customerID}`);
@@ -70,6 +71,8 @@ const calculateStatus = (amount) => {
     setShowDeleteAlert(true);
     navigate('');
   };
+
+
 
 
   return (

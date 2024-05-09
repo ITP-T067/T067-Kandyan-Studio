@@ -1,11 +1,12 @@
 import React from "react";
-import { FaStar } from "react-icons/fa";
+import { VscStarHalf } from "react-icons/vsc";
 
 function ReviewSelection({ heading }) {
   return (
     <div className="selection">
       <span className="icon">
-        <FaStar />
+      <VscStarHalf />
+
       </span>
 
       <h2>{heading}</h2>
