@@ -1,0 +1,97 @@
+/* reviewTable.css */
+
+.review-table-container {
+  margin-top: 20px;
+  overflow: auto;
+}
+
+.review-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px auto;
+  color: white;
+  text-align: center;
+}
+
+.review-table th,
+.review-table td {
+  border: 1px solid #5b5b5b;
+  padding: 10px;
+  text-align:  center;
+  background-color: #5b5b5b;
+  margin-bottom: 10px;
+  font-size: 27px; /* Adjust the font size for td elements */
+}
+
+.review-table th {
+  background-color: #979797;
+}
+
+
+tr {
+  margin-bottom: 10px;
+  border-bottom: 3px solid black;
+}
+
+input[type="search"] {
+  margin: 12px auto;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: white;
+  color: black;
+}
+
+td button {
+  width: fit-content;
+  padding: 5px 5px;
+  border: none;
+  outline: none;
+}
+
+
+
+td {
+  text-align: center;
+}
+
+.update-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.update-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.update-container input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.update-container button {
+  padding: 10px 20px;
+  background-color: #007cbe;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-container button:hover {
+  background-color: #005fa3;
+}
