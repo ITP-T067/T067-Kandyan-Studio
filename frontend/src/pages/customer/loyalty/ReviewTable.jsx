@@ -100,6 +100,7 @@ function ReviewTable() {
         <table className="review-table">
           <thead className="bg-kblack text-kwhite h-[50px]">
             <tr>
+              <th className="px-4 py-2">Item Name</th>
               <th className="px-4 py-2">Message</th>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Action</th>

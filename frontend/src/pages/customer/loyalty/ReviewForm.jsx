@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useParams,useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "../../../Styles/addreveiw.css";
 import axios from "axios";
@@ -12,6 +12,8 @@ function ReviewForm() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [hover, setHover] = useState(null); // State for hover effect
+  const { itemId } = useParams(); // Extract item ID from URL parameters
+  const [itemName, setItemName] = useState("");
   const history = useNavigate();
 
   // Function to get the current date in the format yyyy-mm-dd
@@ -22,6 +24,19 @@ function ReviewForm() {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
+  useEffect(() => {
+    fetchItemDetails(itemId);
+  }, [itemId]);
+  const fetchItemDetails = async () => {
+    try {
+      const response = await axios.get(`/item/${itemId}`);
+      setItemName(response.data.name);
+    } catch (error) {
+      console.error("Error fetching item details:", error);
+    }
+  };
+
 // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +54,7 @@ function ReviewForm() {
     try {
       const response = await axios.post("/review/add", {
         rating: rating,
+        itemId: itemId,
         message: message,
         date: getCurrentDate(),
       });
@@ -69,10 +85,15 @@ function ReviewForm() {
         <p>{successMessage}</p>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div>
-          <div className="flex justify-center">
+              <div className="flex justify-center">
+             <label className="border-b border-black margin">{itemId}</label>
+              </div>
+        
+            <div className="flex justify-center">
           {[...Array(5)].map((_, index) => {
           const ratingValue = index + 1;
           return (
+            
             <label key={index}>
               <input
                 className="star-input"
@@ -92,6 +113,7 @@ function ReviewForm() {
                 onMouseLeave={() => setHover(null)}
               />
             </label>
+            
           );
         })}
           </div>
