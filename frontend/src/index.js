@@ -25,6 +25,7 @@ import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 import Profile from './pages/customer/loyalty/Profile.jsx';
+import Completeoreview from './pages/customer/loyalty/CompletedoReview.jsx'
 
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
@@ -105,10 +106,11 @@ root.render(
         <Route path='/generatereport' element={<Generatereport/>}/>
         <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
-        <Route path='/addreview' element={<AddReview/>}/>
+        <Route path='/addreview/:itemId' element={<AddReview/>}/>
         <Route path='/review' element={<Review/>}/>
         <Route path='/viewreview' element={<ReviewTable/>}/>
         <Route path='/profile' element={<Profile/>}/>
+        <Route path='/completerview' element={<Completeoreview/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />

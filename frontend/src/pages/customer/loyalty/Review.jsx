@@ -7,7 +7,7 @@ function Review() {
     <div>
      
       <div className ="container">
-        <Link to="/addreview">
+        <Link to="/completerview">
           <ReviewSelection heading="Add Review" />
         </Link>
         <Link to="/viewreview">
