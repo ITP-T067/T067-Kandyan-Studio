@@ -143,11 +143,11 @@ export default function Generatereports() {
         <div ref={componentPDF}>
           <table className="w-full rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-kwhite bg-opacity-100 font-sans">
+              <tr className="bg-kblack">
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={head}
-                  className={`border-kblack text-kblack p-4 font-bold ${
+                  className={`border-kwhite text-kwhite p-4 font-bold ${
                     index === TABLE_HEAD.length ? "" : "border-b"
                     } text-center`}
                   >
@@ -162,7 +162,7 @@ export default function Generatereports() {
                 .map((order, index) => (
                   <tr
                       key={index}
-                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite text-center p-4`}
+                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite bg-opacity-70 text-center p-4`}
                   >
                       <td>
                           <Typography variant="lead" className="font-normal mb-4 mt-4">
