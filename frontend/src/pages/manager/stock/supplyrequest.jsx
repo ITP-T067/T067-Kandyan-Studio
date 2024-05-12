@@ -239,6 +239,14 @@ const SupplyRequest = () => {
     content: () => componentPDF.current,
   });
 
+  const calcTotalCost = (dataList) => {
+    let totalCost = 0;
+    dataList.forEach((item) => {
+        totalCost += parseInt(item.cost);
+    });
+    return totalCost;
+};
+
     // Pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -287,6 +295,7 @@ const SupplyRequest = () => {
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Supplier</th>
+                <th>Total Cost</th>
                 <th>Expected Delivery Date</th>
                 <th>Status</th>
             </tr>
@@ -315,6 +324,7 @@ const SupplyRequest = () => {
                             <td>{srl.name}</td>
                             <td>{srl.reqquantity}</td>
                             <td>{srl.supplier}</td>
+                            <td>{srl.cost}</td>
                             <td>{ExDateStr}</td>
                             <td>{srl.status}</td>
                         </tr>
@@ -322,6 +332,12 @@ const SupplyRequest = () => {
                 })}
             </tbody>
     </table>
+                <div className="grid grid-cols-2">
+                    <span className="text-sm text-kblack mt-5">Total Requests:</span>
+                    <span className="text-sm text-kblack mt-5">{dataList.length}</span>
+                    <span className="text-sm text-kblack mt-5">Total Cost of the Requests:</span>
+                    <span className="text-sm text-kblack mt-5">{calcTotalCost(dataList)}</span>
+                </div>
                 </div>
         );
     };
