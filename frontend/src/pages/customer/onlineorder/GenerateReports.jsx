@@ -89,6 +89,12 @@ export default function Generatereports() {
       const startTimestamp = startDate.getTime();
       const endTimestamp = endDate.getTime();
   
+      // Check if end date is earlier than start date
+      if (endTimestamp < startTimestamp) {
+        alert("End date cannot be earlier than start date.");
+        return; // Exit function if end date is earlier than start date
+      }
+  
       // Filter orders within the selected date range
       const filteredOrders = completedOrders.filter(order => {
         const orderTimestamp = new Date(order.Completed_Date).getTime();
@@ -102,6 +108,7 @@ export default function Generatereports() {
       alert("Please select both start and end dates.");
     }
   };
+  
   
 
 

@@ -12,6 +12,9 @@ import Home from './pages/home.jsx';
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
+//signup
+import CustomerSignup from './pages/customer/CreateCust.jsx';
+
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
@@ -21,6 +24,12 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
+import Profile from './pages/customer/loyalty/Profile.jsx';
+
+
+import AddReview from './pages/customer/loyalty/AddReview.jsx';
+import Review from './pages/customer/loyalty/Review.jsx';
+import ReviewTable from './pages/customer/loyalty/ReviewTable.jsx';
 
 
 //Manager Dashboard
@@ -43,7 +52,7 @@ import EditItemForm from './pages/manager/stock/edititemform';
 //Manager Dashboard - Supplier Department
 
 //Manager Dashboard - Loyalty Department
-
+import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
 //Cashier Dashboard
 
@@ -84,6 +93,9 @@ root.render(
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Router />} />
 
+        {/* Signup */}
+        <Route path='/signup' element={<CustomerSignup />} />
+
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
         <Route path='/myorder' element={<Myorder/>}/>
@@ -93,6 +105,10 @@ root.render(
         <Route path='/generatereport' element={<Generatereport/>}/>
         <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
+        <Route path='/addreview' element={<AddReview/>}/>
+        <Route path='/review' element={<Review/>}/>
+        <Route path='/viewreview' element={<ReviewTable/>}/>
+        <Route path='/profile' element={<Profile/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
@@ -103,7 +119,9 @@ root.render(
         <Route path='/manager/stockdept/stocklevels/customreq' element={<CustomRequestForm />} />
         <Route path='/manager/stockdept/items/additem' element={<AddItemForm />} />
         <Route path='/manager/stockdept/items/edititem' element={<EditItemForm />} />
-
+        
+        {/* Manager Dashboard - Loyalty Department */}
+        <Route path='/manager/loyalty' element={<Loyaltyview />} />
         {/* Manager Dashboard - Event Department */}
 
         {/* Creator Dashboard*/}
@@ -122,6 +140,7 @@ root.render(
         <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
         <Route path='/creator/generateReports' element={<Generatereports/>}/>
         <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
+        
         
         {/* Studio Operator Dashboard*/}
         <Route path='/studiooperator/' element={<StudioDash/>}/>
