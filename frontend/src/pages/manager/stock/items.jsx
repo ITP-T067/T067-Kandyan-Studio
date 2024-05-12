@@ -61,7 +61,6 @@ const Items = () => {
     const handleEditOnchange = async(e) => {
         const {value,id} = e.target
         setFormDataEdit((prev)=> {
-          
           return{
             ...prev,
             [id] : value
@@ -81,9 +80,6 @@ const Items = () => {
                 case "Add":
                     window.location.href = "/manager/stockdept/items/additem";
                     break;
-                case "Edit":
-                    window.location.href = "/manager/stockdept/items/edititem";
-                    break;
                 default:
                     break;
             }
@@ -96,7 +92,15 @@ const Items = () => {
             const data = await axios.delete("/item/delete/" + id);
             if (data.data.success) {
                 getFetchData();
-                alert(data.data.message);
+                //alert(data.data.message);
+                setIsAlert(true);
+                setAlertStatus('success');
+                setMessage("Item Deleted Successfully!");
+            }
+            else{
+                setIsAlert(true);
+                setAlertStatus("error");
+                setMessage("Failed to Delete Item!");
             }
         }
     };
@@ -159,10 +163,10 @@ const Items = () => {
             {editSection && (
                 <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
                     <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
-                    <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
-                        <Typography color="black" size="xl" bold>
+                    <form onSubmit={handleUpdate} className="bg-kblack/60 text-kwhite p-10 rounded-lg drop-shadow-md">
+                        <span className="text-2xl text-center font-bold items-center justify-center w-full">
                             Edit Item
-                        </Typography>
+                        </span>
                         <div className="flex flex-col m-5">
                             <label htmlFor="itemName">Item Name</label>
                             <input
@@ -185,6 +189,20 @@ const Items = () => {
                                 onChange={handleEditOnchange} 
                             />
                         </div>
+                        <div className="grid grid-cols-2">
+                        <div className="flex items-center justify between m-5">
+                            <div>
+                                <label htmlFor="maxCapacity">Max Capacity</label>
+                                <input
+                                    type="number"
+                                    className="bg-kwhite rounded-lg p-1 text-kblack text-sm" 
+                                    id="maxCapacity"
+                                    value={formDataEdit.maxCapacity}
+                                    onChange={handleEditOnchange}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify between m-5">
                         <div className="flex flex-col m-5">
                             <label htmlFor="type">Type</label>
                             <input
@@ -195,29 +213,7 @@ const Items = () => {
                                 onChange={handleEditOnchange}
                             />
                         </div>
-                        <div className="flex items-center justify between m-5">
-                            <div>
-                                <label htmlFor="maxCapacity">Max Capacity</label>
-                                <input
-                                    type="number" 
-                                    className="bg-kwhite rounded-lg p-1 text-kblack text-sm" 
-                                    id="maxCapacity"
-                                    value={formDataEdit.maxCapacity}
-                                    onChange={handleEditOnchange}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex items-center justify between m-5">
-                            <div className='mr-3'>
-                                <label htmlFor="sellingPrice">Selling Price</label>
-                                <input 
-                                    type="number" 
-                                    className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
-                                    id="sellingPrice" 
-                                    value={formDataEdit.sellingPrice}
-                                    onChange={handleEditOnchange}
-                                />
-                            </div>
+                            {/* Image Upload 
                             <div>
                                 <label htmlFor="image">Upload Photo</label>
                                 <input 
@@ -227,9 +223,21 @@ const Items = () => {
                                     value={formDataEdit.image}
                                     onChange={handleEditOnchange}
                                 />
-                            </div>
+                            </div> */}
+                            
                                 <input type="hidden" name="itemID" value={formDataEdit._id} />
                         </div>
+                        </div>
+                        <div className='mr-3'>
+                                <label htmlFor="sellingPrice">Selling Price</label>
+                                <input 
+                                    type="number" 
+                                    className="bg-kwhite rounded-lg p-1 text-kblack w-full text-sm" 
+                                    id="sellingPrice" 
+                                    value={formDataEdit.sellingPrice}
+                                    onChange={handleEditOnchange}
+                                />
+                            </div>
                         <div className="p-4 text-kblack flex flex-col">
                             <button type="submit" className="bg-kred text-kwhite rounded-lg p-3 mb-4">Submit</button>
                         </div>
@@ -237,47 +245,44 @@ const Items = () => {
                 </div>
             )}
             <div className="mx-5 mb-5">
-                <Card>
-                    <CardBody className="flex items-center justify-between">
-                        <div>
+                <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
                             <Button
                                 onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+                                className="col-span-2 flex items-center bg-transparent text-kwhite px-5"
                             >
-                                <HiOutlineArrowCircleLeft className="w-5 h-5" />
-                                <span className="text-sm">Item List</span>
+                                <HiOutlineArrowCircleLeft className="w-10 h-10" />
+                                <span className="text-2xl ml-5">Item List</span>
                             </Button>
-                        </div>
-                        <div>
+                        <div className="col-span-3 px-20">
                             <input
                                 type="search"
-                                placeholder="Search"
-                                className="bg-kwhite flex-grow rounded-full p-2 text-sm"
+                                placeholder="Search By Item Name"
+                                className="flex items-center bg-kwhite rounded-full p-2 px-5 text-sm"
                                 value = {searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <div></div>
                         <div>
                             <Button
-                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5 rounded-full"
+                                className="flex space-x-2 items-center justify-center bg-kgreen text-kwhite px-10 rounded-full"
                                 onClick={handleButton("Add")}
                             >
                                 <HiOutlinePlusCircle className="w-5 h-5" />
                                 <span className="text-sm">Add Item</span>
                             </Button>
-                        </div>
-                    </CardBody>
-                </Card>
+                            </div>
+                </div>
             </div>
             <div className="px-10">
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th className="py-5">Item Name</th>
-                            <th>Description</th>
-                            <th>Type</th>
-                            <th>Max Capacity</th>
-                            <th>Selling Price</th>
+                            <th className="w-1/5 py-5">Item</th>
+                            <th className="w-1/4">Description</th>
+                            <th className="w-1/8">Type</th>
+                            <th className="w-1/10">Quantity</th>
+                            <th className="w-1/10">Selling Price</th>
                             <th className="w-1/4">Action</th>
                         </tr>
                     </thead>
@@ -287,20 +292,25 @@ const Items = () => {
                                 return (
                                     <>
                                     <tr key={il._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                        <td>{il.name}</td>
-                                        <td>{il.description}</td>
+                                    <td className="px-10">
+                                        <div className="grid grid-cols-2 items-center">
+                                        <img className="w-14 h-14 rounded-full mr-5" src={require(`../../../../../backend/uploads/StockManagement/${il.image}`)} alt={il.name} /> {/* Added alt attribute */}
+                                        <span>{il.name}</span>
+                                        </div>
+</td>
+                                        <td className="truncate max-w-xs">{il.description}</td>
                                         <td>{il.type}</td>
-                                        <td>{il.maxCapacity}</td>
-                                        <td>{il.sellingPrice}</td>
-                                        <td className="p-4 text-kblack flex">
-                                            <div className="flex justify-center gap-3 mx-auto">
+                                        <td>{il.quantity} Out of {il.maxCapacity}</td>
+                                        <td>{Number(il.sellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
+                                        <td className="p-4 text-kblack items-center justify-center">
+                                            <div className="grid grid-cols-4 justify-center gap-3 mx-auto">
                                                 <Button className="p-3 bg-kblue" onClick={() => handleEdit(il)}>
-                                                    <PencilIcon className="h-4 w-4 text-kwhite" />
+                                                    <PencilIcon className="h-4 w-4 text-kwhite mx-auto"/>
                                                 </Button>
                                                 <Button className="p-3 bg-kred" onClick={() => handleDelete(il._id)}>
-                                                    <TrashIcon className="h-4 w-4 text-kwhite" />
+                                                    <TrashIcon className="h-4 w-4 text-kwhite mx-auto" />
                                                 </Button>
-                                                <Button size="sm" className="bg-kred text-kwhite">
+                                                <Button size="sm" className="bg-kred text-kwhite col-span-2">
                                                     Remove Waste
                                                 </Button>
                                             </div>
@@ -312,7 +322,7 @@ const Items = () => {
                             
                         ) : (
                             <tr className="bg-kwhite/20 w-full text-kwhite">
-                                <td colSpan="6" className="text-center py-4">
+                                <td colSpan="7" className="text-center py-4">
                                     No data available
                                 </td>
                             </tr>
