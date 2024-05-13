@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
+import React, { useEffect, useState, useRef } from "react";
+import { Card, Typography, Button, CardBody, Select, Option } from "@material-tailwind/react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle, HiFilter, HiOutlineDocumentReport } from "react-icons/hi";
+import ComplexProgressBar from "./complexprogressbar";
+import DatePicker from "react-datepicker";
+import { useReactToPrint } from 'react-to-print';
 
 import Alert from "../../../Components/Common/Alerts/alert";
 
@@ -134,11 +137,40 @@ const SupplyRequest = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
 
+    const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+
     // Fetch Data
+
+    useEffect(() => {
+        if (startDate && endDate) {
+            getFetchData();
+        }
+    }, [startDate, endDate]);
+
     useEffect(() => {
         getFetchData();
         console.log(dataList);
     }, []);
+
+    useEffect(() => {
+        if (startDate && endDate && startDate > endDate) {
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Invalid Date Range!");
+        } else {
+            setIsAlert(false);
+        }
+    }, [startDate, endDate]);
 
     // Fetch Data Function
     const getFetchData = async () => {
@@ -148,6 +180,26 @@ const SupplyRequest = () => {
 
             if (response.data.success) {
                 const supplyRequests = response.data.data;
+
+                if(startDate && endDate){
+                    const filteredRequests = supplyRequests.filter(request => {
+                        const requestDate = new Date(request.exdate);
+                        return requestDate >= startDate && requestDate <= endDate;
+                    });
+
+                    
+                    const items = await Promise.all(
+                        filteredRequests.map(async (request) => {
+                            const item = await fetchItemById(request.item);
+                            const { name, quantity, maxCapacity } = item;
+                            const exquantity = quantity;
+                            return { ...request, name, exquantity, maxCapacity };
+                        })
+                    );
+    
+                    // Set the data list with the updated items
+                    setDataList(items);
+                }else{
 
                 // Fetch additional item information for each request
                 const items = await Promise.all(
@@ -162,36 +214,10 @@ const SupplyRequest = () => {
                 // Set the data list with the updated items
                 setDataList(items);
             }
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    };
-
-    // Stock Level Demonstration
-    const colorChanger = (percentage) => {
-        let color = "";
-
-        if (percentage < 25) {
-            color = "bg-pred/70";
-        } else if (percentage < 50) {
-            color = "bg-porange/70";
-        } else if (percentage < 75) {
-            color = "bg-pyellow/70";
-        } else if (percentage < 90) {
-            color = "bg-plgreen/70";
-        } else {
-            color = "bg-pgreen/70";
-        }
-
-        return `${color}`;
-    };
-
-    const calcExpectedPercentage = (reqQuantity, maxCapacity) => {
-        return Math.round((reqQuantity / maxCapacity) * 100);
-    };
-
-    const calcPercentage = (quantity, maxCapacity) => {
-        return Math.round((quantity / maxCapacity) * 100);
     };
 
     // Search Supply Request By ID
@@ -204,6 +230,22 @@ const SupplyRequest = () => {
         );
         setSearchResults(results);
     }, [searchTerm, dataList]);
+
+
+    //Report Generation
+    const componentPDF = useRef([]);
+
+    const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+  });
+
+  const calcTotalCost = (dataList) => {
+    let totalCost = 0;
+    dataList.forEach((item) => {
+        totalCost += parseInt(item.cost);
+    });
+    return totalCost;
+};
 
     // Pagination
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -219,18 +261,107 @@ const SupplyRequest = () => {
         setCurrentPage(pageNumber);
     };
 
+    //Status Changer
+    const statusColorChanger = (status) => {
+        switch (status) {
+            case "Pending":
+                return "bg-kyellow/70";
+            case "Approved":
+                return "bg-kgreen/70";
+            case "Rejected":
+                return "bg-kred/70";
+            case "Paid":
+                return "bg-kgreen/70";
+            default:
+                return "bg-kgray";
+        }
+    }
+
+
+    const SupplyRequestPrintable = ({ dataList, startDate, endDate }) => {
+        return (
+            <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg">
+                    <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Supply Request Report</div>
+                    <div className="flex items-center justify-between">
+                    <span className="text-sm text-kblack mb-3">Generated on: {new Date().toLocaleString()}</span>
+                    <span className="text-sm text-kblack mb-3">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                    </div>
+                    <table className="w-full table-fixed border rounded-lg overflow-hidden">
+        <thead>
+            <tr className="bg-kblack border-kblack text-kwhite border text-center">
+                <th>Date</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Supplier</th>
+                <th>Total Cost</th>
+                <th>Expected Delivery Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+                {dataList.map((srl, index) => {
+                    const ReqDate = new Date(srl.date);
+                    const ReqDateStr =
+                        ReqDate.getDate() +
+                        " - " +
+                        (ReqDate.getMonth() + 1) +
+                        " - " +
+                        ReqDate.getFullYear();
+
+                    const ExDate = new Date(srl.exdate);
+                    const ExDateStr =
+                        ExDate.getDate() +
+                        " - " +
+                        (ExDate.getMonth() + 1) +
+                        " - " +
+                        ExDate.getFullYear();
+
+                    return (
+                        <tr key={srl._id} className="border text-kblack text-center items-center p-4">
+                            <td>{ReqDateStr}</td>
+                            <td>{srl.name}</td>
+                            <td>{srl.reqquantity}</td>
+                            <td>{srl.supplier}</td>
+                            <td>{srl.cost}</td>
+                            <td>{ExDateStr}</td>
+                            <td>{srl.status}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+    </table>
+                <div className="grid grid-cols-2">
+                    <span className="text-sm text-kblack mt-5">Total Requests:</span>
+                    <span className="text-sm text-kblack mt-5">{dataList.length}</span>
+                    <span className="text-sm text-kblack mt-5">Total Cost of the Requests:</span>
+                    <span className="text-sm text-kblack mt-5">{calcTotalCost(dataList)}</span>
+                </div>
+                </div>
+        );
+    };
+
+    const componentRef = useRef();
+
+
+    const [reportSection, setReportSection] = useState(false);
+
     return (
         <>
             <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
             {editSection && (
-                <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
+                <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50">
                     <button
                         className="absolute top-5 right-5 bg-kblack text-kwhite"
                         onClick={() => setEditSection(false)}
                     >
                         X
                     </button>
-                    <form onSubmit={handleUpdate} className="bg-kgray p-10 rounded-lg">
+                    <form onSubmit={handleUpdate} className=" p-10 rounded-lg bg-kblack/60 text-kwhite">
+                    <span className="text-2xl text-center font-bold items-center justify-center w-full">
+                            Edit Supply Request
+                        </span>
                         <div className="flex flex-col m-5">
                             <label htmlFor="item">Item Name</label>
                             <input
@@ -264,9 +395,9 @@ const SupplyRequest = () => {
                                         {formDataEdit.supplier}
                                     </option>
                                 )}
-                                <option value="supplier1">Supplier 1</option>
-                                <option value="supplier2">Supplier 2</option>
-                                <option value="supplier3">Supplier 3</option>
+                                <option value="Photo Technica">Photo Technica</option>
+                                            <option value="Nine Hearts">Nine Hearts</option>
+                                            <option value="Pettah Traders">Pettah Traders</option>
                             </select>
                         </div>
                         <div className="flex flex-col m-5">
@@ -299,39 +430,83 @@ const SupplyRequest = () => {
                 </div>
             )}
 
+{reportSection && (
+    <div className="fixed grid grid-cols-1 top-0 left-0 h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50 p-24 ">
+    <button
+                className="absolute top-5 right-5 bg-kblack text-kwhite"
+                onClick={() => setReportSection(false)}
+            >
+                X
+            </button>
+    <SupplyRequestPrintable ref={componentRef} dataList={searchResults} startDate={startDate} endDate={endDate}/>
+    <button className="bg-kgreen rounded-lg text-kwhite mx-50 mx-64 p-2" onClick={generatePDF}>Print</button>
+    </div>
+)}
+            
+
             <div className="mx-5 mb-5">
-                <Card>
-                    <CardBody className="flex items-center justify-between">
-                        <div>
+            <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
                             <Button
                                 onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+                                className="col-span-2 flex items-center bg-transparent text-kwhite px-5"
                             >
-                                <HiOutlineArrowCircleLeft className="w-5 h-5" />
-                                <span className="text-sm">Supply Requests</span>
+                                <HiOutlineArrowCircleLeft className="w-10 h-10" />
+                                <span className="text-2xl ml-5">Supply Requests</span>
                             </Button>
-                        </div>
-                        <div className="mx-auto">
+                        <div className="col-span-3 px-20">
                             <input
                                 type="search"
-                                placeholder="Search"
-                                className="bg-kwhite rounded-full p-2 text-sm"
-                                value={searchTerm}
+                                placeholder="Search By Item Name"
+                                className="flex items-center bg-kwhite rounded-full p-2 px-5 text-sm"
+                                value = {searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <div></div>
                         <div>
-                            <Button
-                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+                        <Button
+                                className="flex space-x-2 items-center justify-center bg-kgreen text-kwhite px-10 rounded-full"
                                 onClick={handleButton("Request")}
                             >
                                 <HiOutlinePlusCircle className="w-5 h-5" />
-                                <span className="text-sm">Add Custom Request</span>
+                                <span className="text-sm">Add Request</span>
                             </Button>
                         </div>
-                    </CardBody>
-                </Card>
+                </div>
             </div>
+                    <div className="flex items-center justify-between mx-10 mb-3">
+                        <div className="flex items-center justify-between bg-kblack/30 py-2 px-5 rounded-full">
+                            <Button
+                                //onClick={}
+                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md bg-kblack"
+                                disabled>
+                                <HiFilter className="w-5 h-5" />
+                                <span className="text-sm">Filter</span>
+                            </Button>
+                        <DatePicker
+                        placeholderText="Start Date"
+            className='text-kblack bg-kwhite text-sm py-2 px-1 rounded-full text-center'
+            selected={startDate}
+            onChange={handleStartDateChange}
+          />
+          <span className='mx-5 font-bold text-kwhite text-mb'>to</span>
+          <DatePicker
+          placeholderText="End Date"
+            className='text-kblack text-sm bg-kwhite py-2 px-1 rounded-full text-center'
+            selected={endDate}
+            onChange={handleEndDateChange}
+          />
+          </div>
+                        <div>
+                            <Button
+                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+                                onClick={() => setReportSection(true)}
+                            >
+                                <HiOutlineDocumentReport className="w-5 h-5" />
+                                <span className="text-sm">Generate Reports</span>
+                            </Button>
+                        </div>
+                    </div>
             <div className="px-10">
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
@@ -351,6 +526,7 @@ const SupplyRequest = () => {
                             currentItems.map((srl, index) => {
                                 const itemQuantity = parseInt(srl.exquantity, 10);
                                 const itemMaxCapacity = parseInt(srl.maxCapacity, 10);
+                                const itemReqQuantity = parseInt(srl.reqquantity,10)
 
                                 const ReqDate = new Date(srl.date);
                                 const ReqDateStr =
@@ -368,14 +544,6 @@ const SupplyRequest = () => {
                                     " - " +
                                     ExDate.getFullYear();
 
-                                const percentage = calcPercentage(itemQuantity, itemMaxCapacity);
-                                const expectedPercentage = calcExpectedPercentage(
-                                    srl.reqquantity,
-                                    itemMaxCapacity
-                                );
-
-                                console.log(itemQuantity, itemMaxCapacity, percentage, expectedPercentage);
-
                                 return (
                                     <>
                                         <tr key={srl._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
@@ -385,38 +553,37 @@ const SupplyRequest = () => {
                                             <td>{srl.supplier}</td>
                                             <td>{ExDateStr}</td>
                                             <td className="text-sm">
-                                                <div className="flex items-center bg-kwhite/30 rounded-full p-1">
-                                                    <div className="w-full flex bg-kgray overflow-hidden rounded-full border text-xs text-center justify-items-start">
-                                                        <div
-                                                            className={
-                                                                "flex justify-center overflow-hidden " +
-                                                                colorChanger(percentage) +
-                                                                " p-2 items-center text-kwhite "
-                                                            }
-                                                            style={{ width: `${percentage}%` }}
-                                                        >
-                                                            <span className="inline-flex mx-auto">{percentage + "%"}</span>
-                                                        </div>
-                                                        <div
-                                                            className={"flex bg-plgreen/30 text-kwhite items-center font-medium"}
-                                                            style={{ width: `${expectedPercentage}%` }}
-                                                        >
-                                                            <span className="mx-auto">+{(expectedPercentage) + "%"}</span>
-                                                        </div>
-                                                    </div>
-                                                    <span className="mx-2">{(expectedPercentage + percentage) + "%"}</span>
-                                                </div>
+                                            <ComplexProgressBar
+                                                itemQuantity={itemQuantity} 
+                                                maxCapacity={itemMaxCapacity}
+                                                reqQuantity={itemReqQuantity}
+                                            />
                                             </td>
-                                            <td>{srl.status}</td>
+                                            <td><span className={`${statusColorChanger(srl.status)} p-2 rounded-lg font-bold text-sm`}>{srl.status}</span></td>
                                             <td className="p-4 text-kblack flex-grow">
-                                                <div className="flex justify-center gap-3 mx-auto">
+                                            {srl.status == "Approved" ? (
+                                                <span className="text-kwhite/50 bg-kgreen/60 p-2 rounded-lg font-bold text-sm">To Be Paid</span>
+                                                ):(srl.status == "Pending" ? (
+                                                    <div className="flex justify-center gap-3 mx-auto">
+                                                
                                                     <Button className="p-3 bg-kblue">
                                                         <PencilIcon className="h-4 w-4 text-kwhite" onClick={() => handleEdit(srl)} />
                                                     </Button>
                                                     <Button className="p-3 bg-kred">
                                                         <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
                                                     </Button>
-                                                </div>
+                                                    </div>
+                                                    ):(srl.status == "Paid" ? (
+                                                        <div className="flex justify-center gap-3 mx-auto">
+                                                            <Button className="p-3 bg-kgreen text-kwhite text-sm">
+                                                                Recieved
+                                                            </Button>
+                                                            </div>
+                                                        ):(
+                                                            <Button className="p-3 bg-kred">
+                                                        <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
+                                                    </Button>
+                                                        )))}
                                             </td>
                                         </tr>
                                     </>

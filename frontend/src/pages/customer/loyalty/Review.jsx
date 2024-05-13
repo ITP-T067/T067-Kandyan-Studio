@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 function Review() {
   return (
-    <div>
+    <div className="mt-40">
      
-      <div className ="container">
-        <Link to="/addreview">
-          <ReviewSelection heading="Add Review" />
+      <div className ="grid grid-cols-2 flex justify-center items-center gap-16 mx-40 px-10">
+        <Link to="/completerview">
+          <ReviewSelection heading="Add Review" logo="VscStarHalf" />
         </Link>
         <Link to="/viewreview">
           <ReviewSelection heading="Review List" />
