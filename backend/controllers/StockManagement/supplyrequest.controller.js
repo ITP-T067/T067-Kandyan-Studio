@@ -56,4 +56,19 @@ const del_supplyrequest = async(req, res, next) => {
     }
 }
 
-module.exports = {index_supplyrequest, create_supplyrequest, update_supplyrequest, del_supplyrequest};
+const update_status = async(req, res, next) => {
+    const id = req.params.id;
+    const status = req.body.status;
+
+    try {
+        const data = await SupplyRequest.updateOne({_id : id}, {status : status});
+        if(res.status(201)){
+            res.send({success:true, message: "Supply Request status updated successfully", data : data});
+        }
+    }
+    catch(error){
+        next(error);
+    }
+}
+
+module.exports = {index_supplyrequest, create_supplyrequest, update_supplyrequest, del_supplyrequest, update_status};

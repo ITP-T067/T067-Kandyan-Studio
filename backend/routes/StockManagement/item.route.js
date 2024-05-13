@@ -1,5 +1,6 @@
-const express = require('express')
-const {index_item, create_item, update_item, del_item, find_item} = require("../../controllers/StockManagement/item.controller");
+const express = require('express');
+const {index_item, create_item, update_item, del_item, find_item, send_email, update_quantity_minus, update_item_plus} = require("../../controllers/StockManagement/item.controller");
+
 
 const router = express.Router();
 
@@ -23,6 +24,9 @@ router.get("/", index_item);
 router.post("/create",upload.single('file'), create_item);
 router.put("/update", update_item);
 router.delete("/delete/:id", del_item);
+router.post("/send-email", send_email);
 router.get("/find/:id", find_item);
+router.put("/quantity-minus", update_quantity_minus);
+router.put("/quantity-plus", update_item_plus);
 
 module.exports = router;
