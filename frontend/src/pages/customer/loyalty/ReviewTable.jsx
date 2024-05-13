@@ -109,6 +109,7 @@ function ReviewTable() {
           <tbody className="bg-kgray bg-opacity-100 h-[60px]">
             {filteredReviews.map((review, index) => (
               <tr key={index}>
+                <td className="px-4 py-2 text-center">{review.Item_Name}</td>
                 <td className="px-4 py-2 text-center">{review.message}</td>
                 <td className="px-4 py-2 text-center">{review.date}</td>
                 <td>
