@@ -109,17 +109,17 @@ export default function Generatereports() {
         </Card>
       </div>
       <div className="h-28 relative">
-        <div className="flex flex-col md:flex-row justify-center items-center absolute left-1/2 transform -translate-x-1/2 w-full h-[5vw] max-w-md md:max-w-[50%] bg-kgray bg-opacity-40 rounded-3xl">
-          <label className="font-bold text-kwhite text-lg ml-4 md:ml-8 mr-2 mt-2 md:mt-0">FROM</label>
+        <div className="flex flex-col md:flex-row justify-center items-center absolute left-1/2 transform -translate-x-1/2 w-full h-[5vw] max-w-md md:max-w-[60%] bg-kgray bg-opacity-40 rounded-3xl">
+          <label className="font-bold text-kwhite text-lg md:ml-4 mr-2 mt-2 md:mt-0">FROM</label>
           <DatePicker
-            className="text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={startDate}
             onChange={handleStartDateChange}
             placeholderText="MM/DD/YYYY"
           />
-          <label className="font-bold text-kwhite text-lg ml-4 md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
+          <label className="font-bold text-kwhite text-lg md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
           <DatePicker
-            className="text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={endDate}
             onChange={handleEndDateChange}
             placeholderText="MM/DD/YYYY"
