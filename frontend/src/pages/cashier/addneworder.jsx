@@ -161,22 +161,25 @@ function AddNewOrder(){
    }, []);
    
    // Fetch items from backend
-  const getItems = () => {
-    axios.get('/item/')
-       .then(response => {
-         const items = response.data.data;
-         const itemsData = items.map(item => ({
-           ...item,
-           quantity:0,
-           unitPrice:0
-           , // Initialize quantity for each item
-         }));
-         setItemsData(itemsData);
-       })
-       .catch(error => {
-         console.error('Error fetching items:', error);
-       });
-  };
+  // Fetch items from backend
+const getItems = () => {
+  axios.get('/item/')
+      .then(response => {
+          const items = response.data.data;
+          // Filter items based on type "Sublimation"
+          const sublimationItems = items.filter(item => item.type === "Sublimation");
+          // Map the filtered items and set the state
+          const itemsData = sublimationItems.map(item => ({
+              ...item,
+              quantity: 0,
+              unitPrice: 0
+          }));
+          setItemsData(itemsData);
+      })
+      .catch(error => {
+          console.error('Error fetching items:', error);
+      });
+};
 
 //search
 const [searchTerm, setSearchTerm] = useState("");
@@ -246,8 +249,7 @@ setSearchResults(results);
             <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl  ring-8 ring-slate-900/5 h-full w-100 ">Sublimation </div>
             <a href='/cashier/photoprints'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100
              transition-transform duration-300 ease-in-out hover:scale-105">Photo Prints</div></a>
-            <a href='/cashier/laminates'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 
-            transition-transform duration-300 ease-in-out hover:scale-105">Laminates</div></a>
+          
             <a href='/cashier/frames'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100
              transition-transform duration-300 ease-in-out hover:scale-105">Frames</div></a>
         
@@ -260,6 +262,8 @@ setSearchResults(results);
           
        
  {/* items read*/}
+
+        
         {itemsData.map(item => (
 
         <div key={item._id} className="card w-64 h-96 relative cursor-pointer backdrop-blur-md mt-10">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, CardBody } from "@material-tailwind/react";
-import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle } from "react-icons/hi";
+import { Card, Button, CardBody } from "@material-tailwind/react";
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -20,7 +20,6 @@ axios.defaults.baseURL = "http://localhost:8010/";
         }
     };
 };
-
 
 
 const Pendingorders = () => {
@@ -132,8 +131,8 @@ const paginate = (pageNumber) => {
 
             {/* table */}
 
-            <div className="px-10 ">
-                <table className="w-full rounded-lg overflow-hidden text-sm">
+            <div className="px-10 overflow-y-auto h-[40rem] ...">
+                <table className="w-full rounded-lg text-sm ">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center text-lg">
                             <th>Customer</th>
@@ -151,13 +150,10 @@ const paginate = (pageNumber) => {
                                 return (
                                     <>
                                     <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4 text-lg">
-
+ 
                                         <td className="p-4"> {il.cusname}</td>
-
                                         <td className="p-4"> {il.telephone}</td>
-
                                         <td className="p-4"> {il.email}</td>
-
                                         <td className="p-4"> {il.nettotal}</td>
                                         
                                         {/* <td className="p-4">
@@ -184,7 +180,9 @@ const paginate = (pageNumber) => {
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
+                
+            </div>
+            <div className="flex items-center justify-between border-t border-kblack p-4">
                     <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
@@ -195,8 +193,6 @@ const paginate = (pageNumber) => {
                     </div>
                     <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
                 </div>
-            </div>
-
 
   </div>
       

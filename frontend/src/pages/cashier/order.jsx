@@ -9,7 +9,37 @@ import React, { useEffect, useState } from 'react';
 
 function Ordermain(){
 
+  const [studioStatus, setStudioStatus] = useState('');
+
+  useEffect(() => {
+    // Fetch studio status when the component mounts
+    fetchStudioStatus();
+  }, []);
+
+  const fetchStudioStatus = async () => {
+    try {
+      const response = await axios.get('/studio');
+      if (response.data.success) {
+        // Set the studio status state
+        setStudioStatus(response.data.data[0].Studio_Status);
+      }
+    } catch (error) {
+      console.error('Error fetching studio status:', error);
+    }
+  };
+
   const [dataList, setDataList] = useState([]);
+  const [pendingOrders, setPendingOrders] = useState([]);
+
+  useEffect(() => {
+    setPendingOrders([]); // Clear pendingOrders state before populating it again
+    dataList.forEach((item) => { // Use forEach instead of map since you're not returning anything
+        if (item.ordertype === "Pending") {
+            setPendingOrders((prev) => [...prev, item]);
+        }
+    });
+}, [dataList]);
+
 
     const getFetchData = async () => {
         try {
@@ -29,7 +59,6 @@ function Ordermain(){
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
       };
-
   
 
   return (
@@ -66,7 +95,7 @@ function Ordermain(){
 
   <div class="m-1 rounded-lg bg-kblack px-8 py-9 shadow-xl ring-1 ring-slate-900/5 h-full w-100">
     <h3 className="text-kwhite text-center">STUDIO STATUS</h3><br/><br/>
-      <h2 className="text-kred text-center">OCCUPIED</h2><br/>
+      <div className="text-kred text-center text-2xl">{studioStatus}</div><br/>
   </div>
 
 
@@ -151,60 +180,43 @@ function Ordermain(){
               <th>total</th>
             </tr>
           </thead>
-          <tbody className="bg-kgreen bg-opacity-70">
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-              
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
+          <tbody>
+                        {pendingOrders.length > 0 ? (
+                            pendingOrders.map((il, index) => {
+                    
+                               
+                                return (
+                                    <>
+                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4 text-lg">
 
+                                        <td className="p-4"> {il.cusname}</td>
+                                        <td className="p-4"> {il.telephone}</td>
+                                        <td className="p-4"> {il.email}</td>
+                                        <td className="p-4"> {il.nettotal}</td>
+                                        
+                                        {/* <td className="p-4">
+                                            <div className="flex flex-grow justify-center mx-auto">
+                                                <div className="p-3 text-kwhite text-lg" >
+                                                   {il.email}
+                                                </div>
+                                            </div>
+                                        </td> */}
 
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>John</td>
-              <td>1000</td>
-            </tr>
-          </tbody>
+                                        <td>
+                                            <Button className="p-3 bg-kblack text-kwhite text-lg" >
+                                                {"COMPLETE"}
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                    </>
+                                );
+                            })
+                        ) : (
+                            <tr className="bg-kwhite/20 w-full text-kwhite">
+                                <td colSpan="4" className="text-center py-4">No data available</td>
+                            </tr>
+                        )}
+                    </tbody>
         </table>
 
         <table className="m-1 text-kwhite text-center col-span-2">

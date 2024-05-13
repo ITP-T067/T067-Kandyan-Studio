@@ -13,6 +13,7 @@ const studioStatusSchema = new mongoose.Schema({
         required: true, 
     }, 
     
+
     }) 
     
 const StudioStatus = mongoose.model('StudioStatus', studioStatusSchema); 

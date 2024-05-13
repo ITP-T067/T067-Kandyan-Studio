@@ -31,9 +31,8 @@ const [editSection,seteditSection] = useState(false)
  const [change, setChange] = useState(0); // Changed from array to number
  const [discount, setDiscount] = useState(0); // Changed from array to number
  const [nettotal, setNettotal] = useState(0); // Changed from array to number
- const [status, setStatus] = useState(""); // Changed from array to string
+ const [Status, setStatus] = useState(""); // Changed from array to string
  const [ordertype, setOrdertype] = useState(""); // Changed from array to string
-
  const [dataList, setDataList] = useState([]);
 
  const getFetchData = async () => {
@@ -46,10 +45,10 @@ const [editSection,seteditSection] = useState(false)
  useEffect(() => {
     getFetchData();
     setTotal(calcFinalTotal(dataList));
-    if(status==="Completed"){
-      setOrdertype("Completed");
-    }else{
+    if(Status === "Pending" ){
       setOrdertype("Pending");
+    }else{
+      setOrdertype("Completed");
     }
  }, [dataList]);
 
@@ -210,7 +209,7 @@ const handlecancelorder = () => {
                           id="Edits" 
                           name="Edits"
                           class=" col-span-3 ring-1 py-3 rounded-md " 
-                          pattern="[0-9]{10}"  
+                          
                           onChange={handleOnChange} />
               </div>
 
@@ -308,15 +307,14 @@ const handlecancelorder = () => {
                             name="change" 
                             value={change} 
                             readOnly/>
-                     
+                    
                     <Button className="bg-kred text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kred" 
                             type="submit" 
-                            onClick={()=>setStatus("Pending")}>{"Advance payment"}</Button>
+                            onClick={()=>setOrdertype("Pending")} disabled={change >= 0}>{"Advance payment"}</Button>
                     <Button className="bg-kgreen text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kgreen" 
                             type="submit" 
-                            onClick={()=>setStatus("Completed")}>{"Full Payment"}</Button>
-                    <Button className="bg-kblue text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kblue" 
-                            onClick={generatePDF}>{"VIEW INVOICE"}</Button>
+                            onClick={()=>setOrdertype("Completed")} disabled={change <= 0}>{"Full Payment"}</Button>
+               
                       </div>
                     </div> 
                  </div>
