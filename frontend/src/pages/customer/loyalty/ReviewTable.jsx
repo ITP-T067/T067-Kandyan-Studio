@@ -3,6 +3,7 @@ import {Button} from "@material-tailwind/react"
 import axios from "axios";
 import { HiOutlineArrowCircleLeft} from "react-icons/hi";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import "../../../Styles/Customer/reviewTable.css";
 
 
 axios.defaults.baseURL = "http://localhost:8010/"
@@ -79,44 +80,48 @@ function ReviewTable() {
     
     <div className="mx-5 mb-5">
       
-    
-                      <Button
+      <div className="mb-10">
+      <Button
                                 onClick={GoBack}
                                 className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
                             >
                                 <HiOutlineArrowCircleLeft className="w-8 h-8" />
                                 <span className="text-3xl">Review</span>
                             </Button>
-      <div className="review-table-container">
+      </div>
+    
+                      
+                            
+      <div className="col-span-3 px-20">
         <input
           type="search"
           name="search"
           id="search"
+          className="flex items-center bg-kwhite p-2 px-5 text-sm rounded-full"
           placeholder="Search by message..."
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <table className="review-table">
-          <thead className="bg-kblack text-kwhite h-[50px]">
+        <table className="w-full table-fixed rounded-lg overflow-hidden mt-10">
+          <thead className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
             <tr>
-              <th className="px-4 py-2">Item Name</th>
               <th className="px-4 py-2">Message</th>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Action</th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-100 h-[60px]">
+          <tbody>
             {filteredReviews.map((review, index) => (
-              <tr key={index}>
+              <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                 <td className="px-4 py-2 text-center">{review.message}</td>
                 <td className="px-4 py-2 text-center">{review.date}</td>
-                <td>
-                <button className="p-3 mr-3 bg-kblue" onClick={() => updateReview(index, review.message)}>
+                <td className="p-4 text-kblack items-center justify-center">
+                <Button className="p-3 mr-3 bg-kblue" onClick={() => updateReview(index, review.message)}>
                   <PencilIcon className="h-6 w-6 text-kwhite rounded-full" />
-                  </button>
-                  <button className="p-3 bg-kred" onClick={() => deleteReview(index)}>
+                  </Button>
+                  <Button className="p-3 bg-kred" onClick={() => deleteReview(index)}>
                   <TrashIcon className="h-6 w-6 text-kwhite" />
-                </button>
+                </Button>
               </td>
               </tr>
             ))}
