@@ -108,30 +108,34 @@ export default function Generatereports() {
           </CardBody>
         </Card>
       </div>
-
-      <div className="h-28 relative ">
-        <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center">
-          <label className='font-bold text-kwhite text-lg ml-20 mr-2'>FROM</label>
+      <div className="h-28 relative">
+        <div className="flex flex-col md:flex-row justify-center items-center absolute left-1/2 transform -translate-x-1/2 w-full h-[5vw] max-w-md md:max-w-[50%] bg-kgray bg-opacity-40 rounded-3xl">
+          <label className="font-bold text-kwhite text-lg ml-4 md:ml-8 mr-2 mt-2 md:mt-0">FROM</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={startDate}
             onChange={handleStartDateChange}
+            placeholderText="MM/DD/YYYY"
           />
-          <label className='font-bold text-kwhite text-lg ml-8 mr-2'>TO</label>
+          <label className="font-bold text-kwhite text-lg ml-4 md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={endDate}
             onChange={handleEndDateChange}
+            placeholderText="MM/DD/YYYY"
           />
-          <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-8" onClick={handleClearDates}>CLEAR</button>
+          <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-4 md:ml-8 mt-2 md:mt-0" onClick={handleClearDates}>
+            CLEAR
+          </button>
         </div>
       </div>
+
 
       <form className=" max-w-md mx-auto left-0 right-0">
         <div>
           <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           </div>
-          <input value={searchQuery} onChange={handleSearchInputChange} type="search" id="default-search" className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search" required />
+          <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name" required />
         </div>
       </form>
 

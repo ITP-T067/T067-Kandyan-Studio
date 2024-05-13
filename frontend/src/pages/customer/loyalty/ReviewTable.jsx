@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Button} from "@material-tailwind/react"
 import axios from "axios";
-import "../../../Styles/customer/reviewTable.css";
+import "../../../Styles/Customer/reviewTable.css";
 import { HiOutlineArrowCircleLeft} from "react-icons/hi";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 

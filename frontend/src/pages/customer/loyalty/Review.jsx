@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewSelection from "../loyalty/ReviewSelection";
 import { Link } from "react-router-dom";
-import "../../../Styles/customer/Review.css";
+import "../../../Styles/Customer/Review.css";
 
 function Review() {
   return (
