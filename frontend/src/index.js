@@ -62,6 +62,17 @@ import EventsList from './pages/manager/event/EventsList.jsx';
 //Manager Dashboard - Finance Department
 
 //Manager Dashboard - Employee Department
+import Edashboard from './pages/manager/employee/empDashboard.jsx';
+import AddForm from './pages/manager/employee/addForm.jsx';
+import ViewEmp from './pages/manager/employee/viewEmp.jsx';
+import UpdateForm from './pages/manager/employee/updateForm.jsx';
+import PerformanceForm from './pages/manager/employee/performanceForm.jsx';
+import ViewPerformance from './pages/manager/employee/viewPerformance.jsx';
+import SalarySlip from './pages/manager/employee/salarySlip.jsx';
+import SalaryForm from './pages/manager/employee/salaryForm.jsx';
+import CashierSlip from './pages/manager/employee/cashierSlip.jsx';
+import CreatorSlip from './pages/manager/employee/creatorSlip.jsx';
+import SalaryNotification from './pages/manager/employee/notification.jsx';
 
 //Manager Dashboard - Supplier Department
 
@@ -152,6 +163,20 @@ root.render(
         <Route path='/manager/eventdept/AddPackages' element={<AddPackages/>}/>
         <Route path='/manager/eventdept/EditPackages' element={<EditPackages/>}/>
         <Route path='/manager/eventdept/EventsList' element={<EventsList/>}/>
+
+        {/*Manager Dashboard - Employee Department */}
+        <Route path='/manager/employee' element={<Edashboard/>}/>
+        <Route path='/manager/employee/addForm' element={<AddForm/>}/>
+        <Route path='/manager/employee/viewEmp' element={<ViewEmp/>}/>
+        <Route path='/manager/employee/updateForm' element={<UpdateForm/>}/>
+        <Route path='/manager/employee/performanceForm' element={<PerformanceForm/>}/>
+        <Route path='/manager/employee/viewPerformance' element={<ViewPerformance/>}/>
+        <Route path='/manager/employee/salarySlip' element={<SalarySlip/>}/>
+        <Route path='/manager/employee/salaryForm' element={<SalaryForm/>}/>
+        <Route path='/manager/employee/cashierSlip' element={<CashierSlip/>}/>
+        <Route path='/manager/employee/creatorSlip' element={<CreatorSlip/>}/>
+        
+        <Route path='/manager/employee/notification' element={<SalaryNotification/>}/>
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
