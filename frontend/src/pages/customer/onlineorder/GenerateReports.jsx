@@ -90,6 +90,9 @@ export default function Generatereports() {
     documentTitle: "Order History Report",
   });
 
+  // Calculate the total price of filtered orders
+  const totalPrice = filteredOrder.reduce((sum, order) => sum + order.Order_Amount, 0);
+
   return (
     <div>
       <div className="mx-5 mb-5">
@@ -185,12 +188,24 @@ export default function Generatereports() {
                       </td>
                       <td>
                           <Typography variant="lead" className="font-normal mb-4 mt-4">
-                              {order.Order_Amount}
+                              {order.Order_Amount.toFixed(2)}
                           </Typography>
                       </td>
                   </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr className="">
+                <td className="opacity-100"></td>
+                <td className="opacity-100"></td>
+                <td className="border-t font-bold text-xl text-kblack bg-kwhite bg-opacity-70">
+                  Total
+                </td>
+                <td className="border-t  p-4 font-bold text-center underline text-xl text-kblack bg-kwhite bg-opacity-70">
+                  {totalPrice.toFixed(2)}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
