@@ -7,6 +7,11 @@ const path = require('path');
 const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
+//Manager - Employee Department
+const employeeRouter  = require("./routes/employeeManagement/employees.route.js")
+const salaryRouter = require("./routes/employeeManagement/salary.route.js")
+
+
 //Creator
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/ProjectManagement/project.route.js")
@@ -47,6 +52,11 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 //Manager - Stock Department
 app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
+
+//Manager - Employee Department
+app.use('/employee', employeeRouter);
+app.use('/salary', salaryRouter);
+
 
 //Creator
 app.use('/order', orderRouter);

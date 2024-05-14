@@ -11,7 +11,7 @@ const ManagerNavbar = () => {
         { title: 'Event Department', link: '/manager/eventdept' },
         { title: 'Stock Department', link: '/manager/stockdept' },
         { title: 'Finance Department', link: '/manager/financedept' },
-        { title: 'Employee Department', link: '' },
+        { title: 'Employee Department', link: '/manager/employee' },
         { title: 'Supplier Department', link: '' },
         { title: 'Loyalty Department', link: '/manager/loyalty'},
     ];
