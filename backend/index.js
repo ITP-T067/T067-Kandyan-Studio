@@ -15,6 +15,11 @@ const receiptRouter = require("./routes/receipt.route.js");
 const inquiryRouter = require("./routes/inquiry.route.js");
 const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.route.js");
 
+//Manager - Event Department
+const packageRouter = require("./routes/EventManagement/package.route.js");
+
+//Customer - Event Department
+const eventRouter = require("./routes/EventManagement/event.route.js")
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
 
@@ -26,6 +31,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads', 'OnlineOrder')));
+app.use('/uploads/EventManagement', express.static(path.join(__dirname, 'uploads', 'EventManagement')));
 
 
 
@@ -49,6 +55,13 @@ app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
+
+//Manager - Event Department
+app.use('/package', packageRouter);
+
+//Customer - Event Department
+app.use('/event', eventRouter);
+
 
 
 

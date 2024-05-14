@@ -1,14 +1,10 @@
 import React from 'react';
-import '../Styles/home.css'; // Importing the CSS file
-import MainImage from '../images/logo.png';
-import Photography from '../images/photography.png';
-import DigitalPrinting from '../images/dp.png';
-import Passport from '../images/ps.png';
-import Album from '../images/ab.png';
-import review from '../images/sample.png';
-import footer from '../images/foot.png';
+import '../../../Styles/home.css'; // Importing the CSS file
+import MainImage from '../../../images/logo.png';
+import Photography from '../../../images/photography.jpg';
+import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
 import { useNavigate } from 'react-router-dom';
-import NormalHeader from './header';
+import NormalHeader from '../../header';
 
 
 function Home() {
@@ -41,7 +37,7 @@ function Home() {
         </button>
       </div>
       <div className="explore-btn">
-          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('/customer/event/WeddingEvents')}>
+          <button className="rounded-full bg-kyellow hover:scale-110 transition-transform duration-300" onClick={() => navigate('/customer/event/cusDashWedding')}>
               EXPLORE EVENTS
           </button>
       </div>
@@ -53,29 +49,29 @@ function Home() {
           <div className="order_btn" style={{border: 'none', transform: 'none', backgroundColor: '#838383'}}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold" style={{ left: '0px', top: '282px', right:'0px' }}>Photography</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Photography</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Photography" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383'}}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold" style={{ left: '0px', top: '282px', right:'0px' }}>Digital Printing</div>
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Digital Printing</div>
               <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={DigitalPrinting} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Digital Printing" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383' }}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold" style={{ left: '0px', top: '282px', right:'0px' }}>Passport &amp;<br/>ID Photos</div>
-              <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Passport} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Passport &amp; ID Photos" />
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Passport &amp;<br/>ID Photos</div>
+              <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Passport &amp; ID Photos" />
             </div>
           </div>
           <div className="order_btn" style={{ border: 'none', transform: 'none', backgroundColor: '#838383' }}>
             <div className="Group8955 relative" style={{ width: '290px', height: '360px' }}>
               <div className="Rectangle4318 absolute bg-zinc-500 bg-opacity-40 rounded-2xl shadow border-neutral-500" style={{ width: '100%', height: '100%' }} />
-              <div className="Photos absolute text-center text-kwhite text-2xl font-bold" style={{ left: '0px', top: '282px', right:'0px' }}>Album Binding</div>
-              <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Album} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Album Binding" />
+              <div className="Photos absolute text-center text-kwhite text-2xl font-bold font-normal" style={{ left: '0px', top: '282px', right:'0px' }}>Album Binding</div>
+              <img className="DefaultPassportAndIdPhotosServicesManyStudiosAndLabs32 absolute rounded-3xl" src={Photography} style={{ width: '255px', height: '255px', left: '16px', top: '20px' }} alt="Album Binding" />
             </div>
           </div>
         </div>
@@ -83,7 +79,7 @@ function Home() {
 
       {/* about us card */}
       <div className="about_card">
-        <div className="AboutUs top-0 ">ABOUT US</div>
+        <div className="AboutUs top-0">ABOUT US</div>
         <div className='aboutImage'>
           <img src={MainImage} alt="Centered Image" />
         </div>
@@ -93,15 +89,9 @@ function Home() {
       </div>
 
       {/* rating card */}
-      <div className="rate_card flex justify-center ">
-        <img src={review} alt="Centered Image" className="w-[87rem] h-[12rem rounded-3xl" />
+      <div className="rate_card">
+      
       </div>
-
-
-      <div className="foot_card flex justify-center">
-  <img src={footer} alt="Centered Image" className="w-[87rem] h-[12rem rounded-3xl" />
-</div>
-
     </div>
   );
 }
