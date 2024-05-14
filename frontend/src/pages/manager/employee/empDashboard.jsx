@@ -9,7 +9,7 @@ import { MdMarkEmailRead } from "react-icons/md";
 
 const empDashboard = () => {
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center items-center mt-10">
       <div className="w-4/5 flex justify-between gap-4">
         <BoxLink to="/manager/employee/addForm" iconName={<IoIosPersonAdd />} boxName="Add Employee" />
         <BoxLink to="/manager/employee/viewEmp" iconName={<FaAddressCard />} boxName="View Employee" />
