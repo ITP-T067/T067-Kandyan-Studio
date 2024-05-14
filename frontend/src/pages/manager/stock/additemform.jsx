@@ -21,9 +21,43 @@ const AddItemForm = () => {
         file: null
     });
 
+    //Validation
+    const [validate, setValidate] = useState(true);
+    const validateItemName = (name) => {
+        const regex = /^[a-zA-Z0-9\s]*$/;
+        return regex.test(name);
+    };
+
+    const validateQuantity = (quantity) => {
+        
+    }
+
     const handleOnChange = (e) => {
         const { value, name } = e.target;
+    
+        let isValid = true;
+    
+        if (name === 'name') {
+            isValid = validateItemName(value);
+        }
+    
+        setValidate(isValid);
+    
+        if (!isValid) {
+            setIsAlert(true);
+            setAlertStatus('error');
+            setMessage("Item name should not include special characters!");
+        } else {
+            setIsAlert(false);
+        }
 
+        if (parseInt(formData.maxCapacity) < parseInt(formData.quantity)) {
+            setIsAlert(true);
+            setAlertStatus('error');
+            setMessage("Max Capacity should be greater than or equal to Quantity!");
+            return;
+        }
+    
         if (name === 'file') {
             setFormData((prev) => ({
                 ...prev,
@@ -36,6 +70,7 @@ const AddItemForm = () => {
             }));
         }
     };
+    
 
     const [isAlert, setIsAlert] = useState(false);
     const [alertStatus, setAlertStatus] = useState('success');
@@ -43,6 +78,11 @@ const AddItemForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(validate===false){
+            return;
+        }
+    
         const formDataToSend = new FormData();
         formDataToSend.append("name", formData.name);
         formDataToSend.append("description", formData.description);
@@ -131,7 +171,7 @@ const AddItemForm = () => {
                             onChange={handleOnChange}
                             required
                         >
-                            <option value=""></option>
+                            <option value="" disabled hidden>Select Type</option>
                             <option value="Sublimations">Sublimations</option>
                             <option value="Photo Prints">Photo Prints</option>
                             <option value="Laminates">Laminates</option>
@@ -162,6 +202,8 @@ const AddItemForm = () => {
                                 <div className='mr-3'>
                                     <input
                                         type="number"
+                                        min={0}
+                                        max={formData.maxCapacity}
                                         className="bg-kwhite rounded-lg text-kblack w-full text-sm mr-5"
                                         name="quantity" 
                                         value={formData.quantity}
@@ -172,6 +214,7 @@ const AddItemForm = () => {
                                 <div>
                                     <input
                                         type="number"
+                                        min={0}
                                         className="bg-kwhite rounded-lg text-kblack w-full text-sm"
                                         name="maxCapacity"
                                         value={formData.maxCapacity}
@@ -188,6 +231,7 @@ const AddItemForm = () => {
                                     <span>LKR</span>
                                     <input
                                         type="number"
+                                        min={0}
                                         className="col-span-2 bg-kwhite rounded-lg text-kblack w-full text-sm"
                                         name="sellingPrice"
                                         value={formData.sellingPrice}

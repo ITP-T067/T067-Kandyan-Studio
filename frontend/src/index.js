@@ -18,6 +18,12 @@ import CustomerSignup from './pages/customer/CreateCust.jsx';
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
 import Addtocart from './pages/customer/onlineorder/addToCart.jsx'
+import WeddingEvents from './pages/customer/event/WeddingEvents.jsx';
+import BirthdayEvents from './pages/customer/event/BdayEvents.jsx'
+import SocialEvents from './pages/customer/event/SocialEvents.jsx';
+import BookingEvent from './pages/customer/event/BookingEvent.jsx';
+import EditEvent from './pages/customer/event/EditEvent.jsx';
+import MyEvents from './pages/customer/event/MyEvents.jsx';
 import Customercart from './pages/customer/onlineorder/customerCart.jsx';
 import Myorder from './pages/customer/onlineorder/myOrders.jsx';
 import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
@@ -45,10 +51,28 @@ import AddItemForm from './pages/manager/stock/additemform';
 import EditItemForm from './pages/manager/stock/edititemform';
 
 //Manager Dashboard - Event Department
+import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
+import MgrWedding from './pages/manager/event/MgrWedding.jsx';
+import MgrBdayParty from './pages/manager/event/MgrBdayParty.jsx';
+import MgrSocial from './pages/manager/event/MgrSocial.jsx';
+import AddPackages from './pages/manager/event/AddPackages.jsx';
+import EditPackages from './pages/manager/event/EditPackages.jsx';
+import EventsList from './pages/manager/event/EventsList.jsx';
 
 //Manager Dashboard - Finance Department
 
 //Manager Dashboard - Employee Department
+import Edashboard from './pages/manager/employee/empDashboard.jsx';
+import AddForm from './pages/manager/employee/addForm.jsx';
+import ViewEmp from './pages/manager/employee/viewEmp.jsx';
+import UpdateForm from './pages/manager/employee/updateForm.jsx';
+import PerformanceForm from './pages/manager/employee/performanceForm.jsx';
+import ViewPerformance from './pages/manager/employee/viewPerformance.jsx';
+import SalarySlip from './pages/manager/employee/salarySlip.jsx';
+import SalaryForm from './pages/manager/employee/salaryForm.jsx';
+import CashierSlip from './pages/manager/employee/cashierSlip.jsx';
+import CreatorSlip from './pages/manager/employee/creatorSlip.jsx';
+import SalaryNotification from './pages/manager/employee/notification.jsx';
 
 //Manager Dashboard - Supplier Department
 
@@ -75,6 +99,7 @@ import ReceiptForm from './pages/creator/ReceiptForm.jsx';
 import Generatereports from './pages/creator/GenerateReports.jsx';
 import DeclinePayment from './pages/creator/DeclinePayment.jsx';
 
+
 //Studio Operator Dashboard
 import StudioDash from './pages/studioop/studio_dash.jsx'
 
@@ -99,6 +124,12 @@ root.render(
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
+        <Route path='/customer/event/WeddingEvents' element={<WeddingEvents/>}/>
+        <Route path='/customer/event/BdayEvents' element={<BirthdayEvents/>}/>
+        <Route path='/customer/event/SocialEvents' element={<SocialEvents/>}/>
+        <Route path='/customer/event/BookingEvent' element={<BookingEvent/>}/>
+        <Route path='/customer/event/EditEvent' element={<EditEvent/>}/>
+        <Route path='/customer/event/MyEvents' element={<MyEvents/>}/>
         <Route path='/myorder' element={<Myorder/>}/>
         <Route path='/pendingorder' element={<Pendingorder/>}/>
         <Route path='/processingorder' element={<Processingorder/>}/>
@@ -125,6 +156,27 @@ root.render(
         {/* Manager Dashboard - Loyalty Department */}
         <Route path='/manager/loyalty' element={<Loyaltyview />} />
         {/* Manager Dashboard - Event Department */}
+        <Route path='/manager/eventdept' element={<MgrDashboardEvent/>}/>
+        <Route path='/manager/eventdept/MgrWedding' element={<MgrWedding/>}/>
+        <Route path='/manager/eventdept/MgrBdayParty' element={<MgrBdayParty/>}/>
+        <Route path='/manager/eventdept/MgrSocial' element={<MgrSocial/>}/>
+        <Route path='/manager/eventdept/AddPackages' element={<AddPackages/>}/>
+        <Route path='/manager/eventdept/EditPackages' element={<EditPackages/>}/>
+        <Route path='/manager/eventdept/EventsList' element={<EventsList/>}/>
+
+        {/*Manager Dashboard - Employee Department */}
+        <Route path='/manager/employee' element={<Edashboard/>}/>
+        <Route path='/manager/employee/addForm' element={<AddForm/>}/>
+        <Route path='/manager/employee/viewEmp' element={<ViewEmp/>}/>
+        <Route path='/manager/employee/updateForm' element={<UpdateForm/>}/>
+        <Route path='/manager/employee/performanceForm' element={<PerformanceForm/>}/>
+        <Route path='/manager/employee/viewPerformance' element={<ViewPerformance/>}/>
+        <Route path='/manager/employee/salarySlip' element={<SalarySlip/>}/>
+        <Route path='/manager/employee/salaryForm' element={<SalaryForm/>}/>
+        <Route path='/manager/employee/cashierSlip' element={<CashierSlip/>}/>
+        <Route path='/manager/employee/creatorSlip' element={<CreatorSlip/>}/>
+        
+        <Route path='/manager/employee/notification' element={<SalaryNotification/>}/>
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
@@ -132,6 +184,8 @@ root.render(
         <Route path='/creator/completedProjects' element={<CompletedProjects/>}/>
         <Route path='/creator/physicalOrders' element={<PhysicalOrders/>}/>
         <Route path='/creator/orderPayments' element={<OrderPayment/>}/>
+
+
         <Route path='/creator/addProjects/:orderId' element={<AddProjects/>}/>
         <Route path='/creator/editProjects/:projectId' element={<EditProjects/>}/>
         <Route path='/creator/offlineOrders' element={<OfflineOrders/>}/>
@@ -146,7 +200,6 @@ root.render(
         
         {/* Studio Operator Dashboard*/}
         <Route path='/studiooperator/' element={<StudioDash/>}/>
-        
         
       </Routes>
     </BrowserRouter>
