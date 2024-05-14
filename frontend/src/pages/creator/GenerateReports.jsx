@@ -15,13 +15,14 @@ export default function GenerateReports() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const getFetchData = async () => {
+    const getFetchData = async (adjustedEndDate) => {
         try {
             const response = await axios.get("/project/report", {
                 params: {
                     startDate: startDate,
-                    endDate: endDate
+                    endDate: adjustedEndDate
                 }
             });
             if (response.data.success) {
@@ -32,38 +33,31 @@ export default function GenerateReports() {
             console.error("Error fetching data:", error);
         }
     };
-    
-    useEffect(() => {
-        if (startDate && endDate) {
-            getFetchData();
-        }
-    }, [startDate, endDate]); 
 
-    const componentRef = useRef([]);
+    const componentRef = useRef(null);
 
     const generateNewPDF = useReactToPrint({
-        content : () => componentRef.current,
-        docunentTitle: "Project Report",
+        content: () => componentRef.current,
+        documentTitle: "Project Report",
         onAfterPrint: () => alert("Data Saved in pdf"),
-    })
+    });
 
     const generatePDF = () => {
         const pdf = new jsPDF();
         pdf.setFontSize(12);
         pdf.setFont("helvetica", "bold");
-        pdf.text("Report of Total Project Summary",  105, 10, { align: 'center' });
+        pdf.text("Report of Total Project Summary", 105, 10, { align: 'center' });
         pdf.setFontSize(10);
         pdf.setTextColor(0, 0, 0);
         pdf.text(`Total number of ongoing projects: ${totalOngoingProjects}`, 10, 20);
         pdf.text(`Total number of completed projects: ${totalCompletedProjects}`, 10, 30);
         pdf.text(`Total number of online completed projects: ${totalOnlineProjects}`, 10, 40);
 
-        // Print project details
-        let startY = 60; // Initial Y position for project details
+        let startY = 60;
         dataList.forEach((project, index) => {
             const details = `Project ${index + 1}: ${project.Project_Name}, Status: ${project.Status}, Order: ${project.OrderModel}`;
             pdf.text(details, 10, startY);
-            startY += 10; // Increase Y position for next detail
+            startY += 10;
         });
 
         pdf.save("project_report.pdf");
@@ -71,10 +65,30 @@ export default function GenerateReports() {
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
+        setErrorMessage('');
     };
 
     const handleEndDateChange = (date) => {
         setEndDate(date);
+        setErrorMessage('');
+    };
+
+    const handleSubmit = () => {
+        if (!startDate || !endDate) {
+            setErrorMessage('Both start and end dates are required.');
+            return;
+        }
+        if (startDate > new Date()) {
+            setErrorMessage('The "From" date cannot be in the future.');
+            return;
+        }
+        if (endDate <= startDate) {
+            setErrorMessage('The "To" date must be after the "From" date.');
+            return;
+        }
+        const adjustedEndDate = new Date(endDate);
+        adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
+        getFetchData(adjustedEndDate);
     };
 
     const calculateProjectSummary = () => {
@@ -108,10 +122,14 @@ export default function GenerateReports() {
                             selected={endDate}
                             onChange={handleEndDateChange}
                         />
-                        {/* <button type="button" onClick={generateNewPDF}className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">GENERATE</button> */}
+                        <button type="button" onClick={handleSubmit} className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">Generate</button>
                     </div>
                 </div>
-
+                {errorMessage && (
+                    <div className="text-kred text-center mt-2">
+                        {errorMessage}
+                    </div>
+                )}
                 {isDataLoaded && (
                     <div ref={componentRef} className="addContainer w-[530px] h-80 bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-0 absolute top-1/2 left-1/2 transform -translate-x-1/2  p-5">
                         <h className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-0">Total Project Summary</h>
