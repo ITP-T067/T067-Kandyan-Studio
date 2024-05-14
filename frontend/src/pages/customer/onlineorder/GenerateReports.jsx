@@ -1,61 +1,52 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react';
 import { Card, Typography, CardBody } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { useReactToPrint } from 'react-to-print';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8010/";
 
 const TABLE_HEAD = [
-  "Date",
-  "Type",
-  "Price"
-];
-
-const TABLE_ROWS = [
-  {
-    date: "2024/01/05",
-    type: "Drowing",
-    price: "LKR 2,950.00"
-  },
-  {
-    date: "2024/04/05",
-    type: "Designing",
-    price: "LKR 4,000.00"
-  },
-  {
-    date: "2024/01/05",
-    type: "Shooting",
-    price: "LKR 1,700.00"
-  },
-  {
-    date: "2024/01/05",
-    type: "Shooting",
-    price: "LKR 1,700.00"
-  },
-  {
-    date: "2024/01/05",
-    type: "Shooting",
-    price: "LKR 1,700.00"
-  },
-  
+  "Completed Date",
+  "Item Name",
+  "Quantity",
+  "Total Price"
 ];
 
 export default function Generatereports() {
-
   const navigate = useNavigate();
-
-  // pdf generate
-  const componentPDF = useRef([]);
-
-  const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
-    documentTitle: "History Report",
-    onAfterPrint: () => alert("Data saved in PDF")
-  });
-
+  const [filteredOrder, setFilteredOrder] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [completedOrders, setCompletedOrders] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+
+  const componentPDF = useRef(null);
+
+  useEffect(() => {
+    fetchCompletedOrders();
+  }, []);
+
+  useEffect(() => {
+    filterOrders();
+  }, [completedOrders, startDate, endDate, searchQuery]);
+
+  const filterOrders = () => {
+    const filtered = completedOrders.filter(order => {
+      const orderTimestamp = new Date(order.Completed_Date).getTime();
+      const meetsDateCriteria = (!startDate || orderTimestamp >= startDate.getTime()) &&
+                                (!endDate || orderTimestamp <= endDate.getTime());
+      const meetsSearchCriteria = order.Item_Name.toLowerCase().includes(searchQuery.toLowerCase());
+      return meetsDateCriteria && meetsSearchCriteria;
+    });
+    setFilteredOrder(filtered);
+  };
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -64,6 +55,40 @@ export default function Generatereports() {
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
+
+  const handleClearDates = () => {
+    setStartDate(null);
+    setEndDate(null);
+  };
+
+  const fetchCompletedOrders = async () => {
+    try {
+      const response = await axios.get('/order/on/');
+      const onlineOrders = response.data.data;
+
+      // Filter completed orders
+      const completedOnlineOrders = onlineOrders.filter(order => order.Project_Status === 'Completed');
+
+      // Fetch project details for each completed order
+      const completedOrdersWithProjectData = await Promise.all(
+        completedOnlineOrders.map(async order => {
+          const projectResponse = await axios.get(`/project/order/${order._id}`);
+          // Assuming the endpoint to fetch project details is '/projects/:id'
+          const project = projectResponse.data.data;
+          return { ...order, Completed_Date: project.Completed_Date }; // Add completed date from project to order
+        })
+      );
+
+      setCompletedOrders(completedOrdersWithProjectData);
+    } catch (error) {
+      console.error('Error fetching completed orders:', error);
+    }
+  };
+
+  const handleGeneratePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "Order History Report",
+  });
 
   return (
     <div>
@@ -83,89 +108,92 @@ export default function Generatereports() {
           </CardBody>
         </Card>
       </div>
-
-      <div className="h-28 relative ">
-        <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center">
-          <label className='font-bold text-kwhite text-lg ml-20 mr-2'>FROM</label>
+      <div className="h-28 relative">
+        <div className="flex flex-col md:flex-row justify-center items-center absolute left-1/2 transform -translate-x-1/2 w-full h-[5vw] max-w-md md:max-w-[60%] bg-kgray bg-opacity-40 rounded-3xl">
+          <label className="font-bold text-kwhite text-lg md:ml-4 mr-2 mt-2 md:mt-0">FROM</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={startDate}
             onChange={handleStartDateChange}
+            placeholderText="MM/DD/YYYY"
           />
-          <label className='font-bold text-kwhite text-lg ml-8 mr-2'>TO</label>
+          <label className="font-bold text-kwhite text-lg md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={endDate}
             onChange={handleEndDateChange}
+            placeholderText="MM/DD/YYYY"
           />
-          <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-8">GENERATE</button>
+          <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-4 md:ml-8 mt-2 md:mt-0" onClick={handleClearDates}>
+            CLEAR
+          </button>
         </div>
       </div>
 
-      <form className="absolute max-w-md mx-auto left-0 right-0">
+
+      <form className=" max-w-md mx-auto left-0 right-0">
         <div>
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-            </svg>
+          <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           </div>
-          <input type="search" id="default-search" className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search" required />
+          <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name" required />
         </div>
       </form>
 
       <div className="h-10 max-w-md mx-auto">
-        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={generatePDF}>DOWNLOAD</button>
+        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={handleGeneratePDF}>DOWNLOAD</button>
       </div>
 
-
-      <div className="p-3">
+      <div className="p-8">
         <div ref={componentPDF}>
           <table className="w-full rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-kwhite bg-opacity-90">
-                {TABLE_HEAD.map((head, index) => (
-                  <th
-                    key={head}
-                    className={`border-kwhite text-kblack p-4 font-bold ${
-                      index === TABLE_HEAD.length ? "" : "border-b"
-                      } text-center`}
+              <tr className="bg-kblack">
+              {TABLE_HEAD.map((head, index) => (
+                <th
+                  key={head}
+                  className={`border-kwhite text-kwhite p-4 font-bold ${
+                    index === TABLE_HEAD.length ? "" : "border-b"
+                    } text-center`}
                   >
-                    <Typography variant="lead">{head}</Typography>
-                  </th>
+                  <Typography variant="lead">{head}</Typography>
+                </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {TABLE_ROWS.map(({ date, type, price }, index) => {
-                const isLast = index === TABLE_ROWS.length;
-
-                return (
+              
+            {filteredOrder
+                .map((order, index) => (
                   <tr
-                    key={index}
-                    className={`${isLast ? "" : "border-b"} bg-kwhite text-kblack text-center p-4 bg-opacity-80`}
+                      key={index}
+                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite bg-opacity-70 text-center p-4`}
                   >
-                    <td>
-                      <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
-                        {date}
-                      </Typography>
-                    </td>
-                    <td>
-                      <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
-                        {type}
-                      </Typography>
-                    </td>
-                    <td>
-                      <Typography variant="lead" color="blue-gray" className="font-normal mb-4 mt-4">
-                        {price}
-                      </Typography>
-                    </td>
+                      <td>
+                          <Typography variant="lead" className="font-normal mb-4 mt-4">
+                              {order.Completed_Date ? new Date(order.Completed_Date).toISOString().split('T')[0] : ''}
+                          </Typography>
+                      </td>
+                      <td>
+                          <Typography variant="lead" className="font-normal mb-4 mt-4">
+                              {order.Item_Name}
+                          </Typography>
+                      </td>
+                      <td>
+                          <Typography variant="lead" className="font-normal mb-4 mt-4">
+                              {order.Quantity}
+                          </Typography>
+                      </td>
+                      <td>
+                          <Typography variant="lead" className="font-normal mb-4 mt-4">
+                              {order.Order_Amount}
+                          </Typography>
+                      </td>
                   </tr>
-                );
-              })}
+              ))}
             </tbody>
           </table>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -13,7 +13,7 @@ const ManagerNavbar = () => {
         { title: 'Finance Department', link: '/manager/financedept' },
         { title: 'Employee Department', link: '/manager/employee' },
         { title: 'Supplier Department', link: '' },
-        { title: 'Loyalty Department', link: '' },
+        { title: 'Loyalty Department', link: '/manager/loyalty'},
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);

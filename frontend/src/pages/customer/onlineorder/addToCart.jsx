@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import '../../../Styles/addToCart.css';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import DigitalPrinting from '../../../images/DigitialPrinting.jpg';
-import Photography from '../../../images/photography.jpg';
+import axios from 'axios';
 
-axios.defaults.baseURL = "http://localhost:8010/"
+axios.defaults.baseURL = "http://localhost:8010/";
 
 export default function AddToCart() {
-  const [mainImage, setMainImage] = useState(Photography);
   const [showAlert, setShowAlert] = useState(false);
-  const [orderType, setOrderType] = useState('');
   const navigate = useNavigate();
-
-  const handleOrderTypeChange = (e) => {
-    setOrderType(e.target.value);
-  };
-
-  const handleSmallImageClick = (imageSrc) => {
-    setMainImage(imageSrc);
-  };
 
   const handleOKButtonClick = () => {
     setShowAlert(false);
@@ -29,6 +16,7 @@ export default function AddToCart() {
   const { itemId } = useParams();
   const [itemDetails, setItemDetails] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [filename, setfilename] = useState();
 
   const fetchItemDetails = (itemId) => {
     axios.get(`/item/find/${itemId}`)
@@ -48,17 +36,16 @@ export default function AddToCart() {
     return <div className='text-kwhite'>Loading...</div>;
   }
 
-  //add datat addtocart table
   const handleAddToCartClick = (e) => {
     e.preventDefault();
 
-    const dataAdd = {
-      item_Name: itemDetails.name,
-      item_Price: itemDetails.sellingPrice,
-      item_Type: orderType,
-      item_Quantity: parseInt(quantity),
-      item_Slip: "sdfdsg gfgsd"
-    };
+    const dataAdd = new FormData();
+    dataAdd.append('Item_ID', itemId);
+    dataAdd.append('item_Name', itemDetails.name);
+    dataAdd.append('item_Price', itemDetails.sellingPrice);
+    dataAdd.append('item_Quantity', parseInt(quantity));
+    dataAdd.append('item_image', itemDetails.image);
+    dataAdd.append('file', filename);
 
     axios.post('order/on/create/cart', dataAdd)
       .then(response => {
@@ -73,107 +60,62 @@ export default function AddToCart() {
       });
   };
   
-  
-
   return (
     <div>
-      <div className={`container ${showAlert ? 'blur' : ''}`}>
-        <div className="h-[45rem] bg-kgray bg-opacity-30 rounded-3xl ml-8 mr-8">
+      <div className={`flex justify-center items-center -mt-4 ${showAlert ? 'blur' : ''}`}>
+        <div className="h-[38rem] w-[75rem] bg-kgray bg-opacity-30 rounded-3xl">
           <div>
             <div className="flex flex-col md:flex-row md:space-x-8">
-              <div className="mt-4 ml-11">
-              <div class="flex items-center ml-14">
-                <svg class="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onClick={() => navigate('/cusdashboard')} disabled={showAlert}>
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 8 8 12 12 16" />
-                  <line x1="16" y1="12" x2="8" y2="12" />
-                </svg>
-                <h2 class="text-5xl font-bold text-kwhite mb-2">{itemDetails.name}</h2>
-              </div>
-
+              <div className="mt-4">
+                <div className="flex items-center ml-14">
+                  <svg className="h-11 w-11 mb-3 text-kwhite mr-2 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" onClick={() => navigate('/cusdashboard')} disabled={showAlert}>
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 8 8 12 12 16" />
+                    <line x1="16" y1="12" x2="8" y2="12" />
+                  </svg>
+                  <h2 className="text-5xl font-bold text-kwhite mb-2">{itemDetails.name}</h2>
+                </div>
                 <div className="flex justify-center mx-auto md:mx-0">
-                  <div className="flex flex-col justify-center">
-                    <img
-                      src={DigitalPrinting}
-                      alt="Small Image 1"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(DigitalPrinting)}
-                    />
-                    <img
-                      src={Photography}
-                      alt="Small Image 2"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(Photography)}
-                    />
-                    <img
-                      src={DigitalPrinting}
-                      alt="Small Image 3"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(DigitalPrinting)}
-                    />
-                    <img
-                      src={Photography}
-                      alt="Small Image 4"
-                      className="w-20 h-20 rounded-lg m-1"
-                      onClick={() => handleSmallImageClick(Photography)}
-                    />
-                  </div>
-                  <div className="flex items-center ml-4">
-                    <img src={mainImage} alt="Centered Image" className="rounded-lg w-65 h-64" />
+                  <div className="flex items-center ml-[5rem] mt-8">
+                    <img src={require(`../../../../../backend/uploads/StockManagement/${itemDetails.image}`)} alt="Centered Image" className="rounded-lg w-[450px] h-[450px]" />
                   </div>
                 </div>
               </div>
-
               <div>
-                <div className="py-8">
-                  <h2 className="text-5xl font-bold text-kwhite mb-2 ml-10 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
+                <div className="py-8 ml-[rem]">
+                  <h2 className="text-5xl font-bold text-kwhite ml-10 mb-2 mt-[2rem]">LKR: {itemDetails.sellingPrice}.00</h2>
                   <div className="flex mb-4">
                     <div className="mr-4">
-                      <h2 className="font-bold text-kwhite  ml-10 mt-2 max-w-[700px] mb-6 h-[9rem]">
-                      <div class="overflow-y-auto h-[9rem]">
-                        <div>{itemDetails.description}</div>
-                      </div>
+                      <h2 className="font-bold text-kwhite ml-10 mt-2 max-w-[500px] h-[9rem]">
+                        <div className="overflow-y-auto h-[7rem]">
+                          <div>{itemDetails.description}</div>
+                        </div>
                       </h2>
                     </div>
                   </div>
-                  
-                 <form onSubmit={handleAddToCartClick}>
-                    <div className="mb-4">
-                      <label className="text-1xl text-kwhite ml-12">Order Type</label>
-                      <select aria-label="Select order type" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- " required value={orderType} onChange={handleOrderTypeChange}>
-                        <option value="" disabled selected hidden>Select order type</option>
-                        <option value="Sublimation">Sublimation</option>
-                        <option value="Poster">Poster</option>
-                        <option value="Frame">Frame</option>
-                        <option value="Prints">Prints</option>
-                      </select>
-                    </div>
+                  <form onSubmit={handleAddToCartClick}>
                     <div className="mb-4">
                       <label className="text-1xl text-kwhite ml-12">Quantity</label>
-                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1 placeholder- "  placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={1} required value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
+                      <input type="number" id="small-input" className="block w-full p-2 pl-5 mb-8 text-kwhite border bg-kgray rounded-3xl max-w-[450px] ml-10 mt-1" placeholder="Type quantity" disabled={showAlert} min={1} max={itemDetails.quantity} defaultValue={""} required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                     </div>
                     <div>
-                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300">Optional (If you want to add a print to the item, please upload it in here Size: 23*23)</div>
-                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack dark:placeholder-gray-400" id="large_size" type="file" disabled={showAlert}  />
+                      <div className="font-bold text-kwhite ml-10 dark:text-gray-300 max-w-[500px]">Optional (If you want to add a print to the item, please upload it in here quality image)</div>
+                      <input className="block w-full text-kblack ml-10 mt-4 border-kgray rounded-3xl cursor-pointer dark:text-kblack focus:outline-4 dark:bg-kgray max-w-[450px] dark:border-kblack" id="large_size" type="file" disabled={showAlert} onChange={(e) => setfilename(e.target.files[0])} required />
                     </div>
                     <div>
                       <button type="submit" className={`text-kwhite bg-kgreen font-bold rounded-xl text-2xl px-40 py-2.5 mt-6 ml-10 ${showAlert ? 'cursor-not-allowed' : 'hover:bg-kyellow'}`} disabled={showAlert}>Add to cart</button>
                     </div>
-                 </form>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-          <div class="overflow-y-auto h-60 max-w-[550px] ml-36 mt-[-16rem]">
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2"/>
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-            <div className="Rectangle104 max-w-[500px] h-28 bg-kgray rounded-3xl mb-2" />
-          </div>
+          {/* <div class="overflow-y-auto h-60 max-w-[500px] ml-24 mt-[-16rem]">
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2"/>
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
+            <div className="max-w-[450px] h-28 bg-kgray rounded-3xl mb-2" />
+          </div> */}
         </div>
       </div>
       {showAlert && (
