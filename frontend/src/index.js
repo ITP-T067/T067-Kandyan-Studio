@@ -80,7 +80,7 @@ import SalaryNotification from './pages/manager/employee/notification.jsx';
 import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
 //Cashier Dashboard
-
+import CashierPaySlip from './pages/cashier/CashierPaySlip.jsx';
 
 //Creator Dashboard
 import Projects from './pages/creator/Projects.jsx';
@@ -98,10 +98,12 @@ import PaymentDetails from './pages/creator/PaymentDetails.jsx';
 import ReceiptForm from './pages/creator/ReceiptForm.jsx';
 import Generatereports from './pages/creator/GenerateReports.jsx';
 import DeclinePayment from './pages/creator/DeclinePayment.jsx';
+import PaySlip from './pages/creator/PaySlip.jsx';
 
 
 //Studio Operator Dashboard
 import StudioDash from './pages/studioop/studio_dash.jsx'
+import StudioSlip from './pages/studioop/StudioPaySlip.jsx'
 
 //Supplier Dashboard
 
@@ -121,6 +123,9 @@ root.render(
 
         {/* Signup */}
         <Route path='/signup' element={<CustomerSignup />} />
+
+        {/* Cashier Dashboard */}
+        <Route path='/cashier/cashierpayslip' element={<CashierPaySlip />} />
 
         {/* Customer Dashboard */}
         <Route path='/cusdashboard' element={<Cusdashboard />} />
@@ -196,10 +201,14 @@ root.render(
         <Route path='/creator/receiptForm' element={<ReceiptForm/>}/>
         <Route path='/creator/generateReports' element={<Generatereports/>}/>
         <Route path='/creator/declinePayment/:orderId' element={<DeclinePayment/>}/>
+        <Route path='/creator/creatorpayslip' element={<PaySlip/>}/>
         
         
         {/* Studio Operator Dashboard*/}
         <Route path='/studiooperator/' element={<StudioDash/>}/>
+        <Route path='/studiooperator/studioslip' element={<StudioSlip/>}/>
+
+        {/* Supplier Dashboard */}
         
       </Routes>
     </BrowserRouter>
