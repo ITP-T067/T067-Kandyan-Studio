@@ -1,0 +1,13 @@
+employeeDashboard
+addEmployeeForm
+viewEmployee
+updateEmployeeForm
+pastEmployees
+terminationNote
+performanceForm
+salaryForm
+salarySlip
+creatorSlip
+OperatorSlip
+cashierSlip
+monthlyReport
