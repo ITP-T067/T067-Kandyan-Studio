@@ -67,7 +67,7 @@ function ReviewForm() {
       const response = await axios.post("/review/add", {
         productRating: productRating,
         deliveryRating: deliveryRating,
-        itemId: itemId,
+        name: itemId,
         message: message,
         date: getCurrentDate(),
       });
@@ -176,7 +176,7 @@ function ReviewForm() {
 
           <div>
             <label htmlFor="date">Date:</label>
-            <input type="text" id="date" className="date" value={getCurrentDate()} readOnly />
+            <input type="text" id="date" className="date text-kblack" value={getCurrentDate()} readOnly />
           </div>
 
           <button type="submit">Submit Review</button>

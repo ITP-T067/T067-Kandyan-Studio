@@ -17,6 +17,9 @@ const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.rout
 
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+const loycusRouter = require("./routes/CustomerManagement/loycus.route.js")
+
+
 
 //loyalty
  const loyaltyRouter=require("./routes/order.route.js");
@@ -54,6 +57,9 @@ app.use('/studio', studioStatusRouter);
 
 //Customer
 app.use('/review', reviewRouter);
+app.use('/customers',reviewRouter)
+app.use('/loycus', loycusRouter);
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
