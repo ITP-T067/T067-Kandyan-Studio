@@ -80,7 +80,7 @@ export default function OrderPayment() {
             </a>
         </nav>
 
-    <div className="mt-5 mx-auto">
+    <div className="mt-5 mx-auto  w-11/12">
         <table className="w-full table-fixed rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
