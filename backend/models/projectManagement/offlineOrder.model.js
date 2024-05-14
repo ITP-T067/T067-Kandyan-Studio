@@ -5,7 +5,7 @@ const offlineOrderSchema = new mongoose.Schema({
     Order_Type: {  
         type: String,    
         required: true, 
-    }, 
+    },
     
     Item_Name: {
         type: String,

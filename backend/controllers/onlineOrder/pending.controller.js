@@ -59,6 +59,7 @@ const getOrderById_pendingOrder = async (req, res, next) => {
 const update_pendingOrder = async(req, res, next) => {
     console.log(req.body)
     const {_id, ...rest} = req.body
+    // const{ filename: order_slip } = req.file
     console.log(rest)
     try{
         const data = await pendingOrder.updateOne({_id : _id}, rest)
