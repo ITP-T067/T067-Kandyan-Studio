@@ -99,7 +99,7 @@ export default function OrderPayment() {
                   return(
                     <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                       <td className="px-4 py-2 text-center">{el?.item_Names || 'N/A'}</td>
-                      <td className="px-4 py-2 text-center">{el.total_Price}</td>
+                      <td className="px-4 py-2 text-center">LKR {el.total_Price}</td>
                       <td className="px-4 py-2 text-center">{formatDate(el.order_Date)}</td>
                       <td className="px-4 py-2 text-center">
                           <Link to={`/creator/paymentDetails/${el._id}`}>
