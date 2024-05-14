@@ -58,4 +58,19 @@ const del_customer = async(req,res, next) =>{
     }
 }
 
-module.exports = { index_customer, create_customer, update_customer, del_customer};
+// Find customer by ID
+const find_customer_by_id = async (req, res, next) => {
+    const id = req.params.id; // Assuming the ID is passed as a route parameter
+    
+    try {
+        const customer = await Customer.findById(id);
+        if (!customer) {
+            return res.status(404).json({ success: false, message: "Customer not found" });
+        }
+        res.json({ success: true, data: customer });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { index_customer, create_customer, update_customer, del_customer, find_customer_by_id};
