@@ -142,10 +142,9 @@ const Completedorders = () => {
                     <td className="p-4">{il.nettotal}</td>
                     <td>
                       <Button
-                        className="p-3 bg-kblack text-kwhite text-lg"
-                        
+                        className="p-3 bg-kblack text-kwhite text-lg hover:scale-105"
                       >
-                        {"View"}
+                        {"Print Receipt"}
                       </Button>
                     </td>
                   </tr>

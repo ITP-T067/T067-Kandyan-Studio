@@ -308,13 +308,13 @@ const handlecancelorder = () => {
                             value={change} 
                             readOnly/>
                     
-                    <Button className="bg-kred text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kred" 
+                   <Button className="bg-kred text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kred disabled:bg-opacity-20" 
                             type="submit" 
-                            onClick={()=>setOrdertype("Pending")} disabled={change >= 0}>{"Advance payment"}</Button>
-                    <Button className="bg-kgreen text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kgreen" 
+                            onClick={()=>setOrdertype("Pending")} disabled={change >= 0}>{"Advancepayment"}</Button>
+<Button className="bg-kgreen text-kwhite text-2xl text-center col-span-3 hover:scale-105 transition-transform hover:bg-kwhite hover:text-kgreen disabled:bg-opacity-20" 
                             type="submit" 
-                            onClick={()=>setOrdertype("Completed")} disabled={change <= 0}>{"Full Payment"}</Button>
-               
+                            onClick={()=>setOrdertype("Completed")} disabled={change <= 0}>{"FullPayment"}</Button>
+                  
                       </div>
                     </div> 
                  </div>

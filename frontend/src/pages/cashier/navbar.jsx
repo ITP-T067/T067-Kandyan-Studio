@@ -32,7 +32,7 @@ const CashierNavbar = () => {
         <a href={department.link} key={index} className="flex-grow m-1">
             <button
                 key={index}
-                className={`bg-kblack text-kwhite w-full hover:bg-kgray transition duration-300 p-3 rounded-full ${
+                className={`bg-kblack text-kwhite text-2xl w-full hover:bg-kgray transition duration-300 p-3 rounded-full ${
                     activeButton === index ? 'bg-kgray' : ''
                 }`}
                 onClick={() => handleButtonClick(index)} // Call handleButtonClick function on click
@@ -50,7 +50,7 @@ const CashierNavbar = () => {
     return (
         <div className='p-3'>
             <Navbar className="mx-auto rounded-full bg-kblack p-1">
-                <div className="items-center justify-between text-kwhite">
+                <div className="items-center justify-between text-kwhite text-2xl" >
                     <List className="flex flex-row justify-between">
                         {renderDepartments}
                     </List>
