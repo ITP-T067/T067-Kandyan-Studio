@@ -1,21 +1,21 @@
 const Event = require("../../models/EventManagement/event.model");
 const Package = require("../../models/EventManagement/package.model");
-const {errorHandler} = require("../../utils/error")
+const { errorHandler } = require("../../utils/error")
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 
 //get all events
-const get_events = async(req, res, next) => {
+const get_events = async (req, res, next) => {
 
-    try{
+    try {
         const data = await Event.find();
-        if(data){
-            res.json({success : true, data: data});
+        if (data) {
+            res.json({ success: true, data: data });
         } else {
-            res.json({ success: false, message: "No data avaliable"});
+            res.json({ success: false, message: "No data avaliable" });
         }
 
-    }catch(error){
+    } catch (error) {
         next(error);
     }
 }
@@ -27,8 +27,8 @@ const eventStatusById = async (req, res, next) => {
     try {
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
-            { status: 'Approved'},
-            { new: true} //to return the updated event
+            { status: 'Approved' },
+            { new: true } //to return the updated event
         );
 
         if (!updatedEvent) {
@@ -58,35 +58,35 @@ const eventStatusById = async (req, res, next) => {
 // };
 const get_eventsByPackage = async (req, res, next) => {
     try {
-      const { status } = req.query;
-  
-      let events;
-      if (status) {
-        events = await Event.find({ status }).populate('package_id', 'pkg_category pkg_name price');
-      } else {
-        events = await Event.find().populate('package_id', 'pkg_category pkg_name price');
-      }
-  
-      if (events) {
-        res.json({ success: true, data: events });
-      } else {
-        res.json({ success: false, message: "No data available" });
-      }
+        const { status } = req.query;
+
+        let events;
+        if (status) {
+            events = await Event.find({ status }).populate('package_id', 'pkg_category pkg_name price');
+        } else {
+            events = await Event.find().populate('package_id', 'pkg_category pkg_name price');
+        }
+
+        if (events) {
+            res.json({ success: true, data: events });
+        } else {
+            res.json({ success: false, message: "No data available" });
+        }
     } catch (error) {
-      next(error);
+        next(error);
     }
-  };
+};
 
 //get event details populating file
-const get_file = async(req, res, next) => {
-    try{
+const get_file = async (req, res, next) => {
+    try {
         const data = await Event.find().populate('file');
-        if(data){
-            res.json({success : true, data: data});
+        if (data) {
+            res.json({ success: true, data: data });
         } else {
-            res.json({ success: false, message: "No data avaliable"});
+            res.json({ success: false, message: "No data avaliable" });
         }
-    }catch(error){
+    } catch (error) {
         next(error);
     }
 };
@@ -95,27 +95,27 @@ const get_file = async(req, res, next) => {
 const viewPayment = (req, res) => {
     const { file } = req.params;
     const filePath = path.join(__dirname, '..', 'uploads', 'EventManagement', file);
-  
+
     try {
-      // Check if the file exists
-      if (fs.existsSync(filePath)) {
-        // Read the file and send it as a response
-        res.sendFile(filePath);
-      } else {
-        // If the file does not exist, send a 404 response
-        res.status(404).send("File not found");
-      }
+        // Check if the file exists
+        if (fs.existsSync(filePath)) {
+            // Read the file and send it as a response
+            res.sendFile(filePath);
+        } else {
+            // If the file does not exist, send a 404 response
+            res.status(404).send("File not found");
+        }
     } catch (error) {
-      // If an error occurs, send a 500 response
-      console.error("Error reading file:", error);
-      res.status(500).send("Internal Server Error");
+        // If an error occurs, send a 500 response
+        console.error("Error reading file:", error);
+        res.status(500).send("Internal Server Error");
     }
-  };
+};
 
 //create data
-const create_event = async(req, res, next) => {
-    try{
-        const { cus_name, cus_contact, date, package_id, venue, additional, status} = req.body;
+const create_event = async (req, res, next) => {
+    try {
+        const { cus_name, cus_contact, date, package_id, venue, additional, status } = req.body;
         const { filename: file } = req.file;
         // // Check if a file was uploaded
         // if (!req.file) {
@@ -136,14 +136,14 @@ const create_event = async(req, res, next) => {
         }
 
         //checking if the booking date is already booked
-        const existingEvent = await Event.findOne({date}); 
-        if(existingEvent){
+        const existingEvent = await Event.findOne({ date });
+        if (existingEvent) {
             return res.status(400).json({
                 success: false,
                 message: "This date is already booked."
             });
         }
-        
+
         const newEvent = new Event({
             cus_name,
             cus_contact,
@@ -153,7 +153,7 @@ const create_event = async(req, res, next) => {
             file,
             status,
             package_id
-        }); 
+        });
 
         await newEvent.save();
 
@@ -162,25 +162,25 @@ const create_event = async(req, res, next) => {
             message: "Event booking successful",
             data: newEvent
         });
-        
-    }catch(error){
+
+    } catch (error) {
         console.error("Error booking event: ", error)
         next(error);
     }
 }
 
 //geteventByID 
-const getEventByID = async(req, res, next) => {
+const getEventByID = async (req, res, next) => {
     const eventId = req.params.id;
 
-    try{
+    try {
         const event = await Event.findById(eventId);
-        if(!event){
+        if (!event) {
             return res.status(404).json({ success: false, message: "Event not found" });
         }
         res.json(event);
 
-    }catch(error){
+    } catch (error) {
         console.error("Error fetching event: ", error);
         next(error);
     }
@@ -204,41 +204,41 @@ const get_packagesByCategory = async (req, res) => {
 }
 
 //update data
-const update_event = async(req, res, next) => {
+const update_event = async (req, res, next) => {
     console.log(req.body)
-    const{_id, ...rest} = req.body
+    const { _id, ...rest } = req.body
     console.log(rest)
-    try{
-        const data = await Event.updateOne({_id : _id}, rest)
-        const existingEvent = await Event.findOne        
-        ({date}); 
-        if(existingEvent){
+    try {
+        const data = await Event.updateOne({ _id: _id }, rest)
+        const existingEvent = await Event.findOne
+            ({ date });
+        if (existingEvent) {
             return res.status(400).json({
                 success: false,
                 message: "This date is already booked."
             });
         }
-        if(res.status(201)){
-            res.send({success:true, message: "Event updated successfully", data: data})
+        if (res.status(201)) {
+            res.send({ success: true, message: "Event updated successfully", data: data })
         }
-    }catch(error){
+    } catch (error) {
         next(error);
         console.log("error!")
     }
 }
 
 //delete data
-const delete_event = async(req, res, next) => {
+const delete_event = async (req, res, next) => {
     const id = req.params.id;
 
-    try{
-        const data = await Event.deleteOne({ _id: id});
-        if(data.deletedCount > 0){
+    try {
+        const data = await Event.deleteOne({ _id: id });
+        if (data.deletedCount > 0) {
             res.json({ success: true, message: "Event deleted successfully", data: data });
-        }else {
-            res.json({ success: false, message: "Event not found"});
+        } else {
+            res.json({ success: false, message: "Event not found" });
         }
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -252,8 +252,8 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const send_email = async(req, res, next) => {
-    const { subject, text} = req.body;
+const send_email = async (req, res, next) => {
+    const { subject, text } = req.body;
 
     try {
         const mailOptions = {
@@ -261,19 +261,19 @@ const send_email = async(req, res, next) => {
                 name: "Kandyan Studio - Event Management",
                 address: 'kandyan.info@gmail.com',
             },
-            to: 'dilmipunsara2@gmail.com',
+            to: 'manager.kandyan.example@gmail.com',
             subject,
             text
         };
         await transporter.sendMail(mailOptions);
         res.send({ success: true, message: "Email sent successfully" });
-        
+
     } catch (error) {
         console.error("Error sending email: ", error);
         next(error);
         res.status(500).json({ success: false, message: "Failed to send email" });
-        
+
     }
 }
 
-module.exports = { get_events,get_file, eventStatusById, get_eventsByPackage, viewPayment, get_packagesByCategory, create_event, getEventByID, update_event, delete_event, send_email};
+module.exports = { get_events, get_file, eventStatusById, get_eventsByPackage, viewPayment, get_packagesByCategory, create_event, getEventByID, update_event, delete_event, send_email };
