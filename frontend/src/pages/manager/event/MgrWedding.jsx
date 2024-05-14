@@ -21,6 +21,7 @@ function MgrWedding({packageName}) {
     pkg_name: "",
     price: 0,
     description: "",
+    image: "",
     _id : "",
   });
 
@@ -50,7 +51,7 @@ function MgrWedding({packageName}) {
         const {data} = response;
 
         //Filter packages by category
-        const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Wedding');
+        const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Wedding' && pkg.status === 'Active');
         //console.log(filteredPackages); // Check the response data in the console
         if({filteredPackages}){
             setDataList(filteredPackages);
@@ -86,15 +87,23 @@ function MgrWedding({packageName}) {
   };
 
 
-  const handleEditOnChange = async(e) => {
-    const {value,name} = e.target
-        setFormDataEdit((prev)=> {
-          
-          return{
-            ...prev,
-            [name] : value
-          }
-        })
+  const handleEditOnChange = async (e) => {
+    const { value, name, type } = e.target;
+  
+    if (type === 'file') {
+      // Extracting file name
+      const fileName = e.target.files[0].name;
+      
+      setFormDataEdit((prev) => ({
+        ...prev,
+        [name]: fileName,
+      }));
+    } else {
+      setFormDataEdit((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const selectPackage = (packageName) => {
@@ -165,6 +174,7 @@ function MgrWedding({packageName}) {
                             <br/>
                           <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                           <input type="hidden" name="package_id" value={pkg._id}/>
+                          <input type="hidden" value={pkg.status}/>
                       </div>
                       <div className="buttons flex justify-center gap-9  font-bold">
                               <button onClick={() => { selectPackage("Minimal"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
@@ -186,6 +196,7 @@ function MgrWedding({packageName}) {
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                             <input type="hidden" name="package_id" value={pkg._id}/>
+                            <input type="hidden" value={pkg.status}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
                                 <button onClick={() => { selectPackage("Regular"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
@@ -207,6 +218,7 @@ function MgrWedding({packageName}) {
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
                             <input type="hidden" name="package_id" value={pkg._id}/>
+                            <input type="hidden" value={pkg.status}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
                                 <button onClick={() => { selectPackage("De - Luxe"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
@@ -260,7 +272,7 @@ function MgrWedding({packageName}) {
                   <label className="form-label text-kwhite">Upload an Image</label>
                   <input className="form-control bg-kwhite rounded-md w-72 text-sm" 
                         name="image" 
-                        type="text" 
+                        type="file" 
                         onChange={handleEditOnChange} 
                         /> 
               </div>

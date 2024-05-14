@@ -12,6 +12,7 @@ function AddPackages() {
     pkg_name: "",
     price: 0,
     file: null,
+    status: "Active",
     description: ""
   })
 
@@ -37,12 +38,14 @@ function AddPackages() {
     let socialCount = 0;
 
     dataList.forEach((pkg) => {
-      if (pkg.pkg_category == "Wedding") {
-        weddingCount++;
-      } else if (pkg.pkg_category == "Birthday Party") {
-        birthdayCount++;
-      } else if (pkg.pkg_category == "Social Event") {
-        socialCount++;
+      if(pkg.status =="Active"){
+        if (pkg.pkg_category == "Wedding") {
+          weddingCount++;
+        } else if (pkg.pkg_category == "Birthday Party") {
+          birthdayCount++;
+        } else if (pkg.pkg_category == "Social Event") {
+          socialCount++;
+        }
       }
     });
     setWeddingCount(weddingCount);
@@ -104,7 +107,7 @@ function AddPackages() {
       }
 
       // Check if the package name is already used in the selected category
-      const isPackageNameExists = dataList.some((pkg) => pkg.pkg_name === formData.pkg_name && pkg.pkg_category === formData.pkg_category);
+      const isPackageNameExists = dataList.some((pkg) => pkg.pkg_name === formData.pkg_name && pkg.pkg_category === formData.pkg_category && pkg.status === "Active");
       if (isPackageNameExists) {
         calcCategoryCount(dataList);
         console.log("Data List: ", dataList);
@@ -117,6 +120,7 @@ function AddPackages() {
       formDataSend.append("pkg_name", formData.pkg_name);
       formDataSend.append("price", formData.price);
       formDataSend.append("description", formData.description);
+      formDataSend.append("status", formData.status);
       formDataSend.append("file", formData.file);
 
       console.log("Form data: ", formData);
@@ -215,6 +219,10 @@ function AddPackages() {
                 value={formData.description}
                 onChange={handleOnChange}
               />
+            </div>
+
+            <div>
+              <input type="hidden" name="status" value={formData.status} />
             </div>
 
             <div className=" mt-3 mb-4 ml-5 flex justify-end gap-4 mr-8">

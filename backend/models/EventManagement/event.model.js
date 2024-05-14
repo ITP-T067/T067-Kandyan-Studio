@@ -37,6 +37,11 @@ const eventSchema = new mongoose.Schema({
         required: true,
     },
 
+    status: {
+
+        type: String,
+    },
+
     package_id: {
         type: Schema.Types.ObjectId,
         ref: 'Package',

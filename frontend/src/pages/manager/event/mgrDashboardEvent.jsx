@@ -9,17 +9,22 @@ axios.defaults.baseURL = "http://localhost:8010"; // Adjust the port number as n
 
 const MgrDashboardEvent = () => {
 
-  const [dataList, setDataList] = useState([]);
+  const [pendingEvents, setPendingEvents] = useState([]);
+  const [approvedEvents, setApprovedEvents] = useState([]);
 
   useEffect(() => {
-    fetchPackageData();
+    fetchDataPending();
   }, []);
 
-  const fetchData = async () => {
+  const fetchDataPending = async (_id) => {
     try {
-      const response = await axios.get('/event/'); // Adjust the endpoint URL as needed
+      const response = await axios.get(`/event/package/${_id}`, {
+        params: {
+          status:"Pending"
+        }
+      }); // Adjust the endpoint URL as needed
       if (response.data.success) {
-        setDataList(response.data.data);
+        setPendingEvents(response.data.data);
       } else {
         console.error("Failed to fetch data:", response.data.message);
       }
@@ -28,24 +33,27 @@ const MgrDashboardEvent = () => {
     }
   };
 
-  //getting pkg_category and pkg_name by package_id
-  const fetchPackageData = async () => {
+  //getting approved events
+  const fetchDataApproved = async (_id) => {
     try {
-      const response = await axios.get("/event/package");
+      const response = await axios.get(`/event/package/${_id}`, {
+        params: {
+          status:"Approved"
+        }
+      }); // Adjust the endpoint URL as needed
       if (response.data.success) {
-        setDataList(response.data.data);
-        console.log(response.data);
+        setApprovedEvents(response.data.data);
       } else {
         console.error("Failed to fetch data:", response.data.message);
       }
     } catch (error) {
-      console.error("Error fetching package data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const calcTotalEvents = (data) => {
     let total = 0;
-    fetchPackageData();
+    fetchDataPending();
     data.forEach((event) => {
       total++;
     });
@@ -53,7 +61,7 @@ const MgrDashboardEvent = () => {
   }
 
   const calcTotalValue = (data) => {
-    fetchPackageData();
+    fetchDataApproved();
     return data.reduce((total, event) => {
       if (event.package_id && event.package_id.price) {
         return total + event.package_id.price;
@@ -88,12 +96,12 @@ const MgrDashboardEvent = () => {
         <div className="badge1 flex items-center justify-center w-96 h-40 relative  bg-kblack rounded-lg border-2 border-kwhite">
           <div className="Rectangle173 absolute inset-0  rounded-lg"></div>
           <span className=" text-kwhite text-lg font-semibold absolute top-4 left-4">Total Event Requests</span>
-          <span className=" text-kwhite text-3xl font-semibold"> {calcTotalEvents(dataList)}</span>
+          <span className=" text-kwhite text-3xl font-semibold"> {calcTotalEvents(pendingEvents)}</span>
         </div>
         <div className="Group9019 flex items-center justify-center w-96 h-40 relative bg-kblack rounded-lg border-2 border-kwhite">
           <div className="Rectangle174 absolute inset-0 rounded-lg"></div>
           <span className=" text-kwhite text-lg font-semibold absolute  top-4 left-4">Total Sales</span>
-          <span className=" text-kwhite text-3xl font-semibold">LKR {calcTotalValue(dataList)}</span>
+          <span className=" text-kwhite text-3xl font-semibold">LKR {calcTotalValue(approvedEvents)}</span>
         </div>
       </div>
 

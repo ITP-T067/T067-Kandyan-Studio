@@ -49,7 +49,7 @@ function MgrSocial({packageName}) {
         const {data} = response;
 
         //Filter packages by category
-        const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Social Event');
+        const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Social Event' && pkg.status ==='Active');
         //console.log(filteredPackages); // Check the response data in the console
         if({filteredPackages}){
             setDataList(filteredPackages);
@@ -159,6 +159,7 @@ function MgrSocial({packageName}) {
                             ))}
                             <br/>
                           <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                          <input type="hidden" value={pkg.status}/>
                       </div>
                       <div className="buttons flex justify-center gap-9  font-bold">
                               <button onClick={() => { selectPackage("Standard"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
@@ -179,6 +180,7 @@ function MgrSocial({packageName}) {
                               ))}
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                            <input type="hidden" value={pkg.status}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
                                 <button onClick={() => { selectPackage("Premium"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>
@@ -199,6 +201,7 @@ function MgrSocial({packageName}) {
                               ))}
                               <br/>
                             <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                            <input type="hidden" value={pkg.status}/>
                         </div>
                         <div className="buttons flex justify-center gap-9  font-bold">
                                 <button onClick={() => { selectPackage("Diamond"); setEditSection(true); handleEdit(pkg) }} className="btn_edit justify-end items-end w-28 h-12 bg-kblue rounded-3xl text-center text-kwhite text-base font-bold  hover:bg-kwhite hover:text-kblack">Edit</button>

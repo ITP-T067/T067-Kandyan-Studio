@@ -25,6 +25,7 @@ function BdayEvents({ packageName }) {
     additional: "",
     file: null,
     date:selectedDate,
+    status: "Pending",
     package_id: "", // Add package_id to the form data
   });
 
@@ -46,7 +47,7 @@ function BdayEvents({ packageName }) {
       const { data } = response;
 
       //Filter packages by category
-      const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Birthday Party');
+      const filteredPackages = data.filter(pkg => pkg.pkg_category === 'Birthday Party' && pkg.status === "Active");
       //console.log(filteredPackages); // Check the response data in the console
       if ({ filteredPackages }) {
         setDataList(filteredPackages);
@@ -101,6 +102,7 @@ function BdayEvents({ packageName }) {
     formDataSend.append("venue", formData.venue);
     formDataSend.append("additional", formData.additional);
     formDataSend.append("file", formData.file);
+    formDataSend.append("status", formData.status);
     formDataSend.append("package_id", formData.package_id);
 
     console.log("Form Data: ", formData);
@@ -175,6 +177,7 @@ function BdayEvents({ packageName }) {
                         ))}
                         <br />
                         <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                        <input type="hidden" value={pkg.status}/>
                       </div>
                       <div className="button flex justify-center font-bold">
                         <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Standard"); setAddSection(true); handleId(pkg._id) }}>BUY</button>
@@ -194,6 +197,7 @@ function BdayEvents({ packageName }) {
                         ))}
                         <br />
                         <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                        <input type="hidden" value={pkg.status}/>
                       </div>
                       <div className="button flex justify-center font-bold">
                         <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Premium"); setAddSection(true); handleId(pkg._id) }}>BUY</button>
@@ -213,6 +217,7 @@ function BdayEvents({ packageName }) {
                         ))}
                         <br />
                         <p className="price text-3xl font-semibold">Rs {pkg.price}</p>
+                        <input type="hidden" value={pkg.status}/>
                       </div>
                       <div className="button flex justify-center font-bold">
                         <button className="btn_buy justify-end items-end w-28 h-12 bg-kyellow rounded-3xl text-center text-kwhite text-base font-bold hover:bg-kwhite hover:text-kblack" onClick={() => { selectPackage("Diamond"); setAddSection(true); handleId(pkg._id) }}>BUY</button>
@@ -298,6 +303,7 @@ function BdayEvents({ packageName }) {
                     onChange={handleOnChange}
                     className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1"  />
                 </div>
+                <input type="hidden" name="status" value="Pending" onChange={handleOnChange} />
                 <input type="hidden" name="package_id" value={selectedPackageId} onChange={handleOnChange} />
               </div>
               <div className="flex justify-between">

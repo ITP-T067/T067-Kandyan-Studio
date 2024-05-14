@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Typography } from "@material-tailwind/react";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import { format } from 'date-fns';
@@ -14,9 +14,14 @@ function MyEvents() {
   const [tableRows, setTableRows] = useState([]);
 
 
-  const fetchData = async () => {
+  const fetchData = async (event_id) => {
     try {
-      const response = await axios.get('/event/'); // Adjust the endpoint URL as needed
+      const response = await axios.get(`/event/package/${event_id}`, {
+        params: {
+          status: "Approved"
+        }
+      });
+      console.log("Response: ", response.data.data); 
       if (response.data.success) {
         setTableRows(response.data.data);
       } else {
@@ -32,22 +37,22 @@ function MyEvents() {
   }, []);
 
   //getting pkg_category and pkg_name by package_id
-  const fetchPackageData = async () => {
-    try {
-      const response = await axios.get("/event/package"); 
-      if (response.data.success) {
-        setTableRows(response.data.data);
-      } else {
-        console.error("Failed to fetch data:", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching package data:", error);
-    }
-  };
+  // const fetchPackageData = async () => {
+  //   try {
+  //     const response = await axios.get("/event/package"); 
+  //     if (response.data.success) {
+  //       setTableRows(response.data.data);
+  //     } else {
+  //       console.error("Failed to fetch data:", response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching package data:", error);
+  //   }
+  // };
 
-  useEffect(() => { 
-    fetchPackageData();
-  }, [tableRows]);
+  // useEffect(() => { 
+  //   fetchPackageData();
+  // }, [tableRows]);
 
   // Function to format date in yyyy/mm/dd format
   const formatDate = (dateString) => {
@@ -59,6 +64,7 @@ function MyEvents() {
   };
 
   //Edit event
+  const {event_id} = useParams();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [editSection, setEditSection] = useState(false);
   const [formDataEdit, setFormDataEdit] = useState({
@@ -66,9 +72,8 @@ function MyEvents() {
     venue: "",
     cus_contact: "",
     additional: "",
-    file: null,
-    date: null,
-    _id: "" // event id
+    date: "",
+    _id: event_id // event id
   });
 
   //handling edit
@@ -80,6 +85,7 @@ function MyEvents() {
       if (response.data.success) {
         alert("Event updated successfully");
         setEditSection(false);
+        fetchData();
       } else {
         alert("Failed to update Event");
       }
@@ -93,12 +99,12 @@ function MyEvents() {
     setFormDataEdit({
       cus_name: event.cus_name,
       cus_contact: event.cus_contact,
-      date: selectedDate,
+      date: new Date(),
       venue: event.venue,
       additional: event.additional,
-      file: event.file,
       _id: event._id,
     });
+    setEditSection(true);
   };
 
   const handleEditOnChange = async (e) => {
@@ -107,9 +113,24 @@ function MyEvents() {
       return {
         ...prev,
         [name]: value,
+        date: selectedDate,
       }
     });
   };
+
+  //delete event
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to cancel this event?");
+    if(confirmed){
+      const data = await axios.delete("/event/delete/" + id);
+      if(data.data.success){
+        fetchData();
+        alert("Event cancelled!");
+      }else{
+        alert("Failed to cancel Event");
+      }
+    }
+  }
 
 
   return (
@@ -200,7 +221,7 @@ function MyEvents() {
                   </td>
                   <td className={classes}>
                       <Button onClick={() => {setEditSection(true); handleEdit(event)}} className="btn_edit w-24 border-1 rounded-lg  bg-kgreen ">Edit</Button>
-                      <Button className="btn_edit ml-4 w-24 border-1 rounded-lg bg-kred ">Cancel</Button>
+                      <Button onClick={() => handleDelete(event._id)} className="btn_edit ml-4 w-24 border-1 rounded-lg bg-kred ">Cancel</Button>
                   </td>
                 </tr>
               );
@@ -234,9 +255,8 @@ function MyEvents() {
                     className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1"
                     id="date"
                     name="date"
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    value={formatDate(formDataEdit.date)}
+                    value={setSelectedDate(formDataEdit.date)} 
+                    onChange={handleEditOnChange}
                     dateFormat="yyyy-MM-dd"
                     required />
                 </div>
@@ -269,18 +289,10 @@ function MyEvents() {
                     value={formDataEdit.additional}
                     className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
                 </div>
-                <div>
-                  <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-                  <input type="file"
-                    id="file"
-                    name="file"
-                    value={formDataEdit.file}
-                    className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" disabled/>
-                </div>
               </div>
               <div className="flex justify-between">
                 <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={() => setEditSection(false)}>Close</button>
-                <button onClick={handleEdit} className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-5 mbflex justify-center items-center rounded-lg">Save Changes</button>
+                <button type="submit" className="btn_submit w-32 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-5 mbflex justify-center items-center rounded-lg">Save Changes</button>
               </div>
             </div>
           </form>

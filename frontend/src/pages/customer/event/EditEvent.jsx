@@ -46,11 +46,7 @@ function EditEvent() {
             <label htmlFor="pkg_name" className="block text-kwhite">Package Name</label>
             <input type="text" id="pkg_name" name="pkg_name" className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" />
           </div>
-          <div>
-            <label htmlFor="payment_slip" className="block text-kwhite">Add Payment Slip</label>
-            <input type="file" id="payment_slip" name="payment_slip" className="block w-80 mt-1 rounded-md h-8 text-sm bg-kwhite p-1" />
-          </div>
-          </div>
+            </div>
           <Link className="flex justify-end" to="">
             <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-10 flex justify-center items-center rounded-lg">Save Changes</button>
           </Link>

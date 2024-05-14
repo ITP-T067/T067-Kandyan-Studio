@@ -4,7 +4,7 @@ const {errorHandler} = require("../../utils/error");
 //create data
 const create_package = async(req, res, next) => {
     try{
-        const { pkg_category, pkg_name, price, description,  } = req.body;
+        const { pkg_category, pkg_name, price, description, status  } = req.body;
         const {filename:image} = req.file; 
 
         const newPackage = new Package({
@@ -13,6 +13,7 @@ const create_package = async(req, res, next) => {
             price,
             description,
             image,
+            status
         });
 
         await newPackage.save();
@@ -55,7 +56,7 @@ const get_packagesByCategory = async (req, res) => {
         const category = req.body.pkg_category;
 
         // Use the category to filter packages
-        const packages = await Package.find({ pkg_category: category });
+        const packages = await Package.find({ pkg_category: category, status: "Active"});
 
         // Send the filtered packages as the response
         res.json(packages);
@@ -85,14 +86,30 @@ const update_package = async(req, res, next) => {
 const delete_package = async(req, res, next) => {
     const id = req.params.id;
 
-    try{
-        const data = await Package.deleteOne({ _id: id});
-        if(data.deletedCount > 0){
-            res.json({ success: true, message: "Package deleted successfully", data: data });
-        }else {
-            res.json({ success: false, message: "Package not found"});
+    // try{
+    //     const data = await Package.deleteOne({ _id: id});
+    //     if(data.deletedCount > 0){
+    //         res.json({ success: true, message: "Package deleted successfully", data: data });
+    //     }else {
+    //         res.json({ success: false, message: "Package not found"});
+    //     }
+    // }catch (error){
+    //     next(error);
+    // }
+    try {
+        // Find the package by ID and update its status to "Deleted"
+        const updatedPackage = await Package.findOneAndUpdate(
+            { _id: id },
+            { status: "Deleted" },
+            { new: true } // To return the updated document
+        );
+
+        if (updatedPackage) {
+            res.json({ success: true, message: "Package deleted successfully", data: updatedPackage });
+        } else {
+            res.json({ success: false, message: "Package not found" });
         }
-    }catch (error){
+    } catch (error) {
         next(error);
     }
 }

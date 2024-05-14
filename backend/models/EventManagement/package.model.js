@@ -33,6 +33,11 @@ const packageSchema = new mongoose.Schema({
         required: true,
     },
 
+    status: {
+
+        type: String,
+    },
+
 }, {timestamps:true})
 
 const Package = mongoose.model('Package', packageSchema);
