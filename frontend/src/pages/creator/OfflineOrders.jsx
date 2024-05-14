@@ -55,9 +55,9 @@ export default function OfflineOrders() {
         </nav>
 
         <div className="mt-5 mx-auto">
-        <table className="w-full border-collapse text-kwhite">
-          <thead className="bg-kblack text-kwhite h-[60px]">
-            <tr>
+        <table className="w-full table-fixed rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
               <th className="px-4 py-2">Order</th>
               <th className="px-4 py-2">Item</th>
               <th className="px-4 py-2">Quantity</th>
@@ -67,13 +67,13 @@ export default function OfflineOrders() {
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-20 h-[80px]">
+          <tbody>
             {
               dataList[0] ? (
               dataList.map((el)=>{
                 if(el.Project_Status != "Added" && el.Status == "Paid"){
                   return(
-                    <tr>
+                    <tr  className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                       <td className="px-4 py-2 text-center">{el.Order_Type}</td>
                       <td className="px-4 py-2 text-center">{el.Item_Name}</td>
                       <td className="px-4 py-2 text-center">{el.Quantity}</td>

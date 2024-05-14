@@ -33,6 +33,12 @@ export default function Orders() {
       const showPdf = (slip) => {
         window.open(`http://localhost:8010/uploads/`+ slip, "_blank", "noreferrer");
       };
+
+      const isOrderOlderThan7Days = (orderDate) => {
+        const orderDateTime = new Date(orderDate).getTime();
+        const currentDateTime = new Date().getTime();
+        return orderDateTime + 7 * 24 * 60 * 60 * 1000 < currentDateTime;
+      };
     
     
   return (
@@ -55,9 +61,9 @@ export default function Orders() {
         </nav>
 
       <div className="mt-5 mx-auto">
-        <table className="w-full border-collapse text-kwhite">
-          <thead className="bg-kblack text-kwhite h-[60px]">
-            <tr>
+        <table className="w-full table-fixed rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
               <th className="px-4 py-2">Order</th>
               <th className="px-4 py-2">Quantity</th>
               <th className="px-4 py-2">Customer Name</th>
@@ -66,14 +72,15 @@ export default function Orders() {
               <th className="px-4 py-2"></th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-20 h-[80px]">
+          <tbody>
             {
               dataList[0] ? (
               dataList.map((el)=>{
                 if(el.Project_Status != "Added"){
+                  const rowClass = isOrderOlderThan7Days(el.Order_Date) ? "bg-pred/30" : "bg-kblue/20";
                   return(
-                    <tr>
-                      <td className="px-4 py-2 text-center">{el?.Item_Name || 'N/A'}</td>
+                    <tr key={el._id} className={`border-b text-kwhite text-center items-center p-4 ${rowClass}`}>
+                      <td className="px-10">{el?.Item_Name || 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{el.Quantity}</td>
                       <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{formatDate(el.Order_Date)}</td>

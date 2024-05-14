@@ -130,14 +130,14 @@ export default function PhysicalOrders() {
             <div className="flex flex-col">
               <label htmlFor="Cus_Name" className="text-kwhite font-bold" >Customer Name </label>
               <div className="border-2 border-kwhite rounded-lg">            
-                <input type="text" id="Cus_Name" name="Cus_Name" onChange={handleOnchange} value={formData.Cus_Name} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
+                <input type="text" id="Cus_Name" name="Cus_Name" onChange={handleOnchange} value={formData.Cus_Name} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" style={{ background: 'transparent' }} required/>
               </div>
             </div>
 
             <div className="flex flex-col">
               <label htmlFor="Phone_Number" className="text-kwhite font-bold mr-4 mb-0" >Phone Number </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Phone_Number" name="Phone_Number" onChange={handleOnchange} value={formData.Phone_Number}  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
+                <input type="text" id="Phone_Number" name="Phone_Number" onChange={handleOnchange} value={formData.Phone_Number}  className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" style={{ background: 'transparent' }} required/>
               </div>
             </div>
           </div>
@@ -193,14 +193,14 @@ export default function PhysicalOrders() {
             <div className="flex flex-col">
               <label htmlFor="Artwork_Price" className="text-kwhite font-bold mr-4">Artwork Price </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Artwork_Price" name="Artwork_Price" onChange={handleOnchange} value={formData.Artwork_Price} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
+                <input type="text" id="Artwork_Price" name="Artwork_Price" onChange={handleOnchange} value={formData.Artwork_Price} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" style={{ background: 'transparent' }} required/>
               </div>
             </div>
 
             <div className="flex flex-col">
               <label htmlFor="Quantity" className="text-kwhite font-bold mr-4">Number of edits </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Quantity" name="Quantity" onChange={handleOnchange} value={formData.Quantity} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" required/>
+                <input type="text" id="Quantity" name="Quantity" onChange={handleOnchange} value={formData.Quantity} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite" style={{ background: 'transparent' }} required/>
               </div>
             </div>
 
@@ -211,13 +211,8 @@ export default function PhysicalOrders() {
             <div className="flex flex-col">
               <label htmlFor="Additional" className="text-kwhite font-bold mr-4">Additional </label>
               <div className="border-2 border-kwhite rounded-lg">
-                <input type="text" id="Additional" name="Additional" onChange={handleOnchange} value={formData.Additional} className="w-[480px] h-[49px] rounded-[10px] text-base p-3 text-kwhite"/>
+                <input type="text" id="Additional" name="Additional" onChange={handleOnchange} value={formData.Additional} className="w-[480px] h-[49px] rounded-[10px]] text-kwhite" style={{ background: 'transparent' }} />
               </div>
-            </div>
-            
-            <div className="flex flex-col">
-              <label htmlFor="Additional" className="text-kwhite font-bold mr-4"></label>
-              <input type="text" id="Additional" name="Additional" className="w-[480px] h-[49px] rounded-[10px] mb-5 text-base text-kwhite placeholder:text-kwhite opacity-50" disabled/>
             </div>
 
           </div>

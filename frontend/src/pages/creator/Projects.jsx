@@ -70,11 +70,22 @@ export default function Projects() {
         window.open(`http://localhost:8010/uploads/`+ slip, "_blank", "noreferrer");
     };
 
+    const rowColor = (Status) => {
+        let color = ""
+        if( Status == "Pending"){
+          color = "bg-pred/30"
+        }
+        if(Status == "In Progress"){
+          color = 'bg-pyellow/30'
+        }
+        return color
+    };
+
     return (
         <>
-            <nav className="w-3/5  flex flex-row justify-center items-center mx-auto text-kwhite">
-                <a className="w-1/2 h-[65px] py-5 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/"><div className="">Ongoing Projects</div></a>
-                <a className="w-1/2 h-[65px] py-5 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/completedProjects"><div>Completed Projects</div></a>
+            <nav className="w-2/5  flex flex-row justify-center items-center mx-auto text-kwhite">
+                <a className="w-1/2 h-[50px] py-3 text-center rounded-tl-[30px] rounded-bl-[30px] bg-kgray font-medium" href="/creator/"><div className="">Ongoing Projects</div></a>
+                <a className="w-1/2 h-[50px] py-3 text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-medium" href="/creator/completedProjects"><div>Completed Projects</div></a>
             </nav>
 
             <div className="mx-5 mb-5">
@@ -97,27 +108,28 @@ export default function Projects() {
                 <div className="w-[530px] mx-auto">
                     {isAlert && (<Alert message={message} type={alertStatus}/>)}
                 </div>
-                <table className="w-full border-collapse text-kwhite">
-                    <thead className="bg-kblack text-kwhite h-[60px]">
-                        <tr>
-                            <th className="px-4 py-2">Name</th>
-                            <th className="px-4 py-2">Order Name</th>
-                            <th className="px-4 py-2">Added Date</th>
-                            <th className="px-4 py-2">Customer Name</th>
-                            <th className="px-4 py-2">Status</th>
-                            <th className="px-4 py-2">Order Date</th>
-                            <th classname="px-4 py-2">Uploaded Image</th>
-                            <th className="px-4 py-2">Action</th>
+                <table className="w-full table-fixed rounded-lg overflow-hidden">
+                    <thead>
+                        <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
+                            <th className="w-1/5 py-5">Name</th>
+                            <th className="w-1/4">Order Name</th>
+                            <th className="w-1/4">Added Date</th>
+                            <th className="w-1/4">Customer Name</th>
+                            <th className="w-1/4">Status</th>
+                            <th className="w-1/4">Order Date</th>
+                            <th className="w-1/4">Uploaded Image</th>
+                            <th className="w-1/4">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="bg-kgray bg-opacity-20 h-[80px]">
+                    <tbody>
                         {searchTerm === "" ? (
                             dataList.length > 0 ? (
                                 dataList.map((el) => {
                                     if(el.Status === "Pending" || el.Status === "In Progress"){
+                                        const rowClass = el.Status === "Pending" ? "bg-pred/30" : "bg-kblue/30";
                                         return (
-                                            <tr key={el._id}>
-                                                <td className="px-4 py-2 text-center">{el.Project_Name}</td>
+                                            <tr key={el._id}  className={`border-b  text-kwhite text-center items-center p-4 ${rowClass}`}>
+                                                <td className="px-10">{el.Project_Name}</td>
                                                 <td className="px-4 py-2 text-center">
                                                     {el.Order_ID ? el.Order_ID.Item_Name : 'N/A'}</td>
                                                 <td className="px-4 py-2 text-center">{formatDate(el.Project_Date)}</td>
@@ -134,7 +146,7 @@ export default function Projects() {
                                                         </button>) : 
                                                         ("None")}
                                                 </td>
-                                                <td className="px-4 py-2 text-center">
+                                                <td className="px-4 py-2 flex flex-row text-center">
                                                     <Link to={`/creator/editProjects/${el._id}`}>
                                                         <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Edit</button>
                                                     </Link>
@@ -152,10 +164,12 @@ export default function Projects() {
                         ) : (
                             searchResults.length > 0 ? (
                                 searchResults.map((el) => {
+                                    const rowClass = el.Status === "Pending" ? "k-red" : el.Status === "In Progress" ? "k-blue" : "";
                                     if(el.Status === "Pending" || el.Status === "In Progress"){
+                                        const rowClass = el.Status === "Pending" ? "bg-pred/30" : "bg-kblue/30";
                                         return (
-                                            <tr key={el._id}>
-                                                <td className="px-4 py-2 text-center">{el.Project_Name}</td>
+                                            <tr key={el._id}  className={`border-b  text-kwhite text-center items-center p-4 ${rowClass}`}>
+                                                <td className="px-10">{el.Project_Name}</td>
                                                 <td className="px-4 py-2 text-center">
                                                     {el.OrderModel === 'OnlineOrder' ? 
                                                         (el.Order_ID.Item_ID ? el.Order_ID.Item_ID.name : 'N/A') : 
@@ -168,7 +182,13 @@ export default function Projects() {
                                                 </td>
                                                 <td className="px-4 py-2 text-center">{el.Status}</td>
                                                 <td className="px-4 py-2 text-center">{formatDate(el.Order_ID ? el.Order_ID.Order_Date : 'N/A')}</td>
-                                                <td className="px-4 py-2 text-center">
+                                                <td className='px-4 py-3 text-center'>{el.OrderModel === 'OnlineOrder' ? 
+                                                        (<button className="btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2" onClick={() => showPdf(el.Order_ID.Uploaded_Image ? el.Order_ID.Uploaded_Image : 'N/A')}>
+                                                            View
+                                                        </button>) : 
+                                                        ("None")}
+                                                </td>
+                                                <td className="px-4 py-2 flex flex-row text-center">
                                                     <Link to={`/creator/editProjects/${el._id}`}>
                                                         <button className='btn_edit bg-kblue text-kwhite font-bold py-3 px-5 rounded-[10px] mr-2'>Edit</button>
                                                     </Link>
