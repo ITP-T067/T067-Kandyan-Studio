@@ -95,8 +95,8 @@ export default function GenerateReports() {
         <>
             <div className='flex flex-col'>
                 <div className="h-28 relative ">
-                    <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center">
-                        <label className='font-bold text-kwhite text-lg ml-20 mr-2'>FROM</label>
+                    <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center justify-evenly">
+                        <label className='font-bold text-kwhite text-lg mr-2'>FROM</label>
                         <DatePicker
                             className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center'
                             selected={startDate}
