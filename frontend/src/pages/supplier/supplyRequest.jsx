@@ -228,7 +228,18 @@ const SupplyRequest = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+    const statusColorChanger = (status) => {
+        switch (status) {
+           
+            case "Approved":
+                return "bg-kgreen/50";
+            case "Rejected":
+                return "bg-kred/50";
+        
+            default:
+                return "bg-kyellow/50";
+        }
+    }
     return (
         <>
      
@@ -239,7 +250,6 @@ const SupplyRequest = () => {
                             <th>Date</th>
                             <th>Item</th>
                             <th>Quantity</th>
-                            
                             <th>Expected Date</th>
                             <th>Status</th>
                             <th>Cost</th>
@@ -270,27 +280,48 @@ const SupplyRequest = () => {
 
                                 return (
                                     <>
-                                        <tr key={srl._id} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                            <td>{ReqDateStr}</td>
-                                            <td>{srl.name}</td>
-                                            <td>{srl.reqquantity}</td>
-                                            <td>{ExDateStr}</td>
-                                            <td>{srl.status}</td>
-                                            <td>{srl.cost}</td>
-                                            <td className="p-4 text-kblack flex-grow">
-    <div className="flex justify-center gap-3 mx-auto">
-        <button className="p-3 bg-kblue  text-kwhite" onClick={handleButton("Accept", srl._id)}>
-            Approve
-        </button>
-        <button className="p-3 bg-kyellow text-kwhite" onClick={handleButton("Reject", srl._id)}>
-            Reject
-        </button>
-        <button className="p-3 bg-kred text-kwhite" onClick={()=>handleDelete(srl._id)}>
-            Delete
-        </button>
-    </div>
-</td>
-                                        </tr>
+                                     
+                                                <tr key={srl._id} className={`${statusColorChanger(srl.status)} p-4 rounded-lg font-bold text-center`}>
+                                                    <td>{ReqDateStr}</td>
+                                                    <td>{srl.name}</td>
+                                                    <td>{srl.reqquantity}</td>
+                                                    <td>{ExDateStr}</td>
+                                                    <td>{srl.status}</td>
+                                                    <td>{srl.cost}</td>
+                                                    {srl.status == "Approved" ? (
+                                              <button className="p-4 bg-kred/90 text-kwhite" onClick={handleButton("Reject", srl._id)}>
+                                              Reject
+                                          </button> ):(srl.status == "Pending" ? (
+                                                    <div className="flex justify-center gap-3 mx-auto p-2"> 
+                                                    <button className="p-4 bg-kred/90 text-kwhite" onClick={handleButton("Accept", srl._id)}>
+                                                    Approve
+                                                </button>
+                                             <button className="p-4 bg-kred/90 text-kwhite" onClick={handleButton("Reject", srl._id)}>
+                                              Reject
+                                          </button>
+
+                                                    <Button className="p-4 bg-kred/90">
+                                                        <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
+                                                    </Button>
+                                                    </div>
+                                                    ):(srl.status == "Rejected" ? (
+                                                        <div className="flex justify-center gap-3 mx-auto p-3">
+                                                            <button className="p-3 bg-kgreen/90  text-kwhite" onClick={handleButton("Accept", srl._id)}>
+                                                        Approve
+                                                    </button>
+                                                    <Button className="p-3 bg-kred/90">
+                                                        <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
+                                                    </Button>
+                                                        </div>
+                                                       
+                                                    
+                                                        ):(
+                                                            <Button className="p-3 bg-kred/90">
+                                                        <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
+                                                    </Button>
+                                                        )))}
+                                                </tr>
+
                                     </>
                                 );
                             })

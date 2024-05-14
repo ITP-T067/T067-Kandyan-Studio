@@ -11,7 +11,7 @@ const SupplierNavbar = () => {
     const departments = [
         { title: 'Supply Items', link: '/supplier/itemlist' },
         { title: 'Supply Requests', link: '/supplier/supplyreq' },
-        { title: 'Generate Reports', link: '' },
+      
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);

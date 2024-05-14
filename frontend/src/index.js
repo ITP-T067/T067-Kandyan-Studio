@@ -21,7 +21,7 @@ import Pendingorder from './pages/customer/onlineorder/pendingOrders.jsx';
 import Processingorder from './pages/customer/onlineorder/ProcessingOrders.jsx';
 import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
-import Payorder from './pages/customer/onlineorder/payOrder.jsx';
+//import Payorder from './pages/customer/onlineorder';
 
 //Manager Dashboard
 //Manager Dashboard - Stock Department
@@ -63,6 +63,7 @@ import SupplyReq from './pages/supplier/supplyRequest.jsx';
 import AppReq from './pages/supplier/approvedRequests.jsx';
 import SupplyInfo from './pages/supplier/supplyinfo.jsx';
 import EditSupply from './pages/supplier/editSupplyItems.jsx';
+import SupplierCreate from './pages/supplier/supplierCreate.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -84,7 +85,6 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
-        <Route path='/payorder' element={<Payorder/>}/>
         <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
 
@@ -119,7 +119,7 @@ root.render(
         <Route path='/supplier/approvereq' element={<AppReq/>}/>
         <Route path='/supplier/supplyinfo' element={<SupplyInfo/>}/>
         <Route path='/supplier/editsupply' element={<EditSupply/>}/>
-        
+        <Route path='/supplier/supplierCreate' element={<SupplierCreate/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

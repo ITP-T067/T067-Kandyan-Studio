@@ -20,6 +20,7 @@ const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.rout
 
 //Supplier
 const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
+const supplierCreateRouter = require("./routes/Supplier/supplierCreate.route.js");
 
 const app = express()
 app.use(cors())
@@ -54,6 +55,7 @@ app.use('/studio', studioStatusRouter);
 
 //Supplier
 app.use('/supplyitem',supplyitemRouter)
+app.use('/supplier',supplierCreateRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

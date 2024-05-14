@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
-const EditSupply = () => {
+const AddSupply = () => {
     const [formData, setFormData] = useState({
         item_id: "Item1",
         supplier_id: "6625f009459f1a3566dd4c45",
@@ -63,18 +63,25 @@ const EditSupply = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formData);
+    
         // Validate supply cost
         if (parseFloat(formData.unit_cost) >= sellingPrice) {
             alert("Supply cost must be lower than the current selling price.");
             return;
         }
-
+    
+        // Validate discount
+        if (parseFloat(formData.discount) < 0 || parseFloat(formData.discount) > 100) {
+            alert("Discount must be between 0 and 100.");
+            return;
+        }
+    
         try {
             // Send supply item data to the backend
             const response = await axios.post("/supplyitem/create", formData);
-
+    
             if (response.data.success) {
-                alert("Supply item Create successfully");
+                alert("Supply item created successfully");
                 // Redirect to item list page
                 window.location.href = "/supplier/itemlist";
             } else {
@@ -85,6 +92,7 @@ const EditSupply = () => {
             alert("An error occurred while creating the supply item. Please try again later.");
         }
     };
+    
 
     return (
         <div className="PageContainer text-kwhite" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -162,4 +170,4 @@ const EditSupply = () => {
     );
 };
 
-export default EditSupply;
+export default AddSupply;
