@@ -285,7 +285,7 @@ export default function CustomerCart() {
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
               </div>
-              <img className="mx-auto w-8 h-8 mt-5 ml-16 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/OnlineOrder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
+              <img className="mx-auto w-8 h-8 mt-5 ml-16 rounded-2xl cursor-pointer" src={require(`../../../../../backend/uploads/onlineorder/${item.item_file}`)} alt="file" onClick={() => showPdf(item.item_file)}/>
               <div className='text-kwhite absolute top-0 right-12 mt-4 mr-4'>{item.item_Name}</div>
               <div className='text-kwhite absolute top-0 right-0 mt-4 mr-4 cursor-pointer hover:text-kred' onClick={() => handleDeleteClick(item._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -300,21 +300,23 @@ export default function CustomerCart() {
         
 
         <div className="absolute top-0 right-0 h-[28.5rem] w-[34rem] bg-kgray bg-opacity-80 rounded-3xl m-12 mt-16 text-kwhite">
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-bold font-['Inter']">Summary</div>
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-bold">Summary</div>
           <div className="m-12 text-2xl">
             <div className="w-[28rem] top-[110px] absolute">
-              <div className="absolute font-normal font-['Inter']">Subtotal</div>
-              <div className="text-right font-normal font-['Inter']">LKR {subtotal}.00</div>
+              <div className="absolute font-normal ">Subtotal</div>
+              <div className="text-right font-normal ">LKR {subtotal}.00</div>
+              <div className="absolute font-normal">Subtotal</div>
+              <div className="text-right font-normal">LKR {subtotal}.00</div>
             </div>
             <div className="w-[28rem] top-[160px] absolute">
-                  <div className="absolute font-normal font-['Inter']">Loyalty Discount</div>
-                  <div className="text-right font-normal font-['Inter']">
+                  <div className="absolute font-normal">Loyalty Discount</div>
+                  <div className="text-right font-normal">
                     {selectedItems.length > 0 ? 'LKR 200.00' : 'LKR 0.00'}
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">
-              <div className="absolute font-normal font-['Inter']">Total</div>
-              <div className="text-right left-[300px] font-normal font-['Inter']">LKR {total > 0 ? total : 0}.00</div>
+              <div className="absolute font-normal">Total</div>
+              <div className="text-right left-[300px] font-normal">LKR {total > 0 ? total : 0}.00</div>
             </div>
           </div>
           <div>
@@ -394,7 +396,7 @@ export default function CustomerCart() {
       {showAlert && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center">
           <div className="bg-white p-14 rounded-3xl">
-            <p className="text-center text-3xl font-bold text-kwhite">Yor Order has been placed successfully!</p>
+            <p className="text-center text-3xl font-bold text-kwhite">Your Order has been placed successfully!</p>
             <button className="block mx-auto bg-kgreen hover:bg-green-600 text-kwhite font-bold py-2 px-8 mt-4 rounded" onClick={handleOKButtonClick}>OK</button>
           </div>
         </div>

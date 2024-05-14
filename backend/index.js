@@ -7,6 +7,11 @@ const path = require('path');
 const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
+//Manager - Employee Department
+const employeeRouter  = require("./routes/employeeManagement/employees.route.js")
+const salaryRouter = require("./routes/employeeManagement/salary.route.js")
+
+
 //Manager - Supplier Department
 const supplierlistRouter = require("./routes/Supplier/supplierlist.route.js");
 
@@ -18,6 +23,17 @@ const receiptRouter = require("./routes/receipt.route.js");
 const inquiryRouter = require("./routes/inquiry.route.js");
 const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.route.js");
 
+//Manager - Event Department
+const packageRouter = require("./routes/EventManagement/package.route.js");
+
+//Customer - Event Department
+const eventRouter = require("./routes/EventManagement/event.route.js")
+//Customer
+const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+
+//loyalty
+ const loyaltyRouter=require("./routes/order.route.js");
+
 //Supplier
 const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
 const supplierCreateRouter = require("./routes/Supplier/supplierCreate.route.js");
@@ -26,6 +42,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads', 'OnlineOrder')));
+app.use('/uploads/EventManagement', express.static(path.join(__dirname, 'uploads', 'EventManagement')));
 
 
 
@@ -42,6 +59,11 @@ mongoose.connect("mongodb+srv://ssddias29:kandyan123@kandyan-studio.qgnehe2.mong
 app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
 
+//Manager - Employee Department
+app.use('/employee', employeeRouter);
+app.use('/salary', salaryRouter);
+
+
 //Manager - Supplier Department
 app.use('/supplylist', supplierlistRouter);
 
@@ -52,6 +74,18 @@ app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
+
+//Manager - Event Department
+app.use('/package', packageRouter);
+
+//Customer - Event Department
+app.use('/event', eventRouter);
+
+
+
+
+//Customer
+app.use('/review', reviewRouter);
 
 //Supplier
 app.use('/supplyitem',supplyitemRouter)

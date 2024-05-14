@@ -39,7 +39,13 @@ export default function GenerateReports() {
         }
     }, [startDate, endDate]); 
 
-    const componentRef = useRef(null);
+    const componentRef = useRef([]);
+
+    const generateNewPDF = useReactToPrint({
+        content : () => componentRef.current,
+        docunentTitle: "Project Report",
+        onAfterPrint: () => alert("Data Saved in pdf"),
+    })
 
     const generatePDF = () => {
         const pdf = new jsPDF();
@@ -89,8 +95,8 @@ export default function GenerateReports() {
         <>
             <div className='flex flex-col'>
                 <div className="h-28 relative ">
-                    <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center">
-                        <label className='font-bold text-kwhite text-lg ml-20 mr-2'>FROM</label>
+                    <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center justify-evenly">
+                        <label className='font-bold text-kwhite text-lg mr-2'>FROM</label>
                         <DatePicker
                             className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80 rounded-3xl text-center'
                             selected={startDate}
@@ -102,12 +108,12 @@ export default function GenerateReports() {
                             selected={endDate}
                             onChange={handleEndDateChange}
                         />
-                        <button type="button" onClick={getFetchData} className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">GENERATE</button>
+                        {/* <button type="button" onClick={generateNewPDF}className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-20">GENERATE</button> */}
                     </div>
                 </div>
 
                 {isDataLoaded && (
-                    <div className="addContainer w-[530px] h-80 bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-0 absolute top-1/2 left-1/2 transform -translate-x-1/2  p-5">
+                    <div ref={componentRef} className="addContainer w-[530px] h-80 bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-0 absolute top-1/2 left-1/2 transform -translate-x-1/2  p-5">
                         <h className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-0">Total Project Summary</h>
                         <div className="flex flex-col px-5 py-5">
                             <div className="mb-5">
