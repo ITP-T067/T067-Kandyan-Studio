@@ -8,6 +8,7 @@ import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle, HiFilter, HiOutlineDocum
 import { useReactToPrint } from 'react-to-print';
 import jsPDF from 'jspdf';
 
+
 axios.defaults.baseURL = "http://localhost:8010/";
 
 //report generation
@@ -60,20 +61,31 @@ class EventSummaryContent extends React.Component {
     };
 
     return (
-      <div className="bg-kblack text-kwhite text-3xl border-2 rounded-xl mt-20 justify-center max-w-xl ml-20 border-bg-kyellow">
+      <div className="bg-kwhite text-black text-lg mt-20 justify-center max-w-4xl ml-20 border-bg-kyellow">
         <div className="mt-5 ml-5 mb-5">
-          <h1 className="flex justify-center">Event Summary Report</h1><br />
-          <p>Total Number of Events Booked: {calcTotalEvents(approvedEvents)}</p>
-          <p>Total Amount Earned: {calcTotalAmount(approvedEvents)}</p><br /><br />
-          <h2>Events per Category:</h2>
-          <br />
-          <ol type="square">
-            <li>Wedding: {calculateEventsPerCategory(approvedEvents)[0].count}</li>
-            <li>Birthday Party: {calculateEventsPerCategory(approvedEvents)[1].count}</li>
-            <li>Social Event: {calculateEventsPerCategory(approvedEvents)[2].count}</li>
-          </ol>
+          {/* Logo */}
+          <div className="flex justify-center">
+            <img src={require(`../../../images/logo.png`)} className="h-20 w-20" />
+          </div>
+          {/* Title and Subtitle */}
+          <h1 className="flex justify-center font-bold">Kandyan Studio & Digital Color Lab</h1>
+          <h2 className="flex justify-center font-bold">Event Summary</h2><br />
+          {/* Event Summary Content */}
+          <div className=" text-kblack  p-5">
+            <h3>Events per Category:</h3>
+            <br />
+            <ol type="square">
+              <li>Wedding: {calculateEventsPerCategory(approvedEvents)[0].count}</li>
+              <li>Birthday Party: {calculateEventsPerCategory(approvedEvents)[1].count}</li>
+              <li>Social Event: {calculateEventsPerCategory(approvedEvents)[2].count}</li>
+            </ol><br /><br />
+            <p>Total Number of Events Booked: {calcTotalEvents(approvedEvents)}</p> <br />
+            <p>Total Amount Earned: {calcTotalAmount(approvedEvents)}</p><br /><br />
+          </div>
         </div>
       </div>
+
+
     );
   }
 };
@@ -130,14 +142,9 @@ function EventsList() {
   //declining event-> sending email
   const sendEmail = async (eventId) => {
     try {
-      const response = await axios.post(`/event/send-email`, {
-        eventId: eventId,
-        emailSubject: emailSubject,
-        message: emailMsg
-      });
+      const response = await axios.post(`/event/send-email`);
       if (response.data.success) {
         alert("Email sent successfully");
-        setShowEmailForm(false);
       }
       else {
         console.error("Failed to send email:", response.data.message);
@@ -267,18 +274,16 @@ function EventsList() {
         <div className=' mt-10 ml-10 mr-10'>
 
           <Card className="h-full w-full text-kwhite">
-            <table className="w-full min-w-max table-auto text-left">
+            <table className="w-full min-w-max table-auto text-center">
               <thead>
                 <tr>
                   {TABLE_HEAD.map((head) => (
                     <th
                       key={head}
-                      className="border-b border-kwhite bg-transparent p-4 text-kwhite "
+                      className="border-b border-kwhite bg-kblack p-4 text-kwhite "
                     >
                       <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className=" leading-non opacity-100 text-xl font-extrabold"
+                        variant="normal"
                       >
                         {head}
                       </Typography>
@@ -294,57 +299,45 @@ function EventsList() {
                     const classes = isLast ? "p-4" : "p-4 border-b border-kblue-gray-50";
 
                     return (
-                      <tr key={_id}>
+                      <tr key={_id} className="bg-kwhite bg-opacity-20">
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {pkg_category}
                           </Typography>
                         </td>
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {pkg_name}
                           </Typography>
                         </td>
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {formatDate(date)}
                           </Typography>
                         </td>
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {venue}
                           </Typography>
                         </td>
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {price}
                           </Typography>
                         </td>
                         <td className={classes}>
                           <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
+                            variant="normal"
                           >
                             {additional}
                           </Typography>
@@ -354,7 +347,7 @@ function EventsList() {
                         </td>
                         <td className={classes}>
                           <Button onClick={() => approveEvent(_id)} className="btn_edit w-24 border-1 rounded-lg  bg-kgreen ">Approve</Button>
-                          <Button onClick={() => setShowEmailForm(true)} className="ml-4 btn_edit w-24 border-1 rounded-lg bg-kred ">Decline</Button>
+                          <Button onClick={() => sendEmail(_id)} className="ml-4 btn_edit w-24 border-1 rounded-lg bg-kred ">Decline</Button>
                           <Button onClick={() => viewPaymentPDF(file)} className="btn_edit w-24 border-1 rounded-lg bg-kblue ml-4">View Payment</Button>
                         </td>
                       </tr>
@@ -378,44 +371,6 @@ function EventsList() {
         </div>
       </div>
 
-      {
-        showEmailForm && (
-          <form onSubmit={(e) => {
-            e.preventDefault();
-            sendEmail();
-          }} className="form-container fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-opacity-100 bg-kgray rounded-2xl flex justify-center items-center border-2 border-kyellow">
-            <div className="outer_box flex-auto mt-5 ml-7 mr-10 max-w-4xl flex-col h-[22rem]  mb-10 rounded-xl ">
-              <div>
-                <label htmlFor="email_label" className="block text-kwhite text-xl font-bold font-[Inter]" >Send Email</label>
-              </div>
-              <div className="grid gap-3 mt-3 items-center ml-5 mr-5 font-normal text-mdfont-semibold ">
-                <div>
-                  <label htmlFor="email_subject" className="block text-kwhite">Email Subject</label>
-                  <input type="text"
-                    id="email_subject"
-                    name="email_subject"
-                    value={emailSubject}
-                    onChange={(e) => setEmailSubject(e.target.value)}
-                    className="block w-80 mt-1 rounded-md h-8 text-md bg-kwhite p-1" required />
-                </div>
-                <div>
-                  <label htmlFor="email_msg" className="block text-kwhite">Message</label>
-                  <textarea 
-                    id="email_msg"
-                    name="email_msg"
-                    value={emailMsg}
-                    onChange={(e) => setEmailMsg(e.target.value)}
-                    className="block w-[28rem] mt-1 rounded-md h-[] text-md bg-kwhite p-1" required />
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 ml-5 mbflex justify-center items-center rounded-lg" onClick={() => setShowEmailForm(false)}>Close</button>
-                <button className="btn_submit w-28 h-12 text-lg font-normal bg-kyellow text-kwhite mt-8 mr-5 mbflex justify-center items-center rounded-lg" >Submit</button>
-              </div>
-            </div>
-          </form>
-        )
-      }
 
 
     </div>

@@ -262,8 +262,8 @@ const send_email = async (req, res, next) => {
                 address: 'kandyan.info@gmail.com',
             },
             to: 'manager.kandyan.example@gmail.com',
-            subject,
-            text
+            subject: 'Event Booking Declined',
+            text: 'Your event booking has been declined due to the issues we encountered in your payment. Please contact Kandyan studios. Soory for the inconvenience occured. Thank you.'
         };
         await transporter.sendMail(mailOptions);
         res.send({ success: true, message: "Email sent successfully" });
