@@ -33,9 +33,9 @@ export default function Inquiries() {
   return (
     <>
     <div className="mt-5 mx-auto w-11/12">
-        <table className="w-full border-collapse text-kwhite">
-            <thead className="bg-kblack text-kwhite h-[60px]">
-                <tr>
+        <table className="w-full table-fixed rounded-lg overflow-hidden">
+            <thead>
+                <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
                     <th className="px-4 py-2">Customer Name</th>
                     <th className="px-4 py-2">Inquiry Type</th>
                     <th className="px-4 py-2">Date</th>
@@ -43,12 +43,13 @@ export default function Inquiries() {
                     <th className="px-4 py-2">Action</th>
                 </tr>
             </thead>
-            <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+            <tbody className="bg-kgray bg-opacity-20 h-[80px]">
                 {dataList.length > 0 ? (
                     dataList.map((el) => {
                         if(el.Inquiry_Type == "Products"){
+                          const rowClass = el.Status === "Resolved" ? "bg-pgreen/30" : "bg-kwhite/10";
                             return (
-                                <tr key={el._id}>
+                                <tr key={el._id}  className={`border-b text-kwhite text-center items-center p-4 ${rowClass}`}>
                                     <td className="px-4 py-2 text-center">{el.Cus_ID? el.Cus_ID.Cus_Name : 'N/A'}</td>
                                     <td className="px-4 py-2 text-center">{el.Inquiry_subType}</td>
                                     <td className="px-4 py-2 text-center">{formatDate(el.Inquiry_Date)}</td>

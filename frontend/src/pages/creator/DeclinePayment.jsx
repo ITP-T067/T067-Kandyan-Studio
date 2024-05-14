@@ -36,10 +36,18 @@ export default function DeclinePayment() {
         await axios.put(`/order/on/update/pending/`, {_id: orderId, order_status: 'Rejected' });
         
         // Send email to customer
-        const message = `Your payment for order has been declined. Reason: ${reason}`;
+        const message = `Dear Customer,
+
+We regret to inform you that your payment for the order has been declined because ${reason}. Please review your payment details and try again.
+
+If you have any questions or concerns, please do not hesitate to contact us.
+
+Best regards,
+Kandyan Studio`;
+
         console.log(message);
         await axios.post('order/on/send-email', {
-          to: "chandima2017@gmail.com",
+          to: "ecstorelanaka@gmail.com",
           subject: 'Payment Declined',
           text: message
         });
@@ -53,11 +61,11 @@ export default function DeclinePayment() {
     };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4 text-kwhite">Decline Payment</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="w-[530px] h-[328px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+      <h1 className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-8">Decline Payment</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col px-5 py-5">
         <div>
-          <label htmlFor="reason" className="block text-sm font-medium text-gray-700 text-kwhite">
+          <label htmlFor="reason" className="text-kwhite mb-2 font-bold">
             Reason for Decline:
           </label>
           <textarea
@@ -66,12 +74,14 @@ export default function DeclinePayment() {
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             required
-            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md text-kblack"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-mdw-[473px] h-[49px] bg-white rounded-[10px] mb-10 p-3 text-lg bg-kwhite"
           ></textarea>
         </div>
-        <button type="submit" className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 text-kwhite bg-kred">
-          Submit
-        </button>
+        <div className="flex justify-center mb-4">  
+          <button type="submit" className="w-[152px] h-[44px] inline-flex items-center justify-center px-4 py-2 rounded-md shadow-sm text-kwhite focus:outline-none font-bold bg-kred ">
+            Decline
+          </button>
+        </div>
       </form>
     </div>
   );

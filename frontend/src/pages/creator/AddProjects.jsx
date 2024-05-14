@@ -99,7 +99,7 @@ export default function AddProjects() {
             <div className="w-[530px] mx-auto">
              {isAlert && (<Alert message={message} type={alertStatus}/>)}
             </div>
-            <div className="addContainer w-[530px] h-[328px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+            <div className="w-[530px] h-[328px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
                 
                 <a href='/creator/projectOrders'>
                     <IoArrowBackCircleOutline className="text-kwhite text-3xl" />
