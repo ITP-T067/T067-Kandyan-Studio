@@ -7,7 +7,9 @@ const itemRouter = require("./routes/StockManagement/item.route.js");
 const supplyRequestRouter = require("./routes/StockManagement/supplyrequest.route.js");
 
 //Manager - Employee Department
-const employees  = require("./routes/employeeManagement/employees.route.js")
+const employeeRouter  = require("./routes/employeeManagement/employees.route.js")
+const salaryRouter = require("./routes/employeeManagement/salary.route.js")
+
 
 //Creator
 const orderRouter = require("./routes/order.route.js");
@@ -34,7 +36,9 @@ app.use('/item', itemRouter);
 app.use('/supplyrequest', supplyRequestRouter);
 
 //Manager - Employee Department
-app.use('/employee', employees);
+app.use('/employee', employeeRouter);
+app.use('/salary', salaryRouter);
+
 
 //Creator
 app.use('/order', orderRouter);

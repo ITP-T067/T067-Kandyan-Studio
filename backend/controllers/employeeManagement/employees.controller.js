@@ -1,6 +1,9 @@
 const Employee = require("../../models/employeeManagement/employees.model.js");
 const {errorHandler} = require("../../utils/error.js");
 
+const nodemailer = require("nodemailer");
+
+
 const index_Employee = async (req, res, next) => {
   try {
     const data = await Employee.find({});
@@ -58,4 +61,53 @@ const delete_Employee = async (req, res, next) => {
   }
 };
 
-module.exports = { index_Employee, create_Employee, update_Employee, delete_Employee};
+//crete reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, //true for 465, false for other ports
+    auth: {
+        user: "kandyan.info@gmail.com", //Sender gmail address
+        pass: "ukle odkn trba qhuh" //app password from gmail account
+    },
+});
+
+const mailOptions = {
+  from: {
+    name: 'Kandyan Studio',
+    address: process.env.USER
+  }, //sender address
+  to: ["dinithi2290@gmail.com"], //list of recievers
+  subject: "Payroll notification",
+  text: 'Dear ${employee.name},\nYour payroll for last month has been processed and your salary has been sent to your bank account.',//plain text body 
+  html: '<p>Dear ${employee.name},</p><p>Your payroll for last month has been processed and your salary has been sent to your bank account.</p>' //html body
+}
+
+// Function to send email
+const sendMail = async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id)
+
+  const employee = await Employee.findOne({_id: id});
+  const mailOptions = {
+    from: {
+      name: 'Kandyan Studio',
+      address: 'kandyan.info@gmail.com'
+    },
+    to: employee.email,
+    subject: "Payroll notification",
+    text: `Dear ${employee.name},\nYour payroll for last month has been processed and your salary has been sent to your bank account.`,
+    html: `<p>Dear ${employee.name},</p><p>Your payroll for last month has been processed and your salary has been sent to your bank account.</p>`
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+} 
+ 
+
+module.exports = { index_Employee, create_Employee, update_Employee, delete_Employee, sendMail};
