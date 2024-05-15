@@ -67,13 +67,13 @@ export default function ResolveInquiries() {
                             <h className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-0">Resolve Inquiry</h>
                             <form onSubmit={handleUpdate} className="flex flex-col px-5 py-5">
                                 <label htmlFor="Customer_Name" className="text-kwhite font-bold text-lg ">Customer Name: </label>
-                                <input type="text" id="Customer_Name" name="Customer_Name" value={data?.Cus_ID?.Cus_Name || 'N/A'} className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kwhite disabled"  />
+                                <input type="text" id="Customer_Name" name="Customer_Name" value={data?.Cus_ID?.Cus_Name || 'N/A'} className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kblack disabled"  />
                                 
                                 <label htmlFor="Inquiry_Data" className='font-bold text-kwhite text-lg'>Inquiry Data: </label>
-                                <input type="text" id="Inquiry_Data" name="Inquiry_Data" value={data?.Inquiry_Data || 'N/A'} className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kwhite disabled"  />
+                                <input type="text" id="Inquiry_Data" name="Inquiry_Data" value={data?.Inquiry_Data || 'N/A'} className="w-[473px] h-[49px] rounded-[10px] mb-0 p-3 text-base text-kblack disabled"  />
 
                                 <label htmlFor="Feedback" className='mb-2 font-bold text-kwhite text-lg'>Feedback: </label>
-                                <input type="text" id="Feedback" name="Feedback" onChange={handleEditOnchange} value={formDataEdit.Feedback} className="w-[473px] h-[49px] rounded-[10px] mb-5 p-3 text-base bg-kwhite" />
+                                <input type="text" id="Feedback" name="Feedback" onChange={handleEditOnchange} value={formDataEdit.Feedback} className="w-[473px] h-[49px] rounded-[10px] mb-5 p-3 text-base bg-kblack" />
                                 
                                 <div className="flex justify-center mb-4">
                                     <button className="submitBtn w-[152px] h-[44px] bg-kgreen rounded-[15px] text-kwhite font-bold hover:bg-kblue text-lg">Submit</button>

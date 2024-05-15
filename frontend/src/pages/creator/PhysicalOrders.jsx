@@ -14,7 +14,7 @@ export default function PhysicalOrders() {
     Artwork_Price: "",
     Cus_Name: "",
     Phone_Number: "",
-    Status: "Not Paid",
+    Status: "Paid",
     Project_Status: "Not Added",
   });
   
