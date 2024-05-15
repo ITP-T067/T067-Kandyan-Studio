@@ -50,9 +50,15 @@ export default function Generatereports() {
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
+    if (endDate && date && date > endDate) {
+      setEndDate(null);
+    }
   };
 
   const handleEndDateChange = (date) => {
+    if (date) {
+      date.setHours(23, 59, 59, 999);
+    }
     setEndDate(date);
   };
 
@@ -119,6 +125,7 @@ export default function Generatereports() {
             selected={startDate}
             onChange={handleStartDateChange}
             placeholderText="MM/DD/YYYY"
+            maxDate={new Date()}
           />
           <label className="font-bold text-kwhite text-lg md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
           <DatePicker
@@ -126,13 +133,14 @@ export default function Generatereports() {
             selected={endDate}
             onChange={handleEndDateChange}
             placeholderText="MM/DD/YYYY"
+            minDate={startDate}
+            maxDate={new Date()}
           />
           <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-4 md:ml-8 mt-2 md:mt-0" onClick={handleClearDates}>
             CLEAR
           </button>
         </div>
       </div>
-
 
       <form className=" max-w-md mx-auto left-0 right-0">
         <div>
