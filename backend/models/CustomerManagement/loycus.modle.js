@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const customerSchema = new mongoose.Schema({
+const LoycusSchema = new mongoose.Schema({
     Cus_Name: {
         type: String,
         unique: true,
@@ -17,6 +17,6 @@ const customerSchema = new mongoose.Schema({
     },
 });
 
-const Customer = mongoose.model('Customer', customerSchema);
+const Loycus = mongoose.model('Loycus', LoycusSchema);
 
-module.exports = Customer;
+module.exports = Loycus;

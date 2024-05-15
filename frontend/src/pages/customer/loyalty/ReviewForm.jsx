@@ -1,17 +1,19 @@
-import React, { useState,useEffect } from "react";
-import { useParams,useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import "../../../Styles/addreveiw.css";
 import axios from "axios";
+import "../../../Styles/addreveiw.css";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
 function ReviewForm() {
-  const [rating, setRating] = useState(0);
+  const [productRating, setProductRating] = useState(0);
+  const [deliveryRating, setDeliveryRating] = useState(0);
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [hover, setHover] = useState(null); // State for hover effect
+  const [productHover, setProductHover] = useState(null); // State for hover effect of product rating stars
+  const [deliveryHover, setDeliveryHover] = useState(null); // State for hover effect of delivery rating stars
   const { itemId } = useParams(); // Extract item ID from URL parameters
   const [itemName, setItemName] = useState("");
   const history = useNavigate();
@@ -28,6 +30,7 @@ function ReviewForm() {
   useEffect(() => {
     fetchItemDetails(itemId);
   }, [itemId]);
+
   const fetchItemDetails = async () => {
     try {
       const response = await axios.get(`/item/${itemId}`);
@@ -37,15 +40,24 @@ function ReviewForm() {
     }
   };
 
-// Function to handle form submission
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-// Validate rating
-    if (!rating || rating < 1 || rating > 5) {
-      setErrorMessage("Please select a valid rating (1-5).");
+    // Validate ratings
+    if (
+      !productRating ||
+      productRating < 1 ||
+      productRating > 5 ||
+      !deliveryRating ||
+      deliveryRating < 1 ||
+      deliveryRating > 5
+    ) {
+      setErrorMessage(
+        "Please select valid ratings (1-5) for both product quality and delivery quality."
+      );
       return;
     }
- // Send POST request to add review
+    // Send POST request to add review
     if (!message.trim()) {
       setErrorMessage("Please enter a review message.");
       return;
@@ -53,8 +65,9 @@ function ReviewForm() {
 
     try {
       const response = await axios.post("/review/add", {
-        rating: rating,
-        itemId: itemId,
+        productRating: productRating,
+        deliveryRating: deliveryRating,
+        name: itemId,
         message: message,
         date: getCurrentDate(),
       });
@@ -68,7 +81,8 @@ function ReviewForm() {
         }, 2000);
       }
 
-      setRating(0);
+      setProductRating(0);
+      setDeliveryRating(0);
       setMessage("");
     } catch (error) {
       console.error("Error adding review:", error);
@@ -77,77 +91,98 @@ function ReviewForm() {
 
   return (
     <div className="feedback-container">
-      
       <div className="star-rating">
-        
-      
-      <form onSubmit={handleSubmit} className="review-form-container">
-        <p>{successMessage}</p>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <div>
-              <div className="flex justify-center">
-             <label className="border-b border-black margin">{itemId}</label>
-              </div>
-        
+        <form onSubmit={handleSubmit} className="review-form-container">
+          <p>{successMessage}</p>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <div>
             <div className="flex justify-center">
-          {[...Array(5)].map((_, index) => {
-          const ratingValue = index + 1;
-          return (
-            
-            <label key={index}>
-              <input
-                className="star-input"
-                type="radio"
-                name="rating"
-                value={ratingValue}
-                onClick={() => {
-                  setRating(ratingValue);
-                  setErrorMessage("");
-                }}
-              />
-              <FaStar
-                className="star"
-                color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                size={30}
-                onMouseEnter={() => setHover(ratingValue)}
-                onMouseLeave={() => setHover(null)}
-              />
-            </label>
-            
-          );
-        })}
+              <label className="border-b border-black margin">{itemId}</label>
+            </div>
+
+            {/* Product Quality Rating */}
+            <div className="flex justify-center">
+              <label htmlFor="productRating">Product Quality Rating:</label>
+              {[...Array(5)].map((_, index) => {
+                const ratingValue = index + 1;
+                return (
+                  <label key={index}>
+                    <input
+                      className="star-input"
+                      type="radio"
+                      name="productRating"
+                      value={ratingValue}
+                      onClick={() => {
+                        setProductRating(ratingValue);
+                        setErrorMessage("");
+                      }}
+                    />
+                    <FaStar
+                      className="star"
+                      color={ratingValue <= (productHover || productRating) ? "#ffc107" : "#e4e5e9"}
+                      size={30}
+                      onMouseEnter={() => setProductHover(ratingValue)}
+                      onMouseLeave={() => setProductHover(null)}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+
+            <br /> {/* Add a line break here */}
+
+            {/* Delivery Quality Rating */}
+            <div className="flex justify-center">
+              <label htmlFor="deliveryRating">Delivery Quality Rating:</label>
+              {[...Array(5)].map((_, index) => {
+                const ratingValue = index + 1;
+                return (
+                  <label key={index}>
+                    <input
+                      className="star-input"
+                      type="radio"
+                      name="deliveryRating"
+                      value={ratingValue}
+                      onClick={() => {
+                        setDeliveryRating(ratingValue);
+                        setErrorMessage("");
+                      }}
+                    />
+                    <FaStar
+                      className="star"
+                      color={ratingValue <= (deliveryHover || deliveryRating) ? "#ffc107" : "#e4e5e9"}
+                      size={30}
+                      onMouseEnter={() => setDeliveryHover(ratingValue)}
+                      onMouseLeave={() => setDeliveryHover(null)}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+
+            <label htmlFor="message">Review Message:</label>
+            <textarea
+              id="message"
+              className="review-message"
+              value={message}
+              onChange={(e) => {
+                const input = e.target.value;
+                const onlyLetters = input.replace(/[^a-zA-Z\s]/g, ""); // Remove any characters that are not letters or spaces
+                setMessage(onlyLetters);
+              }}
+              style={{ color: "black" }} // Apply inline style
+            />
           </div>
-          <label htmlFor="rating">Rating:</label>
-          <input type="text" id="rating" value={rating} readOnly />
-        </div>
-        <div>
-                <label htmlFor="message">Review Message:</label>
-                <textarea
-                  id="message"
-                  className="review-message"
-                  value={message}
-                  onChange={(e) => {
-                    const input = e.target.value;
-                    const onlyLetters = input.replace(/[^a-zA-Z\s]/g, ''); // Remove any characters that are not letters or spaces
-                    setMessage(onlyLetters);
-                  }}
-                  style={{ color: "black" }} // Apply inline style
-                />
+
+          <div>
+            <label htmlFor="date">Date:</label>
+            <input type="text" id="date" className="date text-kblack" value={getCurrentDate()} readOnly />
           </div>
-        <div>
-          <label htmlFor="date">Date:</label>
-          <input
-            type="text"
-            id="date"
-            className="date"
-            value={getCurrentDate()}
-            readOnly
-          />
-        </div>
-        <button type="submit">Submit Review</button>
-      </form>
+
+          <button type="submit">Submit Review</button>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }
 

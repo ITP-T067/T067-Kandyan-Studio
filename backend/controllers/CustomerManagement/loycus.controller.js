@@ -1,5 +1,4 @@
-const Customer = require("../models/customer.model.js");
-const { errorHandler } = require("../utils/error.js");
+const Loycus = require("../../models/CustomerManagement/loycus.modle.js");
 
 const index_customer = async (req, res, next) => {
     try {
@@ -12,7 +11,7 @@ const index_customer = async (req, res, next) => {
 
 const create_customer = async (req, res, next) => {
     try {
-        const data = await Customer.create(req.body);
+        const data = await Loycus.create(req.body);
         res.status(201).json({ success: true, message: "Customer saved successfully", data: data });
     } catch (error) {
         next(error);
@@ -22,7 +21,7 @@ const create_customer = async (req, res, next) => {
 const update_customer = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const updatedCustomer = await Customer.findByIdAndUpdate(id, req.body, { new: true });
+        const updatedCustomer = await Loycus.findByIdAndUpdate(id, req.body, { new: true });
         if (!updatedCustomer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
@@ -35,7 +34,7 @@ const update_customer = async (req, res, next) => {
 const del_customer = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const deletedCustomer = await Customer.findByIdAndDelete(id);
+        const deletedCustomer = await Loycus.findByIdAndDelete(id);
         if (!deletedCustomer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
@@ -48,7 +47,7 @@ const del_customer = async (req, res, next) => {
 const find_customer_by_id = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const customer = await Customer.findById(id);
+        const customer = await Loycus.findById(id);
         if (!customer) {
             return res.status(404).json({ success: false, message: "Customer not found" });
         }
@@ -59,3 +58,4 @@ const find_customer_by_id = async (req, res, next) => {
 };
 
 module.exports = { index_customer, create_customer, update_customer, del_customer, find_customer_by_id };
+
