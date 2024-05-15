@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -62,6 +63,9 @@ Kandyan Studio`;
 
   return (
     <div className="w-[530px] h-[328px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+      <a href='/creator/orderPayments'>
+                    <IoArrowBackCircleOutline className="text-kwhite text-3xl" />
+                </a>
       <h1 className="text-kwhite text-3xl font-extrabold text-center mt-0 mb-8">Decline Payment</h1>
       <form onSubmit={handleSubmit} className="flex flex-col px-5 py-5">
         <div>

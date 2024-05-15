@@ -54,7 +54,7 @@ export default function OfflineOrders() {
             <a className="w-1/2 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kgray font-bold flex flex-col justify-center" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 
-        <div className="mt-5 mx-auto">
+        <div className="mt-5 mx-auto  w-11/12">
         <table className="w-full table-fixed rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">

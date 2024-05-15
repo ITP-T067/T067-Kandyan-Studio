@@ -42,7 +42,7 @@ export default function CompletedProjects() {
             <table className="w-full table-fixed rounded-lg overflow-hidden">
             <thead>
                 <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                <th className="w-1/5 py-5">Name</th>
+                <th className="w-1/5 py-5">Project Name</th>
                 <th className="w-1/4">Order Name</th>
                 <th className="w-1/4">Customer Name</th>
                 <th className="w-1/4">Added Date</th>
