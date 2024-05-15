@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Alert from "../../../Components/Common/Alerts/alert";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -38,7 +39,7 @@ function AddPackages() {
     let socialCount = 0;
 
     dataList.forEach((pkg) => {
-      if(pkg.status =="Active"){
+      if (pkg.status == "Active") {
         if (pkg.pkg_category == "Wedding") {
           weddingCount++;
         } else if (pkg.pkg_category == "Birthday Party") {
@@ -82,6 +83,10 @@ function AddPackages() {
     }
   };
 
+  const [isAlert, setIsAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState('success');
+  const [message, setMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,7 +116,9 @@ function AddPackages() {
       if (isPackageNameExists) {
         calcCategoryCount(dataList);
         console.log("Data List: ", dataList);
-        alert("Package name already exists in the selected category.");
+        setIsAlert(true);
+        setAlertStatus('danger');
+        setMessage('Package name already exists in the selected category.');
         return;
       }
 
@@ -132,22 +139,28 @@ function AddPackages() {
       console.log("Response:", response);
 
       if (response.data.success) {
-        alert("Package added successfully");
-        if(response.data.data.pkg_category === "Wedding"){
+        setIsAlert(true);
+        setAlertStatus('success');
+        setMessage('Package added successfully');
+        if (response.data.data.pkg_category === "Wedding") {
           window.location.href = "/manager/eventdept/MgrWedding";
         }
-        else if(response.data.data.pkg_category === "Birthday Party"){
+        else if (response.data.data.pkg_category === "Birthday Party") {
           window.location.href = "/manager/eventdept/MgrBdayParty";
         }
-        else if(response.data.data.pkg_category === "Social Event"){
+        else if (response.data.data.pkg_category === "Social Event") {
           window.location.href = "/manager/eventdept/MgrSocial";
         }
       } else {
-        alert("Failed to add Package");
+        setIsAlert(true);
+        setAlertStatus('error');
+        setMessage('Failed to add Package');
       }
     } catch (error) {
       console.error(error.response.data);
-      alert("An error occured while adding package");
+      setIsAlert(true);
+      setAlertStatus('error');
+      setMessage('An error occured while adding package');
     }
   };
 
@@ -156,7 +169,8 @@ function AddPackages() {
   };
 
   return (
-    <div>
+    <>
+      <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
 
       {/* back navigation */}
       <div className="backnaviagtion flex-auto ml-10 mt-3  items-center" >
@@ -168,28 +182,44 @@ function AddPackages() {
 
       {/* form section */}
       <div className="flex justify-center items-start mt-3">
-        <div className="container max-w-2xl h-[24rem] bg-kgray  flex flex-col rounded-lg font-[inter]">
+        <div className="container max-w-2xl h-[28rem] bg-kgray  flex flex-col rounded-lg font-[inter]">
 
           <form className="flex flex-col" onSubmit={handleSubmit}  >
 
-            <div className=" mt-10 mb-4 ml-5 flex justify-start gap-4">
+            <div className="mt-10 mb-4 ml-5 flex justify-start gap-4">
               <label className="form-label text-kwhite">Package Category</label>
-              <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1"
-                type="text"
+              <select
+                className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1"
                 name="pkg_category"
                 value={formData.pkg_category}
                 onChange={handleOnChange}
-                required />
+                required
+              >
+                <option value="">Select Category</option>
+                <option value="Wedding">Wedding</option>
+                <option value="Social Event">Social Event</option>
+                <option value="Birthday Party">Birthday Party</option>
+              </select>
             </div>
+
 
             <div className="mt-3 mb-4 ml-5 flex justify-start gap-4">
               <label className="form-label text-kwhite">Package Name</label>
-              <input className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1"
-                type="text"
+              <select
+                className="form-control rounded-md border-2 border-kblack bg-kwhite text-sm w-96 px-1"
                 name="pkg_name"
                 value={formData.pkg_name}
                 onChange={handleOnChange}
-                required />
+                required
+              >
+                <option value="">Select Package Name</option>
+                <option value="Minimal">Minimal</option>
+                <option value="Regular">Regular</option>
+                <option value="De-Luxe">De-Luxe</option>
+                <option value="Standard">Standard</option>
+                <option value="Premium">Premium</option>
+                <option value="Diamond">Diamond</option>
+              </select>
             </div>
 
             <div className="mt-3 mb-4 ml-5 flex justify-start gap-4">
@@ -233,8 +263,7 @@ function AddPackages() {
           </form>
         </div>
       </div>
-
-    </div>
+    </>
   )
 }
 

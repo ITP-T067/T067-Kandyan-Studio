@@ -17,7 +17,7 @@ const Login = () => {
         if(role === 'Customer'){
             window.location.href = '/';
         }else if(role === 'Manager'){
-            window.location.href = '/manager';
+            window.location.href = '/manager/stockdept';
         }else if(role === 'Cashier'){
             window.location.href = '/cashier';
         }else if(role === 'Creator'){
