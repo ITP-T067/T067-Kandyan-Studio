@@ -27,9 +27,6 @@ const packageRouter = require("./routes/EventManagement/package.route.js");
 const eventRouter = require("./routes/EventManagement/event.route.js")
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
-const loycusRouter = require("./routes/CustomerManagement/loycus.route.js")
-
-
 
 //cashier
 const mainorder = require("./routes/Cashier/mainorder.route.js");
@@ -77,9 +74,6 @@ app.use('/studio', studioStatusRouter);
 
 //Customer
 app.use('/review', reviewRouter);
-app.use('/customers',reviewRouter)
-app.use('/loycus', loycusRouter);
-
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
