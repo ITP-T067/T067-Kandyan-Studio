@@ -8,7 +8,7 @@ const create_Placeorder = async(req,res, next) => {
     try{
         await data.save() 
         if(res.status(201)){
-            res.send({success : true, message : "mainorder saved successfully", data: data})
+            res.send({success : true, message : "placeorder saved successfully", data: data})
         }
     }catch(error){
         next(error);

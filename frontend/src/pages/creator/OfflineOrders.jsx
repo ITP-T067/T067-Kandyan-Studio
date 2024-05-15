@@ -71,7 +71,7 @@ export default function OfflineOrders() {
             {
               dataList[0] ? (
               dataList.map((el)=>{
-                if(el.Project_Status != "Added" && el.Status == "Completed"){
+                if(el.Project_Status != "Added" && el.Status == "Paid"){
                   return(
                     <tr>
                       <td className="px-4 py-2 text-center">{el.Order_Type}</td>

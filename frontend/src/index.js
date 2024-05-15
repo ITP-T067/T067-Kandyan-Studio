@@ -67,10 +67,11 @@ import AddnewStudio from './pages/cashier/addnewstudio.jsx';
 import Crlaminate from './pages/cashier/neworders/crlaminates.jsx';
 import CrPhotoprints from './pages/cashier/neworders/crphotoprints.jsx';
 import Crframes from './pages/cashier/neworders/crframes.jsx';
-import Stbabyphoto from './pages/cashier/neworders/stbabyphoto.jsx';
-import StproductPhoto from './pages/cashier/neworders/stproductphoto.jsx';
-import Stidcard from './pages/cashier/neworders/stidcard.jsx';
+import CrSublimation from './pages/cashier/neworders/creatorsublimation.jsx';
+import CrFrames from './pages/cashier/neworders/creatorframes.jsx';
+import CrphotoPrints from './pages/cashier/neworders/creatorphotoprints.jsx';
 import Formtable from './pages/cashier/neworders/Formtable.jsx';
+import CreatorCheckout from './pages/cashier/creatorcheckout.jsx';
 
 
 //Creator Dashboard
@@ -139,10 +140,11 @@ root.render(
         <Route path='/cashier/laminates' element={<Crlaminate />} />
         <Route path='/cashier/photoprints' element={<CrPhotoprints />} />
         <Route path='/cashier/frames' element={<Crframes />} />
-        <Route path='/cashier/babyphotos' element={<Stbabyphoto />} />
-        <Route path='/cashier/identitycard' element={<Stidcard />} />
-        <Route path='/cashier/productphoto' element={<StproductPhoto />} />
+        <Route path='/cashier/crsublimation/:orderId' element={<CrSublimation />} />
+        <Route path='/cashier/crframes/:orderId' element={<CrFrames />} />
+        <Route path='/cashier/crphotoprints/:orderId' element={<CrphotoPrints />} />
         <Route path='/cashier/mainorder/formtable' element={<Formtable />} />
+        <Route path='/cashier/creatorcheckout/:orderId' element={<CreatorCheckout />} />
 
 
 
@@ -158,6 +160,7 @@ root.render(
         
         {/* Manager Dashboard - Loyalty Department */}
         <Route path='/manager/loyalty' element={<Loyaltyview />} />
+        
         {/* Manager Dashboard - Event Department */}
 
         {/* Creator Dashboard*/}

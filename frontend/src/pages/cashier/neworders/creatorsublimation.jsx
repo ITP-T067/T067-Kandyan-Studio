@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Card, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 import { HiOutlineArrowCircleLeft, } from "react-icons/hi";
-import Formtable from './neworders/Formtable';
+import Formtable from './Formtable';
 import { MdClose } from 'react-icons/md'
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { useParams, useNavigate ,Link} from 'react-router-dom';
 
 axios.defaults.baseURL = "http://localhost:8010"
 
@@ -13,6 +14,42 @@ axios.defaults.baseURL = "http://localhost:8010"
 
 function AddNewOrder(){
 
+    //creator part
+
+
+const navigate = useNavigate();
+
+
+const [dataList1, setDataList1] = useState([]);
+const [filteredOrder, setFilteredOrder] = useState(null);
+
+const getFetchData1 = async () => {
+  try {
+      const response = await axios.get("/order/off/");
+      console.log(response);
+      if (response.data.success) {
+      setDataList1(response.data.data);
+      }
+  } catch (error) {
+      console.error("Error fetching data:", error);
+  }
+};
+  
+useEffect(() => {
+  getFetchData1();
+  console.log(dataList1);
+}, []);
+
+useEffect(() => {
+  if (dataList1.length > 0) {
+    const order = dataList1.find(item => item._id === orderId);
+    setFilteredOrder(order);
+  }
+}, [dataList1, orderId]);
+
+//creator part ends
+
+  const { orderId } = useParams();
   const [itemsData, setItemsData] = useState([]);
   const [addSection,setAddSection] = useState(false)
   const [editSection,seteditSection] = useState(false) 
@@ -50,18 +87,12 @@ function AddNewOrder(){
   //handlesubmit
   const handleSubmit = async(e)=>{
     e.preventDefault()
-    
-
+    console.log("i came to the hand=lesubmit");
     
     if (!formData.name || !formData.quantity || !formData.unitPrice) {
       alert('Please add quantity before submitting.');
       return;
    }
-
-  if (formData.quantity <= 0) {
-    alert('Quantity must be greater than 0.');
-    return;
-  }
   
     try{
     const data = await axios.post("/mainorder/create",formData)
@@ -108,7 +139,6 @@ function AddNewOrder(){
         //handleUpdate
         const handleUpdate = async(e)=>{ 
             e.preventDefault()
-
             const data = await axios.put("mainorder/update/",formDataEdit)
             if(data.data.success){
               getFetchData()
@@ -229,8 +259,19 @@ setSearchResults(results);
                             />
                         </div>
                         
-                       
-                 
+                        <div className='flex flex-row'>
+                            <Button
+                                className="flex items-center space-x-2 bg-kblack text-kwhite p-3 px-5 rounded-full ">
+                                <span className="text-sm">Creator</span>
+                            </Button>
+                            <Button
+                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full hover:bg-kgray hover:text-kwhite"
+                                onClick={handleButton("studio")}
+                            >
+                                
+                                <span className="text-sm">Studio</span>
+                            </Button>
+                        </div>
                     </CardBody>
                 </Card>
             </div>  
@@ -269,7 +310,7 @@ setSearchResults(results);
               <div className="w-64 h-auto bg-kwhite opacity-100 rounded-xl">
                 <center>
                 <div className="text-white text-center text-2xl font-bold top-64 left-0 right-0">{item.name}</div>
-                <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} 
+                <img className="rounded-xl" src={require(`../../../../../backend/uploads/StockManagement/${item.image}`)} 
                 style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
                 <div id="unitPrice"
                      name="unitPrice" 
@@ -387,8 +428,8 @@ setSearchResults(results);
             </tbody>
           </table>
 
-      <center><a href="/cashier/checkout">
-        <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"CHECKOUT"}</Button></a></center>
+      <center><Link to={`/cashier/creatorcheckout/${filteredOrder._id}`}>
+        <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"CHECKOUT"}</Button></Link></center>
       </div>
       
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Button, CardBody } from "@material-tailwind/react";
 import axios from "axios";
 import { HiOutlineArrowCircleLeft, } from "react-icons/hi";
-import Formtable from './neworders/Formtable';
+import Formtable from './Formtable';
 import { MdClose } from 'react-icons/md'
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
@@ -17,7 +17,6 @@ function AddNewOrder(){
   const [addSection,setAddSection] = useState(false)
   const [editSection,seteditSection] = useState(false) 
   const [dataList,setDataList] = useState([])
-
   const [addItem,setAddItem] = useState([]);
   const [itemname,setItemname]=useState("");
   const [quantity,setQuantity]=useState("");
@@ -28,7 +27,6 @@ function AddNewOrder(){
     unitPrice :"",
      
   })
-  
   const [formDataEdit,setFormDataEdit] = useState({
     name : "",
     quantity : "",
@@ -50,18 +48,12 @@ function AddNewOrder(){
   //handlesubmit
   const handleSubmit = async(e)=>{
     e.preventDefault()
-    
-
+    console.log("i came to the hand=lesubmit");
     
     if (!formData.name || !formData.quantity || !formData.unitPrice) {
       alert('Please add quantity before submitting.');
       return;
    }
-
-  if (formData.quantity <= 0) {
-    alert('Quantity must be greater than 0.');
-    return;
-  }
   
     try{
     const data = await axios.post("/mainorder/create",formData)
@@ -108,7 +100,6 @@ function AddNewOrder(){
         //handleUpdate
         const handleUpdate = async(e)=>{ 
             e.preventDefault()
-
             const data = await axios.put("mainorder/update/",formDataEdit)
             if(data.data.success){
               getFetchData()
@@ -175,7 +166,7 @@ const getItems = () => {
       .then(response => {
           const items = response.data.data;
           // Filter items based on type "Sublimation"
-          const sublimationItems = items.filter(item => item.type === "Sublimation");
+          const sublimationItems = items.filter(item => item.type === "Photo Prints");
           // Map the filtered items and set the state
           const itemsData = sublimationItems.map(item => ({
               ...item,
@@ -229,8 +220,19 @@ setSearchResults(results);
                             />
                         </div>
                         
-                       
-                 
+                        <div className='flex flex-row'>
+                            <Button
+                                className="flex items-center space-x-2 bg-kblack text-kwhite p-3 px-5 rounded-full ">
+                                <span className="text-sm">Creator</span>
+                            </Button>
+                            <Button
+                                className="flex items-center space-x-2 bg-kwhite text-kblack p-3 px-5 rounded-full hover:bg-kgray hover:text-kwhite"
+                                onClick={handleButton("studio")}
+                            >
+                                
+                                <span className="text-sm">Studio</span>
+                            </Button>
+                        </div>
                     </CardBody>
                 </Card>
             </div>  
@@ -243,12 +245,10 @@ setSearchResults(results);
           <div className="maincards m-1 flex flex-wrap justify-center gap-5">
 
 
-            <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl  ring-8 ring-slate-900/5 h-full w-100 ">Sublimation </div>
-            <a href='/cashier/photoprints'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100
-             transition-transform duration-300 ease-in-out hover:scale-105">Photo Prints</div></a>
-          
-            <a href='/cashier/frames'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100
-             transition-transform duration-300 ease-in-out hover:scale-105">Frames</div></a>
+          <a href='/cashier/addneworder'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl  ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105">Sublimation </div></a>
+           <div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-8 ring-slate-900/5 h-full w-100
+             ">Photo Prints</div>
+             <a href='/cashier/frames'><div class="m-1 rounded-lg bg-kblack text-kwhite px-20 py-5 shadow-xl ring-1 ring-slate-900/5 h-full w-100 transition-transform duration-300 ease-in-out hover:scale-105 ">Frames</div></a>
         
         
           </div>  
@@ -269,7 +269,7 @@ setSearchResults(results);
               <div className="w-64 h-auto bg-kwhite opacity-100 rounded-xl">
                 <center>
                 <div className="text-white text-center text-2xl font-bold top-64 left-0 right-0">{item.name}</div>
-                <img className="rounded-xl" src={require(`../../../../backend/uploads/StockManagement/${item.image}`)} 
+                <img className="rounded-xl" src={require(`../../../../../backend/uploads/StockManagement/${item.image}`)} 
                 style={{ width: '225px', height: '225px', left: '16px', top: '20px' }} />
                 <div id="unitPrice"
                      name="unitPrice" 
@@ -351,7 +351,7 @@ setSearchResults(results);
 
         </div>
 
-      </div>
+        </div>
 
          {/* payment  and table of added items*/}
         <div className=" m-1  rounded-lg bg-kblack w-1/4 text-kwhite ">
@@ -391,6 +391,7 @@ setSearchResults(results);
         <Button className=" bg-kgreen text-kwhite text-3xl rounded-full transition-transform hover:scale-110 hover:bg-kwhite hover:text-kgreen">{"CHECKOUT"}</Button></a></center>
       </div>
       
+
       </div>
       
 

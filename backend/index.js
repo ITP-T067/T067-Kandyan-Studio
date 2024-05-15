@@ -15,6 +15,16 @@ const receiptRouter = require("./routes/receipt.route.js");
 const inquiryRouter = require("./routes/inquiry.route.js");
 const studioStatusRouter = require("./routes/ProjectManagement/studioStatus.route.js");
 
+//Customer
+const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+
+//cashier
+const mainorder = require("./routes/Cashier/mainorder.route.js");
+const placeorder = require("./routes/Cashier/placeorder.route.js");
+
+//loyalty
+ const loyaltyRouter=require("./routes/order.route.js");
+
 
 const app = express()
 app.use(cors())
@@ -43,6 +53,16 @@ app.use('/customer', customerRouter);
 app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
+
+//cashier
+app.use('/mainorder', mainorder);
+app.use('/placeorder', placeorder);
+
+
+
+
+//Customer
+app.use('/review', reviewRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
