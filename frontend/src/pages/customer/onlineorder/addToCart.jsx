@@ -51,6 +51,7 @@ export default function AddToCart() {
       .then(response => {
         if (response.data.success) {
           setShowAlert(true);
+          updateItemQuantity(itemId, quantity);
         } else {
           console.error('Error adding to cart:', response.data.message);
         }
@@ -60,6 +61,18 @@ export default function AddToCart() {
       });
   };
   
+  const updateItemQuantity = (itemId, quantity) => {
+    axios.put('/item/quantity-minus', { id: itemId, quantity })
+        .then(response => {
+            if (!response.data.success) {
+                console.error('Error updating item quantity:', response.data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating item quantity:', error);
+        });
+  };
+
   return (
     <div>
       <div className={`flex justify-center items-center -mt-4 ${showAlert ? 'blur' : ''}`}>
