@@ -56,6 +56,9 @@ export default function Generatereports() {
   };
 
   const handleEndDateChange = (date) => {
+    if (date) {
+      date.setHours(23, 59, 59, 999);
+    }
     setEndDate(date);
   };
 
