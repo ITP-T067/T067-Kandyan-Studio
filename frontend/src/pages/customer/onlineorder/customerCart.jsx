@@ -280,7 +280,7 @@ export default function CustomerCart() {
                 <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kred focus:outline-none" onClick={() => decrement(item._id)}>
                   <HiMinusCircle className='h-5 w-5'/>
                 </button>
-                  <input type="text" value={item.item_Quantity} className="px-2 py-1 border border-kblue text-kwhite font-bold max-w-[60px] text-center" readOnly/>
+                  <input type="text" value={item.item_Quantity} className="px-2 py-1 border text-kblack font-bold max-w-[60px] text-center rounded-full" readOnly/>
                 <button className="px-1 bg-kyellow text-kwhite rounded-full hover:bg-kgreen focus:outline-none" onClick={() => increment(item._id)}>
                   <HiPlusCircle className='h-5 w-5 left-0'/>
                 </button>
@@ -303,13 +303,14 @@ export default function CustomerCart() {
           <div className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-bold">Summary</div>
           <div className="m-12 text-2xl">
             <div className="w-[28rem] top-[110px] absolute">
-              <div className="absolute font-normal">Subtotal</div>
-              <div className="text-right font-normal">LKR {subtotal}.00</div>
+              <div className="absolute font-normal ">Subtotal</div>
+              <div className="text-right font-normal ">LKR {subtotal}.00</div>
+    
             </div>
             <div className="w-[28rem] top-[160px] absolute">
                   <div className="absolute font-normal">Loyalty Discount</div>
                   <div className="text-right font-normal">
-                    {selectedItems.length > 0 ? 'LKR 200.00' : 'LKR 0.00'}
+                    {selectedItems.length > 0 ? 'LKR -200.00' : 'LKR 0.00'}
                   </div>
             </div>
             <div className="w-[28rem] top-[210px] absolute">

@@ -11,7 +11,7 @@ const studioStatusSchema = new mongoose.Schema({
     Date_Updated: { 
         type: Date, 
         required: true, 
-    }, 
+    },
     
 
     }) 

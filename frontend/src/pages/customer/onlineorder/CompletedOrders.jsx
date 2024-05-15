@@ -91,7 +91,7 @@ export default function CompletedOrders() {
                     <div>
                     <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     </div>
-                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name or status" required />
+                    <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name" required />
                     </div>
                 </form>
             </div>
@@ -136,7 +136,7 @@ export default function CompletedOrders() {
                                 </td>
                                 <td>
                                 <Typography variant="lead" className="font-normal mb-4 mt-4">
-                                    {order.Order_Amount}
+                                    {order.Order_Amount.toFixed(2)}
                                 </Typography>
                                 </td>
                             </tr>

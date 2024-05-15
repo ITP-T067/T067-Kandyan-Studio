@@ -123,7 +123,7 @@ export default function PendingOrders() {
                                     </td>
                                     <td>
                                         <Typography variant="lead" className="font-normal mb-4 mt-4">
-                                            {order.Order_Amount}
+                                            {order.Order_Amount.toFixed(2)}
                                         </Typography>
                                     </td>
                                     <td>
