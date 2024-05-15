@@ -79,25 +79,6 @@ const CustomRequestForm = () => {
         }
     };
 
-    const [supplierList, setSupplierList] = useState([]);
-
-    useEffect(() => {
-        getFetchSuppliers();
-        console.log(supplierList);
-    }, []);
-
-    const getFetchSuppliers = async () => {
-        try {
-            const response = await axios.get("/supplylist/");
-            console.log(response);
-            if (response.data.success) {
-                setSupplierList(response.data.data);
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
     const itemid = itemObj ? itemObj._id : '';
 
     const [date, setDate] = useState(new Date());
@@ -115,6 +96,14 @@ const CustomRequestForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (date < new Date()) {
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Expected delivery date cannot be in the past");
+            return;
+        }else{
+            setIsAlert(false);
+        }
         try {
             const TotalCost = calcTotal(quantity, itemSellingPrice, itemDiscount);
             const data = await axios.post("/supplyrequest/create", {
@@ -152,7 +141,7 @@ const CustomRequestForm = () => {
     };
 
     const GoBack = () => {
-        window.location.href = "/manager/stockdept/stocklevels";
+        window.location.href = "/manager/stockdept/supplyrequest";
     };
 
     const calcTotal = (quantity, itemSellingPrice, itemDiscount) => {
@@ -162,14 +151,16 @@ const CustomRequestForm = () => {
     const [remainingSlotsError, setRemainingSlotsError] = useState("");
 
     const handleQuantityChange = (e) => {
-        const enteredQuantity = parseInt(e.target.value);
-        if (enteredQuantity > slotsLeft) {
+        const enteredQuantity = e.target.value;
+        const onlyNumbers = enteredQuantity.replace(/\D/g, ''); // Remove non-numeric characters
+        if (onlyNumbers > slotsLeft) {
             setRemainingSlotsError("Quantity exceeds remaining slots");
-            setQuantity(enteredQuantity);
+        } else if (onlyNumbers < 1) {
+            setRemainingSlotsError("Quantity must be at least 1");
         } else {
-            setQuantity(enteredQuantity);
             setRemainingSlotsError("");
         }
+        setQuantity(enteredQuantity === '' ? '' : onlyNumbers);
     };
 
     return (
@@ -207,7 +198,6 @@ const CustomRequestForm = () => {
                                                 {item.name}
                                             </option>
                                         ))}
-                                            <option value="Photo Technica">Photo Technica</option>
                                         </select>
                                 <img src={itemImage} className="mx-auto w-40 h-auto rounded-full" />
                                 <span className='text-3xl font-bold mx-auto mt-5'>{itemName}</span>
@@ -248,12 +238,10 @@ const CustomRequestForm = () => {
                                             value={supplier}
                                             onChange={(e) => setSupplier(e.target.value)}
                                         >
-                                            <option value="" hidden disabled>Select a supplier</option>
-                                            {supplierList.map((supplier) => (
-                                                <option key={supplier._id} value={supplier.name}>
-                                                    {supplier.name}
-                                                </option>
-                                            ))}
+                                            <option value="">Select a supplier</option>
+                                            <option value="Photo Technica">Photo Technica</option>
+                                            <option value="Nine Hearts">Nine Hearts</option>
+                                            <option value="Pettah Traders">Pettah Traders</option>
                                         </select>
                                     </div>
                                 </div>
@@ -264,7 +252,7 @@ const CustomRequestForm = () => {
                                         className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
                                         id="exdate"
                                         selected={exdate}
-                                        onChange={(date) => setExDate(date)}
+                                        onChange={(date) => {setExDate(date);}}
                                     />
                                 </div>
                                 <div className="grid grid-cols-3 p-5 items-center">
@@ -303,10 +291,6 @@ const CustomRequestForm = () => {
                             <tr className="border-b bg-kwhite/20 text-kwhite p-4">
                                 <td className='border-r bg-kblack/60 text-center items-center'>Subtotal</td>
                                 <td colSpan={2} className='text-right pr-5 bg-kblack/40'>{Number(quantity * itemSellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })} </td>
-                            </tr>
-                            <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                <td className='border-r bg-kblack/60'>Discount</td>
-                                <td colSpan={2} className='bg-kblack/40'></td>
                             </tr>
                         </table>
                         <div className="flex items-center justify-between p-3 text-2xl bg-kblack rounded-lg mt-5">

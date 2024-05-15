@@ -310,7 +310,7 @@ useEffect(() => {
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
+                <div className="flex items-center justify-center border-t border-kblack p-4">
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
                             <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
