@@ -111,11 +111,17 @@ const ViewEmp = () => {
         <div className="fixed top-0 left-0 w-full h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center z-50">
           <button className="absolute top-5 right-5 bg-kblack text-kwhite" onClick={() => setEditSection(false)}>X</button>
           <div className='flex flex-col justify-center items-center'>
-            <div className='max-w-[850px] w-full h-auto flex flex-col justify-between items-center bg-kgray rounded-lg border-2 border-kwhite text-kwhite shadow-lg shadow-kblack/60 p-8'>
+            <div className='max-w-[850px] w-full h-auto flex flex-col justify-between items-center bg-kgray/80 rounded-lg border-2 border-kwhite text-kwhite shadow-lg shadow-kblack/60 p-8'>
               <form onSubmit={handleUpdate} className='w-full grid grid-cols-2 gap-x-10 gap-y-3'>
                 {fields.map((field, index) => (
                   <div key={index} className="relative h-[4rem]">
                     <div className="relative z-0">
+                    <label
+                        htmlFor={field.key}
+                        className="block mb-2 text-sm font-medium text-kwhite "
+                      >
+                        {field.label}
+                      </label>
                       <input
                         type={field.key === 'basicSalary' || field.key === 'contactNumber' ? 'number' : 'text'}
                         id={field.key}
@@ -123,16 +129,10 @@ const ViewEmp = () => {
                         value={formDataEdit[field.key]}
                         onChange={handleEditOnChange}
                         required
-                        className="block py-2.5 px-0 w-full text-m text-kwhite bg-transparent border-0 border-b-2 border-kwhite appearance-none dark:text-kwhite dark:border-kwhite dark:focus:border-kblue focus:outline-none focus:ring-0 focus:border-kblue peer"
+                        className="bg-kwhite border border-kwhite text-kblack text-sm rounded-lg focus:ring-kblue focus:border-kblue block w-full p-2.5"
                         placeholder=" "
                       />
-                      <label
-                        htmlFor={field.key}
-                        className="absolute text-m text-kwhite dark:text-kwhite duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-kblue peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-                      >
-                        {field.label}
-                      </label>
-                      <div className="absolute left-0 bottom-0 w-full h-0.5 bg-kwhite transition-all"></div>
+                      
                     </div>
                   </div>
                 ))}
@@ -169,7 +169,7 @@ const ViewEmp = () => {
               </div>
               <input
                 type="search"
-                placeholder="Search"
+                placeholder="       Search"
                 className="bg-kwhite flex-grow rounded-full p-2 text-sm pl-12"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
