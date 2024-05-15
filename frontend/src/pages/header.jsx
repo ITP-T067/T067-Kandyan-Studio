@@ -17,7 +17,7 @@ const CustomerHeader = () => {
             <div className="flex">
                 <button className="bg-kwhite text-kblack text-sm font-bold py-2 px-4 rounded-full mr-2">Become a Supplier</button>
                 <button className="bg-kwhite text-kblack text-sm font-bold py-2 px-4 rounded-full mr-2" onClick={handleLogin}>Login</button>
-                <button className="bg-kwhite text-kblack text-sm font-bold py-2 px-4 rounded-full " onClick={handlesignup}>Sign Up</button>
+                <button className="bg-kwhite text-kblack text-sm font-bold py-2 px-4 rounded-full " onClick={handlesignup}>Sign up</button>
             </div>
         </nav>
     );

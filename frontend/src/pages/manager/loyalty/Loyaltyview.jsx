@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useReactToPrint } from 'react-to-print';
 axios.defaults.baseURL = "http://localhost:8010/";
 
 const TABLE_HEAD = [
@@ -50,7 +50,7 @@ export default function Loyaltyview() {
       return "PLATINUM";
     }
   };
-
+  
   const handleEditClick = () => {
     setShowEditAlert(true);
     navigate('/pendingorder');
