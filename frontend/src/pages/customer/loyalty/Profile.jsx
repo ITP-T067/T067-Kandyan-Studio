@@ -7,6 +7,7 @@ axios.defaults.baseURL = "http://localhost:8010/";
 export default function Profile()  {
 
   
+  
 const [findCusDetails, setfindCusDetails] = useState([]);
 
   useEffect(() => {
