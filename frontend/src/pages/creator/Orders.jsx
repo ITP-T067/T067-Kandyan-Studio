@@ -60,10 +60,11 @@ export default function Orders() {
             <a className="w-1/2 h-[55px] text-center rounded-tr-[30px] rounded-br-[30px] bg-kblack font-bold flex flex-col justify-center" href="/creator/offlineOrders/"><div>Offline Orders</div></a>
         </nav>
 
-      <div className="mt-5 mx-auto">
+      <div className="mt-5 mx-auto  w-11/12">
         <table className="w-full table-fixed rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
+              <th className="max-w-2"></th>
               <th className="px-4 py-2">Order</th>
               <th className="px-4 py-2">Quantity</th>
               <th className="px-4 py-2">Customer Name</th>
@@ -77,9 +78,20 @@ export default function Orders() {
               dataList[0] ? (
               dataList.map((el)=>{
                 if(el.Project_Status != "Added"){
-                  const rowClass = isOrderOlderThan7Days(el.Order_Date) ? "bg-pred/30" : "bg-kblue/20";
+                  const isOlderThan7Days = isOrderOlderThan7Days(el.Order_Date);
+                  const isNotOlderThan7Days = !isOlderThan7Days;
+                  const rowClass = isOlderThan7Days ? "bg-pred/30" : "bg-kblue/20";
                   return(
                     <tr key={el._id} className={`border-b text-kwhite text-center items-center p-4 ${rowClass}`}>
+                      <td>{isOlderThan7Days && (
+                                                <div className=" top-0 left-0 bg-red-600 text-kwhite text-sm px-2 py-1 rounded-br-md">
+                                                    Order not taken for more than 7 days
+                                                </div>
+                                            )}{isNotOlderThan7Days && (
+                                              <div className=" top-0 left-0 text-kwhite text-sm py-1 rounded-br-md">
+                                                  Order is made  less than 7 days
+                                              </div>
+                                          )}</td>
                       <td className="px-10">{el?.Item_Name || 'N/A'}</td>
                       <td className="px-4 py-2 text-center">{el.Quantity}</td>
                       <td className="px-4 py-2 text-center">{el.Cus_ID ? el.Cus_ID.Cus_Name : 'N/A'}</td>
