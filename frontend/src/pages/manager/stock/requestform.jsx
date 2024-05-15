@@ -67,7 +67,7 @@ const RequestForm = () => {
     const [item, setItem] = useState('');
     const [quantity, setQuantity] = useState('');
     const [supplier, setSupplier] = useState('');
-    const [exdate, setExDate] = useState('');
+    const [exdate, setExDate] = useState(new Date());
     const [status, setStatus] = useState('Pending');
     const [cost, setCost] = useState('0');
     const [additional, setAdditional] = useState('');
@@ -78,40 +78,47 @@ const RequestForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const TotalCost = calcTotal(quantity, itemSellingPrice, itemDiscount);
-            const data = await axios.post("/supplyrequest/create", {
-                date: date,
-                item: itemid,
-                reqquantity: quantity,
-                supplier: supplier,
-                exdate: exdate,
-                status: status,
-                cost: TotalCost,
-                additional: additional
-            });
-            if (data.data.success) {
+
+        if(isAlert === true) {
+            return;
+        } else {
+            try {
+                const TotalCost = calcTotal(quantity, itemSellingPrice, itemDiscount);
+                const data = await axios.post("/supplyrequest/create", {
+                    date: date,
+                    item: itemid,
+                    reqquantity: quantity,
+                    supplier: supplier,
+                    exdate: exdate,
+                    status: status,
+                    cost: TotalCost,
+                    additional: additional
+                });
+                if (data.data.success) {
+                    setIsAlert(true);
+                    setAlertStatus('success');
+                    setMessage("Supply Request saved successfully !");
+                    setTimeout(() => {
+                        setIsAlert(false);
+                        window.location.href = "/manager/stockdept/stocklevels";
+                    }, 3000);
+                } else {
+                    setIsAlert(true);
+                    setAlertStatus('error');
+                    setMessage("Supply Request failed !");
+                    setTimeout(() => {
+                        setIsAlert(false);
+                    }, 3000);
+                }
+            } catch (error) {
+                console.log(error);
                 setIsAlert(true);
-                setAlertStatus('success');
-                setMessage("Supply Request saved successfully !");
-                setTimeout(() => {
-                    setIsAlert(false);
-                    window.location.href = "/manager/stockdept/stocklevels";
-                }, 3000);
-            } else {
-                setIsAlert(true);
-                setAlertStatus('error');
-                setMessage("Supply Request failed !");
-                setTimeout(() => {
-                    setIsAlert(false);
-                }, 3000);
+                setAlertStatus("warning");
+                setMessage("Error Occured While Updating Supply Request, Check For Empty Fields !");
             }
-        } catch (error) {
-            console.log(error);
-            setIsAlert(true);
-            setAlertStatus("warning");
-            setMessage("Error Occured While Updating Supply Request, Check For Empty Fields !");
         }
+        
+        
     };
 
     const GoBack = () => {
@@ -125,15 +132,33 @@ const RequestForm = () => {
     const [remainingSlotsError, setRemainingSlotsError] = useState("");
 
     const handleQuantityChange = (e) => {
-        const enteredQuantity = parseInt(e.target.value);
-        if (enteredQuantity > slotsLeft) {
+        const enteredQuantity = e.target.value;
+        const onlyNumbers = enteredQuantity.replace(/\D/g, ''); // Remove non-numeric characters
+        if (onlyNumbers > slotsLeft) {
             setRemainingSlotsError("Quantity exceeds remaining slots");
-            setQuantity(enteredQuantity);
+        } else if (onlyNumbers < 1) {
+            setRemainingSlotsError("Quantity must be at least 1");
         } else {
-            setQuantity(enteredQuantity);
             setRemainingSlotsError("");
         }
+        setQuantity(enteredQuantity === '' ? '' : onlyNumbers);
     };
+    
+    const handleDateChange = (date) => {
+        // Check if the selected date is in the past
+        if (date < new Date()) {
+            // If the date is in the past, show an error message
+            setIsAlert(true);
+            setAlertStatus("error");
+            setMessage("Expected delivery date cannot be in the past");
+        } else {
+            // If the date is valid, update the exdate state
+            setExDate(date);
+            // Hide the error message if it was shown previously
+            setIsAlert(false);
+        }
+    };
+    
 
     return (
         <>
@@ -168,6 +193,7 @@ const RequestForm = () => {
                                         <input
                                             type="number"
                                             name="quantity"
+                                            min={1}
                                             id="quantity"
                                             className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
                                             value={quantity}
@@ -209,7 +235,7 @@ const RequestForm = () => {
                                         className="w-full rounded-md border-0 py-1.5 text-kblack shadow-sm ring-1 ring-inset ring-kgray focus:ring-2 focus:ring-inset focus:ring-kgreen sm:max-w-xs sm:text-sm sm:leading-6"
                                         id="exdate"
                                         selected={exdate}
-                                        onChange={(date) => setExDate(date)}
+                                        onChange={handleDateChange}
                                     />
                                 </div>
                                 <div className="grid grid-cols-3 p-5 items-center">
@@ -248,10 +274,6 @@ const RequestForm = () => {
                             <tr className="border-b bg-kwhite/20 text-kwhite p-4">
                                 <td className='border-r bg-kblack/60 text-center items-center'>Subtotal</td>
                                 <td colSpan={2} className='text-right pr-5 bg-kblack/40'>{Number(quantity * itemSellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })} </td>
-                            </tr>
-                            <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
-                                <td className='border-r bg-kblack/60'>Discount</td>
-                                <td colSpan={2} className='bg-kblack/40'></td>
                             </tr>
                         </table>
                         <div className="flex items-center justify-between p-3 text-2xl bg-kblack rounded-lg mt-5">
