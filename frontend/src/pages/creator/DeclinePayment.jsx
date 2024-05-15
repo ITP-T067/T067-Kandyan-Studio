@@ -48,7 +48,7 @@ Kandyan Studio`;
 
         console.log(message);
         await axios.post('order/on/send-email', {
-          to: "ecstorelanaka@gmail.com",
+          to: "customer.kandyan.example@gmail.com",
           subject: 'Payment Declined',
           text: message
         });
