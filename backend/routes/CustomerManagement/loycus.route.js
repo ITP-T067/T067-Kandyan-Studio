@@ -1,5 +1,5 @@
 const express = require('express');
-const { index_customer, create_customer, update_customer, del_customer, find_customer_by_id } = require("../controllers/customer.controller.js");
+const { index_customer, create_customer, update_customer, del_customer, find_customer_by_id } = require("../../controllers/CustomerManagement/loycus.controller");
 
 const router = express.Router();
 
