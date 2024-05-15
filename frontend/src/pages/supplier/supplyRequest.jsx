@@ -281,7 +281,7 @@ const SupplyRequest = () => {
                                 return (
                                     <>
                                      
-                                                <tr key={srl._id} className={`${statusColorChanger(srl.status)} p-4 rounded-lg font-bold text-center`}>
+                                                <tr key={srl._id} className={`${statusColorChanger(srl.status)} p-4 rounded-lg font-bold text-center text-kwhite`}>
                                                     <td>{ReqDateStr}</td>
                                                     <td>{srl.name}</td>
                                                     <td>{srl.reqquantity}</td>
@@ -293,30 +293,30 @@ const SupplyRequest = () => {
                                               Reject
                                           </button> ):(srl.status == "Pending" ? (
                                                     <div className="flex justify-center gap-3 mx-auto p-2"> 
-                                                    <button className="p-4 bg-kred/90 text-kwhite" onClick={handleButton("Accept", srl._id)}>
+                                                    <button className="p-4 bg-kyellow/90 text-kwhite" onClick={handleButton("Accept", srl._id)}>
                                                     Approve
                                                 </button>
-                                             <button className="p-4 bg-kred/90 text-kwhite" onClick={handleButton("Reject", srl._id)}>
+                                             <button className="p-4 bg-kyellow/90 text-kwhite" onClick={handleButton("Reject", srl._id)}>
                                               Reject
                                           </button>
 
-                                                    <Button className="p-4 bg-kred/90">
+                                                    <Button className="p-4 bg-kred/50">
                                                         <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
                                                     </Button>
                                                     </div>
                                                     ):(srl.status == "Rejected" ? (
                                                         <div className="flex justify-center gap-3 mx-auto p-3">
-                                                            <button className="p-3 bg-kgreen/90  text-kwhite" onClick={handleButton("Accept", srl._id)}>
+                                                            <button className="p-4 bg-kgreen/90  text-kwhite" onClick={handleButton("Accept", srl._id)}>
                                                         Approve
                                                     </button>
-                                                    <Button className="p-3 bg-kred/90">
+                                                    <Button className="p-4 bg-kred/50">
                                                         <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
                                                     </Button>
                                                         </div>
                                                        
                                                     
                                                         ):(
-                                                            <Button className="p-3 bg-kred/90">
+                                                            <Button className="p-4 bg-kred/50">
                                                         <TrashIcon className="h-4 w-4 text-kwhite" onClick={() => handleDelete(srl._id)} />
                                                     </Button>
                                                         )))}
@@ -336,7 +336,13 @@ const SupplyRequest = () => {
                 </table>
                 <div className="flex items-center justify-between border-t border-kblack p-4">
                     
-                  
+                   <div className="flex items-center justify-between border-t border-kblack p-4">
+                    {pageNumbers.map((number) => (
+                        <button key={number} onClick={() => paginate(number)} className="px-3 py-1 rounded-md bg-kblue text-kwhite">
+                            {number}
+                        </button>
+                    ))}
+                </div>
                 </div>
             </div>
         </>

@@ -21,7 +21,7 @@ const SupplierCreate = () => {
   };
 
   const handleCancel = () => {
-    // Reset form data to its initial state
+    window.location.href = "/login";
     setFormData({
       name: '',
       email: '',
@@ -60,9 +60,13 @@ const SupplierCreate = () => {
 
     try {
       const response = await axios.post('/supplier/create', formData);
-      console.log(response.data);
-      alert('Supplier successfully joined Kandyan studio');
-
+      if (response.data.success) {
+        alert("Supplier joined successfully");
+        // Redirect to item list page
+        window.location.href = "/manager/supplier/supplierlist";
+    } else {
+        alert("Failed to join as a supplier: " + response.data.error);
+    }
       setFormData({
         name: '',
         email: '',
@@ -75,29 +79,29 @@ const SupplierCreate = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: 'gray' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: 'black/50' }}>
       <div style={{ width: '400px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-        <h4 style={{ color: 'black', textAlign: 'center' }}>Create Supplier</h4>
-        <form onSubmit={handleSubmit}>
+        <h1 style={{ color: 'black', color : 'white', textAlign: 'center' }}>Create Supplier</h1>
+        <form onSubmit={handleSubmit} color='kwhite' >
           <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Name:</label>
+            <label style={{ display: 'block', color : 'white', marginBottom: '5px' }}>Name:</label>
             <input type="text" name="name" value={formData.name} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} required />
           </div>
           <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
+            <label style={{ display: 'block', color : 'white', marginBottom: '5px' }}>Email:</label>
             <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} required />
             {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
           </div>
           <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Phone Number:</label>
+            <label style={{ display: 'block', color : 'white', marginBottom: '5px' }}>Phone Number:</label>
             <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} required />
             {errors.phoneNumber && <span style={{ color: 'red' }}>{errors.phoneNumber}</span>}
           </div>
           <div style={{ marginBottom: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Address:</label>
+            <label style={{ display: 'block', color : 'white', marginBottom: '5px' }}>Address:</label>
             <textarea name="address" value={formData.address} onChange={handleChange} style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} required></textarea>
           </div>
-          <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Create Supplier</button>
+          <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: 'green', color: 'white', borderRadius: '5px', border: 'none', cursor: 'pointer' }}>Create Supplier</button>
           <button type="button" onClick={handleCancel} style={{ width: '100%', padding: '10px', backgroundColor: 'red', color: 'white', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Cancel</button>
         </form>
       </div>

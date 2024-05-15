@@ -220,7 +220,12 @@ root.render(
         <Route path='/studiooperator/studioslip' element={<StudioSlip/>}/>
 
         {/* Supplier Dashboard */}
+        <Route path='/supplier/supplyreq' element={<SupplyReq/>}/>
+        <Route path='/supplier/itemlist' element={<MyItemList/>}/>
+        <Route path='/supplier/addsupply' element={<AddSupply/>}/>
         
+        <Route path='supplier/supplierCreate' element={<SupplierCreate/>}/>
+       
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

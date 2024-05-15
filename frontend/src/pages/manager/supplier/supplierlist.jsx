@@ -18,6 +18,7 @@ const SupplierList = () => {
         email: "",
         address: ""
     });
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -36,19 +37,20 @@ const SupplierList = () => {
         }
     };
 
-    const handleEdit = (supplier) => {
+    const handleEdit = async (supplier) => {
         setEditedSupplier(supplier);
         setEditable(true);
     };
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (e) => {
+        e.preventDefault();
         try {
             console.log("Updating supplier:", editedSupplier);
             const response = await axios.put(`/supplier/update/${editedSupplier._id}`, editedSupplier);
             console.log("Update response:", response.data);
             if (response.data.success) {
                 setEditable(false);
-                fetchData();
+                fetchData(); // Refresh the data after update
                 alert("Supplier updated successfully!");
             } else {
                 console.error("Error updating supplier:", response.data.message);
@@ -57,15 +59,17 @@ const SupplierList = () => {
             console.error("Error updating supplier:", error);
         }
     };
-    
 
     const handleCancelEdit = () => {
         setEditable(false);
     };
 
-    const handleInputChange = (e) => {
+    const handleInputChange = async (e) => {
         const { name, value } = e.target;
-        setEditedSupplier({ ...editedSupplier, [name]: value });
+        setEditedSupplier((prevSupplier) => ({
+            ...prevSupplier,
+            [name]: value
+        }));
     };
 
     const handleDelete = async (id) => {
@@ -85,16 +89,21 @@ const SupplierList = () => {
         }
     };
 
+    // Filter the data based on the search term
+    const filteredData = dataList.filter((supplier) =>
+        supplier.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     // Calculate index of the last item of current page
     const indexOfLastItem = currentPage * itemsPerPage;
     // Calculate index of the first item of current page
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     // Get the current items to be displayed
-    const currentItems = dataList.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     // Logic to dynamically generate page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(dataList.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filteredData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -105,6 +114,14 @@ const SupplierList = () => {
     return (
         <>
             <div className="p-10">
+                <div className="mb-5 p-2  truncate max-w-xs ">
+                    <Input
+                        type="text"
+                        placeholder="Search by supplier name"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
                 <table className="w-full rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
@@ -112,19 +129,19 @@ const SupplierList = () => {
                             <th>Phone Number</th>
                             <th>Supplier Email</th>
                             <th>Address</th>
-                            <th>Action</th>   
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {currentItems.length > 0 ? (
                             currentItems.map((supplier, index) => {
                                 return (
-                                    <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                                    <tr key={index} className="border-b bg-kyellow/20 text-kwhite text-center items-center p-4">
                                         <td>{supplier.name}</td>
                                         <td>{supplier.phoneNumber}</td>
                                         <td>{supplier.email}</td>
                                         <td>{supplier.address}</td>
-                                        
+
                                         <td className="p-4 text-kblack flex-grow">
                                             <div className="flex justify-center gap-3 mx-auto">
                                                 <Button size="sm" className="bg-kgreen text-kwhite" onClick={() => handleEdit(supplier)}>
@@ -164,52 +181,54 @@ const SupplierList = () => {
                             </Typography>
                             <div className="space-y-4">
                                 <Input
-                                        
+
                                     name="name"
                                     type="text"
                                     label="Name"
                                     placeholder="Enter Name"
                                     value={editedSupplier.name}
                                     onChange={handleInputChange}
-                                    
-                                   
+
+
+
                                 />
                                 <Input
-                                    
+
                                     name="phoneNumber"
                                     type="text"
                                     label="Phone Number"
                                     placeholder="Enter Phone Numbe"
                                     value={editedSupplier.phoneNumber}
                                     onChange={handleInputChange}
-                                  
+
                                 />
                                 <Input
-                                    
-                                 name="email"
+
+                                    name="email"
                                     type="email"
                                     label="Email"
                                     placeholder="Enter Email"
                                     value={editedSupplier.email}
                                     onChange={handleInputChange}
-                                
-                                    
+
+
+
                                 />
                                 <Input
-                                 name="address"
+                                    name="address"
                                     type="text"
                                     label="Address"
                                     placeholder="Enter Address"
                                     value={editedSupplier.address}
                                     onChange={handleInputChange}
-                                    
+
                                 />
                             </div>
                             <div className="flex justify-center mt-4">
                                 <Button color="white" onClick={handleUpdate} className="mr-2 bg-kgreen">
                                     Update
                                 </Button>
-                                <Button color="white" onClick={handleCancelEdit}className="mr-2 bg-kred">
+                                <Button color="white" onClick={handleCancelEdit} className="mr-2 bg-kred">
                                     Cancel
                                 </Button>
                             </div>

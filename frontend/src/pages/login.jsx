@@ -23,7 +23,7 @@ const Login = () => {
         }else if(role === 'Creator'){
             window.location.href = '/creator';
         }else if(role === 'Supplier'){
-            window.location.href = '/supplier';
+            window.location.href = '/supplier/itemlist';
         }else if(role === 'Studio Operator'){
             window.location.href = '/studiooperator';
         }else{

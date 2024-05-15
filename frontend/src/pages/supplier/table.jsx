@@ -29,12 +29,18 @@ const MyItemList = () => {
     });
     const [sellingPrice, setSellingPrice] = useState(0);
     const [itemList, setItemList] = useState([]);
-   
 
     useEffect(() => {
         fetchData();
         getFetchItemData();
     }, []);
+
+    useEffect(() => {
+        const filteredResults = dataList.filter(item => 
+            item.item_id && item.item_id.name && item.item_id.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(filteredResults);
+    }, [searchTerm, dataList]);
 
     const fetchData = async () => {
         try {
@@ -48,13 +54,6 @@ const MyItemList = () => {
             console.error("Error fetching data:", error);
         }
     };
-
-    useEffect(() => {
-        const filteredResults = dataList.filter(item => 
-            item.item_id && item.item_id.name && item.item_id.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setSearchResults(filteredResults);
-    }, [searchTerm, dataList]);
 
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -183,6 +182,10 @@ const MyItemList = () => {
         setCurrentPage(pageNumber);
     };
 
+    const indexOfLastItem = currentPage * 5;
+    const indexOfFirstItem = indexOfLastItem - 5;
+    const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
+
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(searchResults.length / 5); i++) {
         pageNumbers.push(i);
@@ -192,73 +195,68 @@ const MyItemList = () => {
     const componentPDF = useRef([]);
 
     const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
-  });
+        content: () => componentPDF.current,
+    });
 
     const componentRef = useRef();
-
 
     const [reportSection, setReportSection] = useState(false);
 
     const SupplyItemsPrintable = ({ dataList, startDate, endDate }) => {
         return (
             <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg">
-                    <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Supply Item Report</div>
-                    <div className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Supply Item Report</div>
+                <div className="flex items-center justify-between">
                     <span className="text-sm text-kblack mb-3">Generated on: {new Date().toLocaleString()}</span>
                     <span className="text-sm text-kblack mb-3">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                    </div>
-                    <table className="w-full table-fixed border rounded-lg overflow-hidden">
-        <thead>
-            <tr className="bg-kblack border-kblack text-kwhite border text-center">
-            
-                <th>Item Name</th>
-                <th>Quantity</th>
-                <th>Unit Cost</th>
-                <th>Discount</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-                {dataList.map((srl, index) => {
-                    const ReqDate = new Date(srl.date);
-                    const ReqDateStr =
-                        ReqDate.getDate() +
-                        " - " +
-                        (ReqDate.getMonth() + 1) +
-                        " - " +
-                        ReqDate.getFullYear();
-
-                    const ExDate = new Date(srl.exdate);
-                    const ExDateStr =
-                        ExDate.getDate() +
-                        " - " +
-                        (ExDate.getMonth() + 1) +
-                        " - " +
-                        ExDate.getFullYear();
-
-                    return (
-                        <tr key={srl._id} className="border text-kblack text-center items-center p-4">
-                            <td>{srl.item_id.name}</td>
-                           <td>{srl.item_id.quantity}</td>
-                          
-                            <td>{srl.unit_cost}</td>
-                            <td>{srl.discount}%</td>
-                        
+                </div>
+                <div className="flex items-center justify-between">
+                </div>
+                <table className="w-full table-fixed border rounded-lg overflow-hidden">
+                    <thead>
+                        <tr className="bg-kblack border-kblack text-kwhite border text-center">
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Cost</th>
+                            <th>Discount</th>
                         </tr>
-                    );
-                })}
-            </tbody>
-    </table>
+                    </thead>
+                    <tbody>
+                        {dataList.map((srl, index) => {
+                            const ReqDate = new Date(srl.date);
+                            const ReqDateStr =
+                                ReqDate.getDate() +
+                                " - " +
+                                (ReqDate.getMonth() + 1) +
+                                " - " +
+                                ReqDate.getFullYear();
+
+                            const ExDate = new Date(srl.exdate);
+                            const ExDateStr =
+                                ExDate.getDate() +
+                                " - " +
+                                (ExDate.getMonth() + 1) +
+                                " - " +
+                                ExDate.getFullYear();
+
+                            return (
+                                <tr key={srl._id} className="border text-kblack text-center items-center p-4">
+                                    <td>{srl.item_id.name}</td>
+                                    <td>{srl.item_id.quantity}</td>
+                                    <td>{srl.unit_cost}</td>
+                                    <td>{srl.discount}%</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
                 <div className="grid grid-cols-2">
                     <span className="text-sm text-kblack mt-5">Total Items:</span>
                     <span className="text-sm text-kblack mt-5">{dataList.length}</span>
                     <span className="text-sm text-kblack mt-5">Total Cost of the Items:</span>
                     <span className="text-sm text-kblack mt-5">{calcTotalCost(dataList)}</span>
                 </div>
-                </div>
+            </div>
         );
     };
 
@@ -304,8 +302,8 @@ const MyItemList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {searchResults.length > 0 ? (
-                            searchResults.map((li) => (
+                        {currentItems.length > 0 ? (
+                            currentItems.map((li) => (
                                 <tr key={li._id} className="border-b bg-kyellow/20 text-kwhite text-center items-center p-4">
                                     <td>{li.item_id.name}</td>
                                     <td className="truncate max-w-xs">{li.item_id.description}</td>
@@ -349,17 +347,17 @@ const MyItemList = () => {
             </div>
 
             {reportSection && (
-    <div className="fixed grid grid-cols-1 top-0 left-0 h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50 p-24 ">
-    <button
-                className="absolute top-5 right-5 bg-kblack text-kwhite"
-                onClick={() => setReportSection(false)}
-            >
-                X
-            </button>
-    <SupplyItemsPrintable ref={componentRef} dataList={searchResults} startDate={startDate} endDate={endDate}/>
-    <button className="bg-kgreen rounded-lg text-kwhite mx-50 mx-64 p-2" onClick={generatePDF}>Print</button>
-    </div>
-)}
+                <div className="fixed grid grid-cols-1 top-0 left-0 h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50 p-24 ">
+                    <button
+                        className="absolute top-5 right-5 bg-kblack text-kwhite"
+                        onClick={() => setReportSection(false)}
+                    >
+                        X
+                    </button>
+                    <SupplyItemsPrintable ref={componentRef} dataList={searchResults} startDate={startDate} endDate={endDate}/>
+                    <button className="bg-kgreen rounded-lg text-kwhite mx-50 mx-64 p-2" onClick={generatePDF}>Print</button>
+                </div>
+            )}
 
             {editSection && (
                 <div className="PageContainer text-kwhite" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -435,7 +433,5 @@ const MyItemList = () => {
         </div>
     );
 };
-
-
 
 export default MyItemList;
