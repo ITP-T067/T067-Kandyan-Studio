@@ -111,7 +111,7 @@ export default function CompletedReview() {
           </thead>
           <tbody>
             {filteredOrder.map((order, index) => (
-              <tr key={index} className={`${index === completedOrders.length ? "" : "border-b"} text-kwhite text-center p-4 bg-kgray bg-opacity-30`}>
+              <tr key={index} className={`${index === completedOrders.length ? "" : "border-b"} text-kwhite text-center p-4 bg-kgreen bg-opacity-30`}>
                 <td>
                   <Typography variant="lead" className="font-normal mb-4 mt-4">
                     {order.Completed_Date ? new Date(order.Completed_Date).toISOString().split('T')[0] : ''}

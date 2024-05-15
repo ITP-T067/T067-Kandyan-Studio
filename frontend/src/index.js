@@ -12,10 +12,8 @@ import Home from './pages/home.jsx';
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
-
-
 //signup
-import CustomerSignup from './pages/customer/onlineorder/CreateCust.jsx';
+import CustomerSignup from './pages/customer/CreateCust.jsx';
 
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
@@ -34,7 +32,6 @@ import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 import Profile from './pages/customer/loyalty/Profile.jsx';
 import Completeoreview from './pages/customer/loyalty/CompletedoReview.jsx'
-import Inquiries  from './pages/customer/onlineorder/inquiryForm.jsx';
 
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
@@ -150,7 +147,6 @@ root.render(
         <Route path='/viewreview' element={<ReviewTable/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/completerview' element={<Completeoreview/>}/>
-        <Route path='/inquiries' element={<Inquiries/>}/>
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
