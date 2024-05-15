@@ -172,7 +172,7 @@ function SocialEvents({ packageName }) {
           <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
             <div className="flex justify-center items-center">
               <Link to="/">
-                <IoArrowBackCircleSharp className="w-10 h-10" />
+                <IoArrowBackCircleSharp className="w-10 h-10 text-kwhite" />
               </Link>
               <p className="text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]">Back to home</p>
             </div>
