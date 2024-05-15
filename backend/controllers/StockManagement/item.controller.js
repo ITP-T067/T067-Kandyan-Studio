@@ -92,6 +92,9 @@ const find_item = async(req, res, next) => {
     }
 }
 
+
+
+//Email Sending
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -109,7 +112,7 @@ const send_email = async(req, res, next) => {
                 name: "Kandyan Studio - Inventory Management",
                 address: 'kandyan.info@gmail.com',
             },
-            to : 'pahanabhayawardhane@gmail.com',
+            to : 'manager.kandyan.example@gmail.com',
             subject,
             text
         };
@@ -144,7 +147,7 @@ const update_quantity_minus = async(req, res, next) => {
                     name: "Kandyan Studio - Inventory Management",
                     address: 'kandyan.info@gmail.com',
                 },
-                to : 'pahanabhayawardhane@gmail.com',
+                to : 'manager.kandyan.example@gmail.com',
                 subject : "Critical Stock Level Alert",
                 text : `Stock level of ${item.name} is below 20%. Please restock before it's too late. Current Stock Levels: ${percentage}`,
             };
@@ -158,7 +161,7 @@ const update_quantity_minus = async(req, res, next) => {
                     name: "Kandyan Studio - Inventory Management",
                     address: 'kandyan.info@gmail.com',
                 },
-                to : 'pahanabhayawardhane@gmail.com',
+                to : 'manager.kandyan.example@gmail.com',
                 subject : "Out of Stock Alert",
                 text : `${item.name} is Out of Stock. Please restock immediately.`,
             };

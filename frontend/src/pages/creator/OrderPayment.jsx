@@ -80,10 +80,10 @@ export default function OrderPayment() {
             </a>
         </nav>
 
-    <div className="mt-5 mx-auto">
-        <table className="w-full border-collapse text-kwhite">
-          <thead className="bg-kblack text-kwhite h-[60px]">
-            <tr>
+    <div className="mt-5 mx-auto  w-11/12">
+        <table className="w-full table-fixed rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
               <th className="px-4 py-2">Items Names</th>
               <th className="px-4 py-2">Total Price</th>
               <th className="px-4 py-2">Order Date</th>
@@ -91,15 +91,15 @@ export default function OrderPayment() {
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-kgray bg-opacity-60 h-[80px]">
+          <tbody>
             {
               dataList[0] ? (
               dataList.map((el)=>{
                 if(el.order_status == "Pending"){
                   return(
-                    <tr>
+                    <tr className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
                       <td className="px-4 py-2 text-center">{el?.item_Names || 'N/A'}</td>
-                      <td className="px-4 py-2 text-center">{el.total_Price}</td>
+                      <td className="px-4 py-2 text-center">LKR {el.total_Price}</td>
                       <td className="px-4 py-2 text-center">{formatDate(el.order_Date)}</td>
                       <td className="px-4 py-2 text-center">
                           <Link to={`/creator/paymentDetails/${el._id}`}>

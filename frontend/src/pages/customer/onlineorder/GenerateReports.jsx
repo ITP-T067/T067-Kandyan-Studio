@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react';
 import { Card, Typography, CardBody } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
-
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -16,36 +15,57 @@ const TABLE_HEAD = [
   "Total Price"
 ];
 
-
 export default function Generatereports() {
-
   const navigate = useNavigate();
   const [filteredOrder, setFilteredOrder] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [completedOrders, setCompletedOrders] = useState([]);
-
-  // pdf generate
-  const componentPDF = useRef([]);
-
-  const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
-    documentTitle: "History Report",
-  });
-
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-  };
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
+  const componentPDF = useRef(null);
 
   useEffect(() => {
     fetchCompletedOrders();
   }, []);
+
+  useEffect(() => {
+    filterOrders();
+  }, [completedOrders, startDate, endDate, searchQuery]);
+
+  const filterOrders = () => {
+    const filtered = completedOrders.filter(order => {
+      const orderTimestamp = new Date(order.Completed_Date).getTime();
+      const meetsDateCriteria = (!startDate || orderTimestamp >= startDate.getTime()) &&
+                                (!endDate || orderTimestamp <= endDate.getTime());
+      const meetsSearchCriteria = order.Item_Name.toLowerCase().includes(searchQuery.toLowerCase());
+      return meetsDateCriteria && meetsSearchCriteria;
+    });
+    setFilteredOrder(filtered);
+  };
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    if (endDate && date && date > endDate) {
+      setEndDate(null);
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    if (date) {
+      date.setHours(23, 59, 59, 999);
+    }
+    setEndDate(date);
+  };
+
+  const handleClearDates = () => {
+    setStartDate(null);
+    setEndDate(null);
+  };
 
   const fetchCompletedOrders = async () => {
     try {
@@ -59,7 +79,7 @@ export default function Generatereports() {
       const completedOrdersWithProjectData = await Promise.all(
         completedOnlineOrders.map(async order => {
           const projectResponse = await axios.get(`/project/order/${order._id}`);
-           // Assuming the endpoint to fetch project details is '/projects/:id'
+          // Assuming the endpoint to fetch project details is '/projects/:id'
           const project = projectResponse.data.data;
           return { ...order, Completed_Date: project.Completed_Date }; // Add completed date from project to order
         })
@@ -71,47 +91,13 @@ export default function Generatereports() {
     }
   };
 
-  useEffect(() => {
-    const filtered = completedOrders.filter(order =>
-        order.Item_Name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredOrder(filtered);
-  }, [completedOrders, searchQuery]);
+  const handleGeneratePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "Order History Report",
+  });
 
-  const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleGenerateButtonClick = () => {
-    // Check if both start and end dates are selected
-    if (startDate && endDate) {
-      // Convert start and end dates to timestamps for comparison
-      const startTimestamp = startDate.getTime();
-      const endTimestamp = endDate.getTime();
-  
-      // Check if end date is earlier than start date
-      if (endTimestamp < startTimestamp) {
-        alert("End date cannot be earlier than start date.");
-        return; // Exit function if end date is earlier than start date
-      }
-  
-      // Filter orders within the selected date range
-      const filteredOrders = completedOrders.filter(order => {
-        const orderTimestamp = new Date(order.Completed_Date).getTime();
-        return orderTimestamp >= startTimestamp && orderTimestamp <= endTimestamp;
-      });
-  
-      // Update the state with filtered orders
-      setFilteredOrder(filteredOrders);
-    } else {
-      // If either start or end date is not selected, show an alert or handle accordingly
-      alert("Please select both start and end dates.");
-    }
-  };
-  
-  
-
-
+  // Calculate the total price of filtered orders
+  const totalPrice = filteredOrder.reduce((sum, order) => sum + order.Order_Amount, 0);
 
   return (
     <div>
@@ -131,51 +117,52 @@ export default function Generatereports() {
           </CardBody>
         </Card>
       </div>
-
-      <div className="h-28 relative ">
-        <div className="w-[50%] h-20 left-1/4 top-0 absolute bg-kgray bg-opacity-40 rounded-3xl flex items-center">
-          <label className='font-bold text-kwhite text-lg ml-20 mr-2'>FROM</label>
+      <div className="h-28 relative">
+        <div className="flex flex-col md:flex-row justify-center items-center absolute left-1/2 transform -translate-x-1/2 w-full h-[5vw] max-w-md md:max-w-[60%] bg-kgray bg-opacity-40 rounded-3xl">
+          <label className="font-bold text-kwhite text-lg md:ml-4 mr-2 mt-2 md:mt-0">FROM</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={startDate}
             onChange={handleStartDateChange}
+            placeholderText="MM/DD/YYYY"
+            maxDate={new Date()}
           />
-          <label className='font-bold text-kwhite text-lg ml-8 mr-2'>TO</label>
+          <label className="font-bold text-kwhite text-lg md:ml-8 mr-2 mt-2 md:mt-0">TO</label>
           <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
+            className="text-kwhite bg-kgray h-10 bg-opacity-80 rounded-3xl text-center mx-2 mt-2 md:mt-0"
             selected={endDate}
             onChange={handleEndDateChange}
+            placeholderText="MM/DD/YYYY"
+            minDate={startDate}
+            maxDate={new Date()}
           />
-          <button type="button" onClick={handleGenerateButtonClick} className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-8">GENERATE</button>
+          <button type="button" className="bg-kgreen text-kwhite text-sm focus:ring-4 focus:outline-none rounded-3xl px-5 py-2.5 text-center w-[8rem] ml-4 md:ml-8 mt-2 md:mt-0" onClick={handleClearDates}>
+            CLEAR
+          </button>
         </div>
       </div>
 
       <form className=" max-w-md mx-auto left-0 right-0">
         <div>
           <div className=" inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg className="w-4 h-4 text-kwhite dark:text-kblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-            </svg>
           </div>
-          <input value={searchQuery} onChange={handleSearchInputChange} type="search" id="default-search" className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search" required />
+          <input value={searchQuery} onChange={handleSearchInputChange} className="w-full p-3 ps-10 text-lg rounded-full bg-gray-50 dark:bg-kwhite dark:text-kblack" placeholder="Search item name" required />
         </div>
       </form>
 
       <div className="h-10 max-w-md mx-auto">
-        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={generatePDF}>DOWNLOAD</button>
+        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={handleGeneratePDF}>DOWNLOAD</button>
       </div>
-
-
 
       <div className="p-8">
         <div ref={componentPDF}>
           <table className="w-full rounded-lg overflow-hidden">
             <thead>
-              <tr className="bg-kwhite bg-opacity-100 font-sans">
+              <tr className="bg-kblack">
               {TABLE_HEAD.map((head, index) => (
                 <th
                   key={head}
-                  className={`border-kblack text-kblack p-4 font-bold ${
+                  className={`border-kwhite text-kwhite p-4 font-bold ${
                     index === TABLE_HEAD.length ? "" : "border-b"
                     } text-center`}
                   >
@@ -190,7 +177,7 @@ export default function Generatereports() {
                 .map((order, index) => (
                   <tr
                       key={index}
-                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite text-center p-4`}
+                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite bg-opacity-70 text-center p-4`}
                   >
                       <td>
                           <Typography variant="lead" className="font-normal mb-4 mt-4">
@@ -209,15 +196,27 @@ export default function Generatereports() {
                       </td>
                       <td>
                           <Typography variant="lead" className="font-normal mb-4 mt-4">
-                              {order.Order_Amount}
+                              {order.Order_Amount.toFixed(2)}
                           </Typography>
                       </td>
                   </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr className="">
+                <td className="opacity-100"></td>
+                <td className="opacity-100"></td>
+                <td className="border-t font-bold text-xl text-kblack bg-kwhite bg-opacity-70">
+                  Total
+                </td>
+                <td className="border-t  p-4 font-bold text-center underline text-xl text-kblack bg-kwhite bg-opacity-70">
+                  {totalPrice.toFixed(2)}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
     </div>
-  )
+  );
 }

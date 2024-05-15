@@ -278,12 +278,12 @@ const Items = () => {
                 <table className="w-full table-fixed rounded-lg overflow-hidden">
                     <thead>
                         <tr className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
-                            <th className="w-1/5 py-5">Item</th>
+                            <th className="w-1/4 py-5">Item</th>
                             <th className="w-1/4">Description</th>
                             <th className="w-1/8">Type</th>
                             <th className="w-1/10">Quantity</th>
                             <th className="w-1/10">Selling Price</th>
-                            <th className="w-1/4">Action</th>
+                            <th className="w-1/8">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -302,18 +302,13 @@ const Items = () => {
                                         <td>{il.type}</td>
                                         <td>{il.quantity} Out of {il.maxCapacity}</td>
                                         <td>{Number(il.sellingPrice).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
-                                        <td className="p-4 text-kblack items-center justify-center">
-                                            <div className="grid grid-cols-4 justify-center gap-3 mx-auto">
-                                                <Button className="p-3 bg-kblue" onClick={() => handleEdit(il)}>
+                                        <td className="p-4 text-kblack items-center justify-between">
+                                                <Button className="p-3 bg-kblue mx-5" onClick={() => handleEdit(il)}>
                                                     <PencilIcon className="h-4 w-4 text-kwhite mx-auto"/>
                                                 </Button>
                                                 <Button className="p-3 bg-kred" onClick={() => handleDelete(il._id)}>
                                                     <TrashIcon className="h-4 w-4 text-kwhite mx-auto" />
                                                 </Button>
-                                                <Button size="sm" className="bg-kred text-kwhite col-span-2">
-                                                    Remove Waste
-                                                </Button>
-                                            </div>
                                         </td>
                                     </tr>
                                     </>
@@ -329,10 +324,7 @@ const Items = () => {
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                        Previous
-                    </Button>
+                <div className="flex items-center justify-center border-t border-kblack p-4">
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
                             <Button
@@ -346,9 +338,6 @@ const Items = () => {
                             </Button>
                         ))}
                     </div>
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                        Next
-                    </Button>
                 </div>
             </div>
         </>

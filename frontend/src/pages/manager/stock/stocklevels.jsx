@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import { Typography, Button, Progress, Card, CardBody } from "@material-tailwind/react";
 import DatePicker from "react-datepicker";
 import axios from "axios";
-import { HiOutlineArrowCircleLeft } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft,HiOutlineDocumentReport,HiFilter,HiMenu } from "react-icons/hi";
 import ProgressBar from "./progressbar";
 
 import { useReactToPrint } from 'react-to-print';
@@ -81,9 +81,6 @@ useEffect(() => {
 
 
     //Report Generation
-    const componentPDF = useRef([]);
-    const [isReport,setIsReport] = useState(false);
-
     const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -96,17 +93,20 @@ useEffect(() => {
   };
 
 
-    const Report = () => {
-        setIsReport(true);
-        console.log("Generate Report Section Opened");
-    };
+    //Report Generation
+    const componentPDF = useRef([]);
 
     const generatePDF = useReactToPrint({
     content: () => componentPDF.current,
-    documentTitle: "History Report",
-    onAfterPrint: () => alert("Data saved in PDF")
   });
 
+const calcTotalCost = (dataList) => {
+    let totalCost = 0;
+    dataList.forEach((item) => {
+        totalCost += parseInt(item.cost);
+    });
+    return totalCost;
+};
 
     
     //Pagination
@@ -128,25 +128,98 @@ useEffect(() => {
         setCurrentPage(pageNumber);
     };
 
-    const handleButton = (type) => {
-        return () => {
-            switch (type) {
-                case "Add":
-                    window.location.href = "/manager/stockdept/items/additem";
-                    break;
-                default:
-                    break;
-            }
-        };
+    const SupplyRequestPrintable = ({ dataList, startDate, endDate }) => {
+        return (
+            <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg">
+                    <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Stock Levels Report</div>
+                    <div className="flex items-center justify-between">
+                    <span className="text-sm text-kblack mb-3">Generated on: {new Date().toLocaleString()}</span>
+                    <span className="text-sm text-kblack mb-3">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                    </div>
+                    <table className="w-full table-fixed border rounded-lg overflow-hidden">
+        <thead>
+            <tr className="bg-kblack border-kblack text-kwhite border text-center">
+            <th className="py-5">Name</th>
+                            <th>Quantity</th>
+                            <th>Level</th>
+            </tr>
+        </thead>
+        <tbody>
+                {dataList.map((il, index) => {
+                    const ReqDate = new Date(il.date);
+                    const ReqDateStr =
+                        ReqDate.getDate() +
+                        " - " +
+                        (ReqDate.getMonth() + 1) +
+                        " - " +
+                        ReqDate.getFullYear();
+
+                    const ExDate = new Date(il.exdate);
+                    const ExDateStr =
+                        ExDate.getDate() +
+                        " - " +
+                        (ExDate.getMonth() + 1) +
+                        " - " +
+                        ExDate.getFullYear();
+
+                        return (
+                            <tr key={il._id} className="border text-kblack text-center items-center p-4">
+                                <td>{il.name}</td>
+                                <td>{il.quantity} / {il.maxCapacity}</td>
+                                <td>
+                                    <span>{calcPercentage(il.quantity, il.maxCapacity)}%</span>
+                                </td>
+                            </tr>
+                        );
+                        
+                })}
+            </tbody>
+    </table>
+                <div className="grid grid-cols-2">
+                    <span className="text-sm text-kblack mt-5">Total Items:</span>
+                    <span className="text-sm text-kblack mt-5">{dataList.length}</span>
+                </div>
+                </div>
+        );
     };
+
+    // State to track whether to show low stock items or all items
+const [showLowStock, setShowLowStock] = useState(false);
+
+// Filter function to filter out items running low on stock
+const filterLowStock = () => {
+  // Set showLowStock to true
+  setShowLowStock(true);
+};
+
+// Function to reset the filter and show all items
+const resetFilter = () => {
+  // Set showLowStock to false
+  setShowLowStock(false);
+};
+
+// Modify the useEffect to run when showLowStock state changes
+useEffect(() => {
+    // If showLowStock is true, filter out items running low on stock
+    // Otherwise, show all items
+    const results = showLowStock ? dataList.filter(item => calcPercentage(item.quantity, item.maxCapacity) < 25) : dataList;
+    setSearchResults(results);
+  }, [showLowStock, dataList]);
+
+    const componentRef = useRef();
+
+
+    const [reportSection, setReportSection] = useState(false);
 
     return (
         <>
             <div className="mx-5 mb-5">
-                <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
+                <div className="grid grid-cols-11 w-full bg-transparent items-center mr-5">
                             <Button
                                 onClick={GoBack}
-                                className="col-span-2 flex items-center bg-transparent text-kwhite px-5"
+                                className="col-span-4 flex items-center bg-transparent text-kwhite px-5"
                             >
                                 <HiOutlineArrowCircleLeft className="w-10 h-10" />
                                 <span className="text-2xl ml-5">Stock Levels</span>
@@ -160,44 +233,43 @@ useEffect(() => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                        <div></div>
-                        <div>
+
                         <Button
-                                className="flex space-x-2 items-center justify-center bg-kblue text-kwhite px-10 rounded-full"
-                                onClick={Report}
+                                className="col-span-2 px-20 flex items-center justify-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+                                onClick={() => setReportSection(true)}
                             >
+                                <HiOutlineDocumentReport className="w-5 h-5" />
                                 <span className="text-sm">Generate Reports</span>
                             </Button>
-                        </div>
+<Button
+  className="flex items-center justify-center bg-kred text-kwhite py-3 mx-5"
+  onClick={filterLowStock}
+>
+  <HiFilter className="w-5 h-5"/>
+</Button>
+
+{/* Button to reset the filter and show all items */}
+<Button
+  className="flex items-center justify-center space-x-2 bg-kblue text-kwhite p-3 px-3"
+  onClick={resetFilter}
+>
+    <HiMenu className="w-5 h-5"/>
+  <span className="text-sm">Show All</span>
+</Button>
                 </div>
             </div>
-            {isReport && (
-                <div className="mx-5 mb-5">
-                    <Card>
-                        <CardBody className="flex items-center justify-between">
-                            <div>
-                                <Typography color="blue">Report Generation</Typography>
-                            </div>
-                            <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
-            selected={startDate}
-            onChange={handleStartDateChange}
-          />
-          <label className='font-bold text-kwhite text-lg ml-8 mr-2'>TO</label>
-          <DatePicker
-            className='text-kwhite bg-kgray w-36 h-10 bg-opacity-80  rounded-3xl text-center'
-            selected={endDate}
-            onChange={handleEndDateChange}
-          />
-                            <div>
-                                <Button className="bg-kblue text-kwhite p-3 px-5" onClick={generatePDF}>
-                                    Generate PDF
-                                </Button>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </div>
-            )}
+            {reportSection && (
+    <div className="fixed grid grid-cols-1 top-0 left-0 h-full bg-kblack bg-opacity-50 backdrop-blur flex items-center justify-center text-kwhite z-50 p-24 ">
+    <button
+                className="absolute top-5 right-5 bg-kblack text-kwhite"
+                onClick={() => setReportSection(false)}
+            >
+                X
+            </button>
+    <SupplyRequestPrintable ref={componentRef} dataList={searchResults} startDate={startDate} endDate={endDate}/>
+    <button className="bg-kgreen rounded-lg text-kwhite mx-50 mx-64 p-2" onClick={generatePDF}>Print</button>
+    </div>
+)}
             <div className="px-10" ref={componentPDF}>
                 <table className="w-full rounded-lg overflow-hidden text-sm">
                     <thead>
@@ -238,8 +310,7 @@ useEffect(() => {
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Previous</Button>
+                <div className="flex items-center justify-center border-t border-kblack p-4">
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
                             <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>
@@ -247,7 +318,6 @@ useEffect(() => {
                             </Button>
                         ))}
                     </div>
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">Next</Button>
                 </div>
             </div>
         </>

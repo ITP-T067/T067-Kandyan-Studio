@@ -599,10 +599,7 @@ const SupplyRequest = () => {
                     </tbody>
                 </table>
 
-                <div className="flex  items-center justify-between border-t bg-kblack p-4">
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                        Previous
-                    </Button>
+                <div className="flex items-center justify-center border-t bg-kblack p-4">
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
                             <Button
@@ -616,9 +613,6 @@ const SupplyRequest = () => {
                             </Button>
                         ))}
                     </div>
-                    <Button variant="text" size="sm" className="text-kblack bg-kwhite">
-                        Next
-                    </Button>
                 </div>
             </div>
         </>
