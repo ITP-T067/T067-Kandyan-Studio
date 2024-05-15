@@ -7,6 +7,7 @@ import { GrView } from "react-icons/gr";
 import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle, HiFilter, HiOutlineDocumentReport } from "react-icons/hi";
 import { useReactToPrint } from 'react-to-print';
 import jsPDF from 'jspdf';
+import Alert from "../../../Components/Common/Alerts/alert";
 
 
 axios.defaults.baseURL = "http://localhost:8010/";
@@ -68,13 +69,13 @@ class EventSummaryContent extends React.Component {
             <img src={require(`../../../images/logo.png`)} className="h-20 w-20" />
           </div>
           {/* Title and Subtitle */}
-          <h1 className="flex justify-center font-bold">Kandyan Studio & Digital Color Lab</h1>
-          <h2 className="flex justify-center font-bold">Event Summary</h2><br />
+          <h1 className="flex justify-center font-bold text-2xl">Kandyan Studio & Digital Color Lab</h1>
+          <h2 className="flex justify-center font-bold text-2xl">Event Summary</h2><br />
           {/* Event Summary Content */}
-          <div className=" text-kblack  p-5">
+          <div className=" text-kblack  p-5 text-2xl">
             <h3>Events per Category:</h3>
             <br />
-            <ol type="square">
+            <ol type="square" className="text-2xl">
               <li>Wedding: {calculateEventsPerCategory(approvedEvents)[0].count}</li>
               <li>Birthday Party: {calculateEventsPerCategory(approvedEvents)[1].count}</li>
               <li>Social Event: {calculateEventsPerCategory(approvedEvents)[2].count}</li>
@@ -142,7 +143,7 @@ function EventsList() {
   //declining event-> sending email
   const sendEmail = async (eventId) => {
     try {
-      const response = await axios.post(`/event/send-email`);
+      const response = await axios.post(`/event/send-email/${eventId}`);
       if (response.data.success) {
         alert("Email sent successfully");
       }
@@ -238,142 +239,172 @@ function EventsList() {
     }
   };
 
+  const [isAlert, setIsAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState('success');
+  const [message, setMessage] = useState('');
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to cancel this event?");
+    if (confirmed) {
+      const data = await axios.delete("/event/delete/" + id);
+      if (data.data.success) {
+        fetchData();
+        setIsAlert(true);
+        setAlertStatus('success');
+        setMessage('Event cancelled !');
+        setTimeout(() => {
+          setIsAlert(false);
+        }, 3000);
+      } else {
+        setIsAlert(true);
+        setAlertStatus('error');
+        setMessage('Failed to cancel Event');
+        setTimeout(() => {
+          setIsAlert(false);
+        }, 3000);
+      }
+    }
+  }
+
 
   //fetching file
 
   return (
-    <div className="h-[100vh]">
-      <div className={`container ${showEmailForm ? 'blur' : ''}`}>
-        {/* upper section */}
-        <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
-          <div className="flex justify-center items-center">
-            <Link to="/manager/eventdept">
-              <IoArrowBackCircleSharp className="w-10 h-10 text-kwhite" />
-            </Link>
-            <p className="text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]">All Events</p>
+    <>
+      <div>{isAlert && <Alert message={message} type={alertStatus} />}</div>
+      <div className="h-[100vh]">
+        <div className={`container ${showEmailForm ? 'blur' : ''}`}>
+          {/* upper section */}
+          <div className="ml-10 mt-0 flex justify-between gap-5 items-center">
+            <div className="flex justify-center items-center">
+              <Link to="/manager/eventdept">
+                <IoArrowBackCircleSharp className="w-10 h-10 text-kwhite" />
+              </Link>
+              <p className="text-kwhite mt-2 mb-2 ml-2 text-lg font-[inter]">All Events</p>
+            </div>
+            <div>
+              {/* search bar */}
+              <input
+                type="search"
+                placeholder="Search by Category"
+                className="border-2 border-kwhite bg-kwhite rounded-full w-96 h-8 pl-4 text-normal"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <button
+              onClick={generatePDF}
+              className="addPackage text-xl text-kblack justify-center bg-kwhite rounded-lg w-48 h-12 flex pt-2  hover:bg-kyellow hover:text-kblack mr-6">
+              <HiOutlineDocumentReport className="w-9 h-9" />
+              <span className="text-sm">Generate Reports</span>
+            </button>
           </div>
-          <div>
-            {/* search bar */}
-            <input
-              type="search"
-              placeholder="Search by Category"
-              className="border-2 border-kwhite bg-kwhite rounded-full w-96 h-8 pl-4 text-normal"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <button
-            onClick={generatePDF}
-            className="addPackage text-xl text-kblack justify-center bg-kwhite rounded-lg w-48 h-12 flex pt-2  hover:bg-kyellow hover:text-kblack mr-6">
-            <HiOutlineDocumentReport className="w-9 h-9" />
-            <span className="text-sm">Generate Reports</span>
-          </button>
-        </div>
 
-        {/* table displaying section */}
-        <div className=' mt-10 ml-10 mr-10'>
+          {/* table displaying section */}
+          <div className=' mt-10 ml-10 mr-10'>
 
-          <Card className="h-full w-full text-kwhite">
-            <table className="w-full min-w-max table-auto text-center">
-              <thead>
-                <tr>
-                  {TABLE_HEAD.map((head) => (
-                    <th
-                      key={head}
-                      className="border-b border-kwhite bg-kblack p-4 text-kwhite "
-                    >
-                      <Typography
-                        variant="normal"
+            <Card className="h-full w-full text-kwhite">
+              <table className="w-full min-w-max table-auto text-center">
+                <thead>
+                  <tr>
+                    {TABLE_HEAD.map((head) => (
+                      <th
+                        key={head}
+                        className="border-b border-kwhite bg-kblack p-4 text-kwhite "
                       >
-                        {head}
-                      </Typography>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {searchResults.length > 0 ? (
-                  searchResults.map(({ _id, package_id, date, venue, additional, file, status }, index) => {
-                    const { pkg_category, pkg_name, price } = package_id;
-                    const isLast = index === searchResults.length - 1;
-                    const classes = isLast ? "p-4" : "p-4 border-b border-kblue-gray-50";
-
-                    return (
-                      <tr key={_id} className="bg-kwhite bg-opacity-20">
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {pkg_category}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {pkg_name}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {formatDate(date)}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {venue}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {price}
-                          </Typography>
-                        </td>
-                        <td className={classes}>
-                          <Typography
-                            variant="normal"
-                          >
-                            {additional}
-                          </Typography>
-                        </td>
-                        <td hidden>
-                          {status}
-                        </td>
-                        <td className={classes}>
-                          <Button onClick={() => approveEvent(_id)} className="btn_edit w-24 border-1 rounded-lg  bg-kgreen ">Approve</Button>
-                          <Button onClick={() => sendEmail(_id)} className="ml-4 btn_edit w-24 border-1 rounded-lg bg-kred ">Decline</Button>
-                          <Button onClick={() => viewPaymentPDF(file)} className="btn_edit w-24 border-1 rounded-lg bg-kblue ml-4">View Payment</Button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr className="p-4 border-b border-kblue-gray-50">
-                    <td colSpan="6" className="text-center py-4">
-                      No data available
-                    </td>
+                        <Typography
+                          variant="normal"
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </Card>
+                </thead>
+                <tbody>
+                  {searchResults.length > 0 ? (
+                    searchResults.map(({ _id, package_id, date, venue, additional, file, status }, index) => {
+                      const { pkg_category, pkg_name, price } = package_id;
+                      const isLast = index === searchResults.length - 1;
+                      const classes = isLast ? "p-4" : "p-4 border-b border-kblue-gray-50";
 
-          {/* Event summary report component */}
-          <div style={{ display: 'none' }}>
-            <EventSummaryContent approvedEvents={approvedEvents} ref={componentRef} />
+                      return (
+                        <tr key={_id} className="bg-kwhite bg-opacity-20">
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {pkg_category}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {pkg_name}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {formatDate(date)}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {venue}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {price}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="normal"
+                            >
+                              {additional}
+                            </Typography>
+                          </td>
+                          <td hidden>
+                            {status}
+                          </td>
+                          <td className={classes}>
+                            <Button onClick={() => approveEvent(_id)} className="btn_edit w-24 border-1 rounded-lg  bg-kgreen ">Approve</Button>
+                            <Button onClick={() => handleDelete(_id)} className="ml-4 btn_edit w-24 border-1 rounded-lg bg-kred ">Decline</Button>
+                            <Button onClick={() => viewPaymentPDF(file)} className="btn_edit w-24 border-1 rounded-lg bg-kblue ml-4">View Payment</Button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr className="p-4 border-b border-kblue-gray-50">
+                      <td colSpan="6" className="text-center py-4">
+                        No data available
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </Card>
+
+            {/* Event summary report component */}
+            <div style={{ display: 'none' }}>
+              <EventSummaryContent approvedEvents={approvedEvents} ref={componentRef} />
+            </div>
           </div>
         </div>
+
+
+
       </div>
-
-
-
-    </div>
+    </>
   )
 
 }

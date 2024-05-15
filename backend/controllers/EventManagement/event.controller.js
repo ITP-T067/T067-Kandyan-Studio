@@ -259,12 +259,11 @@ let transporter = nodemailer.createTransport({
 });
 
 const send_email = async (req, res, next) => {
-    const id   = req.body._id;  
+    const id = req.body._id;
     const { subject, text } = req.body;
 
     try {
         const event = await Event.findOne({ _id: id });
-        const packageDetails = await Package.findOne({ _id: event.package_id});
 
         const mailOptions = {
             from: {
@@ -274,8 +273,7 @@ const send_email = async (req, res, next) => {
             to: 'customer.kandyan.example@gmail.com',
             subject: 'Event Booking Declined',
             text: `Dear Customer, \n\nWe regret to inform you that your event booking has been declined. 
-            \n\nWe encountered that your payment for the follwing booking was not successfully done,\n\nBooking Details: 
-            \n\nPackage Category:${packageDetails.pkg_category} \n\nPackage Name:${packageDetails.pkg_name} \n\nPrice:${packageDetails.price}  
+            \n\nWe encountered that your payment for the follwing booking was not successfully done. \n\nBooking ID:${event._id}
             \n\nDate:${event.date} \n\nVenue:${event.venue}  
             \n\nPlease contact us for clarification. 
             \n\nBest Regards, \nKandyan Studio - Event Management`
