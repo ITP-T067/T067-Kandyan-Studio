@@ -22,6 +22,11 @@ const CustomerHeader = () => {
     const reviews = () => {
         window.location.href = '/review';
     }
+
+    const inquiry = () => {
+        window.location.href = '/inquiries';
+    }
+
     const profile = () => {
         window.location.href = '/profile';
     }
@@ -43,6 +48,7 @@ const CustomerHeader = () => {
             <div className="flex items-center">
                 <button className="bg-kgray text-kwhite text-sm font-bold py-2 px-4 rounded-l-full"onClick={myorder}>My Orders</button>
                 <button className="bg-kgray text-kwhite text-sm font-bold py-2 px-4 mx-1" onClick={handleLogout}>My Events</button>
+                <button className="bg-kgray text-kwhite text-sm font-bold py-2 px-4 mx-1" onClick={inquiry}>Inquiries</button>
                 <button className="bg-kgray text-kwhite text-sm font-bold py-2 px-4 rounded-r-full" onClick={reviews}>Reviews</button>
             </div>
             <img src={logo} alt="Logo" width="30" height="30" className="mx-auto" onClick={home} />
