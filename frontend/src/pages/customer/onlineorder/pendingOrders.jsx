@@ -156,7 +156,7 @@ export default function PendingOrders() {
                                     </td>
                                     <td>
                                         <Typography variant="lead" className="font-normal">
-                                            {order.total_Price}
+                                            {order.total_Price.toFixed(2)}
                                         </Typography>
                                     </td>
                                     <td>
