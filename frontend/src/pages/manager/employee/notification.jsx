@@ -86,7 +86,7 @@ const Notification = () => {
               </div>
               <input
                 type="search"
-                placeholder="Search"
+                placeholder="         Search"
                 className="bg-kwhite flex-grow rounded-full p-2 text-sm pl-12"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

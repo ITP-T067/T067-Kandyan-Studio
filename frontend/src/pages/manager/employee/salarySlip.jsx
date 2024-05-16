@@ -171,15 +171,18 @@ const SalarySlip = () => {
           {salaryData && (
             <div className=''>
               <div className='px-10 py-10 mt-5 relative bg-kwhite opacity-95' ref={componentPDF}>
-                <img
+                
+                <div className="mt-6 border-2 border-kblack p-4 rounded">
+                  <div className="text-center font-bold mb-6">
+                  <img
                    src={require('../../../images/logo.png')}
                    alt="Logo"
-                   className="absolute inset-0 m-auto opacity-10 w-1/2 h-auto"
+                   className="m-auto w-20 h-20"
                    style={{ zIndex: -1 }}
                  />
-                <div className="mt-6 border-2 border-kblack p-4 rounded">
-                  <div className="text-center font-bold mb-6 underline">
-                    Kandyan Studio and Digital Color Lab - Pay slip for the month {selectedMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  <span className="text-2xl text-kblack font-bold flex items-cneter justify-center mt-5">Kandyan Studio & Digital Color Lab</span>
+                  <div className="text-xl font-bold text-kblack items-center justify-center text-center mb-5">Pay slip for the month {selectedMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</div>
+                
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>NIC Number:</div>
@@ -236,6 +239,20 @@ const SalarySlip = () => {
                     <div className="w-full h-px bg-kblack"></div>
                     <div className='font-bold text-xl'>Net Salary:</div>
                     <div className='font-bold text-xl'>{Number(salaryData.netSalary).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</div>
+                    <div className="w-full h-px bg-kblack"></div>
+                    <div className="w-full h-px bg-kblack"></div>
+                    <div></div>
+                    <div></div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>OT Hours:</div>
+                      <div>{Number(salaryData.otHours).toFixed(1)}</div>
+                      <div>No Pay Days:</div>
+                      <div>{Number(salaryData.noPayDays).toFixed(1)}</div>
+                      <div>Attendance: </div>
+                      <div>{Number(salaryData.attendance).toFixed()}</div>
+                      
+                    </div>
+              
                   </div>
                 </div>
               </div>
