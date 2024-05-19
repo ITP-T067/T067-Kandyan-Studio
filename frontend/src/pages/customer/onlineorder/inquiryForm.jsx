@@ -11,7 +11,10 @@ const InquiryForm = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // Input validation to allow only alphanumeric characters and spaces
+    const sanitizedValue = value.replace(/[^\w\s]/gi, '');
+    setFormData({ ...formData, [name]: sanitizedValue });
   };
 
   const handleSubmit = async (e) => {
