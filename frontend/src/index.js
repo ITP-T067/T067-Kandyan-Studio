@@ -53,6 +53,7 @@ import CustomRequestForm from './pages/manager/stock/customreqform';
 import AddItemForm from './pages/manager/stock/additemform';
 import EditItemForm from './pages/manager/stock/edititemform';
 
+
 //Manager Dashboard - Event Department
 import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
 import MgrWedding from './pages/manager/event/MgrWedding.jsx';
@@ -78,7 +79,7 @@ import CreatorSlip from './pages/manager/employee/creatorSlip.jsx';
 import SalaryNotification from './pages/manager/employee/notification.jsx';
 
 //Manager Dashboard - Supplier Department
-
+import SupplierList from './pages/manager/supplier/supplierlist.jsx';
 //Manager Dashboard - Loyalty Department
 import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
@@ -125,7 +126,13 @@ import StudioDash from './pages/studioop/studio_dash.jsx'
 import StudioSlip from './pages/studioop/StudioPaySlip.jsx'
 
 //Supplier Dashboard
-
+import MyItemList from './pages/supplier/table.jsx';
+import AddSupply from './pages/supplier/addSupplyItems.jsx';
+import SupplyReq from './pages/supplier/supplyRequest.jsx';
+import AppReq from './pages/supplier/approvedRequests.jsx';
+import SupplyInfo from './pages/supplier/supplyinfo.jsx';
+import EditSupply from './pages/supplier/editSupplyItems.jsx';
+import SupplierCreate from './pages/supplier/supplierCreate.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -159,7 +166,7 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
-        <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
+        <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
         <Route path='/addreview/:itemId' element={<AddReview/>}/>
         <Route path='/review' element={<Review/>}/>
@@ -224,6 +231,10 @@ root.render(
         
         <Route path='/manager/employee/notification' element={<SalaryNotification/>}/>
 
+
+        {/* Manager Dashboard - Supplier Department */}
+        <Route path='/manager/supplier/supplierlist' element={<SupplierList/>} />
+
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
         <Route path='/creator/projectOrders/' element={<ProjectOrders/>}/>
@@ -250,7 +261,12 @@ root.render(
         <Route path='/studiooperator/studioslip' element={<StudioSlip/>}/>
 
         {/* Supplier Dashboard */}
+        <Route path='/supplier/supplyreq' element={<SupplyReq/>}/>
+        <Route path='/supplier/itemlist' element={<MyItemList/>}/>
+        <Route path='/supplier/addsupply' element={<AddSupply/>}/>
         
+        <Route path='supplier/supplierCreate' element={<SupplierCreate/>}/>
+       
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
