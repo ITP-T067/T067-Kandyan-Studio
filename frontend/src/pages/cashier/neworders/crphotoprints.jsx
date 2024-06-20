@@ -46,67 +46,76 @@ function AddNewOrder(){
   }
 
   //handlesubmit
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
-    console.log("i came to the hand=lesubmit");
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!formData.name || !formData.quantity || !formData.unitPrice) {
       alert('Please add quantity before submitting.');
       return;
-   }
-  
-    try{
-    const data = await axios.post("/mainorder/create",formData)
-    console.log(formData)
-      if(data.data.success){
-        
-        alert(data.data.message)
-        getFetchData()
-        setFormData({
-          name :"",
-          quantity : "",
-          unitPrice : ""
-        })
-       
-        setAddSection(false)
-        getFetchData()
-      }
-    }catch(error){
-      console.log(error);
     }
-    } 
+  
+    try {
+      const response = await axios.post('/mainorder/create', formData);
+      if (response.data.success) {
+        alert(response.data.message);
+        setFormData({
+          name: '',
+          quantity: '',
+          unitPrice: ''
+        });
+        setAddSection(false);
+        getFetchData();
+      }
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Failed to submit order. Please try again.');
+    }
+  }; 
 
     //getfetch data
-    const getFetchData = async()=>{
-        const data = await axios.get("/mainorder/")
-          if(data.data.success){     
-            setDataList(data.data.data)
-          }
+    const getFetchData = async () => {
+      try {
+        const response = await axios.get('/mainorder/');
+        if (response.data.success) {
+          setDataList(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
+    };
+    
 
       useEffect(()=>{
         getFetchData()
       },[])
     
       //handleDelete
-      const handleDelete = async(id)=>{
-        const data = await axios.delete("mainorder/delete/"+id)
-          if(data.data.success){
-            getFetchData()
-          
+      const handleDelete = async (id) => {
+        try {
+          const response = await axios.delete(`/mainorder/delete/${id}`);
+          if (response.data.success) {
+            getFetchData();
           }
+        } catch (error) {
+          console.error('Error deleting order:', error);
+          alert('Failed to delete order. Please try again.');
         }
+      };
 
         //handleUpdate
-        const handleUpdate = async(e)=>{ 
-            e.preventDefault()
-            const data = await axios.put("mainorder/update/",formDataEdit)
-            if(data.data.success){
-              getFetchData()
-              alert(data.data.message)
-              seteditSection(false)
+        const handleUpdate = async (e) => {
+          e.preventDefault();
+          try {
+            const response = await axios.put('/mainorder/update/', formDataEdit);
+            if (response.data.success) {
+              alert(response.data.message);
+              seteditSection(false);
+              getFetchData();
             }
-          } 
+          } catch (error) {
+            console.error('Error updating order:', error);
+            alert('Failed to update order. Please try again.');
+          }
+        };
          
           //handleEditOnChange
           const handleEditOnChange = async(e)=>{

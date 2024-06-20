@@ -2,59 +2,56 @@ const Placeorder = require("../../models/Cashier/placeorder.model.js");
 const {errorHandler} = require("../../utils/error.js");
 
 //create mainorder
-const create_Placeorder = async(req,res, next) => {
-    console.log(req.body)
-    const data = new Placeorder(req.body)
-    try{
-        await data.save() 
-        if(res.status(201)){
-            res.send({success : true, message : "placeorder saved successfully", data: data})
-        }
-    }catch(error){
-        next(error);
+const create_Placeorder = async (req, res, next) => {
+    console.log(req.body);
+    const data = new Placeorder(req.body);
+    try {
+        await data.save();
+        res.status(201).send({ success: true, message: "placeorder saved successfully", data: data });
+    } catch (error) {
+        next(errorHandler(error)); // Pass error to the global error handler
     }
-}
+};
+
 
 //read mainorder
-const index_Placeorder = async(req, res, next) => {
+const index_Placeorder = async (req, res, next) => {
     try {
         const data = await Placeorder.find();
-        if(res.status(201)){
-            res.json({success : true , data: data});
-        }
+        res.status(200).json({ success: true, data: data });
     } catch (error) {
-        next(error);
+        next(errorHandler(error)); // Pass error to the global error handler
     }
-}
+};
 
 //delete mainorder
-const del_Placeorder = async(req,res, next) =>{
-    const id = req.params.id
-    console.log(id)
-
-    try{
-        const data = await Placeorder.deleteOne({_id : id})
-        if(res.status(201)){
-            res.send({success:true, message: "Mainorder deleted successfully", data : data})
+const del_Placeorder = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const data = await Placeorder.deleteOne({ _id: id });
+        if (data.deletedCount > 0) {
+            res.status(200).send({ success: true, message: "Placeorder deleted successfully", data: data });
+        } else {
+            res.status(404).send({ success: false, message: "Placeorder not found" });
         }
-    }catch(error){
-        next(error);
+    } catch (error) {
+        next(errorHandler(error)); // Pass error to the global error handler
     }
-}
+};
 
 //update mainorder
-const update_Placeorder = async(req, res, next) => {
-    console.log(req.body);
-    const {_id, ...rest} = req.body;
-    console.log(rest);
+const update_Placeorder = async (req, res, next) => {
+    const { _id, ...rest } = req.body;
     try {
-        const data = await Placeorder.updateOne({_id : _id}, rest);
-        if(res.status(201)){
-            res.send({success:true, message: "Mainorder updated successfully", data : data});
+        const data = await Placeorder.updateOne({ _id: _id }, rest);
+        if (data.nModified > 0) {
+            res.status(200).send({ success: true, message: "Placeorder updated successfully", data: data });
+        } else {
+            res.status(404).send({ success: false, message: "Placeorder not found" });
         }
-    }catch(error){
-        next(error);
+    } catch (error) {
+        next(errorHandler(error)); // Pass error to the global error handler
     }
-}
+};
 
 module.exports = { create_Placeorder, index_Placeorder, del_Placeorder,update_Placeorder};

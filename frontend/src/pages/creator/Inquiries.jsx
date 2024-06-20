@@ -84,9 +84,6 @@ export default function Inquiries() {
 
     const componentRef = useRef();
 
-
-    const [reportSection, setReportSection] = useState(false);
-
   return (
     <>
     

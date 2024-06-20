@@ -5,6 +5,7 @@ import { HiOutlineArrowCircleLeft, HiOutlinePlusCircle, HiFilter, HiOutlineDocum
 import ComplexProgressBar from "./complexprogressbar";
 import DatePicker from "react-datepicker";
 import { useReactToPrint } from 'react-to-print';
+import logo from '../../../images/logo.png';
 
 import Alert from "../../../Components/Common/Alerts/alert";
 
@@ -281,22 +282,28 @@ const SupplyRequest = () => {
     const SupplyRequestPrintable = ({ dataList, startDate, endDate }) => {
         return (
             <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg">
-                    <div className="text-2xl font-bold text-kblack items-center justify-center text-center mb-5">Supply Request Report</div>
+                 <img src={logo} className="h-20 w-20 mx-auto " />
+                 <span className="text-2xl text-kblack font-bold flex items-cneter justify-center mt-5">Kandyan Studio & Digital Color Lab</span>
+                    <div className="text-xl font-bold text-kblack items-center justify-center text-center mb-16">Supply Request Report</div>
                     <div className="flex items-center justify-between">
-                    <span className="text-sm text-kblack mb-3">Generated on: {new Date().toLocaleString()}</span>
-                    <span className="text-sm text-kblack mb-3">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
+                    <span className="text-sm text-kblack">Generated on: {new Date().toLocaleString()}</span>
+                    <span className="text-sm text-kblack">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
+                    </div>
+                    <div>
+                    <span className="text-sm text-kblack mb-5">Total Requests : </span>
+                    <span className="text-sm text-kblack mb-5">{dataList.length}</span>
                     </div>
                     <div className="flex items-center justify-between">
                     </div>
-                    <table className="w-full table-fixed border rounded-lg overflow-hidden">
+                    <table className="w-full table-fixed border-1 border-kblack  rounded-lg overflow-hidden mt-5">
         <thead>
-            <tr className="bg-kblack border-kblack text-kwhite border text-center">
+            <tr className="bg-kblack border-kblack text-kwhite border text-center text-sm">
                 <th>Date</th>
                 <th>Item</th>
-                <th>Quantity</th>
+                <th className="w-1/12">Qty</th>
                 <th>Supplier</th>
                 <th>Total Cost</th>
-                <th>Expected Delivery Date</th>
+                <th>Delivery Date</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -319,25 +326,23 @@ const SupplyRequest = () => {
                         ExDate.getFullYear();
 
                     return (
-                        <tr key={srl._id} className="border text-kblack text-center items-center p-4">
+                        <tr key={srl._id} className="border text-kblack text-xs text-center items-center p-4">
                             <td>{ReqDateStr}</td>
                             <td>{srl.name}</td>
                             <td>{srl.reqquantity}</td>
                             <td>{srl.supplier}</td>
-                            <td>{srl.cost}</td>
+                            <td>{Number(srl.cost).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
                             <td>{ExDateStr}</td>
                             <td>{srl.status}</td>
                         </tr>
                     );
                 })}
+                <tr className="border text-kblack text-sm font-bold text-center items-center p-4">
+                    <td colSpan={4} className="text-kwhite bg-kblack">Total Cost</td>
+                    <td colSpan={3}>{Number(calcTotalCost(dataList)).toLocaleString('en-US', { style: 'currency', currency: 'LKR' })}</td>
+                </tr>
             </tbody>
     </table>
-                <div className="grid grid-cols-2">
-                    <span className="text-sm text-kblack mt-5">Total Requests:</span>
-                    <span className="text-sm text-kblack mt-5">{dataList.length}</span>
-                    <span className="text-sm text-kblack mt-5">Total Cost of the Requests:</span>
-                    <span className="text-sm text-kblack mt-5">{calcTotalCost(dataList)}</span>
-                </div>
                 </div>
         );
     };
