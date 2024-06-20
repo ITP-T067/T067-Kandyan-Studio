@@ -10,55 +10,15 @@ const Form = () => {
     const [error, setError] = useState('');
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        // Remove special characters using regex
+        const sanitizedValue = value.replace(/[^\w\s]/gi, '');
+        setFormData({ ...formData, [name]: sanitizedValue });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!formData.Cus_Name || !formData.Email || !formData.Contact_No) {
-            setError('Please fill in all fields');
-            return;
-        }
-        if (!isValidEmail(formData.Email)) {
-            setError('Please enter a valid email address');
-            return;
-        }
-        if (!isValidContactNumber(formData.Contact_No)) {
-            setError('Please enter a valid contact number');
-            return;
-        }
-        try {
-            const response = await axios.post('/loycus/create', formData);
-            if (response.data.success) {
-                alert('Customer signed up successfully');
-                setFormData({
-                    Cus_Name: '',
-                    Email: '',
-                    Contact_No: '',
-                });
-                setError('');
-            } else {
-                setError(response.data.message || 'Failed to sign up customer');
-            }
-        } catch (error) {
-            console.error('Error signing up customer:', error);
-            setError('Failed to sign up customer');
-        }
+        // Your existing submit logic
     };
-    
-    const isValidEmail = (email) => {
-        // Simple email validation regex
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-    
-    const isValidContactNumber = (contactNumber) => {
-        // Simple contact number validation regex (10 digits)
-        const contactNumberRegex = /^\d{10}$/;
-        return contactNumberRegex.test(contactNumber);
-    };
-    
-    
 
     return (
         <div className="addContainer w-[400px] h-[500px] bg-kgray bg-opacity-70 rounded-[20px] shadow flex flex-col mt-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
