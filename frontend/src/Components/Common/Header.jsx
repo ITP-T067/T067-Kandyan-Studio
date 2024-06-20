@@ -35,7 +35,7 @@ const Header = () => {
     const renderHeader = () => {
         if (userRole === 'Customer') {
             return <Customer />;
-        } else if (userRole === 'Cashier' || userRole === 'Creator' || userRole === 'Supplier' || userRole === 'Studio Operator') {
+        } else if (userRole === 'Cashier' || userRole === 'Creator' || userRole === 'Studio Operator') {
             return (
                 <nav className="navbar flex justify-between items-center px-20 top-0 left-0 bg-black py-30">
                     <div className='navbar-title text-kwhite text-4xl font-bold'>{userRole} Dashboard</div>
@@ -47,7 +47,7 @@ const Header = () => {
                     </div>
                 </nav>
             );
-        } else if (userRole === 'Manager'){
+        } else if (userRole === 'Manager' || userRole === 'Supplier'){
             return (
                 <nav className="navbar flex justify-between items-center px-20 top-0 left-0 bg-black py-30">
                     <div className='navbar-title text-kwhite text-4xl font-bold'>{userRole} Dashboard</div>

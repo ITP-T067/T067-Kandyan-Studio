@@ -9,9 +9,9 @@ import {
 const SupplierNavbar = () => {
 
     const departments = [
-        { title: 'Supply Items', link: '' },
-        { title: 'Supply Requests', link: '' },
-        { title: 'Generate Reports', link: '' },
+        { title: 'Supply Items', link: '/supplier/itemlist' },
+        { title: 'Supply Requests', link: '/supplier/supplyreq' },
+      
     ];
 
     const [activeButton, setActiveButton] = useState(localStorage.getItem('activeButton') || null);
