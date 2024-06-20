@@ -30,6 +30,13 @@ const packageRouter = require("./routes/EventManagement/package.route.js");
 const eventRouter = require("./routes/EventManagement/event.route.js")
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+const loycusRouter = require("./routes/CustomerManagement/loycus.route.js")
+
+
+
+//cashier
+const mainorder = require("./routes/Cashier/mainorder.route.js");
+const placeorder = require("./routes/Cashier/placeorder.route.js");
 
 //loyalty
  const loyaltyRouter=require("./routes/order.route.js");
@@ -75,17 +82,13 @@ app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
 
-//Manager - Event Department
-app.use('/package', packageRouter);
-
-//Customer - Event Department
-app.use('/event', eventRouter);
-
-
 
 
 //Customer
 app.use('/review', reviewRouter);
+app.use('/customers',reviewRouter)
+app.use('/loycus', loycusRouter);
+
 
 //Supplier
 app.use('/supplyitem',supplyitemRouter)

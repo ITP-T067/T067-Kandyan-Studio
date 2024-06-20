@@ -15,8 +15,9 @@ const MonthYearPicker = ({ selectedDate, handleDateChange }) => (
             onChange={handleDateChange}
             showMonthYearPicker
             dateFormat="MM/yyyy"
-            className="block py-2.5 px-0 w-full text-m text-kwhite bg-transparent border-0 border-b-2 border-kwhite focus:outline-none focus:border-kblue peer"
+            className="block py-2.5 px-0 w-full text-m text-kblack bg-transparent border-1 border-b-2 border-kwhite focus:outline-none focus:border-kblue peer"
             placeholder="Select Month & Year"
+            required
         />
     </div>
 
@@ -195,7 +196,7 @@ const SalaryForm = () => {
                         name="employeeName"
                         value={formValues.employeeName}
                         onChange={handleEmployeeNameChange}
-                        className="block py-2.5 px-0 w-full  text-m text-kblack bg-transparent border-0 border-b-2 border-kwhite focus:outline-none focus:border-kblue"
+                        className="block py-2.5 px-0 w-full text-m text-kblack bg-transparent border-1 border-b-2 border-kwhite focus:outline-none focus:border-kblue"
                     >
                         <option value="">Select Employee</option>
                         {employees.map((emp, index) => (
@@ -325,31 +326,32 @@ const SalaryForm = () => {
                                 <div className="relative z-0">
                                     {field.component ? (
                                         <>
-                                            {field.component}
                                             <label
-                                                className="absolute text-m text-kwhite duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kwhite peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                className="block mb-2 text-sm font-medium text-kwhite ">
                                                 {field.label}
                                             </label>
-                                            <div className="absolute left-0 bottom-0 w-full h-0.5 bg-kwhite transition-all"></div>
+                                            {field.component}
+                                            
                                         </>
                                     ) : (
                                         <>
+                                            <label
+                                                htmlFor={`floating_${field.name}`}
+                                                className="block mb-2 text-sm font-medium text-kwhite"
+                                            >
+                                                {field.label}
+                                            </label>
                                             <input
                                                 type={field.type}
                                                 name={field.name}
                                                 value={formValues[field.name]}
                                                 onChange={handleChange}
-                                                className="block py-2.5 px-0 w-full text-m text-kwhite bg-transparent border-0 border-b-2 border-kwhite appearance-none focus:outline-none focus:ring-0 focus:border-kblue peer"
+                                                className="bg-transparent border border-kwhite text-kblack text-sm rounded-lg focus:ring-kblue focus:border-kblue block w-full p-2.5"
                                                 readOnly={field.readOnly}
                                                 placeholder=" "
+                                                required
                                             />
-                                            <label
-                                                htmlFor={`floating_${field.name}`}
-                                                className="absolute text-m text-kwhite duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-kwhite peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                                            >
-                                                {field.label}
-                                            </label>
-                                            <div className="absolute left-0 bottom-0 w-full h-0.5 bg-kwhite transition-all"></div>
+                                            
                                         </>
                                     )}
                                 </div>

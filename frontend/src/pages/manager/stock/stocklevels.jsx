@@ -2,7 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import { Typography, Button, Progress, Card, CardBody } from "@material-tailwind/react";
 import DatePicker from "react-datepicker";
 import axios from "axios";
-import { HiOutlineArrowCircleLeft,HiOutlineDocumentReport } from "react-icons/hi";
+import { HiOutlineArrowCircleLeft,HiOutlineDocumentReport,HiFilter,HiMenu } from "react-icons/hi";
 import ProgressBar from "./progressbar";
 
 import { useReactToPrint } from 'react-to-print';
@@ -216,10 +216,10 @@ useEffect(() => {
     return (
         <>
             <div className="mx-5 mb-5">
-                <div className="grid grid-cols-7 w-full bg-transparent items-center mr-5">
+                <div className="grid grid-cols-11 w-full bg-transparent items-center mr-5">
                             <Button
                                 onClick={GoBack}
-                                className="col-span-2 flex items-center bg-transparent text-kwhite px-5"
+                                className="col-span-4 flex items-center bg-transparent text-kwhite px-5"
                             >
                                 <HiOutlineArrowCircleLeft className="w-10 h-10" />
                                 <span className="text-2xl ml-5">Stock Levels</span>
@@ -235,25 +235,26 @@ useEffect(() => {
                         </div>
 
                         <Button
-                                className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+                                className="col-span-2 px-20 flex items-center justify-center space-x-2 bg-kblue text-kwhite p-3 px-5"
                                 onClick={() => setReportSection(true)}
                             >
                                 <HiOutlineDocumentReport className="w-5 h-5" />
                                 <span className="text-sm">Generate Reports</span>
                             </Button>
 <Button
-  className="flex items-center space-x-2 bg-kblue text-kwhite p-3 px-5"
+  className="flex items-center justify-center bg-kred text-kwhite py-3 mx-5"
   onClick={filterLowStock}
 >
-  <span className="text-sm">Show Low Stock Items</span>
+  <HiFilter className="w-5 h-5"/>
 </Button>
 
 {/* Button to reset the filter and show all items */}
 <Button
-  className="flex items-center space-x-2 bg-kgreen text-kwhite p-3 px-5"
+  className="flex items-center justify-center space-x-2 bg-kblue text-kwhite p-3 px-3"
   onClick={resetFilter}
 >
-  <span className="text-sm">Show All Items</span>
+    <HiMenu className="w-5 h-5"/>
+  <span className="text-sm">Show All</span>
 </Button>
                 </div>
             </div>
@@ -309,7 +310,7 @@ useEffect(() => {
                         )}
                     </tbody>
                 </table>
-                <div className="flex items-center justify-between border-t border-kblack p-4">
+                <div className="flex items-center justify-center border-t border-kblack p-4">
                     <div className="flex items-center gap-2">
                         {pageNumbers.map((number) => (
                             <Button key={number} variant="text" size="sm" className="text-kblack bg-kwhite" onClick={() => paginate(number)}>

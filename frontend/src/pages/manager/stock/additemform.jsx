@@ -29,7 +29,7 @@ const AddItemForm = () => {
     };
 
     const validateQuantity = (quantity) => {
-        
+        return quantity.replace(/\D/g, '');
     }
 
     const handleOnChange = (e) => {
@@ -49,13 +49,6 @@ const AddItemForm = () => {
             setMessage("Item name should not include special characters!");
         } else {
             setIsAlert(false);
-        }
-
-        if (parseInt(formData.maxCapacity) < parseInt(formData.quantity)) {
-            setIsAlert(true);
-            setAlertStatus('error');
-            setMessage("Max Capacity should be greater than or equal to Quantity!");
-            return;
         }
     
         if (name === 'file') {
@@ -214,7 +207,7 @@ const AddItemForm = () => {
                                 <div>
                                     <input
                                         type="number"
-                                        min={0}
+                                        min={1}
                                         className="bg-kwhite rounded-lg text-kblack w-full text-sm"
                                         name="maxCapacity"
                                         value={formData.maxCapacity}
@@ -231,7 +224,7 @@ const AddItemForm = () => {
                                     <span>LKR</span>
                                     <input
                                         type="number"
-                                        min={0}
+                                        min={1}
                                         className="col-span-2 bg-kwhite rounded-lg text-kblack w-full text-sm"
                                         name="sellingPrice"
                                         value={formData.sellingPrice}

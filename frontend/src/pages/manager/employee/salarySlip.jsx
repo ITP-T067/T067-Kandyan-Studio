@@ -195,43 +195,43 @@ const SalarySlip = () => {
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div>Basic Salary:</div>
-                    <div>{salaryData.basicSalary}</div>
+                    <div>{Number(salaryData.basicSalary).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div>OT Payment:</div>
-                    <div>{salaryData.otPayment}</div>
+                    <div>{Number(salaryData.otPayment).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div>Allowances:</div>
-                    <div>{salaryData.allowances}</div>
+                    <div>{Number(salaryData.allowances).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className='font-bold'>Gross Salary:</div>
-                    <div className='font-bold'>{salaryData.totalEarnings}</div>
+                    <div className='font-bold'>{Number(salaryData.totalEarnings).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div>No Pay:</div>
-                    <div>{salaryData.noPayDeduction}</div>
+                    <div>{Number(salaryData.noPayDeduction).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div>Loans:</div>
-                    <div>{salaryData.loans}</div>
+                    <div>{Number(salaryData.loans).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div>EPF 8%:</div>
-                    <div>{salaryData.epf8}</div>
+                    <div>{Number(salaryData.epf8).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className='font-bold'>Total Deductions:</div>
-                    <div className='font-bold'>{salaryData.totalDeductions}</div>
+                    <div className='font-bold'>{Number(salaryData.totalDeductions).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div>EPF 12%:</div>
-                    <div>{salaryData.epf12}</div>
+                    <div>{Number(salaryData.epf12).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div className="w-full h-px bg-kblack opacity-10"></div>
                     <div>ETF 3%:</div>
-                    <div>{salaryData.etf3}</div>
+                    <div>{Number(salaryData.etf3).toLocaleString('en-US',{style: 'currency',currency:'LKR'}).replace(/^(\D+)/, '')}</div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className="w-full h-px bg-kblack"></div>
                     <div className='font-bold text-xl'>Net Salary:</div>
