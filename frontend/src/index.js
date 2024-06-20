@@ -12,8 +12,10 @@ import Home from './pages/home.jsx';
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
+
+
 //signup
-import CustomerSignup from './pages/customer/CreateCust.jsx';
+import CustomerSignup from './pages/customer/onlineorder/CreateCust.jsx';
 
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
@@ -32,6 +34,7 @@ import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 import Profile from './pages/customer/loyalty/Profile.jsx';
 import Completeoreview from './pages/customer/loyalty/CompletedoReview.jsx'
+import Inquiries  from './pages/customer/onlineorder/inquiryForm.jsx';
 
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
@@ -80,7 +83,23 @@ import SalaryNotification from './pages/manager/employee/notification.jsx';
 import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
 //Cashier Dashboard
-import CashierPaySlip from './pages/cashier/CashierPaySlip.jsx';
+import CashierPaySlip from './pages/cashier/CashierPaySlip.jsx';import Ordermain from './pages/cashier/order.jsx';
+import StockAV from './pages/cashier/Stockavailability.jsx';
+import AddNewOrder from './pages/cashier/addneworder.jsx';
+import Pendingorders from './pages/cashier/pendingorders.jsx';
+import Completedorders from './pages/cashier/Completedorders.jsx';
+import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
+import Checkout from './pages/cashier/checkout.jsx';
+import AddnewStudio from './pages/cashier/addnewstudio.jsx';
+import Crlaminate from './pages/cashier/neworders/crlaminates.jsx';
+import CrPhotoprints from './pages/cashier/neworders/crphotoprints.jsx';
+import Crframes from './pages/cashier/neworders/crframes.jsx';
+import CrSublimation from './pages/cashier/neworders/creatorsublimation.jsx';
+import CrFrames from './pages/cashier/neworders/creatorframes.jsx';
+import CrphotoPrints from './pages/cashier/neworders/creatorphotoprints.jsx';
+import Formtable from './pages/cashier/neworders/Formtable.jsx';
+import CreatorCheckout from './pages/cashier/creatorcheckout.jsx';
+
 
 //Creator Dashboard
 import Projects from './pages/creator/Projects.jsx';
@@ -147,6 +166,27 @@ root.render(
         <Route path='/viewreview' element={<ReviewTable/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/completerview' element={<Completeoreview/>}/>
+        <Route path='/inquiries' element={<Inquiries/>}/>
+
+        {/* Cashier Dashboard */}
+        <Route path='/cashier/ordermain' element={<Ordermain />} />
+        <Route path='/cashier/stockavailability' element={<StockAV />} />
+        <Route path='/cashier/addneworder' element={<AddNewOrder />} />
+        <Route path='/cashier/pendingorders' element={<Pendingorders />} />
+        <Route path='/cashier/completedorders' element={<Completedorders />} />
+        <Route path='/cashier/supplierpayment' element={<SupplierPayments />} />
+        <Route path='/cashier/checkout' element={<Checkout />} />
+        <Route path='/cashier/addnewstudio' element={<AddnewStudio />} />
+        <Route path='/cashier/laminates' element={<Crlaminate />} />
+        <Route path='/cashier/photoprints' element={<CrPhotoprints />} />
+        <Route path='/cashier/frames' element={<Crframes />} />
+        <Route path='/cashier/crsublimation/:orderId' element={<CrSublimation />} />
+        <Route path='/cashier/crframes/:orderId' element={<CrFrames />} />
+        <Route path='/cashier/crphotoprints/:orderId' element={<CrphotoPrints />} />
+        <Route path='/cashier/mainorder/formtable' element={<Formtable />} />
+        <Route path='/cashier/creatorcheckout/:orderId' element={<CreatorCheckout />} />
+
+
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
@@ -160,6 +200,7 @@ root.render(
         
         {/* Manager Dashboard - Loyalty Department */}
         <Route path='/manager/loyalty' element={<Loyaltyview />} />
+        
         {/* Manager Dashboard - Event Department */}
         <Route path='/manager/eventdept' element={<MgrDashboardEvent/>}/>
         <Route path='/manager/eventdept/MgrWedding' element={<MgrWedding/>}/>
