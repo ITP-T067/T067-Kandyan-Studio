@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
-import {Button} from "@material-tailwind/react"
+import { Button } from "@material-tailwind/react";
 import axios from "axios";
-import { HiOutlineArrowCircleLeft} from "react-icons/hi";
+import { HiOutlineArrowCircleLeft } from "react-icons/hi";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import "../../../Styles/Customer/reviewTable.css";
 
-
-axios.defaults.baseURL = "http://localhost:8010/"
+axios.defaults.baseURL = "http://localhost:8010/";
 
 function ReviewTable() {
   const [reviews, setReviews] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedReview, setSelectedReview] = useState(null);
   const [updatedMessage, setUpdatedMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Fetch data from backend when component mounts
     fetchData();
   }, []);
-  
-    const GoBack = () => {
-        window.location.href = "/review/";
-    }
 
+  const GoBack = () => {
+    window.location.href = "/review/";
+  };
 
   const fetchData = async () => {
     try {
@@ -38,12 +36,15 @@ function ReviewTable() {
   };
 
   const filteredReviews = reviews.filter((review) =>
+    review.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     review.message.toLowerCase().includes(searchQuery.toLowerCase())
+    
   );
 
   const updateReview = (index, currentMessage) => {
     setSelectedReview(reviews[index]);
     setUpdatedMessage(currentMessage);
+    setShowModal(true); // Show modal when update button is clicked
   };
 
   const handleUpdate = (e) => {
@@ -58,6 +59,7 @@ function ReviewTable() {
         fetchData(); // Fetch updated data after update
         setSelectedReview(null); // Clear selected review
         setUpdatedMessage(""); // Clear updated message
+        setShowModal(false); // Hide modal after update
       })
       .catch((error) => {
         console.error("Error updating review:", error);
@@ -77,21 +79,17 @@ function ReviewTable() {
   };
 
   return (
-    
     <div className="mx-5 mb-5">
-      
       <div className="mb-10">
-      <Button
-                                onClick={GoBack}
-                                className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
-                            >
-                                <HiOutlineArrowCircleLeft className="w-8 h-8" />
-                                <span className="text-3xl">Review</span>
-                            </Button>
+        <Button
+          onClick={GoBack}
+          className="flex items-center space-x-2 bg-transparent text-kwhite px-3 py-2 rounded-md"
+        >
+          <HiOutlineArrowCircleLeft className="w-8 h-8" />
+          <span className="text-3xl">Review</span>
+        </Button>
       </div>
-    
-                      
-                            
+
       <div className="col-span-3 px-20">
         <input
           type="search"
@@ -105,7 +103,10 @@ function ReviewTable() {
         <table className="w-full table-fixed rounded-lg overflow-hidden mt-10">
           <thead className="bg-kblack/40 border-kwhite text-kwhite p-4 font-bold border-b text-center">
             <tr>
+              <th className="px-4 py-2">Item Name</th>
               <th className="px-4 py-2">Message</th>
+              <th className="px-4 py-2">Product Rating</th>
+              <th className="px-4 py-2">Delivery Rating</th>
               <th className="px-4 py-2">Date</th>
               <th className="px-4 py-2">Action</th>
             </tr>
@@ -113,35 +114,44 @@ function ReviewTable() {
           <tbody>
             {filteredReviews.map((review, index) => (
               <tr key={index} className="border-b bg-kwhite/20 text-kwhite text-center items-center p-4">
+                <td className="px-4 py-2 text-center">{review.name}</td>
                 <td className="px-4 py-2 text-center">{review.message}</td>
+                <td className="px-4 py-2 text-center">{review.productRating}</td>
+                <td className="px-4 py-2 text-center">{review.deliveryRating}</td>
                 <td className="px-4 py-2 text-center">{review.date}</td>
                 <td className="p-4 text-kblack items-center justify-center">
-                <Button className="p-3 mr-3 bg-kblue" onClick={() => updateReview(index, review.message)}>
-                  <PencilIcon className="h-6 w-6 text-kwhite rounded-full" />
+                  <Button className="p-3 mr-3 bg-kblue" onClick={() => updateReview(index, review.message)}>
+                    <PencilIcon className="h-6 w-6 text-kwhite rounded-full" />
                   </Button>
                   <Button className="p-3 bg-kred" onClick={() => deleteReview(index)}>
-                  <TrashIcon className="h-6 w-6 text-kwhite" />
-                </Button>
-              </td>
+                    <TrashIcon className="h-6 w-6 text-kwhite" />
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {selectedReview && (
-  <div className="update-container blur-background">
-    <form onSubmit={handleUpdate}>
-      <input 
-        type="text"
-        value={updatedMessage}
-        onChange={(e) => setUpdatedMessage(e.target.value)}
-        placeholder="Updated message"
-      />
-      <button className="bg-kblue text-kwhite p-3 px-5" type="submit">Submit Update</button>
-    </form>
-  </div>
-)}
+      {showModal && selectedReview && (
+        <div className="update-container blur-background absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+          <form onSubmit={handleUpdate}>
+            <input
+              type="text"
+              value={updatedMessage}
+              onChange={(e) => setUpdatedMessage(e.target.value)}
+              placeholder="Updated message"
+            />
+            
 
+            <button className="bg-kblue text-kwhite p-3 px-5" type="submit">
+              Submit Update
+            </button>
+          </form>
+        </div>
+      )}
+
+
+      
     </div>
   );
 }

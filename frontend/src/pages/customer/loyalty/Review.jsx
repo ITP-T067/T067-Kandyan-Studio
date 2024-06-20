@@ -2,6 +2,8 @@ import React from "react";
 import ReviewSelection from "../loyalty/ReviewSelection";
 import { Link } from "react-router-dom";
 
+import { VscStarHalf } from "react-icons/vsc";
+
 function Review() {
   return (
     <div className="mt-40">

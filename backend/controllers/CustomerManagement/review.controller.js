@@ -1,11 +1,14 @@
 const ReviewModel = require("../../models/CustomerManagement/review.modle");
 
 const addreview = async (req, res, next) => {
-  const { date, message } = req.body;
+  const { name, date, message,productRating, deliveryRating } = req.body;
   try {
     const newReview = new ReviewModel({
+      name,
       date,
       message,
+      productRating,
+      deliveryRating,
     });
 
     await newReview.save();
