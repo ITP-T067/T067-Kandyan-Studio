@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
+import logo from "../../../../src/images/logo.png";
 
 axios.defaults.baseURL = "http://localhost:8010/";
 
@@ -94,6 +95,11 @@ export default function Generatereports() {
   const handleGeneratePDF = useReactToPrint({
     content: () => componentPDF.current,
     documentTitle: "Order History Report",
+    onAfterPrint: () => {
+      setTimeout(() => {
+        componentPDF.current.style.display = "none";
+      }, 0);
+    },
   });
 
   // Calculate the total price of filtered orders
@@ -151,12 +157,14 @@ export default function Generatereports() {
       </form>
 
       <div className="h-10 max-w-md mx-auto">
-        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={handleGeneratePDF}>DOWNLOAD</button>
+        <button type="button" className="bg-kyellow font-bold text-kwhite text-sm focus:ring-4 focus:outline-none rounded-md py-3 text-center w-[6rem] right-10 absolute hover:bg-kblue" onClick={() => {
+          componentPDF.current.style.display = "block";
+          handleGeneratePDF();
+        }}>DOWNLOAD</button>
       </div>
 
       <div className="p-8">
-        <div ref={componentPDF}>
-          <table className="w-full rounded-lg overflow-hidden">
+      <table className="w-full rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-kblack">
               {TABLE_HEAD.map((head, index) => (
@@ -177,7 +185,7 @@ export default function Generatereports() {
                 .map((order, index) => (
                   <tr
                       key={index}
-                      className={`${index === completedOrders.length ? "" : "border-b"} text-kblack bg-kwhite bg-opacity-70 text-center p-4`}
+                      className={`${index === completedOrders.length ? "" : "border-b"} text-kwhite bg-kgray bg-opacity-50 text-center p-4`}
                   >
                       <td>
                           <Typography variant="lead" className="font-normal mb-4 mt-4">
@@ -203,19 +211,54 @@ export default function Generatereports() {
               ))}
             </tbody>
             <tfoot>
-              <tr className="">
-                <td className="opacity-100"></td>
-                <td className="opacity-100"></td>
-                <td className="border-t font-bold text-xl text-kblack bg-kwhite bg-opacity-70">
-                  Total
+              <tr className="bg-kgreen">
+                <td colSpan={3} className="border-t font-bold text-xl text-kwhite bg-kgray bg-opacity-50 pl-40">
+                  Total amount of the ordes
                 </td>
-                <td className="border-t  p-4 font-bold text-center underline text-xl text-kblack bg-kwhite bg-opacity-70">
+                <td className="border-t  p-4 font-bold text-center underline text-xl text-kwhite bg-kgray bg-opacity-50">
                   {totalPrice.toFixed(2)}
                 </td>
               </tr>
             </tfoot>
           </table>
+      </div>
+
+      <div ref={componentPDF} className="bg-kwhite mx-auto items-center justify-center p-10 rounded-lg" style={{ display: "none" }}>
+        <img src={logo} className="h-20 w-20 mx-auto " />
+        <span className="text-2xl text-kblack font-bold flex items-cneter justify-center mt-5">Kandyan Studio & Digital Color Lab</span>
+        <div className="text-xl font-bold text-kblack items-center justify-center text-center mb-16">Order History Report</div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-kblack">Generated on: {new Date().toLocaleString()}</span>
+          <span className="text-sm text-kblack">Report Period: {startDate && endDate ? startDate.toLocaleDateString() + ' to ' + endDate.toLocaleDateString() : 'All'}</span>
         </div>
+        <div>
+          <span className="text-sm text-kblack mb-5">Total Orders : </span>
+          <span className="text-sm text-kblack mb-5">{filteredOrder.length}</span>
+        </div>
+        <table className="w-full table-fixed border-1 border-kblack  rounded-lg overflow-hidden mt-5">
+          <thead>
+            <tr className="bg-kblack border-kblack text-kwhite border text-center text-sm">
+              <th>Complete Date</th>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrder.map((order, index) => (
+              <tr key={order._id} className="border text-kblack text-xs text-center items-center p-4">
+                <td>{order.Completed_Date ? new Date(order.Completed_Date).toISOString().split('T')[0] : ''}</td>
+                <td>{order.Item_Name}</td>
+                <td>{order.Quantity}</td>
+                <td>{order.Order_Amount.toFixed(2)}</td>
+              </tr>
+            ))}
+            <tr className="border text-kblack text-sm font-bold text-center items-center p-4">
+              <td colSpan={3} className="text-kwhite bg-kblack">Total amount of the ordes</td>
+              <td>{totalPrice.toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
