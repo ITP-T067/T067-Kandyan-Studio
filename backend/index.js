@@ -12,6 +12,9 @@ const employeeRouter  = require("./routes/employeeManagement/employees.route.js"
 const salaryRouter = require("./routes/employeeManagement/salary.route.js")
 
 
+//Manager - Supplier Department
+const supplierlistRouter = require("./routes/Supplier/supplierlist.route.js");
+
 //Creator
 const orderRouter = require("./routes/order.route.js");
 const projectRouter = require("./routes/ProjectManagement/project.route.js")
@@ -27,10 +30,20 @@ const packageRouter = require("./routes/EventManagement/package.route.js");
 const eventRouter = require("./routes/EventManagement/event.route.js")
 //Customer
 const reviewRouter = require("./routes/CustomerManagement/review.route.js");
+const loycusRouter = require("./routes/CustomerManagement/loycus.route.js")
+
+
+
+//cashier
+const mainorder = require("./routes/Cashier/mainorder.route.js");
+const placeorder = require("./routes/Cashier/placeorder.route.js");
 
 //loyalty
  const loyaltyRouter=require("./routes/order.route.js");
 
+//Supplier
+const supplyitemRouter = require("./routes/Supplier/supplyitems.route.js");
+const supplierCreateRouter = require("./routes/Supplier/supplierCreate.route.js");
 
 const app = express()
 app.use(cors())
@@ -58,6 +71,9 @@ app.use('/employee', employeeRouter);
 app.use('/salary', salaryRouter);
 
 
+//Manager - Supplier Department
+app.use('/supplylist', supplierlistRouter);
+
 //Creator
 app.use('/order', orderRouter);
 app.use('/project', projectRouter);
@@ -66,17 +82,17 @@ app.use('/receipt', receiptRouter);
 app.use('/inquiry', inquiryRouter);
 app.use('/studio', studioStatusRouter);
 
-//Manager - Event Department
-app.use('/package', packageRouter);
-
-//Customer - Event Department
-app.use('/event', eventRouter);
-
-
 
 
 //Customer
 app.use('/review', reviewRouter);
+app.use('/customers',reviewRouter)
+app.use('/loycus', loycusRouter);
+
+
+//Supplier
+app.use('/supplyitem',supplyitemRouter)
+app.use('/supplier',supplierCreateRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

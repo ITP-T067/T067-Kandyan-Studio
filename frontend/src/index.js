@@ -12,8 +12,10 @@ import Home from './pages/home.jsx';
 import Login from './pages/login';
 import Router from './Components/Common/Router';
 
+
+
 //signup
-import CustomerSignup from './pages/customer/CreateCust.jsx';
+import CustomerSignup from './pages/customer/onlineorder/CreateCust.jsx';
 
 //Customer Dashboard
 import Cusdashboard from './pages/customer/onlineorder/cus_dashboard.jsx';
@@ -32,6 +34,7 @@ import Completeorder from './pages/customer/onlineorder/CompletedOrders.jsx';
 import Generatereport from './pages/customer/onlineorder/GenerateReports.jsx';
 import Profile from './pages/customer/loyalty/Profile.jsx';
 import Completeoreview from './pages/customer/loyalty/CompletedoReview.jsx'
+import Inquiries  from './pages/customer/onlineorder/inquiryForm.jsx';
 
 
 import AddReview from './pages/customer/loyalty/AddReview.jsx';
@@ -49,6 +52,7 @@ import RequestForm from './pages/manager/stock/requestform';
 import CustomRequestForm from './pages/manager/stock/customreqform';
 import AddItemForm from './pages/manager/stock/additemform';
 import EditItemForm from './pages/manager/stock/edititemform';
+
 
 //Manager Dashboard - Event Department
 import MgrDashboardEvent from './pages/manager/event/mgrDashboardEvent.jsx';
@@ -75,12 +79,28 @@ import CreatorSlip from './pages/manager/employee/creatorSlip.jsx';
 import SalaryNotification from './pages/manager/employee/notification.jsx';
 
 //Manager Dashboard - Supplier Department
-
+import SupplierList from './pages/manager/supplier/supplierlist.jsx';
 //Manager Dashboard - Loyalty Department
 import Loyaltyview from './pages/manager/loyalty/Loyaltyview.jsx';
 
 //Cashier Dashboard
-import CashierPaySlip from './pages/cashier/CashierPaySlip.jsx';
+import CashierPaySlip from './pages/cashier/CashierPaySlip.jsx';import Ordermain from './pages/cashier/order.jsx';
+import StockAV from './pages/cashier/Stockavailability.jsx';
+import AddNewOrder from './pages/cashier/addneworder.jsx';
+import Pendingorders from './pages/cashier/pendingorders.jsx';
+import Completedorders from './pages/cashier/Completedorders.jsx';
+import SupplierPayments from './pages/cashier/Supplierpayments.jsx';
+import Checkout from './pages/cashier/checkout.jsx';
+import AddnewStudio from './pages/cashier/addnewstudio.jsx';
+import Crlaminate from './pages/cashier/neworders/crlaminates.jsx';
+import CrPhotoprints from './pages/cashier/neworders/crphotoprints.jsx';
+import Crframes from './pages/cashier/neworders/crframes.jsx';
+import CrSublimation from './pages/cashier/neworders/creatorsublimation.jsx';
+import CrFrames from './pages/cashier/neworders/creatorframes.jsx';
+import CrphotoPrints from './pages/cashier/neworders/creatorphotoprints.jsx';
+import Formtable from './pages/cashier/neworders/Formtable.jsx';
+import CreatorCheckout from './pages/cashier/creatorcheckout.jsx';
+
 
 //Creator Dashboard
 import Projects from './pages/creator/Projects.jsx';
@@ -106,7 +126,13 @@ import StudioDash from './pages/studioop/studio_dash.jsx'
 import StudioSlip from './pages/studioop/StudioPaySlip.jsx'
 
 //Supplier Dashboard
-
+import MyItemList from './pages/supplier/table.jsx';
+import AddSupply from './pages/supplier/addSupplyItems.jsx';
+import SupplyReq from './pages/supplier/supplyRequest.jsx';
+import AppReq from './pages/supplier/approvedRequests.jsx';
+import SupplyInfo from './pages/supplier/supplyinfo.jsx';
+import EditSupply from './pages/supplier/editSupplyItems.jsx';
+import SupplierCreate from './pages/supplier/supplierCreate.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -140,13 +166,34 @@ root.render(
         <Route path='/processingorder' element={<Processingorder/>}/>
         <Route path='/completeorder' element={<Completeorder/>}/>
         <Route path='/generatereport' element={<Generatereport/>}/>
-        <Route path='/addtocart/:itemId' element={<Addtocart/>}/>
+        <Route path='/addtocart' element={<Addtocart/>}/>
         <Route path='/customercart' element={<Customercart/>}/>
         <Route path='/addreview/:itemId' element={<AddReview/>}/>
         <Route path='/review' element={<Review/>}/>
         <Route path='/viewreview' element={<ReviewTable/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/completerview' element={<Completeoreview/>}/>
+        <Route path='/inquiries' element={<Inquiries/>}/>
+
+        {/* Cashier Dashboard */}
+        <Route path='/cashier/ordermain' element={<Ordermain />} />
+        <Route path='/cashier/stockavailability' element={<StockAV />} />
+        <Route path='/cashier/addneworder' element={<AddNewOrder />} />
+        <Route path='/cashier/pendingorders' element={<Pendingorders />} />
+        <Route path='/cashier/completedorders' element={<Completedorders />} />
+        <Route path='/cashier/supplierpayment' element={<SupplierPayments />} />
+        <Route path='/cashier/checkout' element={<Checkout />} />
+        <Route path='/cashier/addnewstudio' element={<AddnewStudio />} />
+        <Route path='/cashier/laminates' element={<Crlaminate />} />
+        <Route path='/cashier/photoprints' element={<CrPhotoprints />} />
+        <Route path='/cashier/frames' element={<Crframes />} />
+        <Route path='/cashier/crsublimation/:orderId' element={<CrSublimation />} />
+        <Route path='/cashier/crframes/:orderId' element={<CrFrames />} />
+        <Route path='/cashier/crphotoprints/:orderId' element={<CrphotoPrints />} />
+        <Route path='/cashier/mainorder/formtable' element={<Formtable />} />
+        <Route path='/cashier/creatorcheckout/:orderId' element={<CreatorCheckout />} />
+
+
 
         {/* Manager Dashboard - Stock Department */}
         <Route path='/manager/stockdept' element={<StockMenu />} />
@@ -160,6 +207,7 @@ root.render(
         
         {/* Manager Dashboard - Loyalty Department */}
         <Route path='/manager/loyalty' element={<Loyaltyview />} />
+        
         {/* Manager Dashboard - Event Department */}
         <Route path='/manager/eventdept' element={<MgrDashboardEvent/>}/>
         <Route path='/manager/eventdept/MgrWedding' element={<MgrWedding/>}/>
@@ -182,6 +230,10 @@ root.render(
         <Route path='/manager/employee/creatorSlip' element={<CreatorSlip/>}/>
         
         <Route path='/manager/employee/notification' element={<SalaryNotification/>}/>
+
+
+        {/* Manager Dashboard - Supplier Department */}
+        <Route path='/manager/supplier/supplierlist' element={<SupplierList/>} />
 
         {/* Creator Dashboard*/}
         <Route path='/creator/' element={<Projects/>}/>
@@ -209,7 +261,12 @@ root.render(
         <Route path='/studiooperator/studioslip' element={<StudioSlip/>}/>
 
         {/* Supplier Dashboard */}
+        <Route path='/supplier/supplyreq' element={<SupplyReq/>}/>
+        <Route path='/supplier/itemlist' element={<MyItemList/>}/>
+        <Route path='/supplier/addsupply' element={<AddSupply/>}/>
         
+        <Route path='supplier/supplierCreate' element={<SupplierCreate/>}/>
+       
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

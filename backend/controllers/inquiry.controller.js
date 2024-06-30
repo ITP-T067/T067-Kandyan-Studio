@@ -1,7 +1,7 @@
 const Inquiry = require("../models/inquiry.model.js") 
 const {errorHandler} = require("../utils/error.js");
 
-const index_inquiry = async(req,res, next) => {
+const index_inquiry = async(req ,res, next) => {
 
     try{
         const data = await Inquiry.find({}).populate({
